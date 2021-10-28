@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noImplicitAny": true, // argument 등이 any로 추론되면 에러
+    "noImplicitThis": true, // this의 context가 any로 추론되면 에러
+    "strictBindCallApply": true, // call, bind, apply를 사용할 때, argument의 타입이 잘못되면 에러
+    "strictFunctionTypes": true, // 함수, 메소드의 argument의 타입을 더 정확히 추론하여 사용
+    "strictNullChecks": true, // null, undefined 체킹
+    "strictPropertyInitialization": true // 초기화 되지 않는 클래스의 멤버 변수에 대해 에러
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": ["node_modules"]
+}
