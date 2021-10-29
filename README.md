@@ -2,7 +2,7 @@
 
 <br />
 <br />
-<div align="center">(어떤 이미지가 들어갈 예정)</div>
+<div align="center"><img src="https://user-images.githubusercontent.com/47925079/139364260-81f6ac46-7fd3-4395-8ec7-d539d41dedac.png" width="200"></div>
 <br />
 <br />
 
