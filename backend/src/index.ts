@@ -8,6 +8,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import indexRouter from './routes/index';
+import userRouter from './routes/user-router';
 import SocketIO from './sockets';
 
 class App {
@@ -41,7 +42,9 @@ class App {
 	}
 
 	private route() {
+		this.app.use(bodyParser.json());
 		this.app.use('/', indexRouter);
+		this.app.use('/api/user', userRouter);
 	}
 
 	listen() {

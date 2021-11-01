@@ -7,13 +7,25 @@ import {
 	ManyToOne,
 	JoinColumn
 } from 'typeorm';
-import { User } from './User';
-import { Team } from './Team';
+import { User } from './user';
+import { Team } from './team';
 
 @Entity({ name: 'postit' })
 export class Postit {
 	@PrimaryGeneratedColumn()
 	postit_id!: number;
+
+	@ManyToOne(() => User, (user) => user.user_id)
+	@JoinColumn({ name: 'created_by' })
+	user: User;
+
+	@ManyToOne(() => User, (user) => user.user_id)
+	@JoinColumn({ name: 'updated_by' })
+	user2: User;
+
+	@ManyToOne(() => Team, (team) => team.team_id)
+	@JoinColumn({ name: 'team_id' })
+	team: Team;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -35,16 +47,4 @@ export class Postit {
 
 	@Column()
 	color: number;
-
-	@ManyToOne(() => User, (user) => user.user_id)
-	@JoinColumn({ name: 'created_by' })
-	user: User;
-
-	@ManyToOne(() => User, (user) => user.user_id)
-	@JoinColumn({ name: 'updated_by' })
-	user2: User;
-
-	@ManyToOne(() => Team, (team) => team.team_id)
-	@JoinColumn({ name: 'team_id' })
-	team: Team;
 }
