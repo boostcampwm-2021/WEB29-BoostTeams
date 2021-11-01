@@ -4,20 +4,26 @@ import { useHistory } from 'react-router';
 import ProfileIcon from './ProfileIcon';
 
 const Layout = styled.header`
+  height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #464775;
-  & > div > a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 24px;
-  }
+  padding: 0 15px;
 `;
 
 const LogoWrapper = styled.div`
-  margin: 15px;
+  display: flex;
+  align-items: center;
+  img {
+    padding-right: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+  }
 `;
 
 const Header = () => {
@@ -31,12 +37,12 @@ const Header = () => {
   return (
     <Layout>
       <LogoWrapper>
-        <img src="logo.png" alt="logo" width="40px" />
+        <img src="logo.png" alt="logo" width="32px" />
         <a href="/" onClick={linkHome}>
           BoostTeams
         </a>
       </LogoWrapper>
-      <ProfileIcon name="부" color="purple" status="green" />
+      <ProfileIcon name="부" color="orange" status="green" />
     </Layout>
   );
 };

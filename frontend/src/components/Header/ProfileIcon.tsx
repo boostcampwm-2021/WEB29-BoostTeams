@@ -8,20 +8,23 @@ const ProfileIconWrapper = styled.div`
 `;
 
 const ProfileIconStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   border-radius: 50%;
   background-color: ${(props) => props.color || 'white'};
 `;
 
 const StatusCircleStyle = styled.div`
   position: absolute;
-  right: 0px;
+  right: 0;
   bottom: 0;
   background-color: ${(props) => props.color || 'gray'};
-  height: 15px;
-  width: 15px;
+  height: 10px;
+  width: 10px;
   border-radius: 50%;
 `;
 

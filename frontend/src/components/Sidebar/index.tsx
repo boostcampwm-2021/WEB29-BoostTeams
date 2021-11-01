@@ -3,21 +3,32 @@ import styled from 'styled-components';
 import { FaEllipsisH, FaAngleLeft } from 'react-icons/fa';
 
 const ProfileImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: purple;
   border-radius: 8px;
   width: 60px;
   height: 60px;
-  color: white;
 `;
 
 const Layout = styled.nav`
-  background-color: #ebebeb;
+  background-color: #f0f0f0;
   width: 300px;
-  height: 100%;
+  height: 100vh;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  text-align: left;
   & > * {
     text-decoration: none;
     color: black;
   }
+`;
+
+const TeamTitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const Sidebar = () => {
@@ -36,10 +47,10 @@ const Sidebar = () => {
         모든 팀
       </a>
       <ProfileImage>bw</ProfileImage>
-      <section>
+      <TeamTitleContainer>
         <span>boostcamp web29</span>
         <FaEllipsisH onClick={openDropdown} />
-      </section>
+      </TeamTitleContainer>
     </Layout>
   );
 };
