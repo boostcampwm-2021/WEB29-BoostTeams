@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -19,13 +25,17 @@ class App {
 
 	private config() {
 		this.app.use(bodyParser.json());
-		// TODO : DB CONFIG
+		createConnection()
+			.then(() => {
+				console.log('DB Connected');
+			})
+			.catch((error) => console.error(error));
 	}
 
 	private middleware() {
 		const corsOptions = {
 			origin: process.env.FRONT_HOST || 'http://localhost:3000',
-			credentials: true,
+			credentials: true
 		};
 		this.app.use(cors(corsOptions));
 	}
@@ -41,7 +51,7 @@ class App {
 
 		const corsOptions = {
 			cors: true,
-			origins: [process.env.FRONT_HOST || 'http://localhost:3000'],
+			origins: [process.env.FRONT_HOST || 'http://localhost:3000']
 		};
 
 		SocketIO.attach(this.server, corsOptions);
