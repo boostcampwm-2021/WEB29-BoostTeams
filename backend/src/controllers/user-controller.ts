@@ -1,5 +1,7 @@
 import UserService from '../services/user-service';
 import { Request, Response } from 'express';
+import { createJWT } from '../passport/jwt-utils';
+import { User } from '../entities/user';
 
 const UserController = {
 	async createUser(req: Request, res: Response) {
@@ -19,6 +21,11 @@ const UserController = {
 		} catch (err) {
 			console.error(err);
 		}
+	},
+	login(req: Request, res: Response) {
+		const user = req.user as User;
+		const JWT = createJWT(user.user_id);
+		res.json(JWT);
 	}
 };
 
