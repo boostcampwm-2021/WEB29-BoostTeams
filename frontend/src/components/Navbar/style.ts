@@ -6,7 +6,7 @@ export const Container = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	width: 4.2rem;
-	height: 100vh;
+	height: 100%;
 	background-color: ${ColorCode.LINE1};
 `;
 

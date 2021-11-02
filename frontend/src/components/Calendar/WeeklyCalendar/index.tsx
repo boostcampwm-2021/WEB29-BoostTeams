@@ -1,7 +1,15 @@
 import React from 'react';
+import { Container } from './style';
+import WeekHeader from './WeekHeader';
+import Schedule from './Schedule';
 
 const WeeklyCalendar = () => {
-	return <div>weekly</div>;
+	return (
+		<Container>
+			<WeekHeader />
+			<Schedule />
+		</Container>
+	);
 };
 
 export default WeeklyCalendar;
