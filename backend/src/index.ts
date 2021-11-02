@@ -7,7 +7,7 @@ import express from 'express';
 import cors from 'cors';
 
 import passport from 'passport';
-import { githubStrategy } from './passport/github-strategy';
+import { initStrategy } from './passport';
 
 import SocketIO from './sockets';
 import indexRouter from './routes/index';
@@ -35,7 +35,7 @@ class App {
 			})
 			.catch((error) => console.error(error));
 		this.app.use(passport.initialize());
-		githubStrategy();
+		initStrategy();
 	}
 
 	private middleware() {
