@@ -3,16 +3,16 @@ dotenv.config();
 
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-
 import express from 'express';
 import cors from 'cors';
+
+import SocketIO from './sockets';
 import indexRouter from './routes/index';
 import userRouter from './routes/user-router';
-import SocketIO from './sockets';
 
 class App {
 	app: express.Application;
-	server: any;
+	server: any; // Server from http? https?
 	port: string;
 
 	constructor() {
