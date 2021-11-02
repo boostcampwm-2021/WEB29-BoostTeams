@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
-import Chat from './pages/ChatPage';
+import dotenv from 'dotenv';
+import Router from './routes/router';
+
+dotenv.config();
 
 const App: React.FC = () => {
 	useEffect(() => {
@@ -8,11 +11,7 @@ const App: React.FC = () => {
 		socket.connect();
 	}, []);
 
-	return (
-		<div className="App">
-			<Chat />
-		</div>
-	);
+	return <Router />;
 };
 
 export default App;
