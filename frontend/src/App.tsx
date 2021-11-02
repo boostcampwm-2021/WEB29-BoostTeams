@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Chat from './pages/ChatPage';
-import './App.css';
 
 const App: React.FC = () => {
 	useEffect(() => {
