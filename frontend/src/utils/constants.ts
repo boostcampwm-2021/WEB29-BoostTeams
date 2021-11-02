@@ -8,6 +8,7 @@ enum ColorCode {
 	LINE2 = '#D1D1D1',
 	BACKGROUND1 = '#F5F5F5',
 	BACKGROUND2 = '#F0F0F0',
+	BUTTON1 = 'rgb(98, 100, 167)',
 	WHITE = 'white',
 	BLACK = 'black',
 	GRAY = 'gray',
