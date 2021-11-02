@@ -6,7 +6,6 @@ import { createConnection } from 'typeorm';
 
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import indexRouter from './routes/index';
 import userRouter from './routes/user-router';
 import SocketIO from './sockets';
@@ -25,7 +24,8 @@ class App {
 	}
 
 	private config() {
-		this.app.use(bodyParser.json());
+		this.app.use(express.urlencoded({ extended: true }));
+		this.app.use(express.json());
 		createConnection()
 			.then(() => {
 				console.log('DB Connected');
@@ -42,7 +42,6 @@ class App {
 	}
 
 	private route() {
-		this.app.use(bodyParser.json());
 		this.app.use('/', indexRouter);
 		this.app.use('/api/user', userRouter);
 	}
