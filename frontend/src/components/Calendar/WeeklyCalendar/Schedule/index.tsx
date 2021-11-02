@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, TimeContainer, DaysContainer } from './style';
+import { Container, TimeContainer, DaysContainer, DayContainer } from './style';
 
 const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -14,7 +14,15 @@ const Schedule = () => {
 					<div>오후 {hour}시</div>
 				))}
 			</TimeContainer>
-			<DaysContainer>hi</DaysContainer>
+			<DaysContainer>
+				{[...Array(7)].map((v) => (
+					<DayContainer>
+						{[...Array(96)].map((v) => (
+							<div> </div>
+						))}
+					</DayContainer>
+				))}
+			</DaysContainer>
 		</Container>
 	);
 };
