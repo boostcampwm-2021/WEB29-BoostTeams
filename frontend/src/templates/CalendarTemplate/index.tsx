@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
-import { MainContainer, CalendarContainer } from './style';
+import { Layout, MainContainer, CalendarContainer } from './style';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
 import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
@@ -12,7 +12,7 @@ const Calendar = () => {
 		setMonthly(!monthly);
 	};
 	return (
-		<div>
+		<Layout>
 			<Header />
 			<MainContainer>
 				<Navbar />
@@ -21,7 +21,7 @@ const Calendar = () => {
 					{monthly ? <MonthlyCalendar /> : <WeeklyCalendar />}
 				</CalendarContainer>
 			</MainContainer>
-		</div>
+		</Layout>
 	);
 };
 export default Calendar;

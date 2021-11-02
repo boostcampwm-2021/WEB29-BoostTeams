@@ -1,0 +1,22 @@
+import React from 'react';
+import { Container, TimeContainer, DaysContainer } from './style';
+
+const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+const Schedule = () => {
+	return (
+		<Container>
+			<TimeContainer>
+				{timeList.map((hour) => (
+					<div>오전 {hour}시</div>
+				))}
+				{timeList.map((hour) => (
+					<div>오후 {hour}시</div>
+				))}
+			</TimeContainer>
+			<DaysContainer>hi</DaysContainer>
+		</Container>
+	);
+};
+
+export default Schedule;

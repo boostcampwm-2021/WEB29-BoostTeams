@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container } from './style';
 import WeekHeader from './WeekHeader';
-import WeekContainer from './WeekContainer';
+import Schedule from './Schedule';
 
 const WeeklyCalendar = () => {
 	return (
 		<Container>
 			<WeekHeader />
-			<WeekContainer />
+			<Schedule />
 		</Container>
 	);
 };

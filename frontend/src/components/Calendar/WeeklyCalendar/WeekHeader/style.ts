@@ -8,6 +8,7 @@ export const Container = styled.header`
 	background-color: ${ColorCode.BACKGROUND1};
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	padding-left: 4rem;
+	box-sizing: border-box;
 `;
 
 export const DayContainer = styled.div`
