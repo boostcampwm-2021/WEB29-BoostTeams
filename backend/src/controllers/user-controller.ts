@@ -14,12 +14,12 @@ const UserController = {
 			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(user_email);
 			if (emailAlreadyUsed) return res.send('email is already in use');
 
-			const user_name = getUserName(user_email); // FE에서 ? BE에서?
+			const user_name = getUserName(user_email);
 
 			const newUser = await UserService.getInstance().createUser(user_email, encryptedPassword, user_name);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
-			res.redirect('http://localhost:3000');
+			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
 			res.send(err);
 		}
@@ -39,7 +39,7 @@ const UserController = {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
-			res.redirect('http://localhost:3000');
+			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
 			res.send(err);
 		}
