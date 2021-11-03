@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Chat from './pages/ChatPage';
+import Calendar from './pages/CalendarPage';
 
 const App: React.FC = () => {
 	useEffect(() => {
@@ -10,7 +11,7 @@ const App: React.FC = () => {
 
 	return (
 		<div className="App">
-			<Chat />
+			<Calendar />
 		</div>
 	);
 };

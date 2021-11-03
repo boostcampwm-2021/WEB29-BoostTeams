@@ -1,6 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-import { ColorCode } from '../../../utils/constants';
 import { Container, ProfileIconContainer, Status } from './style';
 
 interface ProfileProps {
