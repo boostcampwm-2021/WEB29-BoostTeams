@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { Header, Navbar } from '../../components/common';
 import { Layout, MainContainer, CalendarContainer } from './style';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
@@ -9,7 +10,7 @@ const Calendar: React.FC = () => {
 	const date = new Date();
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
-	const [dateInfo, setDateInfo] = useState({ year, month, startDate: date });
+	const [dateInfo, setDateInfo] = useState({ year, month, startDate: moment().startOf('week').toDate() });
 	const [isMonthly, setIsMonthly] = useState(false);
 	const changeCalendar = () => {
 		setIsMonthly(!isMonthly);

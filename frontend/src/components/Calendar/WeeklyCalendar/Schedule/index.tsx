@@ -13,10 +13,14 @@ const Schedule: React.FC<ScheduleProps> = ({ dateInfo }: ScheduleProps) => {
 		<Container>
 			<TimeContainer>
 				{timeList.map((hour) => (
-					<div>오전 {hour}시</div>
+					<div>
+						<span>오전 {hour}시</span>
+					</div>
 				))}
 				{timeList.map((hour) => (
-					<div>오후 {hour}시</div>
+					<div>
+						<span>오후 {hour}시</span>
+					</div>
 				))}
 			</TimeContainer>
 			<DaysContainer>

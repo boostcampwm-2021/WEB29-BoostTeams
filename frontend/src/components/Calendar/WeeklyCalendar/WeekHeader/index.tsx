@@ -12,30 +12,20 @@ enum DayCode {
 	'토요일' = 6,
 }
 
-interface DateType {
-	day: number;
-	date: number;
-}
-
-// 나중에 날짜 정보로 변경
-const dateEx: DateType[] = [
-	{ day: 0, date: 31 },
-	{ day: 1, date: 1 },
-	{ day: 2, date: 2 },
-	{ day: 3, date: 3 },
-	{ day: 4, date: 4 },
-	{ day: 5, date: 5 },
-	{ day: 6, date: 6 },
-];
-
 interface WeekHeaderProps {
 	dateInfo: DateInfoType;
 }
 
 const WeekHeader: React.FC<WeekHeaderProps> = ({ dateInfo }: WeekHeaderProps) => {
+	const dayInfo = [...Array(7)].map((v, i) => {
+		const tDay = new Date(dateInfo.startDate.valueOf());
+		tDay.setDate(tDay.getDate() + i);
+		return { day: i, date: tDay.getDate() };
+	});
+
 	return (
 		<Container>
-			{dateEx.map((el) => {
+			{dayInfo.map((el) => {
 				return (
 					<DayContainer>
 						<b>{el.date}</b>
