@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, DayContainer } from './style';
+import { DateInfoType } from '../../dataStructure';
 
 enum DayCode {
 	'일요일' = 0,
@@ -11,13 +12,13 @@ enum DayCode {
 	'토요일' = 6,
 }
 
-interface DateInfo {
+interface DateType {
 	day: number;
 	date: number;
 }
 
 // 나중에 날짜 정보로 변경
-const dateInfo: DateInfo[] = [
+const dateEx: DateType[] = [
 	{ day: 0, date: 31 },
 	{ day: 1, date: 1 },
 	{ day: 2, date: 2 },
@@ -27,10 +28,14 @@ const dateInfo: DateInfo[] = [
 	{ day: 6, date: 6 },
 ];
 
-const WeekHeader: React.FC = () => {
+interface WeekHeaderProps {
+	dateInfo: DateInfoType;
+}
+
+const WeekHeader: React.FC<WeekHeaderProps> = ({ dateInfo }: WeekHeaderProps) => {
 	return (
 		<Container>
-			{dateInfo.map((el) => {
+			{dateEx.map((el) => {
 				return (
 					<DayContainer>
 						<b>{el.date}</b>

@@ -6,9 +6,13 @@ import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
 
 const Calendar: React.FC = () => {
-	const [monthly, setMonthly] = useState(false);
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const [dateInfo, setDateInfo] = useState({ year, month, startDate: date });
+	const [isMonthly, setIsMonthly] = useState(false);
 	const changeCalendar = () => {
-		setMonthly(!monthly);
+		setIsMonthly(!isMonthly);
 	};
 	return (
 		<Layout>
@@ -16,8 +20,8 @@ const Calendar: React.FC = () => {
 			<MainContainer>
 				<Navbar />
 				<CalendarContainer>
-					<CalendarHeader changeCalendar={changeCalendar} monthly={monthly} />
-					{monthly ? <MonthlyCalendar /> : <WeeklyCalendar />}
+					<CalendarHeader changeCalendar={changeCalendar} monthly={isMonthly} dateInfo={dateInfo} />
+					{isMonthly ? <MonthlyCalendar dateInfo={dateInfo} /> : <WeeklyCalendar dateInfo={dateInfo} />}
 				</CalendarContainer>
 			</MainContainer>
 		</Layout>

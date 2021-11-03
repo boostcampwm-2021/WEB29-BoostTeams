@@ -1,28 +1,17 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import calendarState from '../../../stores/calendar';
 import { Container, WeekContainer, DayWrapper, DayNameWrapper, Schedule } from './style';
+import { DateInfoType } from '../dataStructure';
 
-interface ScheduleListType {
-	[x: string]: any;
-	[key: number]: ScheduleContent;
+interface MonthlyCalendarProps {
+	dateInfo: DateInfoType;
 }
 
-interface ScheduleContent {
-	[key: string]: string | number;
-}
-
-const MonthlyCalendar: React.FC = () => {
-	const [dateInfo, setDateInfo] = useRecoilState(calendarState);
+const MonthlyCalendar: React.FC<MonthlyCalendarProps> = ({ dateInfo }: MonthlyCalendarProps) => {
 	const getFirstDay = (month: number, year: number): number => new Date(`${year}-${month}-01`).getDay();
 	const firstDay = getFirstDay(dateInfo.month, dateInfo.year);
 	const lastDay = new Date(dateInfo.year, dateInfo.month, 0).getDate();
 	// 추후에 해당 월의 모든 이벤트를 fetch 하는 것으로 구현 예정
-	const scheduleList: ScheduleListType = [
-		{ day: 15, content: '회의', color: 'blue' },
-		{ day: 26, content: '한우 회식', color: 'yellow' },
-		{ day: 15, content: '부장님 외근', color: 'orange' },
-	];
+	// scheduleList
 
 	const generateDays = (): number[][] => {
 		let curDay = 1;

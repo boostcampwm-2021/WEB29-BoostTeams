@@ -1,9 +1,14 @@
 import React from 'react';
 import { Container, TimeContainer, DaysContainer, DayContainer } from './style';
+import { DateInfoType } from '../../dataStructure';
+
+interface ScheduleProps {
+	dateInfo: DateInfoType;
+}
 
 const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-const Schedule: React.FC = () => {
+const Schedule: React.FC<ScheduleProps> = ({ dateInfo }: ScheduleProps) => {
 	return (
 		<Container>
 			<TimeContainer>
