@@ -17,7 +17,7 @@ export class User {
 	user_name: string;
 
 	@Column()
-	user_state: string;
+	user_state: number;
 
 	@OneToMany(() => TeamUser, (teamUser) => teamUser.user)
 	team_users: TeamUser[];

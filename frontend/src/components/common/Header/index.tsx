@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { Container, LogoWrapper } from './style';
 import ProfileIcon from '../Icons/ProfileIcon';
 
-const Header = () => {
+const Header: React.FC = () => {
 	const history = useHistory();
 
 	const linkHome = (e: any) => {

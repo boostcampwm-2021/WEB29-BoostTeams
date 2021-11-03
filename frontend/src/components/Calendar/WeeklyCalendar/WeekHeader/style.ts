@@ -7,7 +7,7 @@ export const Container = styled.header`
 	height: 4.5rem;
 	background-color: ${ColorCode.BACKGROUND1};
 	border-bottom: solid 1px ${ColorCode.LINE2};
-	padding-left: 4rem;
+	padding-left: 4.5rem;
 	box-sizing: border-box;
 `;
 
@@ -19,10 +19,8 @@ export const DayContainer = styled.div`
 	padding: 0.5rem;
 	box-sizing: border-box;
 	color: ${ColorCode.FONT1};
-	em {
+	b {
 		display: block;
-		font-style: normal;
-		font-weight: bold;
 		font-size: 1.5rem;
 	}
 	span {

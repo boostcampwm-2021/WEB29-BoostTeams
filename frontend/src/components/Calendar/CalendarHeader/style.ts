@@ -31,7 +31,7 @@ export const InfoContainer = styled.div`
 
 export const ButtonContainer = styled.div`
 	& > * {
-		margin: 0 0.5rem;
+		margin-left: 0.5rem;
 	}
 `;
 
@@ -39,11 +39,14 @@ export const TodayBtn = styled.button`
 	border: none;
 	background-color: transparent;
 	span {
-		padding-left: 0.5rem;
+		padding-left: 0.3rem;
 		font-size: 0.9rem;
 	}
-	& > *:hover {
-		color: ${ColorCode.HOVER};
+	&:hover {
+		span,
+		svg {
+			color: ${ColorCode.HOVER};
+		}
 	}
 `;
 
@@ -52,6 +55,11 @@ export const NewAppointmentBtn = styled.button`
 	color: ${ColorCode.WHITE};
 	border-radius: 8px;
 	padding: 0.3rem 0.5rem;
+	border-color: transparent;
+	svg {
+		color: ${ColorCode.WHITE};
+		padding-right: 0.2rem;
+	}
 	&:hover {
 		background-color: ${ColorCode.PRIMARY1};
 	}

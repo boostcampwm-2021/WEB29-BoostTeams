@@ -3,7 +3,7 @@ import { FaEllipsisH, FaAngleLeft } from 'react-icons/fa';
 import TeamIcon from '../Icons/TeamIcon';
 import { Container, TeamTitleContainer } from './style';
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
 	const teamSelectPage = (e: any) => {
 		e.preventDefault();
 	};
