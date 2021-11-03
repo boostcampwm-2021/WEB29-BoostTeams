@@ -5,7 +5,7 @@ import UserService from '../services/user-service';
 
 const GITHUB_CONFIG = {
 	clientID: process.env.GITHUB_CLIENT_ID,
-	clientSecret: process.env.GITHUB_CLIENT_SECRTE,
+	clientSecret: process.env.GITHUB_CLIENT_SECRETE,
 	callbackURL: 'http://localhost:4000/api/auth/github/callback'
 };
 
