@@ -8,8 +8,8 @@ const Router: React.FC = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={LoginPage} />
-				<Route exact path="/chat" component={ChatPage} />
+				<Route exact path='/' component={LoginPage} />
+				<Route exact path='/chat' component={ChatPage} />
 			</Switch>
 		</BrowserRouter>
 	);

@@ -14,12 +14,12 @@ const Header = () => {
 	return (
 		<Container>
 			<LogoWrapper>
-				<a href="/" onClick={linkHome}>
-					<img src="logo.png" alt="logo" />
+				<a href='/' onClick={linkHome}>
+					<img src='logo.png' alt='logo' />
 					BoostTeams
 				</a>
 			</LogoWrapper>
-			<ProfileIcon name="부" color="orange" status="green" />
+			<ProfileIcon name='부' color='orange' status='green' />
 		</Container>
 	);
 };
