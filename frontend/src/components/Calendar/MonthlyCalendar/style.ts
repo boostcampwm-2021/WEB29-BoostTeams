@@ -16,18 +16,6 @@ export const WeekContainer = styled.div`
 	}
 `;
 
-export const DayNameWrapper = styled.div`
-	height: 2rem;
-	border-left: 1px solid ${ColorCode.LINE2};
-	border-bottom: 1px solid ${ColorCode.LINE2};
-	background-color: ${ColorCode.BACKGROUND2};
-	display: flex;
-	align-items: center;
-	&.sunday {
-		color: ${ColorCode.RED};
-	}
-`;
-
 export const DayWrapper = styled.div`
 	height: 5rem;
 	border-left: 1px solid ${ColorCode.LINE2};
