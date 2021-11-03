@@ -3,6 +3,13 @@ import styled from 'styled-components';
 import Login from '../../components/Login';
 import { ColorCode } from '../../utils/constants';
 
+interface Props {
+	inputEmailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	inputPwHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	email: string;
+	pw: string;
+}
+
 const Layout = styled.div`
 	display: flex;
 	width: 100vw;
@@ -12,11 +19,12 @@ const Layout = styled.div`
 	background-color: ${ColorCode.PRIMARY1};
 `;
 
-const LoginTemplate: React.FC = () => {
+const LoginTemplate: React.FC<Props> = ({ inputEmailHandler, inputPwHandler, email, pw }) => {
 	return (
 		<Layout>
-			<Login />
+			<Login inputEmailHandler={inputEmailHandler} inputPwHandler={inputPwHandler} email={email} pw={pw} />
 		</Layout>
 	);
 };
+
 export default LoginTemplate;

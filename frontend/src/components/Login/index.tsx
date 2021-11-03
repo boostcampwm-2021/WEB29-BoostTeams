@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { AiFillGithub } from 'react-icons/ai';
 
 import { Container, BtnContainer, Input, Button, LogoWrapper } from './style';
-import { githubLogin } from '../../apis/auth';
+import { githubLogin, login } from '../../apis/auth';
+
+import UserState from '../../stores/user';
+
+interface Props {
+	inputEmailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	inputPwHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	email: string;
+	pw: string;
+}
 
 const Logo: React.FC = () => {
 	return (
@@ -15,18 +26,27 @@ const Logo: React.FC = () => {
 	);
 };
 
-const Login: React.FC = () => {
+const Login: React.FC<Props> = ({ inputEmailHandler, inputPwHandler, email, pw }: Props) => {
+	const history = useHistory();
+	const setUser = useSetRecoilState(UserState);
+	const localLoginHandler = async () => {
+		const user: any = await login({ userEmail: email, userPassword: pw });
+		if (user) {
+			setUser({ name: user?.user_name, email: user?.user_email, state: user?.user_state });
+			history.push('/team');
+		}
+	};
 	const githubLoginHandler = () => {
 		githubLogin();
 	};
 	return (
 		<Container>
 			<Logo />
-			<Input type='email' placeholder='아이디를 입력' />
-			<Input type='password' placeholder='비밀번호를 입력' />
+			<Input type='email' placeholder='이메일을 입력' onChange={inputEmailHandler} />
+			<Input type='password' placeholder='비밀번호를 입력' onChange={inputPwHandler} />
 			<BtnContainer direction='column' gap='1rem'>
 				<BtnContainer direction='row' gap='2rem'>
-					<Button>
+					<Button onClick={localLoginHandler}>
 						<span>Login</span>
 					</Button>
 					<Button>
