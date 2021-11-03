@@ -3,7 +3,7 @@ import { Container } from './style';
 import WeekHeader from './WeekHeader';
 import Schedule from './Schedule';
 
-const WeeklyCalendar = () => {
+const WeeklyCalendar: React.FC = () => {
 	return (
 		<Container>
 			<WeekHeader />

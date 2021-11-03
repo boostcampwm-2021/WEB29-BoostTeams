@@ -7,8 +7,11 @@ interface CalendarHeaderProps {
 	monthly: boolean;
 }
 
-const CalendarHeader = ({ changeCalendar, monthly }: CalendarHeaderProps) => {
-	const openModal = () => console.log('모임 생성 모달 오픈');
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, monthly }: CalendarHeaderProps) => {
+	const openModal = () => {
+		console.log('모임 생성 모달 오픈');
+	};
+
 	return (
 		<Container>
 			<InfoContainer>

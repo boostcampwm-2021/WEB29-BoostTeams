@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import Header from '../../components/Header';
-import Navbar from '../../components/Navbar';
+import { Header, Navbar } from '../../components/common';
 import { Layout, MainContainer, CalendarContainer } from './style';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
 import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
 
-const Calendar = () => {
+const Calendar: React.FC = () => {
 	const [monthly, setMonthly] = useState(false);
 	const changeCalendar = () => {
 		setMonthly(!monthly);

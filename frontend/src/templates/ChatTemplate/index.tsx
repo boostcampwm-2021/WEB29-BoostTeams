@@ -1,10 +1,8 @@
 import React from 'react';
-import Header from '../../components/Header';
-import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar';
+import { Header, Navbar, Sidebar } from '../../components/common';
 import { MainContainer } from './style';
 
-const Chat = () => {
+const Chat: React.FC = () => {
 	return (
 		<div>
 			<Header />

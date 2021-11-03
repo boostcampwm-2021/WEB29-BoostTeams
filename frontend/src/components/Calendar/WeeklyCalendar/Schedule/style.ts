@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const TimeContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 4rem;
+	width: 4.5rem;
 	div {
 		height: 5rem;
 		font-size: 0.8rem;
@@ -33,8 +33,8 @@ export const TimeContainer = styled.div`
 export const DaysContainer = styled.div`
 	flex-grow: 1;
 	display: flex;
-	height: 4.5rem;
 	align-items: center;
+	flex-wrap: wrap;
 `;
 
 export const DayContainer = styled.div`

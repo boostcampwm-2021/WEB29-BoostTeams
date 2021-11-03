@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import calendarState from '../../../stores/calendar';
 import { Container, WeekContainer, DayWrapper, DayNameWrapper, Schedule } from './style';
 
 interface ScheduleListType {
@@ -10,14 +12,11 @@ interface ScheduleContent {
 	[key: string]: string | number;
 }
 
-const MonthlyCalendar = () => {
+const MonthlyCalendar: React.FC = () => {
+	const [dateInfo, setDateInfo] = useRecoilState(calendarState);
 	const getFirstDay = (month: number, year: number): number => new Date(`${year}-${month}-01`).getDay();
-	const date = new Date();
-	// 추후에 props로 전달해서 변경 가능하도록 구현 예정
-	const y = date.getFullYear();
-	const m = date.getMonth() + 1;
-	const firstDay = getFirstDay(m, y);
-	const lastDay = new Date(y, m, 0).getDate();
+	const firstDay = getFirstDay(dateInfo.month, dateInfo.year);
+	const lastDay = new Date(dateInfo.year, dateInfo.month, 0).getDate();
 	// 추후에 해당 월의 모든 이벤트를 fetch 하는 것으로 구현 예정
 	const scheduleList: ScheduleListType = [
 		{ day: 15, content: '회의', color: 'blue' },
@@ -30,11 +29,11 @@ const MonthlyCalendar = () => {
 		const result: number[][] = [];
 		const week: number[] = [];
 		// 첫 주이지만 전 달인 요일
-		[...Array(firstDay)].forEach((_) => {
+		[...Array(firstDay)].forEach(() => {
 			week.push(0);
 		});
 		// 1일부터 첫주 마지막까지
-		[...Array(7 - firstDay)].forEach((_) => {
+		[...Array(7 - firstDay)].forEach(() => {
 			week.push(curDay);
 			curDay += 1;
 		});
@@ -45,7 +44,7 @@ const MonthlyCalendar = () => {
 			const week: number[] = [];
 			let day = curDay;
 			// 무조건 1주를 채우도록
-			[...Array(7)].forEach((_) => {
+			[...Array(7)].forEach(() => {
 				if (day <= lastDay) {
 					week.push(day);
 					day += 1;

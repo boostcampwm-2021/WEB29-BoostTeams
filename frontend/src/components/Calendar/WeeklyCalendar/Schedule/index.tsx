@@ -3,7 +3,7 @@ import { Container, TimeContainer, DaysContainer, DayContainer } from './style';
 
 const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-const Schedule = () => {
+const Schedule: React.FC = () => {
 	return (
 		<Container>
 			<TimeContainer>
@@ -17,7 +17,7 @@ const Schedule = () => {
 			<DaysContainer>
 				{[...Array(7)].map((v) => (
 					<DayContainer>
-						{[...Array(96)].map((v) => (
+						{[...Array(48)].map((v) => (
 							<div> </div>
 						))}
 					</DayContainer>

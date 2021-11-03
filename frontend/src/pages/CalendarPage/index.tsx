@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarTemplate from '../../templates/CalendarTemplate';
 
-const CalendarPage = () => {
+const CalendarPage: React.FC = () => {
 	return <CalendarTemplate />;
 };
 

@@ -7,7 +7,7 @@ interface ProfileProps {
 	status: string;
 }
 
-const ProfileIcon = ({ name, color, status }: ProfileProps) => {
+const ProfileIcon: React.FC<ProfileProps> = ({ name, color, status }: ProfileProps) => {
 	return (
 		<Container>
 			<ProfileIconContainer color={color}>

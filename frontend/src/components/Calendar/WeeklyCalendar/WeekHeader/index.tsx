@@ -27,13 +27,13 @@ const dateInfo: DateInfo[] = [
 	{ day: 6, date: 6 },
 ];
 
-const WeekHeader = () => {
+const WeekHeader: React.FC = () => {
 	return (
 		<Container>
 			{dateInfo.map((el) => {
 				return (
 					<DayContainer>
-						<em>{el.date}</em>
+						<b>{el.date}</b>
 						<span>{DayCode[el.day]}</span>
 					</DayContainer>
 				);

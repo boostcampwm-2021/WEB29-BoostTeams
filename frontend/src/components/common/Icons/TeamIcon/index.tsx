@@ -6,7 +6,7 @@ interface TeamProps {
 	color: string;
 }
 
-const TeamIcon = ({ name, color }: TeamProps) => {
+const TeamIcon: React.FC<TeamProps> = ({ name, color }: TeamProps) => {
 	return <ProfileImage color={color}>{name}</ProfileImage>;
 };
 
