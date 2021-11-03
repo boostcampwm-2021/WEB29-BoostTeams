@@ -12,3 +12,8 @@ export const DayWrapper = styled.div`
 		background-color: ${ColorCode.BACKGROUND1};
 	}
 `;
+
+export const Schedule = styled.div`
+	border: 1px solid ${ColorCode.LINE1};
+	background-color: ${(props) => props.color || ColorCode.ORANGE};
+`;

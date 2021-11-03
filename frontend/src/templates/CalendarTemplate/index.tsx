@@ -20,7 +20,7 @@ const Calendar: React.FC = () => {
 			<MainContainer>
 				<Navbar />
 				<CalendarContainer>
-					<CalendarHeader changeCalendar={changeCalendar} monthly={isMonthly} dateInfo={dateInfo} />
+					<CalendarHeader changeCalendar={changeCalendar} isMonthly={isMonthly} dateInfo={dateInfo} />
 					{isMonthly ? <MonthlyCalendar dateInfo={dateInfo} /> : <WeeklyCalendar dateInfo={dateInfo} />}
 				</CalendarContainer>
 			</MainContainer>

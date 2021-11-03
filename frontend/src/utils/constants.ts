@@ -14,6 +14,7 @@ enum ColorCode {
 	BLACK = '#000000',
 	GRAY = '#808080',
 	RED = '#FF0000',
+	ORANGE = '#FFA500',
 	HOVER = '#6264a7',
 }
 
