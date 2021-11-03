@@ -1,8 +1,13 @@
-const headers = { 'Content-type': 'application/json;charset=utf-8' };
-
 const baseUrl = process.env.SERVER ?? 'http://localhost:4000';
 
+const headers: HeadersInit = new Headers();
+
 type RequestData = { [key: string]: string | number };
+
+export const setHeader = (JWT: string) => {
+	headers.set('Content-Type', 'application/json');
+	if (JWT) headers.set('Authorization', `Bearer ${JWT}`);
+};
 
 const fetchApi = {
 	get: (path: string): Promise<JSON> =>
