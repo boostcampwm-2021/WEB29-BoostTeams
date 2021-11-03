@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { ColorCode } from '../../../../utils/constants';
 
+interface CurrTimeLineProps {
+	start: number;
+}
+
 export const Container = styled.div`
 	display: flex;
 	background-color: ${ColorCode.BACKGROUND1};
@@ -28,6 +32,7 @@ export const TimeContainer = styled.div`
 `;
 
 export const DaysContainer = styled.div`
+	position: relative;
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
@@ -48,4 +53,16 @@ export const DayBox = styled.div`
 	&:hover {
 		background-color: ${ColorCode.LINE1};
 	}
+`;
+
+export const CurrTimeLine = styled.hr<CurrTimeLineProps>`
+	position: absolute;
+	top: ${(props) => `${(props.start * 2.5).toString()}rem`};
+	left: 4.5rem;
+	border-width: 1px 0 0 0;
+	border-color: ${ColorCode.RED};
+	border-style: dashed;
+	width: 100%;
+	margin: 0;
+	z-index: 3;
 `;
