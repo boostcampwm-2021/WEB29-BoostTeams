@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
+import { toast } from 'react-toastify';
 
 import LoginTemplate from '../../templates/LoginTemplate';
 import { check } from '../../apis/auth';
-import { setHeader } from '../../utils/fetch';
 import { getCookie } from '../../utils/cookie';
 import UserState from '../../stores/user';
 
@@ -21,16 +21,15 @@ const LoginPage: React.FC = () => {
 		setPw(e.target.value);
 	};
 	useEffect(() => {
-		setHeader(JWT);
 		if (JWT) {
 			localStorage.setItem('JWT', JWT);
-			document.cookie = '';
 			history.push('/team');
-		}
-		if (localStorage.getItem('JWT')) {
-			check().then((res: any) => {
+			toast.success('😎 Github 로그인 성공');
+		} else if (localStorage.getItem('JWT')) {
+			check((res: any) => {
 				setUser({ name: res?.user_name, email: res?.user_email, state: res.user_state });
 				history.push('/team');
+				toast.success('😎 자동 로그인 성공');
 			});
 		}
 	}, []);

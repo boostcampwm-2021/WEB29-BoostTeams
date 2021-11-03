@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { AiFillGithub } from 'react-icons/ai';
 
 import { Container, BtnContainer, Input, Button, LogoWrapper } from './style';
 import { githubLogin, login } from '../../apis/auth';
-
-import UserState from '../../stores/user';
 
 interface Props {
 	inputEmailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,14 +23,8 @@ const Logo: React.FC = () => {
 };
 
 const Login: React.FC<Props> = ({ inputEmailHandler, inputPwHandler, email, pw }: Props) => {
-	const history = useHistory();
-	const setUser = useSetRecoilState(UserState);
-	const localLoginHandler = async () => {
-		const user: any = await login({ userEmail: email, userPassword: pw });
-		if (user) {
-			setUser({ name: user?.user_name, email: user?.user_email, state: user?.user_state });
-			history.push('/team');
-		}
+	const localLoginHandler = () => {
+		login({ userEmail: email, userPassword: pw });
 	};
 	const githubLoginHandler = () => {
 		githubLogin();
