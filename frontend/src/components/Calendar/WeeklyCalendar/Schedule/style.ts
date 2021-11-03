@@ -35,15 +35,17 @@ export const DaysContainer = styled.div`
 `;
 
 export const DayContainer = styled.div`
+	position: relative;
 	flex-grow: 1;
 	border-left: solid 1px ${ColorCode.LINE2};
-	div {
-		box-sizing: border-box;
-		height: 2.5rem;
-		border-bottom: solid 1px ${ColorCode.LINE2};
-		border-collapse: collapse;
-		&:hover {
-			background-color: ${ColorCode.LINE1};
-		}
+`;
+
+export const DayBox = styled.div`
+	box-sizing: border-box;
+	height: 2.5rem;
+	border-bottom: solid 1px ${ColorCode.LINE2};
+	border-collapse: collapse;
+	&:hover {
+		background-color: ${ColorCode.LINE1};
 	}
 `;
