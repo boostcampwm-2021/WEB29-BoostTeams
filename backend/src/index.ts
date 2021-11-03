@@ -6,10 +6,13 @@ import { createConnection } from 'typeorm';
 import express from 'express';
 import cors from 'cors';
 
+import passport from 'passport';
+import { githubStrategy } from './passport/github-strategy';
+
 import SocketIO from './sockets';
 import indexRouter from './routes/index';
 import userRouter from './routes/user-router';
-
+import authRouter from './routes/auth-router';
 class App {
 	app: express.Application;
 	server: any; // Server from http? https?
@@ -31,6 +34,8 @@ class App {
 				console.log('DB Connected');
 			})
 			.catch((error) => console.error(error));
+		this.app.use(passport.initialize());
+		githubStrategy();
 	}
 
 	private middleware() {
@@ -44,6 +49,7 @@ class App {
 	private route() {
 		this.app.use('/', indexRouter);
 		this.app.use('/api/user', userRouter);
+		this.app.use('/api/auth', authRouter);
 	}
 
 	listen() {

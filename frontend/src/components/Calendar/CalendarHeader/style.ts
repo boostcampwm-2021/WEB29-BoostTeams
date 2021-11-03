@@ -48,7 +48,7 @@ export const TodayBtn = styled.button`
 `;
 
 export const NewAppointmentBtn = styled.button`
-	background-color: ${ColorCode.BUTTON1};
+	background-color: ${ColorCode.HOVER};
 	color: ${ColorCode.WHITE};
 	border-radius: 8px;
 	padding: 0.3rem 0.5rem;

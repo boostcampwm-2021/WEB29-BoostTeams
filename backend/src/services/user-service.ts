@@ -20,7 +20,7 @@ class UserService {
 		const user = await this.userRepository.findOne(userId);
 
 		if (!user) {
-			throw new Error('Not Found User');
+			throw new Error('user not found : user_id');
 		}
 
 		const { user_id, user_email, user_name } = user;
@@ -30,6 +30,17 @@ class UserService {
 	async createUser(user_email: string, user_password: string, user_name: string) {
 		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: '자리 비움' });
 		return newUser;
+	}
+
+	async getUserByEmail(user_email: string) {
+		const user = await this.userRepository.findOne({
+			where: {
+				user_email: user_email
+			}
+		});
+
+		if (!user) throw new Error('user not found : user_email');
+		else return user;
 	}
 }
 
