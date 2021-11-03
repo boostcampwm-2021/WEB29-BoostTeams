@@ -2,20 +2,25 @@ import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import dotenv from 'dotenv';
 import { RecoilRoot } from 'recoil';
+import { ToastContainer } from 'react-toastify';
 import Router from './routes/router';
+import 'react-toastify/dist/ReactToastify.css';
 
 dotenv.config();
 
 const App: React.FC = () => {
 	useEffect(() => {
-		const socket = socketIOClient('http://localhost:4000');
+		const socket = socketIOClient(process.env.SERVER || 'http://localhost:4000');
 		socket.connect();
 	}, []);
 
 	return (
-		<RecoilRoot>
-			<Router />
-		</RecoilRoot>
+		<>
+			<RecoilRoot>
+				<Router />
+			</RecoilRoot>
+			<ToastContainer />
+		</>
 	);
 };
 
