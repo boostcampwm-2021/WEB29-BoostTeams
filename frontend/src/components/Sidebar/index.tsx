@@ -14,11 +14,11 @@ const Sidebar = () => {
 
 	return (
 		<Container>
-			<a href="/" onClick={teamSelectPage}>
+			<a href='/' onClick={teamSelectPage}>
 				<FaAngleLeft />
 				<span>모든 팀</span>
 			</a>
-			<TeamIcon name="bw" color="blue" />
+			<TeamIcon name='bw' color='blue' />
 			<TeamTitleContainer>
 				<span>boostcamp web29</span>
 				<FaEllipsisH onClick={openDropdown} />
