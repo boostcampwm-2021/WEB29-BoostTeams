@@ -20,7 +20,7 @@ class UserService {
 		const user = await this.userRepository.findOne(userId);
 
 		if (!user) {
-			throw new Error('user not found : user_id');
+			throw new Error('Not Found User');
 		}
 
 		const { user_id, user_email, user_name } = user;
@@ -38,9 +38,7 @@ class UserService {
 				user_email: user_email
 			}
 		});
-
-		if (!user) throw new Error('user not found : user_email');
-		else return user;
+		return user;
 	}
 }
 

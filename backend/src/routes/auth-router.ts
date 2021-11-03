@@ -3,17 +3,21 @@ import passport from 'passport';
 
 import UserController from '../controllers/user-controller';
 
-import { authenticateToken } from '../passport/jwt-utils';
+import { authenticateToken } from '../token';
 
 const router = express.Router();
 
-router.post('/login', passport.authenticate('local'));
-router.post('/login/callback', passport.authenticate('local'), UserController.login);
+router.post(
+	'/login',
+	passport.authenticate('local', {
+		failureRedirect: '/login'
+	}),
+	UserController.login
+);
+router.post('/signup', UserController.createUser);
 
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github'), UserController.login);
-
-router.get('/signup', UserController.login);
 
 router.post('/info', authenticateToken, UserController.getUser);
 
