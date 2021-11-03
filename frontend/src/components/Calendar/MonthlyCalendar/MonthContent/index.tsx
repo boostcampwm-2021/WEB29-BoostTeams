@@ -1,6 +1,5 @@
 import React from 'react';
-import { DayWrapper } from './style';
-import { WeekContainer, Schedule } from '../style';
+import { DayWrapper, ContentContainer, WeekContainer, Schedule } from './style';
 import { DateInfoType } from '../../dataStructure';
 import { scheduleEx } from '../../dataStructure';
 
@@ -57,7 +56,7 @@ const MonthContent: React.FC<MonthContentProps> = ({ dateInfo }: MonthContentPro
 		return result;
 	};
 	return (
-		<div>
+		<ContentContainer>
 			{generateDays().map((week) => {
 				return (
 					<WeekContainer>
@@ -76,7 +75,7 @@ const MonthContent: React.FC<MonthContentProps> = ({ dateInfo }: MonthContentPro
 					</WeekContainer>
 				);
 			})}
-		</div>
+		</ContentContainer>
 	);
 };
 
