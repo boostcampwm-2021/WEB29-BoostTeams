@@ -20,7 +20,7 @@ class UserService {
 		const user = await this.userRepository.findOne(userId);
 
 		if (!user) {
-			throw new Error('Not Found User');
+			return undefined;
 		}
 
 		const { user_id, user_email, user_name, user_state } = user;
