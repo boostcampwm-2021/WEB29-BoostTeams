@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import LoginTemplate from '../../templates/LoginTemplate';
 import { getCookie } from '../../utils/cookie';
+import { login } from '../../apis/auth';
 
 const LoginPage: React.FC = () => {
 	const JWT = getCookie('JWT');
@@ -16,6 +17,9 @@ const LoginPage: React.FC = () => {
 	const inputPwHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPw(e.target.value);
 	};
+	const localLoginHandler = () => {
+		login({ userEmail: email, userPassword: pw });
+	};
 	useEffect(() => {
 		if (JWT) {
 			localStorage.setItem('JWT', JWT);
@@ -23,7 +27,13 @@ const LoginPage: React.FC = () => {
 			toast.success('😎 Github 로그인 성공');
 		}
 	}, []);
-	return <LoginTemplate inputEmailHandler={inputEmailHandler} inputPwHandler={inputPwHandler} email={email} pw={pw} />;
+	return (
+		<LoginTemplate
+			localLoginHandler={localLoginHandler}
+			inputEmailHandler={inputEmailHandler}
+			inputPwHandler={inputPwHandler}
+		/>
+	);
 };
 
 export default LoginPage;
