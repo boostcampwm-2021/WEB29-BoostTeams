@@ -14,7 +14,7 @@ const Router: React.FC = () => {
 
 	check(
 		(res: any) => {
-			setUser({ name: res?.user_name, email: res?.user_email, state: res?.user_state });
+			setUser({ name: res?.user_name, email: res?.user_email, state: res?.user_state, team_id: 1 });
 		},
 		() => {
 			if (window.location.href !== 'http://localhost:3000/') window.location.href = '/';

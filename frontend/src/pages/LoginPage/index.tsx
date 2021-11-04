@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
 			toast.success('😎 Github 로그인 성공');
 		} else if (localStorage.getItem('JWT')) {
 			check((res: any) => {
-				setUser({ name: res?.user_name, email: res?.user_email, state: res.user_state });
+				setUser({ name: res?.user_name, email: res?.user_email, state: res.user_state, team_id: 1 });
 				history.push('/team');
 				toast.success('😎 자동 로그인 성공');
 			});
