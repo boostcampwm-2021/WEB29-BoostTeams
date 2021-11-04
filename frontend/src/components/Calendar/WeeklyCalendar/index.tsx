@@ -6,13 +6,14 @@ import { DateInfoType } from '../dataStructure';
 
 interface WeeklyCalendarProps {
 	dateInfo: DateInfoType;
+	schedules: any[];
 }
 
-const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ dateInfo }: WeeklyCalendarProps) => {
+const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ dateInfo, schedules }: WeeklyCalendarProps) => {
 	return (
 		<Container>
 			<WeekHeader dateInfo={dateInfo} />
-			<Schedule dateInfo={dateInfo} />
+			<Schedule dateInfo={dateInfo} schedules={schedules} />
 		</Container>
 	);
 };
