@@ -10,15 +10,6 @@ import TeamPage from '../pages/TeamPage';
 import SignUpPage from '../pages/SignUpPage';
 
 const Router: React.FC = () => {
-	const setUser = useSetRecoilState(UserState);
-	check(
-		(res: any) => {
-			setUser({ name: res?.user_name, email: res?.user_email, state: res?.user_state});
-		},
-		() => {
-			if (window.location.href !== 'http://localhost:3000/') window.location.href = '/';
-		},
-	);
 	return (
 		<BrowserRouter>
 			<Switch>
