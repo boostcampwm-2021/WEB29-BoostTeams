@@ -34,9 +34,7 @@ class UserService {
 
 	async getUserByEmail(user_email: string) {
 		const user = await this.userRepository.findOne({
-			where: {
-				user_email: user_email
-			}
+			where: { user_email }
 		});
 		return user;
 	}
