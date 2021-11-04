@@ -1,5 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repositories/user-repository';
+import Crypto from 'crypto-js';
+import bcrypt from 'bcrypt';
 
 class UserService {
 	static instance: UserService;
@@ -27,7 +29,9 @@ class UserService {
 		return { user_id, user_email, user_name, user_state };
 	}
 
-	async createUser(user_email: string, user_password: string, user_name: string) {
+	async createUser(user_email: string, encryptedPassword: string, user_name: string) {
+		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
+		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
 		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: 0 });
 		return newUser;
 	}
@@ -36,6 +40,15 @@ class UserService {
 		const user = await this.userRepository.findOne({
 			where: {
 				user_email: user_email
+			}
+		});
+		return user;
+	}
+
+	async getUserByName(user_name: string) {
+		const user = await this.userRepository.findOne({
+			where: {
+				user_name: user_name
 			}
 		});
 		return user;
