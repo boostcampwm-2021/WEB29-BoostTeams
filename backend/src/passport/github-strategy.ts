@@ -16,11 +16,11 @@ const getUserRawData = (userJson) => {
 	return { user_email, user_password, user_name };
 };
 
-async function githubLoginCallback(accessToken, refreshToken, profile, callback) {
+const githubLoginCallback = async (accessToken, refreshToken, profile, callback) => {
 	const { user_email, user_password, user_name } = getUserRawData(profile._json);
 	let user = await UserService.getInstance().getUserByEmail(user_email);
 	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, user_name);
 	return callback(null, user);
-}
+};
 
 export const githubStrategy = () => passport.use('github', new GithubStrategy(GITHUB_CONFIG, githubLoginCallback));

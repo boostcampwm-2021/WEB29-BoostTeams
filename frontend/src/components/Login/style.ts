@@ -6,31 +6,23 @@ interface BtnContainerProps {
 	gap: string;
 }
 
-export const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	width: 13rem;
-	height: 23rem;
-	padding: 3rem 5rem 5rem 5rem;
-	background-color: ${ColorCode.BACKGROUND1};
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 10px;
-`;
-
 export const BtnContainer = styled('div')<BtnContainerProps>`
 	display: flex;
 	flex-direction: ${(props) => props.direction || 'row'};
 	width: 100%;
 	gap: ${(props) => props.gap || '0'};
+
+	& > * {
+		width: 100%;
+	}
 `;
 
-export const LogoWrapper = styled.div`
-	width: 4rem;
-	margin-bottom: 1rem;
-	img {
-		width: 100%;
+export const InputContainer = styled.div`
+	display: flex;
+	align-items: center;
+	width: 100%;
+	& > span {
+		width: 7rem;
 	}
 `;
 
