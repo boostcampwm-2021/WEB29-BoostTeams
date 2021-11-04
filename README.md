@@ -48,7 +48,7 @@ https://www.boostteams.kro.kr/
 - 팀 정보 수정, 삭제 기능
 - 팀 구성원 권한 수정, 초대, 강퇴, 유저 검색 기능
 
-## 기술 스택 :male-technologist: :female-technologist:
+## 기술 스택 👨‍💻 👩‍💻
 
 ![](https://i.imgur.com/U9dEC0D.png)
 
