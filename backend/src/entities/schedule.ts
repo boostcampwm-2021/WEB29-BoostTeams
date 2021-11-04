@@ -6,12 +6,12 @@ export class Schedule {
 	@PrimaryGeneratedColumn()
 	schedule_id!: number;
 
+	@Column()
+	team_id: number;
+
 	@ManyToOne(() => Team, (team) => team.team_id)
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
-
-	@Column()
-	user_email: string;
 
 	@Column()
 	title: string;
@@ -22,7 +22,7 @@ export class Schedule {
 	@Column()
 	end_date: Date;
 
-	@Column()
+	@Column({ nullable: true })
 	repeat_id: string;
 
 	@Column()

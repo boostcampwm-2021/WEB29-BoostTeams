@@ -29,7 +29,6 @@ const fetchApi = {
 			headers: getHeader(),
 			body: JSON.stringify(data),
 		}),
-
 	put: (path: string, data: RequestData): Promise<Response> =>
 		fetch(`${baseUrl}${path}`, {
 			method: 'PUT',

@@ -1,29 +1,19 @@
 import React from 'react';
-import { DayWrapper, ContentContainer, WeekContainer, Schedule, DayNum } from './style';
+import { ContentContainer } from './style';
 import { DateInfoType } from '../../dataStructure';
-import { scheduleEx } from '../../dataStructure';
-import { Palette } from '../../../../utils/constants';
+import Week from './week';
 
 interface MonthContentProps {
 	dateInfo: DateInfoType;
+	schedules: any[];
 }
 
-const MonthContent: React.FC<MonthContentProps> = ({ dateInfo }: MonthContentProps) => {
+const MonthContent: React.FC<MonthContentProps> = ({ dateInfo, schedules }: MonthContentProps) => {
 	const getFirstDay = (month: number, year: number): number => new Date(`${year}-${month}-01`).getDay();
 	const firstDay = getFirstDay(dateInfo.month, dateInfo.year);
 	const lastDay = new Date(dateInfo.year, dateInfo.month, 0).getDate();
 
-	const getScheduleByDay = (day: number) => scheduleEx.filter((obj) => obj.start_date.getDate() === day);
-
-	const showModal = (e: any): void => {
-		const result = scheduleEx.find((obj): boolean => {
-			if (obj.title === e.target.innerText) return true;
-			return false;
-		});
-		console.log(result?.title, result?.start_date, result?.end_date, result?.content);
-	};
-
-	const generateDays = (): number[][] => {
+	const generateDays = (firstDay: number, lastDay: number): number[][] => {
 		let curDay = 1;
 		const result: number[][] = [];
 		const week: number[] = [];
@@ -58,24 +48,9 @@ const MonthContent: React.FC<MonthContentProps> = ({ dateInfo }: MonthContentPro
 	};
 	return (
 		<ContentContainer>
-			{generateDays().map((week) => {
-				return (
-					<WeekContainer>
-						{week.map((day, idx) => (
-							<DayWrapper className={idx === 0 ? 'sunday' : ''}>
-								{day !== 0 ? <DayNum>{day}</DayNum> : null}
-								{getScheduleByDay(day).map((e) => {
-									return (
-										<Schedule key={e.id} onClick={showModal} color={Palette[e.color]}>
-											{e.title}
-										</Schedule>
-									);
-								})}
-							</DayWrapper>
-						))}
-					</WeekContainer>
-				);
-			})}
+			{generateDays(firstDay, lastDay).map((week) => (
+				<Week week={week} schedules={schedules} />
+			))}
 		</ContentContainer>
 	);
 };

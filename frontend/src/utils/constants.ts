@@ -20,8 +20,7 @@ enum ColorCode {
 	DARKMINT = '#0a3a2a',
 	BABYBLUE = '#C3E0E5',
 	DARKBLUE = '#274472',
-	YELLOW = '#0a3a2a',
-	DEEPYELLOW = '#FFA701',
+	YELLOW = '#effd5f',
 	BABYPINK = '#FCC7CF',
 	HOTPINK = '#D85678',
 	BABYGREEN = '#C5E89B',
@@ -43,15 +42,12 @@ const Palette = [
 	ColorCode.MINT,
 	ColorCode.YELLOW,
 	ColorCode.BABYBLUE,
-
 	ColorCode.PRIMARY1,
 	ColorCode.HOTPINK,
 	ColorCode.DEEPGREEN,
 	ColorCode.DARKMINT,
-	ColorCode.DEEPYELLOW,
+	ColorCode.ORANGE,
 	ColorCode.DARKBLUE,
 ];
 
-const SALT_OR_ROUND = 5; // bcrypt level
-
-export { ColorCode, Font, Palette, SALT_OR_ROUND };
+export { ColorCode, Font, Palette };

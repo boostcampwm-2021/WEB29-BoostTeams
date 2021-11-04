@@ -12,6 +12,8 @@ import { initStrategy } from './passport';
 import SocketIO from './sockets';
 import userRouter from './routes/user-router';
 import authRouter from './routes/auth-router';
+import scheduleRouter from './routes/schedule-router';
+
 class App {
 	app: express.Application;
 	server: any; // Server from http? https?
@@ -48,6 +50,7 @@ class App {
 	private route() {
 		this.app.use('/api/user', userRouter);
 		this.app.use('/api/auth', authRouter);
+		this.app.use('/api/schedule', scheduleRouter);
 	}
 
 	listen() {

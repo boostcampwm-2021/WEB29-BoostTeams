@@ -5,7 +5,9 @@ const MonthHeader: React.FC = () => {
 	return (
 		<WeekNameContainer>
 			{['일', '월', '화', '수', '목', '금', '토'].map((day, idx) => (
-				<DayNameWrapper className={idx === 0 ? 'sunday' : ''}>{day}</DayNameWrapper>
+				<DayNameWrapper key={day} className={idx === 0 ? 'sunday' : ''}>
+					{day}
+				</DayNameWrapper>
 			))}
 		</WeekNameContainer>
 	);
