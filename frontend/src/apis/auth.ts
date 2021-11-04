@@ -11,7 +11,7 @@ export const login = async (
 	cb?: any,
 	err?: any,
 ) => {
-	const key = process.env.AES_KEY || 'key';
+	const key = process.env.REACT_APP_AES_KEY || 'key';
 	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
 		const res = await fetchApi.post('/api/auth/login', { userEmail, encryptedPassword });
@@ -29,7 +29,7 @@ export const login = async (
 };
 
 export const githubLogin = () => {
-	window.location.href = `${process.env.SERVER ?? 'http://localhost:4000'}/api/auth/github`;
+	window.location.href = `${process.env.REACT_APP_SERVER ?? 'http://localhost:4000'}/api/auth/github`;
 };
 
 /**
@@ -55,7 +55,7 @@ export const signUp = async (
 	{ userName, userEmail, userPassword }: { userName: string; userEmail: string; userPassword: string },
 	cb?: any,
 ) => {
-	const key = process.env.AES_KEY || 'key';
+	const key = process.env.REACT_APP_AES_KEY || 'key';
 	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
 		const res = await fetchApi.post('/api/auth/signup', { userName, userEmail, encryptedPassword });

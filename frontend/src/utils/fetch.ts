@@ -1,4 +1,4 @@
-const baseUrl = process.env.SERVER ?? 'http://localhost:4000';
+const baseUrl = process.env.REACT_APP_SERVER ?? 'http://localhost:4000';
 
 const header: HeadersInit = {
 	'Content-Type': 'application/json',
