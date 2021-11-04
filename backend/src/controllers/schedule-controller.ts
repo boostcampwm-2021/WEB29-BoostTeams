@@ -2,11 +2,17 @@ import { Request, Response } from 'express';
 import moment from 'moment';
 import ScheduleService from '../services/schedule-service';
 
+const changeFieldToNumber = (teamID, newScheduleData) => {
+	newScheduleData.team_id = Number(teamID);
+	newScheduleData.repeat_id = Number(newScheduleData.repeat_id);
+	newScheduleData.color = Number(newScheduleData.color);
+	return newScheduleData;
+};
+
 const ScheduleController = {
 	async createSchedule(req: Request, res: Response) {
 		try {
-			const scheduleInfo = JSON.parse(JSON.stringify(req.body));
-			scheduleInfo.team_id = Number(req.params.teamId);
+			const scheduleInfo = changeFieldToNumber(req.params.teamId, req.body);
 			const newSchedule = await ScheduleService.getInstance().createSchedule(scheduleInfo);
 			res.status(200).send(newSchedule);
 		} catch (err) {
