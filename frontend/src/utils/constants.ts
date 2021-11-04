@@ -17,4 +17,6 @@ enum ColorCode {
 	HOVER = '#6264a7',
 }
 
-export { ColorCode };
+const SALT_OR_ROUND = 5; // bcrypt level
+
+export { ColorCode, SALT_OR_ROUND };

@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
 	'/login',
 	passport.authenticate('local', {
-		failureRedirect: '/login'
+		failureRedirect: '/'
 	}),
 	UserController.login
 );
@@ -19,6 +19,6 @@ router.post('/signup', UserController.createUser);
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github'), UserController.login);
 
-router.post('/info', authenticateToken, UserController.getUser);
+router.get('/info', authenticateToken, UserController.getUser);
 
 export default router;

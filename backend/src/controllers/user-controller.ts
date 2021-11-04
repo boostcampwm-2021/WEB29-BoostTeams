@@ -2,33 +2,32 @@ import UserService from '../services/user-service';
 import { User } from '../entities/user';
 
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import { createJWT } from '../token';
 
-import { getUserName, SALT_OR_ROUND } from './utils';
+import { getUserName } from './utils';
 
 const UserController = {
 	async createUser(req: Request, res: Response) {
 		try {
-			const { user_email, user_password } = req.body;
+			const { user_email, encryptedPassword } = req.body;
 
 			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(user_email);
 			if (emailAlreadyUsed) return res.send('email is already in use');
 
-			const user_name = getUserName(user_email); // FE에서 ? BE에서?
-			const encryptedPassword = bcrypt.hashSync(user_password, SALT_OR_ROUND);
+			const user_name = getUserName(user_email);
 
 			const newUser = await UserService.getInstance().createUser(user_email, encryptedPassword, user_name);
 			const JWT = createJWT(newUser.user_id);
-			res.status(200).send(JWT);
+			res.cookie('JWT', JWT);
+			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
 			res.send(err);
 		}
 	},
-	async getUser(req: Request, res: Response) {
+	async getUser(req: any, res: Response) {
 		try {
-			const targetUser = req.user as User;
-			const user = await UserService.getInstance().getUser(targetUser.user_id);
+			const user_id = req.user_id;
+			const user = await UserService.getInstance().getUser(user_id);
 			res.status(200).send(user);
 		} catch (err) {
 			res.send(err);
@@ -39,7 +38,8 @@ const UserController = {
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
-			res.status(200).send(JWT);
+			res.cookie('JWT', JWT);
+			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
 			res.send(err);
 		}

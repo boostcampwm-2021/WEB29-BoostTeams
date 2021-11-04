@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom';
 import { AiFillGithub } from 'react-icons/ai';
 
 import { Container, BtnContainer, Input, Button, LogoWrapper } from './style';
-import { githubLogin } from '../../apis/auth';
+import { githubLogin, login } from '../../apis/auth';
+
+interface Props {
+	inputEmailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	inputPwHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	email: string;
+	pw: string;
+}
 
 const Logo: React.FC = () => {
 	return (
@@ -15,18 +22,21 @@ const Logo: React.FC = () => {
 	);
 };
 
-const Login: React.FC = () => {
+const Login: React.FC<Props> = ({ inputEmailHandler, inputPwHandler, email, pw }: Props) => {
+	const localLoginHandler = () => {
+		login({ userEmail: email, userPassword: pw });
+	};
 	const githubLoginHandler = () => {
 		githubLogin();
 	};
 	return (
 		<Container>
 			<Logo />
-			<Input type='email' placeholder='아이디를 입력' />
-			<Input type='password' placeholder='비밀번호를 입력' />
+			<Input type='email' placeholder='이메일을 입력' onChange={inputEmailHandler} />
+			<Input type='password' placeholder='비밀번호를 입력' onChange={inputPwHandler} />
 			<BtnContainer direction='column' gap='1rem'>
 				<BtnContainer direction='row' gap='2rem'>
-					<Button>
+					<Button onClick={localLoginHandler}>
 						<span>Login</span>
 					</Button>
 					<Button>
