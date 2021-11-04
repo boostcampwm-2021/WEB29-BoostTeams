@@ -52,4 +52,6 @@ const Palette = [
 	ColorCode.DARKBLUE,
 ];
 
-export { ColorCode, Font, Palette };
+const SALT_OR_ROUND = 5; // bcrypt level
+
+export { ColorCode, Font, Palette, SALT_OR_ROUND };
