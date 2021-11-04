@@ -2,7 +2,7 @@ import UserService from '../services/user-service';
 import { User } from '../entities/user';
 
 import { Request, Response } from 'express';
-import { createJWT } from '../token';
+import { createJWT } from '../middlewares/token';
 
 import { getUserName } from './utils';
 
@@ -24,10 +24,9 @@ const UserController = {
 			res.send(err);
 		}
 	},
-	async getUser(req: any, res: Response) {
+	getUser(req: Request, res: Response) {
 		try {
-			const user_id = req.user_id;
-			const user = await UserService.getInstance().getUser(user_id);
+			const user = req.user;
 			res.status(200).send(user);
 		} catch (err) {
 			res.send(err);

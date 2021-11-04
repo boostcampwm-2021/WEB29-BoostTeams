@@ -10,7 +10,6 @@ import passport from 'passport';
 import { initStrategy } from './passport';
 
 import SocketIO from './sockets';
-import indexRouter from './routes/index';
 import userRouter from './routes/user-router';
 import authRouter from './routes/auth-router';
 class App {
@@ -34,8 +33,6 @@ class App {
 				console.log('DB Connected');
 			})
 			.catch((error) => console.error(error));
-		this.app.use(passport.initialize());
-		initStrategy();
 	}
 
 	private middleware() {
@@ -44,10 +41,11 @@ class App {
 			credentials: true
 		};
 		this.app.use(cors(corsOptions));
+		this.app.use(passport.initialize());
+		initStrategy();
 	}
 
 	private route() {
-		this.app.use('/', indexRouter);
 		this.app.use('/api/user', userRouter);
 		this.app.use('/api/auth', authRouter);
 	}

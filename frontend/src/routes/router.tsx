@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
@@ -12,13 +11,13 @@ import UserState from '../stores/user';
 
 const Router: React.FC = () => {
 	const setUser = useSetRecoilState(UserState);
-	const history = useHistory();
+
 	check(
 		(res: any) => {
 			setUser({ name: res?.user_name, email: res?.user_email, state: res?.user_state });
 		},
 		() => {
-			history.push('/');
+			if (window.location.href !== 'http://localhost:3000/') window.location.href = '/';
 		},
 	);
 	return (
