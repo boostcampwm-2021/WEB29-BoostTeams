@@ -40,7 +40,7 @@ class App {
 
 	private middleware() {
 		const corsOptions = {
-			origin: process.env.FRONT_HOST || 'http://localhost:3000',
+			origin: process.env.FRONT_URL || 'http://localhost:3000',
 			credentials: true
 		};
 		this.app.use(cors(corsOptions));
@@ -59,7 +59,7 @@ class App {
 
 		const corsOptions = {
 			cors: true,
-			origins: [process.env.FRONT_HOST || 'http://localhost:3000']
+			origins: [process.env.FRONT_URL || 'http://localhost:3000']
 		};
 
 		SocketIO.attach(this.server, corsOptions);
