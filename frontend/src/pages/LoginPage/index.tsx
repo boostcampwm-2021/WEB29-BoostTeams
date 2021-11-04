@@ -7,7 +7,6 @@ import { getCookie } from '../../utils/cookie';
 import { login } from '../../apis/auth';
 
 const LoginPage: React.FC = () => {
-	const JWT = getCookie('JWT');
 	const history = useHistory();
 	const [email, setEmail] = useState('');
 	const [pw, setPw] = useState('');
@@ -18,11 +17,15 @@ const LoginPage: React.FC = () => {
 		setPw(e.target.value);
 	};
 	const localLoginHandler = () => {
-		login({ userEmail: email, userPassword: pw });
+		login({ userEmail: email, userPassword: pw }, () => {
+			localStorage.setItem('JWT', getCookie('JWT'));
+			history.push('/team');
+			toast.success('😃 로그인 성공');
+		});
 	};
 	useEffect(() => {
-		if (JWT) {
-			localStorage.setItem('JWT', JWT);
+		if (getCookie('JWT')) {
+			localStorage.setItem('JWT', getCookie('JWT'));
 			history.push('/team');
 			toast.success('😎 Github 로그인 성공');
 		}

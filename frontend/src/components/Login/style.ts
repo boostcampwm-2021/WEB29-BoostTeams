@@ -17,6 +17,15 @@ export const BtnContainer = styled('div')<BtnContainerProps>`
 	}
 `;
 
+export const InputContainer = styled.div`
+	display: flex;
+	align-items: center;
+	width: 100%;
+	& > span {
+		width: 7rem;
+	}
+`;
+
 export const Input = styled.input`
 	width: 100%;
 	line-height: 1.5rem;

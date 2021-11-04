@@ -1,6 +1,5 @@
-import bcrypt from 'bcryptjs';
+import AES from 'crypto-js/aes';
 import { toast } from 'react-toastify';
-import { SALT_OR_ROUND } from '../utils/constants';
 import fetchApi from '../utils/fetch';
 
 /**
@@ -12,12 +11,12 @@ export const login = async (
 	cb?: any,
 	err?: any,
 ) => {
-	const encryptedPassword = bcrypt.hashSync(userPassword, SALT_OR_ROUND);
+	const key = process.env.AES_KEY || 'key';
+	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
 		const res = await fetchApi.post('/api/auth/login', { userEmail, encryptedPassword });
 		const data = await res.json();
 		if (res.status === 200) {
-			toast.success('😃 로그인 성공');
 			cb(data);
 		}
 		if (res.status === 401) {
@@ -46,6 +45,29 @@ export const check = async (cb?: any, err?: any) => {
 		}
 		if (res.status === 401) {
 			err();
+		}
+	} catch (err) {
+		toast.error('😣 서버와의 연결이 심상치 않습니다!');
+	}
+};
+
+export const signUp = async (
+	{ userName, userEmail, userPassword }: { userName: string; userEmail: string; userPassword: string },
+	cb?: any,
+) => {
+	const key = process.env.AES_KEY || 'key';
+	const encryptedPassword = AES.encrypt(userPassword, key).toString();
+	try {
+		const res = await fetchApi.post('/api/auth/signup', { userName, userEmail, encryptedPassword });
+		const data = await res.json();
+		if (res.status === 201) {
+			cb();
+		}
+		if (res.status === 409 && data.conflict === 'email') {
+			toast.warn('😣 이미 존재하는 계정입니다!');
+		}
+		if (res.status === 409 && data.conflict === 'name') {
+			toast.warn('😣 이미 존재하는 이름입니다!');
 		}
 	} catch (err) {
 		toast.error('😣 서버와의 연결이 심상치 않습니다!');

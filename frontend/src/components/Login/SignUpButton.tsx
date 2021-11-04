@@ -1,12 +1,20 @@
 import React from 'react';
 import { Button } from './style';
 
-const SignUpButton: React.FC = () => {
+type Props = {
+	onClick?: () => void;
+};
+
+const SignUpButton: React.FC<Props> = ({ onClick }) => {
 	return (
-		<Button>
+		<Button onClick={onClick}>
 			<span>Signup</span>
 		</Button>
 	);
+};
+
+SignUpButton.defaultProps = {
+	onClick: () => null,
 };
 
 export default SignUpButton;
