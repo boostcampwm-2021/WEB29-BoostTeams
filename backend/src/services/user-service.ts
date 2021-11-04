@@ -30,7 +30,7 @@ class UserService {
 	}
 
 	async createUser(user_email: string, encryptedPassword: string, user_name: string) {
-		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.REACT_APP_AES_KEY).toString();
+		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
 		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: 0 });
 		return newUser;
