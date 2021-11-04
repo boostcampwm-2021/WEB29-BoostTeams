@@ -30,6 +30,8 @@ export const InfoContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
 	& > * {
 		margin-left: 0.5rem;
 	}
@@ -73,5 +75,57 @@ export const ConvertCalenderBtn = styled.button`
 	&:hover {
 		color: ${ColorCode.PRIMARY1};
 		border: 1px solid ${ColorCode.PRIMARY1};
+	}
+`;
+
+export const ToggleBtnWrapper = styled.label`
+	position: relative;
+`;
+
+export const HiddenInput = styled.input`
+	position: absolute;
+	width: 0;
+	height: 0;
+	&:checked + span {
+		background-color: ${ColorCode.HOVER};
+		&:before {
+			left: calc(100% - 2px);
+			transform: translateX(-100%);
+		}
+	}
+
+	&:hover + span {
+		box-shadow: 0 0 0 2px ${ColorCode.LINE2};
+	}
+
+	&:hover:checked + span {
+		box-shadow: 0 0 0 2px ${ColorCode.PRIMARY1};
+	}
+`;
+
+export const Slider = styled.span`
+	display: flex;
+	cursor: pointer;
+	width: 3rem;
+	height: 1.5rem;
+	border-radius: 100px;
+	background-color: ${ColorCode.LINE3};
+	position: relative;
+	transition: background-color 0.2s, box-shadow 0.2s;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		width: 1.2rem;
+		height: 1.2rem;
+		border-radius: 3rem;
+		transition: 0.2s;
+		background: ${ColorCode.WHITE};
+	}
+
+	&:active:before {
+		width: 2rem;
 	}
 `;

@@ -4,7 +4,7 @@ import { ColorCode } from '../../../../utils/constants';
 export const Container = styled.header`
 	display: flex;
 	align-items: center;
-	height: 4.5rem;
+	height: 4rem;
 	background-color: ${ColorCode.BACKGROUND1};
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	padding-left: 4.5rem;
@@ -24,6 +24,8 @@ export const DayContainer = styled.div`
 		font-size: 1.5rem;
 	}
 	span {
+		display: block;
+		padding-top: 0.5rem;
 		font-size: 0.8rem;
 	}
 `;
