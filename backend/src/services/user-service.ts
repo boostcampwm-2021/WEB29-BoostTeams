@@ -20,15 +20,15 @@ class UserService {
 		const user = await this.userRepository.findOne(userId);
 
 		if (!user) {
-			throw new Error('user not found : user_id');
+			throw new Error('Not Found User');
 		}
 
-		const { user_id, user_email, user_name } = user;
-		return { user_id, user_email, user_name };
+		const { user_id, user_email, user_name, user_state } = user;
+		return { user_id, user_email, user_name, user_state };
 	}
 
 	async createUser(user_email: string, user_password: string, user_name: string) {
-		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: '자리 비움' });
+		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: 0 });
 		return newUser;
 	}
 
@@ -38,9 +38,7 @@ class UserService {
 				user_email: user_email
 			}
 		});
-
-		if (!user) throw new Error('user not found : user_email');
-		else return user;
+		return user;
 	}
 }
 
