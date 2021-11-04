@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { ColorCode, Font } from '../../../../utils/constants';
 
+interface ScheduleProps {
+	onClick: (e: any) => void;
+	color: string;
+}
+
 export const ContentContainer = styled.div`
 	height: 100%;
 `;
@@ -21,10 +26,9 @@ export const DayWrapper = styled.div`
 	}
 `;
 
-export const Schedule = styled.div`
+export const Schedule = styled.div<ScheduleProps>`
 	font-size: ${Font.SMALL};
 	border-radius: 8px;
-	border: 1px solid ${ColorCode.LINE1};
 	background-color: ${(props) => props.color || ColorCode.ORANGE};
 	padding: 0.5rem;
 	margin: 0.3rem 0;
@@ -34,5 +38,5 @@ export const WeekContainer = styled.div`
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	width: 100%;
-	height: 14%;
+	min-height: 16%;
 `;

@@ -6,13 +6,14 @@ import MonthContent from './MonthContent';
 
 interface MonthlyCalendarProps {
 	dateInfo: DateInfoType;
+	schedules: any[];
 }
 
-const MonthlyCalendar: React.FC<MonthlyCalendarProps> = ({ dateInfo }: MonthlyCalendarProps) => {
+const MonthlyCalendar: React.FC<MonthlyCalendarProps> = ({ dateInfo, schedules }: MonthlyCalendarProps) => {
 	return (
 		<Container>
 			<MonthHeader />
-			<MonthContent dateInfo={dateInfo} />
+			<MonthContent dateInfo={dateInfo} schedules={schedules} />
 		</Container>
 	);
 };

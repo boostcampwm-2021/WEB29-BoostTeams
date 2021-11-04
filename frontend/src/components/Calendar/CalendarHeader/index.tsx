@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
+import CalendarModal from '../../common/Modal/Calendar';
 import {
 	Container,
 	InfoContainer,
@@ -24,8 +25,10 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 	isMonthly,
 	dateInfo,
 }: CalendarHeaderProps) => {
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
 	const openModal = () => {
-		console.log('모임 생성 모달 오픈');
+		setIsModalVisible(isModalVisible ? !isModalVisible : !isModalVisible);
 	};
 
 	return (
@@ -52,6 +55,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 					<span>새 모임</span>
 				</NewAppointmentBtn>
 			</ButtonContainer>
+			{isModalVisible && <CalendarModal initMode='create' setIsModalVisible={setIsModalVisible} />}
 		</Container>
 	);
 };
