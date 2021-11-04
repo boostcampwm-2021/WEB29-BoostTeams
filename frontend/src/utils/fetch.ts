@@ -1,8 +1,13 @@
 const baseUrl = process.env.SERVER ?? 'http://localhost:4000';
 
-const headers: HeadersInit = {
+const header: HeadersInit = {
 	'Content-Type': 'application/json',
 	authorization: `Bearer ${localStorage.getItem('JWT')}`,
+};
+
+const getHeader = () => {
+	header.authorization = `Bearer ${localStorage.getItem('JWT')}`;
+	return header;
 };
 
 type RequestData = { [key: string]: string | number };
@@ -13,7 +18,7 @@ const fetchApi = {
 			method: 'GET',
 			mode: 'cors',
 			credentials: 'include',
-			headers,
+			headers: getHeader(),
 		}),
 
 	post: (path: string, data: RequestData): Promise<Response> =>
@@ -21,7 +26,7 @@ const fetchApi = {
 			method: 'POST',
 			mode: 'cors',
 			credentials: 'include',
-			headers,
+			headers: getHeader(),
 			body: JSON.stringify(data),
 		}),
 
@@ -30,7 +35,7 @@ const fetchApi = {
 			method: 'PUT',
 			mode: 'cors',
 			credentials: 'include',
-			headers,
+			headers: getHeader(),
 			body: JSON.stringify(data),
 		}),
 
@@ -39,7 +44,7 @@ const fetchApi = {
 			method: 'DELETE',
 			mode: 'cors',
 			credentials: 'include',
-			headers,
+			headers: getHeader(),
 		}),
 };
 
