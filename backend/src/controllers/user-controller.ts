@@ -4,22 +4,21 @@ import { User } from '../entities/user';
 import { Request, Response } from 'express';
 import { createJWT } from '../middlewares/token';
 
-import { getUserName } from './utils';
-
 const UserController = {
 	async createUser(req: Request, res: Response) {
 		try {
-			const { user_email, encryptedPassword } = req.body;
+			const { userName, userEmail, encryptedPassword } = req.body;
+			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(userEmail);
+			const nameAlreadyUsed = await UserService.getInstance().getUserByName(userName);
 
-			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(user_email);
-			if (emailAlreadyUsed) return res.send('email is already in use');
+			if (emailAlreadyUsed) return res.status(409).send({ conflict: 'email' });
+			if (nameAlreadyUsed) return res.status(409).send({ conflict: 'name' });
 
-			const user_name = getUserName(user_email);
-
-			const newUser = await UserService.getInstance().createUser(user_email, encryptedPassword, user_name);
+			const newUser = await UserService.getInstance().createUser(userEmail, encryptedPassword, userName);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
-			res.redirect(process.env.FRONT_URL);
+
+			res.status(201).send({ msg: 'create user success' });
 		} catch (err) {
 			res.send(err);
 		}
@@ -33,7 +32,18 @@ const UserController = {
 		}
 	},
 	login(req: Request, res: Response) {
-		if (req.user === undefined) res.send('user not found');
+		if (req.user === undefined) res.status(401).send('user not found');
+		try {
+			const user = req.user as User;
+			const JWT = createJWT(user.user_id);
+			res.cookie('JWT', JWT);
+			res.status(200).send({ msg: 'login success' });
+		} catch (err) {
+			res.send(err);
+		}
+	},
+	githubLogin(req: Request, res: Response) {
+		if (req.user === undefined) res.status(401).send('error!');
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);

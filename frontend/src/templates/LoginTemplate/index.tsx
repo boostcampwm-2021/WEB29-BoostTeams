@@ -1,28 +1,31 @@
 import React from 'react';
-import styled from 'styled-components';
-import Login from '../../components/Login';
-import { ColorCode } from '../../utils/constants';
+import { Link } from 'react-router-dom';
+import { Logo, Input, BtnContainer, GithubButton, LoginButton, SignUpButton } from '../../components/Login';
+import { Container, Layout } from './style';
 
 interface Props {
+	localLoginHandler: () => void;
 	inputEmailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	inputPwHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	email: string;
-	pw: string;
 }
 
-const Layout = styled.div`
-	display: flex;
-	width: 100vw;
-	height: 100vh;
-	align-items: center;
-	justify-content: center;
-	background-color: ${ColorCode.PRIMARY1};
-`;
-
-const LoginTemplate: React.FC<Props> = ({ inputEmailHandler, inputPwHandler, email, pw }) => {
+const LoginTemplate: React.FC<Props> = ({ localLoginHandler, inputEmailHandler, inputPwHandler }) => {
 	return (
 		<Layout>
-			<Login inputEmailHandler={inputEmailHandler} inputPwHandler={inputPwHandler} email={email} pw={pw} />
+			<Container>
+				<Logo />
+				<Input type='email' placeholder='이메일을 입력' onChange={inputEmailHandler} />
+				<Input type='password' placeholder='비밀번호를 입력' onChange={inputPwHandler} />
+				<BtnContainer direction='column' gap='1rem'>
+					<BtnContainer direction='row' gap='2rem'>
+						<LoginButton localLoginHandler={localLoginHandler} />
+						<Link to='/signup'>
+							<SignUpButton />
+						</Link>
+					</BtnContainer>
+					<GithubButton />
+				</BtnContainer>
+			</Container>
 		</Layout>
 	);
 };
