@@ -118,8 +118,8 @@ export const Slider = styled.span`
 		position: absolute;
 		top: 2px;
 		left: 2px;
-		width: 1.3rem;
-		height: 1.3rem;
+		width: 1.2rem;
+		height: 1.2rem;
 		border-radius: 3rem;
 		transition: 0.2s;
 		background: ${ColorCode.WHITE};

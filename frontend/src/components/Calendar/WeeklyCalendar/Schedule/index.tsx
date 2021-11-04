@@ -12,12 +12,14 @@ interface ScheduleMapType {
 	title: string;
 	len: number;
 	start: number;
+	color: number;
 }
 
 const MSEC_TO_HOUR = 60000;
 const HALF_HOUR_TO_MIN = 30;
 const HOUR_TO_MIN = 60;
-const LINE_SPACE = 2.5 * 16 - 10;
+const LINE_SPACE_PX = 2.5 * 16;
+const EXTRA_SPACE_PX = 10;
 const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 const Schedule: React.FC<ScheduleProps> = ({ dateInfo }: ScheduleProps) => {
@@ -33,16 +35,16 @@ const Schedule: React.FC<ScheduleProps> = ({ dateInfo }: ScheduleProps) => {
 		return (endDate.getTime() - startDate.getTime()) / MSEC_TO_HOUR / HALF_HOUR_TO_MIN;
 	};
 
-	scheduleEx.forEach(({ title, start_date, end_date }) => {
+	scheduleEx.forEach(({ title, start_date, end_date, color }) => {
 		const day = start_date.getDay();
 		const len = getLenY(start_date, end_date);
 		const start = getStartY(start_date);
-		scheduleMap.get(day)?.push({ title, len, start });
+		scheduleMap.get(day)?.push({ title, len, start, color });
 	});
 
 	useEffect(() => {
 		const scrollY = getStartY(new Date());
-		containerRef.current?.scrollTo(0, scrollY * LINE_SPACE);
+		containerRef.current?.scrollTo(0, scrollY * LINE_SPACE_PX - EXTRA_SPACE_PX);
 
 		const timer = setInterval(() => {
 			setTime(new Date());

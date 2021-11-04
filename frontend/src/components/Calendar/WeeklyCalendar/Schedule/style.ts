@@ -64,5 +64,5 @@ export const CurrTimeLine = styled.hr<CurrTimeLineProps>`
 	border-style: dashed;
 	width: 100%;
 	margin: 0;
-	z-index: 3;
+	z-index: 10;
 `;

@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { ColorCode } from '../../../../utils/constants';
+import { Font } from '../../../../utils/constants';
 
 interface ContainerProps {
 	len: number;
 	start: number;
+	color: string;
+	borderColor: string;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -13,13 +15,13 @@ export const Container = styled.div<ContainerProps>`
 	right: 0;
 	height: ${(props) => `${(props.len * 2.5).toString()}rem`};
 	border-left: solid 4px;
-	border-color: ${ColorCode.PRIMARY1};
+	border-color: ${(props) => `${props.borderColor}`};
 	border-radius: 4px;
-	background-color: #e2e2f6;
+	background-color: ${(props) => `${props.color}`};
 	cursor: pointer;
 	span {
 		display: block;
 		padding: 0.5rem;
-		font-size: 0.9rem;
+		font-size: ${Font.SMALL};
 	}
 `;

@@ -1,7 +1,8 @@
 import React from 'react';
-import { DayWrapper, ContentContainer, WeekContainer, Schedule } from './style';
+import { DayWrapper, ContentContainer, WeekContainer, Schedule, DayNum } from './style';
 import { DateInfoType } from '../../dataStructure';
 import { scheduleEx } from '../../dataStructure';
+import { Palette } from '../../../../utils/constants';
 
 interface MonthContentProps {
 	dateInfo: DateInfoType;
@@ -62,10 +63,10 @@ const MonthContent: React.FC<MonthContentProps> = ({ dateInfo }: MonthContentPro
 					<WeekContainer>
 						{week.map((day, idx) => (
 							<DayWrapper className={idx === 0 ? 'sunday' : ''}>
-								{day !== 0 ? day : null}
-								{getScheduleByDay(day).map((e, idx) => {
+								{day !== 0 ? <DayNum>{day}</DayNum> : null}
+								{getScheduleByDay(day).map((e) => {
 									return (
-										<Schedule onClick={showModal} color='orange'>
+										<Schedule key={e.id} onClick={showModal} color={Palette[e.color]}>
 											{e.title}
 										</Schedule>
 									);

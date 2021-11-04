@@ -16,6 +16,40 @@ enum ColorCode {
 	RED = '#FF0000',
 	ORANGE = '#FFA500',
 	HOVER = '#6264a7',
+	MINT = '#92ddc8',
+	DARKMINT = '#0a3a2a',
+	BABYBLUE = '#C3E0E5',
+	DARKBLUE = '#274472',
+	YELLOW = '#0a3a2a',
+	DEEPYELLOW = '#FFA701',
+	BABYPINK = '#FCC7CF',
+	HOTPINK = '#D85678',
+	BABYGREEN = '#C5E89B',
+	DEEPGREEN = '#2B4D00',
 }
 
-export { ColorCode };
+enum Font {
+	LARGE = '1.5rem',
+	MEDIUM = '1rem',
+	SMALL = '0.9rem',
+	X_SMALL = '0.8rem',
+}
+
+// 0-5 primary color, 6-11 side color
+const Palette = [
+	ColorCode.PRIMARY2,
+	ColorCode.BABYPINK,
+	ColorCode.BABYGREEN,
+	ColorCode.MINT,
+	ColorCode.YELLOW,
+	ColorCode.BABYBLUE,
+
+	ColorCode.PRIMARY1,
+	ColorCode.HOTPINK,
+	ColorCode.DEEPGREEN,
+	ColorCode.DARKMINT,
+	ColorCode.DEEPYELLOW,
+	ColorCode.DARKBLUE,
+];
+
+export { ColorCode, Font, Palette };
