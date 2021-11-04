@@ -13,7 +13,7 @@ const LOCAL_CONFIG = {
 
 const localLoginCallback = async (user_email: string, encryptedPassword: string, callback) => {
 	const user = await UserService.getInstance().getUserByEmail(user_email);
-	const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
+	const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, process.env.REACT_APP_AES_KEY).toString();
 
 	if (!user) return callback(null, undefined, { reason: 'user does not exist' });
 

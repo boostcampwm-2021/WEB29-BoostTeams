@@ -10,7 +10,7 @@ dotenv.config();
 
 const App: React.FC = () => {
 	useEffect(() => {
-		const socket = socketIOClient(process.env.SERVER || 'http://localhost:4000');
+		const socket = socketIOClient(process.env.REACT_APP_SERVER || 'http://localhost:4000');
 		socket.connect();
 	}, []);
 
