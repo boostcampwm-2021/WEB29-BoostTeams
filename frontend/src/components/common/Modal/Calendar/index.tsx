@@ -1,36 +1,40 @@
 import React, { useState, MouseEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { Container } from './style';
+import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
 
-import CalendarForm from './form';
-import Button from './button';
+import ColorPicker from '../../ColorPicker';
+import DropDown from '../../DropDown';
+import Button from '../../Button';
 
-import { createNewSchedule, ScheduleData } from '../../../../apis/calendar';
+import { ColorCode } from '../../../../utils/constants';
+import { createNewSchedule } from '../../../../apis/calendar';
 
 interface Props {
 	initMode: string;
-	setIsModalVisible: any;
+	handleModalClose: any;
 }
 
-const CalendarModal: React.FC<Props> = ({ initMode, setIsModalVisible }) => {
-	// create / read
-	const [modalMode, setModalMode] = useState(initMode);
-	const titleElement = useRef<any>(null);
-	const startDateElement = useRef<any>(null);
-	const endDateElement = useRef<any>(null);
-	const repeatElement = useRef<any>(null);
-	const descriptionElement = useRef<any>(null);
-	const colorElement = useRef<any>(null);
+const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
+	const MODAL: Element = document.getElementById('modal')!;
+	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
-	const getScheduleData = (): ScheduleData => {
+	const [modalMode, setModalMode] = useState(initMode); // create / read
+	const [selectedColor, setSelectedColor] = useState<number>(0);
+	const [selectedRepeat, setSelectedRepeat] = useState<string>(repeatOptions[0]);
+
+	const titleRef = useRef<HTMLInputElement>(null);
+	const dateRef = useRef<HTMLInputElement>(null);
+	const startTimeRef = useRef<HTMLInputElement>(null);
+	const endTimeRef = useRef<HTMLInputElement>(null);
+	const descriptionRef = useRef<any>(null);
+
+	const getScheduleData = (): any => {
 		return {
-			title: titleElement.current.value,
-			start_date: startDateElement.current.value,
-			end_date: endDateElement.current.value,
-			repeat_id: repeatElement.current.value,
-			content: descriptionElement.current.value,
-			color: colorElement.current.value,
+			title: titleRef.current?.value,
+			start_date: startTimeRef.current?.value,
+			end_date: endTimeRef.current?.value,
+			content: descriptionRef.current.value,
 		};
 	};
 
@@ -46,19 +50,31 @@ const CalendarModal: React.FC<Props> = ({ initMode, setIsModalVisible }) => {
 	// 	const formData = new FormData(e.target);
 	// 	console.log(formData);
 	// };
-	const MODAL: Element = document.getElementById('modal')!;
 
 	return createPortal(
 		<Container>
-			<CalendarForm
-				titleElement={titleElement}
-				startDateElement={startDateElement}
-				endDateElement={endDateElement}
-				repeatElement={repeatElement}
-				descriptionElement={descriptionElement}
-				colorElement={colorElement}
-			/>
-			<Button modalMode={modalMode} handleSubmit={handleSubmit} setIsModalVisible={setIsModalVisible} />
+			<FormContainer>
+				<TitleContainer>
+					<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+					<input ref={titleRef} placeholder='제목을 입력해 주세요.' />
+				</TitleContainer>
+				<TimeContainer>
+					<input ref={dateRef} type='date' />
+					<input ref={startTimeRef} type='time' />
+					<span>~</span>
+					<input ref={endTimeRef} type='time' />
+				</TimeContainer>
+				<DropDown options={repeatOptions} selectedRepeat={selectedRepeat} setSelectedOption={setSelectedRepeat} />
+				<textarea ref={descriptionRef} placeholder='설명을 입력해 주세요' />
+			</FormContainer>
+			<ButtonContainer>
+				{modalMode === 'create' ? (
+					<Button text='저장' handler={handleSubmit} backgroundColor={ColorCode.PRIMARY1} fontColor={ColorCode.WHITE} />
+				) : (
+					''
+				)}
+				<Button text='취소' handler={handleModalClose} backgroundColor={ColorCode.WHITE} fontColor={ColorCode.BLACK} />
+			</ButtonContainer>
 		</Container>,
 		MODAL,
 	);

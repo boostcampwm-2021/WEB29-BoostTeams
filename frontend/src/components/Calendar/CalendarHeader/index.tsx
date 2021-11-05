@@ -20,15 +20,14 @@ interface CalendarHeaderProps {
 	dateInfo: DateInfoType;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({
-	changeCalendar,
-	isMonthly,
-	dateInfo,
-}: CalendarHeaderProps) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, isMonthly, dateInfo }) => {
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-	const openModal = () => {
-		setIsModalVisible(isModalVisible ? !isModalVisible : !isModalVisible);
+	const handleModalOpen = () => {
+		setIsModalVisible(true);
+	};
+	const handleModalClose = () => {
+		setIsModalVisible(false);
 	};
 
 	return (
@@ -50,12 +49,12 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 					<Slider />
 				</ToggleBtnWrapper>
 				<ConvertCalenderBtn onClick={changeCalendar}>{isMonthly ? '주간' : '월간'}</ConvertCalenderBtn>
-				<NewAppointmentBtn onClick={openModal}>
+				<NewAppointmentBtn onClick={handleModalOpen}>
 					<FaPlus />
 					<span>새 모임</span>
 				</NewAppointmentBtn>
 			</ButtonContainer>
-			{isModalVisible && <CalendarModal initMode='create' setIsModalVisible={setIsModalVisible} />}
+			{isModalVisible && <CalendarModal initMode='create' handleModalClose={handleModalClose} />}
 		</Container>
 	);
 };
