@@ -1,12 +1,12 @@
 import React, { useState, MouseEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
-
+import { FaTrashAlt } from 'react-icons/fa';
 import ColorPicker from '../../ColorPicker';
 import DropDown from '../../DropDown';
 import Button from '../../Button';
 
+import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer, DeleteButtonWrapper } from './style';
 import { ColorCode } from '../../../../utils/constants';
 import { createNewSchedule } from '../../../../apis/calendar';
 
@@ -71,9 +71,11 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 				{modalMode === 'create' ? (
 					<Button text='저장' handler={handleSubmit} backgroundColor={ColorCode.PRIMARY1} fontColor={ColorCode.WHITE} />
 				) : (
-					''
+					<DeleteButtonWrapper>
+						<FaTrashAlt />
+					</DeleteButtonWrapper>
 				)}
-				<Button text='취소' handler={handleModalClose} backgroundColor={ColorCode.WHITE} fontColor={ColorCode.BLACK} />
+				<Button text='닫기' handler={handleModalClose} backgroundColor={ColorCode.WHITE} fontColor={ColorCode.BLACK} />
 			</ButtonContainer>
 		</Container>,
 		MODAL,

@@ -64,3 +64,18 @@ export const ButtonContainer = styled.div`
 		margin-left: 1rem;
 	}
 `;
+
+export const DeleteButtonWrapper = styled.button`
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+	border: transparent;
+	background-color: transparent;
+	padding: 0;
+	svg {
+		color: ${ColorCode.LINE3};
+		cursor: pointer;
+		width: 1.2rem;
+		height: 1.2rem;
+	}
+`;
