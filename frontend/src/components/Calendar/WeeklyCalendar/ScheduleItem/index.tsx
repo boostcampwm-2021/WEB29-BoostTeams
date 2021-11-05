@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from './style';
-import { Palette } from '../../../../utils/constants';
+import { PrimaryPalette, SecondaryPalette } from '../../../../utils/constants';
 
 interface ScheduleItemProps {
 	scheduleInfo: { title: string; len: number; start: number; color: number };
@@ -11,8 +11,8 @@ const ScheduleItem: React.FC<ScheduleItemProps> = ({ scheduleInfo }) => {
 		<Container
 			len={scheduleInfo.len}
 			start={scheduleInfo.start}
-			color={Palette[scheduleInfo.color]}
-			borderColor={Palette[scheduleInfo.color + 6]}
+			color={PrimaryPalette[scheduleInfo.color]}
+			borderColor={SecondaryPalette[scheduleInfo.color]}
 		>
 			<span>{scheduleInfo.title}</span>
 		</Container>

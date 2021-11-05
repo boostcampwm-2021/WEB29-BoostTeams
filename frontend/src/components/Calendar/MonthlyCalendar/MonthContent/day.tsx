@@ -1,6 +1,6 @@
 import React from 'react';
 import { DayWrapper, Schedule, DayNum } from './style';
-import { Palette } from '../../../../utils/constants';
+import { PrimaryPalette } from '../../../../utils/constants';
 
 interface DayProps {
 	day: number;
@@ -22,7 +22,7 @@ const Week: React.FC<DayProps> = ({ day, idx, schedules }: DayProps) => {
 			{day !== 0 ? <DayNum>{day}</DayNum> : null}
 			{getScheduleByDay(day).map((e) => {
 				return (
-					<Schedule onClick={showModal} color={Palette[e.color]}>
+					<Schedule onClick={showModal} color={PrimaryPalette[e.color]}>
 						{e.title}
 					</Schedule>
 				);

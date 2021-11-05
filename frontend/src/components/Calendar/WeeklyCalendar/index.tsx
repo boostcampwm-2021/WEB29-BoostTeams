@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from './style';
 import WeekHeader from './WeekHeader';
-import Schedule from './Schedule';
+import WeekContent from './WeekContent';
 import { DateInfoType } from '../dataStructure';
 
 interface WeeklyCalendarProps {
@@ -13,7 +13,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ dateInfo, schedules }: 
 	return (
 		<Container>
 			<WeekHeader dateInfo={dateInfo} />
-			<Schedule dateInfo={dateInfo} schedules={schedules} />
+			<WeekContent dateInfo={dateInfo} schedules={schedules} />
 		</Container>
 	);
 };
