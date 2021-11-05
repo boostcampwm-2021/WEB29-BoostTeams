@@ -64,7 +64,7 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 					<span>~</span>
 					<input ref={endTimeRef} type='time' />
 				</TimeContainer>
-				<DropDown options={repeatOptions} selectedRepeat={selectedRepeat} setSelectedOption={setSelectedRepeat} />
+				<DropDown options={repeatOptions} selectedOption={selectedRepeat} setSelectedOption={setSelectedRepeat} />
 				<textarea ref={descriptionRef} placeholder='설명을 입력해 주세요' />
 			</FormContainer>
 			<ButtonContainer>

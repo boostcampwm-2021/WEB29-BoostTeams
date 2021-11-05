@@ -6,11 +6,11 @@ import { Container, OptionsWrapper } from './style';
 
 interface Props {
 	options: string[];
-	selectedRepeat: string;
+	selectedOption: string;
 	setSelectedOption: any;
 }
 
-const DropDown: React.FC<Props> = ({ options, selectedRepeat, setSelectedOption }) => {
+const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {
 	const [dropDownOpen, setDropDownOpen] = useState<boolean>(false);
 
 	const handleDropDownOpen = () => {
@@ -24,7 +24,7 @@ const DropDown: React.FC<Props> = ({ options, selectedRepeat, setSelectedOption 
 	return (
 		<Container>
 			<div onClick={handleDropDownOpen}>
-				<span>{selectedRepeat}</span>
+				<span>{selectedOption}</span>
 				<FaSortDown />
 			</div>
 			{dropDownOpen && (
