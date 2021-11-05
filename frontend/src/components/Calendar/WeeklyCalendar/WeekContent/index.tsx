@@ -4,7 +4,7 @@ import { Container, TimeContainer, DaysContainer, DayContainer, DayBox, CurrTime
 import { DateInfoType } from '../../dataStructure';
 import ScheduleItem from '../ScheduleItem';
 
-interface ScheduleProps {
+interface Props {
 	dateInfo: DateInfoType;
 	schedules: any[];
 }
@@ -23,7 +23,7 @@ const LINE_SPACE_PX = 2.5 * 16;
 const EXTRA_SPACE_PX = 10;
 const timeList: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-const Schedule: React.FC<ScheduleProps> = ({ dateInfo, schedules }: ScheduleProps) => {
+const Schedule: React.FC<Props> = ({ dateInfo, schedules }) => {
 	const [time, setTime] = useState(new Date());
 	const containerRef = useRef<HTMLDivElement>(null);
 	const scheduleMap: Map<number, ScheduleMapType[]> = new Map([...Array(7)].map((v, i) => [i, []]));

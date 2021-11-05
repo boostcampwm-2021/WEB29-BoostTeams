@@ -2,11 +2,11 @@ import React from 'react';
 import { Container } from './style';
 import { PrimaryPalette, SecondaryPalette } from '../../../../utils/constants';
 
-interface ScheduleItemProps {
+interface Props {
 	scheduleInfo: { title: string; len: number; start: number; color: number };
 }
 
-const ScheduleItem: React.FC<ScheduleItemProps> = ({ scheduleInfo }) => {
+const ScheduleItem: React.FC<Props> = ({ scheduleInfo }) => {
 	return (
 		<Container
 			len={scheduleInfo.len}

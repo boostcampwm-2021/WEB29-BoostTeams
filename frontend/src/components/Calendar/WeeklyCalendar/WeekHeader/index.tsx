@@ -12,11 +12,11 @@ enum DayCode {
 	'토요일' = 6,
 }
 
-interface WeekHeaderProps {
+interface Props {
 	dateInfo: DateInfoType;
 }
 
-const WeekHeader: React.FC<WeekHeaderProps> = ({ dateInfo }: WeekHeaderProps) => {
+const WeekHeader: React.FC<Props> = ({ dateInfo }) => {
 	const dayInfo = [...Array(7)].map((v, i) => {
 		const tDay = new Date(dateInfo.startDate.valueOf());
 		tDay.setDate(tDay.getDate() + i);
