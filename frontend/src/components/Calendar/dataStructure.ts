@@ -13,5 +13,4 @@ export interface ScheduleType {
 	repeat_id: number;
 	content: string;
 	color: number;
-	team: any;
 }

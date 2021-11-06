@@ -29,8 +29,8 @@ const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption 
 			</div>
 			{dropDownOpen && (
 				<OptionsWrapper>
-					{options.map((option) => (
-						<div key={option} data-option={option} onClick={handleOptionClick}>
+					{options.map((option, i) => (
+						<div key={option} data-option={i} onClick={handleOptionClick}>
 							{option}
 						</div>
 					))}

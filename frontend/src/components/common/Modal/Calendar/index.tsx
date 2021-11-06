@@ -1,5 +1,8 @@
+/* eslint-disable camelcase */
 import React, { useState, MouseEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 import { FaTrashAlt } from 'react-icons/fa';
 import ColorPicker from '../../ColorPicker';
@@ -8,7 +11,7 @@ import Button from '../../Button';
 
 import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer, DeleteButtonWrapper } from './style';
 import { ColorCode } from '../../../../utils/constants';
-import { createNewSchedule } from '../../../../apis/calendar';
+import { createNewSchedule, ScheduleDataType } from '../../../../apis/calendar';
 
 interface Props {
 	initMode: string;
@@ -21,35 +24,48 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 
 	const [modalMode, setModalMode] = useState(initMode); // create / read
 	const [selectedColor, setSelectedColor] = useState<number>(0);
-	const [selectedRepeat, setSelectedRepeat] = useState<string>(repeatOptions[0]);
+	const [selectedRepeat, setSelectedRepeat] = useState<number>(0);
 
 	const titleRef = useRef<HTMLInputElement>(null);
 	const dateRef = useRef<HTMLInputElement>(null);
 	const startTimeRef = useRef<HTMLInputElement>(null);
 	const endTimeRef = useRef<HTMLInputElement>(null);
-	const descriptionRef = useRef<any>(null);
+	const contentRef = useRef<HTMLTextAreaElement>(null);
 
-	const getScheduleData = (): any => {
+	const getScheduleData = (): ScheduleDataType => {
 		return {
+			color: selectedColor,
 			title: titleRef.current?.value,
-			start_date: startTimeRef.current?.value,
-			end_date: endTimeRef.current?.value,
-			content: descriptionRef.current.value,
+			start_date: moment(`${dateRef.current?.value} ${startTimeRef.current?.value}`, 'YYYY-MM-DD hh:mm').toString(),
+			end_date: moment(`${dateRef.current?.value} ${endTimeRef.current?.value}`, 'YYYY-MM-DD hh:mm').toString(),
+			repeat_id: selectedRepeat,
+			content: contentRef.current?.value,
 		};
 	};
 
-	const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		const newScheduleData = getScheduleData();
-		// 현재 접속중인 team의 id는 어디에 저장 (recoil?)
-		// team_id / newScheduleData
-		createNewSchedule(1, newScheduleData);
+	const validateSchedule = (newScheduleData: ScheduleDataType): boolean => {
+		const { title, content, start_date, end_date } = newScheduleData;
+		if (!title) {
+			toast.warn('😮 제목을 입력해주세요!');
+			return false;
+		}
+		if (!content) {
+			toast.warn('😮 설명을 입력해주세요!');
+			return false;
+		}
+		if (new Date(start_date) >= new Date(end_date)) {
+			toast.warn('😮 시작과 끝 시간이 올바르지 않습니다!');
+			return false;
+		}
+		return true;
 	};
-	// const createSchedule = (e: any) => {
-	// 	e.preventDefault();
-	// 	const formData = new FormData(e.target);
-	// 	console.log(formData);
-	// };
+
+	const handleSubmit = async () => {
+		const newScheduleData = getScheduleData();
+		if (validateSchedule(newScheduleData)) {
+			createNewSchedule(1, newScheduleData); // team_id / newScheduleData (현재 접속중인 team의 id는 어디에 저장 (recoil?))
+		}
+	};
 
 	return createPortal(
 		<Container>
@@ -64,8 +80,12 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 					<span>~</span>
 					<input ref={endTimeRef} type='time' />
 				</TimeContainer>
-				<DropDown options={repeatOptions} selectedOption={selectedRepeat} setSelectedOption={setSelectedRepeat} />
-				<textarea ref={descriptionRef} placeholder='설명을 입력해 주세요' />
+				<DropDown
+					options={repeatOptions}
+					selectedOption={repeatOptions[selectedRepeat]}
+					setSelectedOption={setSelectedRepeat}
+				/>
+				<textarea ref={contentRef} placeholder='설명을 입력해 주세요' />
 			</FormContainer>
 			<ButtonContainer>
 				{modalMode === 'create' ? (
