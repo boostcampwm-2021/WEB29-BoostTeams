@@ -2,24 +2,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Container, TimeContainer, DaysContainer, DayContainer, DayBox, CurrTimeLine } from './style';
-import { DateInfoType, weekContentNumber } from '../../dataStructure';
+import { DateInfoType, weekContentNumber, ScheduleType } from '../../dataStructure';
 import ScheduleItem from '../ScheduleItem';
 
 interface Props {
 	dateInfo: DateInfoType;
-	schedules: any[];
+	schedules: ScheduleType[];
+	handleModalOpen: () => void;
 }
 
 const { MSEC_TO_HOUR, HALF_HOUR_TO_MIN, HOUR_TO_MIN, LINE_SPACE_PX, EXTRA_SPACE_PX, TIME_LIST } = weekContentNumber;
 
-const Schedule: React.FC<Props> = ({ dateInfo, schedules }) => {
+const Schedule: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => {
 	const [time, setTime] = useState<Date>(new Date());
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const getStartY = (date: Date) => {
 		return (date.getHours() * HOUR_TO_MIN + date.getMinutes()) / HALF_HOUR_TO_MIN;
 	};
-
 	const getLenY = (startDate: Date, endDate: Date) => {
 		return (endDate.getTime() - startDate.getTime()) / MSEC_TO_HOUR / HALF_HOUR_TO_MIN;
 	};
@@ -64,6 +64,7 @@ const Schedule: React.FC<Props> = ({ dateInfo, schedules }) => {
 									schedule={schedule}
 									start={getStartY(new Date(schedule.start_date))}
 									len={getLenY(new Date(schedule.start_date), new Date(schedule.end_date))}
+									handleModalOpen={handleModalOpen}
 								/>
 							))}
 					</DayContainer>

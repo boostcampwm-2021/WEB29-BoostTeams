@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
-import CalendarModal from '../../common/Modal/Calendar';
+import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 import {
 	Container,
 	InfoContainer,
@@ -16,18 +17,19 @@ import { DateInfoType } from '../dataStructure';
 
 interface CalendarHeaderProps {
 	changeCalendar: () => void;
+	handleModalOpen: () => void;
 	isMonthly: boolean;
 	dateInfo: DateInfoType;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, isMonthly, dateInfo }) => {
-	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, handleModalOpen, isMonthly, dateInfo }) => {
+	const setModalMode = useSetRecoilState(ModalMode);
+	const resetModalSchedule = useResetRecoilState(ModalSchedule);
 
-	const handleModalOpen = () => {
-		setIsModalVisible(true);
-	};
-	const handleModalClose = () => {
-		setIsModalVisible(false);
+	const handleCreateModalOpen = () => {
+		resetModalSchedule();
+		setModalMode({ mode: 'create' });
+		handleModalOpen();
 	};
 
 	return (
@@ -49,12 +51,11 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, isMonth
 					<Slider />
 				</ToggleBtnWrapper>
 				<ConvertCalenderBtn onClick={changeCalendar}>{isMonthly ? '주간' : '월간'}</ConvertCalenderBtn>
-				<NewAppointmentBtn onClick={handleModalOpen}>
+				<NewAppointmentBtn onClick={handleCreateModalOpen}>
 					<FaPlus />
 					<span>새 모임</span>
 				</NewAppointmentBtn>
 			</ButtonContainer>
-			{isModalVisible && <CalendarModal initMode='create' handleModalClose={handleModalClose} />}
 		</Container>
 	);
 };

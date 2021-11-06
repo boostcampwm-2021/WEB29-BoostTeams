@@ -7,13 +7,18 @@ import { DateInfoType } from '../dataStructure';
 interface WeeklyCalendarProps {
 	dateInfo: DateInfoType;
 	schedules: any[];
+	handleModalOpen: () => void;
 }
 
-const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ dateInfo, schedules }: WeeklyCalendarProps) => {
+const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
+	dateInfo,
+	schedules,
+	handleModalOpen,
+}: WeeklyCalendarProps) => {
 	return (
 		<Container>
 			<WeekHeader dateInfo={dateInfo} />
-			<WeekContent dateInfo={dateInfo} schedules={schedules} />
+			<WeekContent dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
 		</Container>
 	);
 };

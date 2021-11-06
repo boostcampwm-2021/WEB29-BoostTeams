@@ -8,8 +8,8 @@ export interface DateInfoType {
 export interface ScheduleType {
 	schedule_id: number;
 	title: string;
-	start_date: Date;
-	end_date: Date;
+	start_date: string;
+	end_date: string;
 	repeat_id: number;
 	content: string;
 	color: number;
