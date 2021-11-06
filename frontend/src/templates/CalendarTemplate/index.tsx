@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { getFirstDate, getLastDate } from '../../utils/calendar';
+import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '../../utils/calendar';
 import { useDate } from '../../hooks/schedule';
 import UserState from '../../stores/user';
 import { getSchedules } from '../../apis/schedule';
@@ -33,9 +33,23 @@ const Calendar: React.FC = () => {
 	const handleModalClose = () => setIsModalVisible(false);
 	const changeCalendar = () => setIsMonthly(!isMonthly);
 
+	const changeToCurrDate = () => {
+		setDateInfo(getCurrDateInfo());
+	};
+	const changeToPrevDate = () => {
+		const { year, month, weeklyStartDate } = dateInfo;
+		const type = isMonthly ? 'monthly' : 'weekly';
+		setDateInfo(getPrevDateInfo(year, month, weeklyStartDate, type));
+	};
+	const changeToNextDate = () => {
+		const { year, month, weeklyStartDate } = dateInfo;
+		const type = isMonthly ? 'monthly' : 'weekly';
+		setDateInfo(getNextDateInfo(year, month, weeklyStartDate, type));
+	};
+
 	useEffect(() => {
 		fetchSchedules();
-	}, []);
+	}, [dateInfo]);
 
 	return (
 		<Layout>
@@ -44,6 +58,9 @@ const Calendar: React.FC = () => {
 				<Navbar />
 				<CalendarContainer>
 					<CalendarHeader
+						changeToCurrDate={changeToCurrDate}
+						changeToPrevDate={changeToPrevDate}
+						changeToNextDate={changeToNextDate}
 						changeCalendar={changeCalendar}
 						handleModalOpen={handleModalOpen}
 						isMonthly={isMonthly}

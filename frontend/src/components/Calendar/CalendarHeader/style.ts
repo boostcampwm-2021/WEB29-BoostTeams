@@ -23,6 +23,7 @@ export const InfoContainer = styled.div`
 	width: 13rem;
 	font-size: 0.9rem;
 	svg {
+		cursor: pointer;
 		&:hover {
 			color: ${ColorCode.HOVER};
 		}
@@ -40,6 +41,7 @@ export const ButtonContainer = styled.div`
 export const TodayBtn = styled.button`
 	border: none;
 	background-color: transparent;
+	cursor: pointer;
 	span {
 		padding-left: 0.3rem;
 		font-size: 0.9rem;

@@ -16,13 +16,24 @@ import {
 import { DateInfoType } from '../dataStructure';
 
 interface CalendarHeaderProps {
+	changeToCurrDate: () => void;
+	changeToPrevDate: () => void;
+	changeToNextDate: () => void;
 	changeCalendar: () => void;
 	handleModalOpen: () => void;
 	isMonthly: boolean;
 	dateInfo: DateInfoType;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, handleModalOpen, isMonthly, dateInfo }) => {
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+	changeToCurrDate,
+	changeToPrevDate,
+	changeToNextDate,
+	changeCalendar,
+	handleModalOpen,
+	isMonthly,
+	dateInfo,
+}) => {
 	const setModalMode = useSetRecoilState(ModalMode);
 	const resetModalSchedule = useResetRecoilState(ModalSchedule);
 
@@ -35,15 +46,15 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({ changeCalendar, handleM
 	return (
 		<Container>
 			<InfoContainer>
-				<TodayBtn>
+				<TodayBtn onClick={changeToCurrDate}>
 					<FaCalendarAlt />
 					<span>오늘</span>
 				</TodayBtn>
-				<FaChevronLeft />
+				<FaChevronLeft onClick={changeToPrevDate} />
 				<span>
 					{dateInfo.year}년 {dateInfo.month}월
 				</span>
-				<FaChevronRight />
+				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>
 				<ToggleBtnWrapper>
