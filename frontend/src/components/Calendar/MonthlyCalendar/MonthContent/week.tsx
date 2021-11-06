@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { WeekContainer } from './style';
 import Day from './day';
 
@@ -11,7 +12,7 @@ const Week: React.FC<WeekProps> = ({ week, schedules }: WeekProps) => {
 	return (
 		<WeekContainer>
 			{week.map((day, idx) => (
-				<Day key={day} day={day} idx={idx} schedules={schedules} />
+				<Day key={uuidv4()} day={day} idx={idx} schedules={schedules} />
 			))}
 		</WeekContainer>
 	);

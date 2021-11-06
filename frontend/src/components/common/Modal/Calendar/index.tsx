@@ -77,6 +77,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
 			createNewSchedule(1, newScheduleData);
+			handleModalClose();
 		}
 	};
 

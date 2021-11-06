@@ -22,7 +22,7 @@ const Week: React.FC<DayProps> = ({ day, idx, schedules }: DayProps) => {
 			{day !== 0 ? <DayNum>{day}</DayNum> : null}
 			{getScheduleByDay(day).map((e) => {
 				return (
-					<Schedule onClick={showModal} color={PrimaryPalette[e.color]}>
+					<Schedule key={e.schedule_id} onClick={showModal} color={PrimaryPalette[e.color]}>
 						{e.title}
 					</Schedule>
 				);
