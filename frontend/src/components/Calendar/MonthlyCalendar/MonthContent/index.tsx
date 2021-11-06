@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { ContentContainer } from './style';
 import { DateInfoType } from '../../dataStructure';
 import Week from './week';
@@ -48,8 +49,8 @@ const MonthContent: React.FC<Props> = ({ dateInfo, schedules }) => {
 	};
 	return (
 		<ContentContainer>
-			{generateDays(firstDay, lastDay).map((week) => (
-				<Week week={week} schedules={schedules} />
+			{generateDays(firstDay, lastDay).map((week, i) => (
+				<Week key={uuidv4()} week={week} schedules={schedules} />
 			))}
 		</ContentContainer>
 	);

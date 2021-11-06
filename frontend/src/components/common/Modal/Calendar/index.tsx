@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useState, MouseEvent, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
@@ -11,7 +11,7 @@ import Button from '../../Button';
 
 import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer, DeleteButtonWrapper } from './style';
 import { ColorCode } from '../../../../utils/constants';
-import { createNewSchedule, ScheduleDataType } from '../../../../apis/calendar';
+import { createNewSchedule, ScheduleReqType } from '../../../../apis/schedule';
 
 interface Props {
 	initMode: string;
@@ -32,7 +32,7 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 	const endTimeRef = useRef<HTMLInputElement>(null);
 	const contentRef = useRef<HTMLTextAreaElement>(null);
 
-	const getScheduleData = (): ScheduleDataType => {
+	const getScheduleData = (): ScheduleReqType => {
 		return {
 			color: selectedColor,
 			title: titleRef.current?.value,
@@ -43,7 +43,7 @@ const CalendarModal: React.FC<Props> = ({ initMode, handleModalClose }) => {
 		};
 	};
 
-	const validateSchedule = (newScheduleData: ScheduleDataType): boolean => {
+	const validateSchedule = (newScheduleData: ScheduleReqType): boolean => {
 		const { title, content, start_date, end_date } = newScheduleData;
 		if (!title) {
 			toast.warn('😮 제목을 입력해주세요!');
