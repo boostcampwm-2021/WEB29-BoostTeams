@@ -14,8 +14,8 @@ export const getCurrDateInfo = () => {
 	return { year: moment().year(), month: moment().month() + 1, weeklyStartDate: date };
 };
 
-export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Date, type: string) => {
-	if (type === 'monthly') {
+export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Date, isMonthly: boolean) => {
+	if (isMonthly) {
 		const date = moment([year, month - 1, 1]).subtract(1, 'months');
 		return { year: date.year(), month: date.month() + 1, weeklyStartDate };
 	}
@@ -23,8 +23,8 @@ export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Da
 	return { year: date.year(), month: date.month() + 1, weeklyStartDate: date.toDate() };
 };
 
-export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Date, type: string) => {
-	if (type === 'monthly') {
+export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Date, isMonthly: boolean) => {
+	if (isMonthly) {
 		const date = moment([year, month - 1, 1]).add(1, 'months');
 		return { year: date.year(), month: date.month() + 1, weeklyStartDate };
 	}

@@ -32,6 +32,7 @@ export const Schedule = styled.div<ScheduleProps>`
 	background-color: ${(props) => props.color || ColorCode.ORANGE};
 	padding: 0.5rem;
 	margin: 0.3rem 0;
+	color: ${ColorCode.BLACK};
 `;
 
 export const WeekContainer = styled.div`

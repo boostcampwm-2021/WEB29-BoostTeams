@@ -7,9 +7,10 @@ import Week from './week';
 interface Props {
 	dateInfo: DateInfoType;
 	schedules: any[];
+	handleModalOpen: () => void;
 }
 
-const MonthContent: React.FC<Props> = ({ dateInfo, schedules }) => {
+const MonthContent: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => {
 	const getFirstDay = (month: number, year: number): number => new Date(`${year}-${month}-01`).getDay();
 	const firstDay = getFirstDay(dateInfo.month, dateInfo.year);
 	const lastDay = new Date(dateInfo.year, dateInfo.month, 0).getDate();
@@ -50,7 +51,7 @@ const MonthContent: React.FC<Props> = ({ dateInfo, schedules }) => {
 	return (
 		<ContentContainer>
 			{generateDays(firstDay, lastDay).map((week, i) => (
-				<Week key={uuidv4()} week={week} schedules={schedules} />
+				<Week key={uuidv4()} week={week} schedules={schedules} handleModalOpen={handleModalOpen} />
 			))}
 		</ContentContainer>
 	);

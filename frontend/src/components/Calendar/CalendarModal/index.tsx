@@ -1,26 +1,24 @@
 /* eslint-disable camelcase */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { createPortal } from 'react-dom';
+
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { FaTrashAlt } from 'react-icons/fa';
-import { ModalMode, ModalSchedule } from '../../../../stores/calendar';
+import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 
-import ColorPicker from '../../ColorPicker';
-import DropDown from '../../DropDown';
-import Button from '../../Button';
+import ColorPicker from '../../common/ColorPicker';
+import DropDown from '../../common/DropDown';
+import Modal from '../../common/Modal';
 
-import { Container, FormContainer, TitleContainer, TimeContainer, ButtonContainer, DeleteButtonWrapper } from './style';
-import { ColorCode } from '../../../../utils/constants';
-import { strToFormatString } from '../../../../utils/calendar';
-import { createNewSchedule, ScheduleReqType } from '../../../../apis/schedule';
+import { FormContainer, TitleContainer, TimeContainer, DeleteButtonWrapper } from './style';
+import { strToFormatString } from '../../../utils/calendar';
+import { createNewSchedule, ScheduleReqType } from '../../../apis/schedule';
 
 interface Props {
 	handleModalClose: () => void;
 }
-
 interface InputScheduleType {
 	title: string;
 	date: string;
@@ -30,7 +28,6 @@ interface InputScheduleType {
 }
 
 const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
-	const MODAL: Element = document.getElementById('modal')!;
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
 	const modalMode = useRecoilValue(ModalMode).mode;
@@ -94,8 +91,8 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
 		});
 	}, [modalMode, modalSchedule]);
 
-	return createPortal(
-		<Container>
+	return (
+		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={modalMode === 'read'}>
 			<FormContainer>
 				<TitleContainer>
 					<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
@@ -113,19 +110,12 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
 					setSelectedOption={setSelectedRepeat}
 				/>
 				<textarea ref={contentRef} defaultValue={inputSchedule?.content} placeholder='설명을 입력해 주세요' />
+				<DeleteButtonWrapper>
+					<FaTrashAlt />
+				</DeleteButtonWrapper>
 			</FormContainer>
-			<ButtonContainer>
-				{modalMode === 'create' ? (
-					<Button text='저장' handler={handleSubmit} backgroundColor={ColorCode.PRIMARY1} fontColor={ColorCode.WHITE} />
-				) : (
-					<DeleteButtonWrapper>
-						<FaTrashAlt />
-					</DeleteButtonWrapper>
-				)}
-				<Button text='닫기' handler={handleModalClose} backgroundColor={ColorCode.WHITE} fontColor={ColorCode.BLACK} />
-			</ButtonContainer>
-		</Container>,
-		MODAL,
+		</Modal>
 	);
 };
+
 export default CalendarModal;

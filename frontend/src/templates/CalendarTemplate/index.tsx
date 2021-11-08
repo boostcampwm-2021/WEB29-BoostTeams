@@ -11,7 +11,7 @@ import { Header, Navbar } from '../../components/common';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
 import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
-import CalendarModal from '../../components/common/Modal/Calendar';
+import CalendarModal from '../../components/Calendar/CalendarModal';
 import { Layout, MainContainer, CalendarContainer } from './style';
 
 const Calendar: React.FC = () => {
@@ -33,23 +33,25 @@ const Calendar: React.FC = () => {
 	const handleModalClose = () => setIsModalVisible(false);
 	const changeCalendar = () => setIsMonthly(!isMonthly);
 
-	const changeToCurrDate = () => {
-		setDateInfo(getCurrDateInfo());
-	};
+	const changeToCurrDate = () => setDateInfo(getCurrDateInfo());
 	const changeToPrevDate = () => {
 		const { year, month, weeklyStartDate } = dateInfo;
-		const type = isMonthly ? 'monthly' : 'weekly';
-		setDateInfo(getPrevDateInfo(year, month, weeklyStartDate, type));
+		setDateInfo(getPrevDateInfo(year, month, weeklyStartDate, isMonthly));
 	};
 	const changeToNextDate = () => {
 		const { year, month, weeklyStartDate } = dateInfo;
-		const type = isMonthly ? 'monthly' : 'weekly';
-		setDateInfo(getNextDateInfo(year, month, weeklyStartDate, type));
+		setDateInfo(getNextDateInfo(year, month, weeklyStartDate, isMonthly));
 	};
+	// 월 -> 주 넘어갈 때 그 월의 첫째주를 보여준다?
+	// 원래 10월 24일이 startdate인 주를 보고 있었는데
+	// 월로 넘긴 다음에 11월로 바꾸고 다시 주로 돌아온다면
+	// 11월 첫째주가 보여지는데..
+	// year: month: weeklyStartDate: 첫째주의 일요일 date
 
 	useEffect(() => {
+		console.log('fetch schedules');
 		fetchSchedules();
-	}, [dateInfo]);
+	}, [dateInfo, isMonthly]);
 
 	return (
 		<Layout>
@@ -67,7 +69,7 @@ const Calendar: React.FC = () => {
 						dateInfo={dateInfo}
 					/>
 					{isMonthly ? (
-						<MonthlyCalendar dateInfo={dateInfo} schedules={schedules} />
+						<MonthlyCalendar dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
 					) : (
 						<WeeklyCalendar dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
 					)}
