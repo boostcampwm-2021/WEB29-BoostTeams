@@ -13,7 +13,7 @@ interface Props {
 	removeSubmitButton: boolean;
 }
 
-const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton }) => {
+const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton = false }) => {
 	const MODAL: Element = document.getElementById('modal')!;
 
 	return createPortal(

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { toast } from 'react-toastify';
+import { ScheduleType } from '../components/Calendar/dataStructure';
 import fetchApi from '../utils/fetch';
 
 export interface ScheduleReqType {

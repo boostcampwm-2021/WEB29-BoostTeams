@@ -15,9 +15,11 @@ import Modal from '../../common/Modal';
 import { FormContainer, TitleContainer, TimeContainer, DeleteButtonWrapper } from './style';
 import { strToFormatString } from '../../../utils/calendar';
 import { createNewSchedule, ScheduleReqType } from '../../../apis/schedule';
+import { ScheduleType } from '../dataStructure';
 
 interface Props {
 	handleModalClose: () => void;
+	updateSchedule: (newSchedule: ScheduleType) => void;
 }
 interface InputScheduleType {
 	title: string;
@@ -27,7 +29,7 @@ interface InputScheduleType {
 	content: string;
 }
 
-const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
+const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
 	const modalMode = useRecoilValue(ModalMode).mode;
@@ -73,7 +75,8 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose }) => {
 	const handleSubmit = async () => {
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
-			createNewSchedule(1, newScheduleData);
+			const newSchedule = await createNewSchedule(1, newScheduleData);
+			updateSchedule(newSchedule);
 			handleModalClose();
 		}
 	};

@@ -29,6 +29,10 @@ const Calendar: React.FC = () => {
 		setSchedules(scheduleList);
 	};
 
+	const updateSchedule = (newSchedule: ScheduleType) => {
+		setSchedules([...schedules, newSchedule]);
+	};
+
 	const handleModalOpen = () => setIsModalVisible(true);
 	const handleModalClose = () => setIsModalVisible(false);
 	const changeCalendar = () => setIsMonthly(!isMonthly);
@@ -49,7 +53,6 @@ const Calendar: React.FC = () => {
 	// year: month: weeklyStartDate: 첫째주의 일요일 date
 
 	useEffect(() => {
-		console.log('fetch schedules');
 		fetchSchedules();
 	}, [dateInfo, isMonthly]);
 
@@ -75,7 +78,7 @@ const Calendar: React.FC = () => {
 					)}
 				</CalendarContainer>
 			</MainContainer>
-			{isModalVisible && <CalendarModal handleModalClose={handleModalClose} />}
+			{isModalVisible && <CalendarModal handleModalClose={handleModalClose} updateSchedule={updateSchedule} />}
 		</Layout>
 	);
 };
