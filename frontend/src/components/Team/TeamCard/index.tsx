@@ -12,6 +12,10 @@ export interface teamCardType {
 }
 
 const TeamCard: React.FC<teamCardType> = ({ type, team_name }) => {
+	const handleClick = () => {
+		console.log('hi');
+	};
+
 	return (
 		<TeamCardContainer>
 			<TeamCardWrapper>
@@ -22,8 +26,8 @@ const TeamCard: React.FC<teamCardType> = ({ type, team_name }) => {
 			</TeamCardWrapper>
 			{type === 'invitation' ? (
 				<InviteButtonWrapper>
-					<Button text='수락' backgroundColor='' fontColor='' handler='' />
-					<Button text='거절' backgroundColor='' fontColor='' handler='' />
+					<Button text='수락' backgroundColor='' fontColor='' handler={handleClick} />
+					<Button text='거절' backgroundColor='' fontColor='' handler={handleClick} />
 				</InviteButtonWrapper>
 			) : (
 				''
