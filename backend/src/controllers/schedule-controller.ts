@@ -29,7 +29,16 @@ const ScheduleController = {
 		} catch (err) {
 			res.send(err);
 		}
-	}
+	},
+	async deleteSchedule(req: Request, res: Response) {
+		try {
+			const scheduleId: number = Number(req.params.scheduleId);
+			const schedule = await ScheduleService.getInstance().deleteSchedule(scheduleId);
+			res.status(200).send();
+		} catch (err) {
+			res.send(err);
+		}
+	},
 };
 
 export default ScheduleController;

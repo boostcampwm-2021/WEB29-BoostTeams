@@ -29,9 +29,9 @@ const Calendar: React.FC = () => {
 		setSchedules(scheduleList);
 	};
 
-	const updateSchedule = (newSchedule: ScheduleType) => {
-		setSchedules([...schedules, newSchedule]);
-	};
+	const deleteScheduleById = (id: number) => setSchedules(schedules.filter((e) => e.schedule_id !== id));
+
+	const updateSchedule = (newSchedule: ScheduleType) => setSchedules([...schedules, newSchedule]);
 
 	const handleModalOpen = () => setIsModalVisible(true);
 	const handleModalClose = () => setIsModalVisible(false);
@@ -78,7 +78,13 @@ const Calendar: React.FC = () => {
 					)}
 				</CalendarContainer>
 			</MainContainer>
-			{isModalVisible && <CalendarModal handleModalClose={handleModalClose} updateSchedule={updateSchedule} />}
+			{isModalVisible && (
+				<CalendarModal
+					handleModalClose={handleModalClose}
+					updateSchedule={updateSchedule}
+					deleteScheduleById={deleteScheduleById}
+				/>
+			)}
 		</Layout>
 	);
 };

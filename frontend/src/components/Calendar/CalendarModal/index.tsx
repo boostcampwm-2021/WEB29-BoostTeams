@@ -14,12 +14,13 @@ import Modal from '../../common/Modal';
 
 import { FormContainer, TitleContainer, TimeContainer, DeleteButtonWrapper } from './style';
 import { strToFormatString } from '../../../utils/calendar';
-import { createNewSchedule, ScheduleReqType } from '../../../apis/schedule';
+import { createNewSchedule, deleteSchedule, ScheduleReqType } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
 
 interface Props {
 	handleModalClose: () => void;
 	updateSchedule: (newSchedule: ScheduleType) => void;
+	deleteScheduleById: (id: number) => void;
 }
 interface InputScheduleType {
 	title: string;
@@ -29,10 +30,11 @@ interface InputScheduleType {
 	content: string;
 }
 
-const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule }) => {
+const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule, deleteScheduleById }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
 	const modalMode = useRecoilValue(ModalMode).mode;
+	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
 	const [modalSchedule, setModalSchedule] = useRecoilState(ModalSchedule);
 	const [selectedColor, setSelectedColor] = useState<number>(0);
 	const [selectedRepeat, setSelectedRepeat] = useState<number>(0);
@@ -81,6 +83,13 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule }) =>
 		}
 	};
 
+	const handleDeleteButtonClick = async (e: any) => {
+		e.preventDefault();
+		await deleteSchedule(scheduleId);
+		deleteScheduleById(scheduleId);
+		handleModalClose();
+	};
+
 	useEffect(() => {
 		const { title, color, repeat_id, start_date, end_date, content } = modalSchedule;
 		setSelectedColor(color);
@@ -113,7 +122,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule }) =>
 					setSelectedOption={setSelectedRepeat}
 				/>
 				<textarea ref={contentRef} defaultValue={inputSchedule?.content} placeholder='설명을 입력해 주세요' />
-				<DeleteButtonWrapper>
+				<DeleteButtonWrapper onClick={handleDeleteButtonClick}>
 					<FaTrashAlt />
 				</DeleteButtonWrapper>
 			</FormContainer>

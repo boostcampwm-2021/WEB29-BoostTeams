@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import { ColorCode } from '../../../utils/constants';
 import { Container, ButtonContainer } from './style';
 import Button from '../Button';

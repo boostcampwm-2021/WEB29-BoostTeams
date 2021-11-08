@@ -25,6 +25,23 @@ export const createNewSchedule = async (team_id: number, newSchedule: ScheduleRe
 	}
 };
 
+export const deleteSchedule = async (schedule_id: number): Promise<any> => {
+	try {
+		const res = await fetchApi.delete(`/api/schedule/${schedule_id}`);
+		if (res.status === 200) {
+			return true;
+		}
+		if (res.status === 404) {
+			toast.error('😣 일정 삭제에 실패하였습니다!');
+			return false;
+		}
+		return true;
+	} catch (err) {
+		toast.error('😣 일정  삭제에 실패하였습니다!');
+		return false;
+	}
+};
+
 export const getSchedules = async (teamId: number, firstDate: string, lastDate: string): Promise<any> => {
 	try {
 		const res = await fetchApi.get(`/api/schedule/${teamId}?start_date=${firstDate}&end_date=${lastDate}`);

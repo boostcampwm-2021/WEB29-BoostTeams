@@ -22,6 +22,7 @@ export const DayWrapper = styled.div`
 		color: ${ColorCode.RED};
 	}
 	&:hover {
+		border-top: 1px solid ${ColorCode.LINE2};
 		background-color: ${ColorCode.BACKGROUND1};
 	}
 `;
