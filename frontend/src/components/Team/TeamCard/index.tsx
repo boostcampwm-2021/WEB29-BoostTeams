@@ -4,7 +4,7 @@ import React from 'react';
 
 import Button from '../../common/Button';
 
-import { TeamCardContainer, TeamCardWrapper, InviteButtonWrapper } from './style';
+import { TeamCardContainer, TeamCardImage, TeamCardName, InviteButtonWrapper } from './style';
 
 export interface teamCardType {
 	type: string;
@@ -18,12 +18,10 @@ const TeamCard: React.FC<teamCardType> = ({ type, team_name }) => {
 
 	return (
 		<TeamCardContainer>
-			<TeamCardWrapper>
-				<div>
-					<img src='#' alt='#' />
-				</div>
-				<div>{team_name}</div>
-			</TeamCardWrapper>
+			<TeamCardImage>
+				<img src='/logo.png' alt='/logo.png' />
+			</TeamCardImage>
+			<TeamCardName>{team_name}</TeamCardName>
 			{type === 'invitation' ? (
 				<InviteButtonWrapper>
 					<Button text='수락' backgroundColor='' fontColor='' handler={handleClick} />
