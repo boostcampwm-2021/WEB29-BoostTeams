@@ -7,5 +7,5 @@ export const CardListContainer = Styled.div`
   align-items: center;
   justify-items: center;
   top:3rem;
-  height: calc(100% - 3rem);
+  height: calc((100% - 3rem) / 2);
   `;
