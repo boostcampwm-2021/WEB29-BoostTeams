@@ -1,12 +1,21 @@
-import React from 'react';
-import { Header, Navbar } from '../../components/common';
+import React, { Suspense } from 'react';
+
+import { Header } from '../../components/common';
+import { CardList } from '../../components/Team';
+
+import { Layout } from './style';
 
 const Team: React.FC = () => {
 	return (
-		<>
+		<Layout>
 			<Header />
-			<Navbar />
-		</>
+			<Suspense fallback={<div>loading</div>}>
+				<CardList type='myTeam' />
+			</Suspense>
+			<Suspense fallback={<div>loading</div>}>
+				<CardList type='invitation' />
+			</Suspense>
+		</Layout>
 	);
 };
 export default Team;
