@@ -14,7 +14,7 @@ export const DayNameWrapper = styled.div`
 	height: 2rem;
 	border-right: 1px solid ${ColorCode.LINE2};
 	border-bottom: 1px solid ${ColorCode.LINE2};
-	background-color: ${ColorCode.BACKGROUND2};
+	background-color: ${ColorCode.BACKGROUND1};
 	display: flex;
 	align-items: center;
 	&.sunday {

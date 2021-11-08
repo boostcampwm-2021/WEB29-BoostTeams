@@ -18,7 +18,7 @@ enum ColorCode {
 	HOVER = '#6264a7',
 	MINT = '#92ddc8',
 	DARKMINT = '#0a3a2a',
-	BABYBLUE = '#C3E0E5',
+	BABYBLUE = '#c9eaff',
 	DARKBLUE = '#274472',
 	YELLOW = '#effd5f',
 	BABYPINK = '#FCC7CF',
@@ -35,13 +35,16 @@ enum Font {
 }
 
 // 0-5 primary color, 6-11 side color
-const Palette = [
+const PrimaryPalette = [
 	ColorCode.PRIMARY2,
 	ColorCode.BABYPINK,
 	ColorCode.BABYGREEN,
 	ColorCode.MINT,
 	ColorCode.YELLOW,
 	ColorCode.BABYBLUE,
+];
+
+const SecondaryPalette = [
 	ColorCode.PRIMARY1,
 	ColorCode.HOTPINK,
 	ColorCode.DEEPGREEN,
@@ -50,4 +53,4 @@ const Palette = [
 	ColorCode.DARKBLUE,
 ];
 
-export { ColorCode, Font, Palette };
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette };

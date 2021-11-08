@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
-import CalendarModal from '../../common/Modal/Calendar';
+import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 import {
 	Container,
 	InfoContainer,
@@ -15,34 +16,45 @@ import {
 import { DateInfoType } from '../dataStructure';
 
 interface CalendarHeaderProps {
+	changeToCurrDate: () => void;
+	changeToPrevDate: () => void;
+	changeToNextDate: () => void;
 	changeCalendar: () => void;
+	handleModalOpen: () => void;
 	isMonthly: boolean;
 	dateInfo: DateInfoType;
 }
 
 const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+	changeToCurrDate,
+	changeToPrevDate,
+	changeToNextDate,
 	changeCalendar,
+	handleModalOpen,
 	isMonthly,
 	dateInfo,
-}: CalendarHeaderProps) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
+}) => {
+	const setModalMode = useSetRecoilState(ModalMode);
+	const resetModalSchedule = useResetRecoilState(ModalSchedule);
 
-	const openModal = () => {
-		setIsModalVisible(isModalVisible ? !isModalVisible : !isModalVisible);
+	const handleCreateModalOpen = () => {
+		resetModalSchedule();
+		setModalMode({ mode: 'create' });
+		handleModalOpen();
 	};
 
 	return (
 		<Container>
 			<InfoContainer>
-				<TodayBtn>
+				<TodayBtn onClick={changeToCurrDate}>
 					<FaCalendarAlt />
 					<span>오늘</span>
 				</TodayBtn>
-				<FaChevronLeft />
+				<FaChevronLeft onClick={changeToPrevDate} />
 				<span>
 					{dateInfo.year}년 {dateInfo.month}월
 				</span>
-				<FaChevronRight />
+				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>
 				<ToggleBtnWrapper>
@@ -50,12 +62,11 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 					<Slider />
 				</ToggleBtnWrapper>
 				<ConvertCalenderBtn onClick={changeCalendar}>{isMonthly ? '주간' : '월간'}</ConvertCalenderBtn>
-				<NewAppointmentBtn onClick={openModal}>
+				<NewAppointmentBtn onClick={handleCreateModalOpen}>
 					<FaPlus />
 					<span>새 모임</span>
 				</NewAppointmentBtn>
 			</ButtonContainer>
-			{isModalVisible && <CalendarModal initMode='create' setIsModalVisible={setIsModalVisible} />}
 		</Container>
 	);
 };

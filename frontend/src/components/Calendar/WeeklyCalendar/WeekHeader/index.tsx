@@ -1,33 +1,24 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Container, DayContainer } from './style';
-import { DateInfoType } from '../../dataStructure';
+import { DateInfoType, DayCode } from '../../dataStructure';
 
-enum DayCode {
-	'일요일' = 0,
-	'월요일' = 1,
-	'화요일' = 2,
-	'수요일' = 3,
-	'목요일' = 4,
-	'금요일' = 5,
-	'토요일' = 6,
-}
-
-interface WeekHeaderProps {
+interface Props {
 	dateInfo: DateInfoType;
 }
 
-const WeekHeader: React.FC<WeekHeaderProps> = ({ dateInfo }: WeekHeaderProps) => {
+const WeekHeader: React.FC<Props> = ({ dateInfo }) => {
 	const dayInfo = [...Array(7)].map((v, i) => {
-		const tDay = new Date(dateInfo.startDate.valueOf());
-		tDay.setDate(tDay.getDate() + i);
-		return { day: i, date: tDay.getDate() };
+		const tDate = new Date(dateInfo.weeklyStartDate);
+		tDate.setDate(tDate.getDate() + i);
+		return { day: i, date: tDate.getDate() };
 	});
 
 	return (
 		<Container>
-			{dayInfo.map((el) => {
+			{dayInfo.map((el, i) => {
 				return (
-					<DayContainer>
+					<DayContainer key={uuidv4()}>
 						<b>{el.date}</b>
 						<span>{DayCode[el.day]}</span>
 					</DayContainer>
