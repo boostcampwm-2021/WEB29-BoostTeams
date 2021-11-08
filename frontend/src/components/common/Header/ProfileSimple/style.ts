@@ -15,11 +15,11 @@ const dropAnimation = keyframes`
 export const Wrapper = styled.div`
 	position: absolute;
 	top: 2rem;
-	right: 2rem;
+	right: 1rem;
 	display: flex;
 	flex-direction: column;
 	width: 22rem;
-	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 	background-color: ${ColorCode.WHITE};
 	border-radius: 8px;
 	z-index: 25;
@@ -31,6 +31,7 @@ export const Container = styled.div`
 	position: absolute;
 	display: block;
 	width: 100%;
+	left: 0;
 `;
 
 export const Background = styled.div`
