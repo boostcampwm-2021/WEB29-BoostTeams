@@ -1,6 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { Container, LogoWrapper } from './style';
+
+import { Container } from './style';
+import { LongLogo } from '../Logo';
 import ProfileIcon from '../Icons/ProfileIcon';
 
 const Header: React.FC = () => {
@@ -13,12 +15,7 @@ const Header: React.FC = () => {
 
 	return (
 		<Container>
-			<LogoWrapper>
-				<a href='/' onClick={linkHome}>
-					<img src='logo.png' alt='logo' />
-					BoostTeams
-				</a>
-			</LogoWrapper>
+			<LongLogo />
 			<ProfileIcon name='부' color='orange' status='green' />
 		</Container>
 	);
