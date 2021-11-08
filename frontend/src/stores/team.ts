@@ -1,4 +1,5 @@
 import { atom, selector } from 'recoil';
+import { readMyTeam } from '../apis/team';
 import UserState from './user';
 
 export const userInviteList = atom({
@@ -11,7 +12,8 @@ export const userTeamList = selector({
 	get: async ({ get }) => {
 		const user = get(UserState);
 		// 일단은 email로 찾는데, user_id가 있으면 좋을 듯?
-		const response = await fetch(`http://localhost:4000/api/team/${user.email}`);
+		const userEmail = user.email;
+		const response = await readMyTeam(userEmail);
 		const json = await response.json();
 		return json;
 	},
