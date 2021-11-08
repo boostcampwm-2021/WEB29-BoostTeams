@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { ColorCode } from '../../../../utils/constants';
 
+interface ProfileIconContainerProps {
+	backgroundColor: string;
+	fontColor: string;
+}
+
 export const Container = styled.div`
 	width: 3rem;
 	height: 3rem;
@@ -12,7 +17,7 @@ export const Container = styled.div`
 	}
 `;
 
-export const ProfileIconContainer = styled.div`
+export const ProfileIconContainer = styled('div')<ProfileIconContainerProps>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,7 +25,8 @@ export const ProfileIconContainer = styled.div`
 	height: 2rem;
 	width: 2rem;
 	border-radius: 50%;
-	background-color: ${(props) => props.color || ColorCode.WHITE};
+	background-color: ${(props) => props.backgroundColor || ColorCode.WHITE};
+	color: ${(props) => props.fontColor || ColorCode.BLACK};
 	span {
 		font-weight: bold;
 	}
