@@ -5,22 +5,23 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 
 import ColorPicker from '../../common/ColorPicker';
 import DropDown from '../../common/DropDown';
 import Modal from '../../common/Modal';
 
-import { FormContainer, TitleContainer, TimeContainer, DeleteButtonWrapper } from './style';
+import { FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
 import { strToFormatString } from '../../../utils/calendar';
 import { createNewSchedule, deleteSchedule, ScheduleReqType } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
 
 interface Props {
 	handleModalClose: () => void;
-	updateSchedule: (newSchedule: ScheduleType) => void;
+	addSchedule: (newSchedule: ScheduleType) => void;
 	deleteScheduleById: (id: number) => void;
+	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
 }
 interface InputScheduleType {
 	title: string;
@@ -30,10 +31,10 @@ interface InputScheduleType {
 	content: string;
 }
 
-const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule, deleteScheduleById }) => {
+const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
-	const modalMode = useRecoilValue(ModalMode).mode;
+	const [modalMode, setModalMode] = useRecoilState(ModalMode);
 	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
 	const [modalSchedule, setModalSchedule] = useRecoilState(ModalSchedule);
 	const [selectedColor, setSelectedColor] = useState<number>(0);
@@ -74,11 +75,16 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule, dele
 		return true;
 	};
 
+	const checkModalMode = (mode: string): boolean => modalMode.mode === mode;
+
 	const handleSubmit = async () => {
 		const newScheduleData = getScheduleData();
+		if (checkModalMode('update')) newScheduleData.schedule_id = scheduleId;
+
 		if (validateSchedule(newScheduleData)) {
 			const newSchedule = await createNewSchedule(1, newScheduleData);
-			updateSchedule(newSchedule);
+			if (checkModalMode('create')) addSchedule(newSchedule);
+			else updateScheduleById(scheduleId, newSchedule);
 			handleModalClose();
 		}
 	};
@@ -88,6 +94,11 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule, dele
 		await deleteSchedule(scheduleId);
 		deleteScheduleById(scheduleId);
 		handleModalClose();
+	};
+
+	const changeUpdateMode = async (e: any) => {
+		e.preventDefault();
+		setModalMode({ mode: 'update' });
 	};
 
 	useEffect(() => {
@@ -104,27 +115,47 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, updateSchedule, dele
 	}, [modalMode, modalSchedule]);
 
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={modalMode === 'read'}>
+		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={checkModalMode('read')}>
 			<FormContainer>
 				<TitleContainer>
 					<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
-					<input ref={titleRef} defaultValue={inputSchedule?.title} placeholder='제목을 입력해 주세요.' />
+					<input
+						ref={titleRef}
+						defaultValue={inputSchedule?.title}
+						placeholder='제목을 입력해 주세요.'
+						readOnly={checkModalMode('read')}
+					/>
 				</TitleContainer>
 				<TimeContainer>
-					<input ref={dateRef} type='date' defaultValue={inputSchedule?.date} />
-					<input ref={startTimeRef} type='time' defaultValue={inputSchedule?.startTime} />
+					<input ref={dateRef} type='date' defaultValue={inputSchedule?.date} readOnly={checkModalMode('read')} />
+					<input
+						ref={startTimeRef}
+						type='time'
+						defaultValue={inputSchedule?.startTime}
+						readOnly={checkModalMode('read')}
+					/>
 					<span>~</span>
-					<input ref={endTimeRef} type='time' defaultValue={inputSchedule?.endTime} />
+					<input ref={endTimeRef} type='time' defaultValue={inputSchedule?.endTime} readOnly={checkModalMode('read')} />
 				</TimeContainer>
 				<DropDown
 					options={repeatOptions}
 					selectedOption={repeatOptions[selectedRepeat]}
 					setSelectedOption={setSelectedRepeat}
 				/>
-				<textarea ref={contentRef} defaultValue={inputSchedule?.content} placeholder='설명을 입력해 주세요' />
-				<DeleteButtonWrapper onClick={handleDeleteButtonClick}>
-					<FaTrashAlt />
-				</DeleteButtonWrapper>
+				<textarea
+					ref={contentRef}
+					defaultValue={inputSchedule?.content}
+					readOnly={checkModalMode('read')}
+					placeholder='설명을 입력해 주세요'
+				/>
+				{checkModalMode('read') && (
+					<>
+						<ButtonContainer>
+							<FaPencilAlt onClick={changeUpdateMode} />
+							<FaTrashAlt onClick={handleDeleteButtonClick} />
+						</ButtonContainer>
+					</>
+				)}
 			</FormContainer>
 		</Modal>
 	);

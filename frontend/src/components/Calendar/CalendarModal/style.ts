@@ -37,7 +37,7 @@ export const TimeContainer = styled.div`
 	}
 `;
 
-export const DeleteButtonWrapper = styled.button`
+export const ButtonContainer = styled.button`
 	position: absolute;
 	top: 1.5rem;
 	right: 1.5rem;
@@ -45,6 +45,7 @@ export const DeleteButtonWrapper = styled.button`
 	background-color: transparent;
 	padding: 0;
 	svg {
+		margin-left: 1rem;
 		color: ${ColorCode.LINE3};
 		cursor: pointer;
 		width: 1.2rem;
