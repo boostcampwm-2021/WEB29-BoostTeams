@@ -1,10 +1,12 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import UserState from '../../../../stores/user';
 import UserInfo from './UserInfo';
 import { Background, Container, Wrapper } from './style';
 import { AccountButton, LogoutButton } from './Buttons';
+import { logout } from '../../../../apis/auth';
 
 interface ProfileSimpleProps {
 	status: string;
@@ -14,6 +16,12 @@ interface ProfileSimpleProps {
 const ProfileSimple: React.FC<ProfileSimpleProps> = ({ status, handleCloseModal }) => {
 	const history = useHistory();
 	const user = useRecoilValue(UserState);
+	const logoutHandler = () => {
+		logout(() => {
+			toast.success('😎 로그아웃 성공');
+			history.push('/');
+		});
+	};
 
 	return (
 		<Container>
@@ -24,11 +32,7 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({ status, handleCloseModal 
 						console.log('click account'); // TODO: 프로필 수정 Modal
 					}}
 				/>
-				<LogoutButton
-					onClick={() => {
-						console.log('click logout'); // TODO: 로그아웃
-					}}
-				/>
+				<LogoutButton onClick={logoutHandler} />
 			</Wrapper>
 			<Background onClick={handleCloseModal} />
 		</Container>

@@ -1,5 +1,6 @@
 import AES from 'crypto-js/aes';
 import { toast } from 'react-toastify';
+import { removeCookie } from '../utils/cookie';
 import fetchApi from '../utils/fetch';
 
 /**
@@ -72,4 +73,11 @@ export const signUp = async (
 	} catch (err) {
 		toast.error('😣 서버와의 연결이 심상치 않습니다!');
 	}
+};
+
+export const logout = (cb: any) => {
+	localStorage.removeItem('JWT');
+	removeCookie('JWT');
+	// TODO: fetch, socket
+	cb();
 };
