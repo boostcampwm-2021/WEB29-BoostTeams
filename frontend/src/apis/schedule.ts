@@ -6,7 +6,8 @@ export interface ScheduleReqType {
 	title?: string;
 	start_date: string;
 	end_date: string;
-	repeat_id: number;
+	repeat_option: number;
+	repeat_count: number;
 	content?: string;
 	color: number;
 }

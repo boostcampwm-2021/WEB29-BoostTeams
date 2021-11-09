@@ -10,7 +10,8 @@ export interface ScheduleType {
 	title: string;
 	start_date: string;
 	end_date: string;
-	repeat_id: number;
+	repeat_id: string;
+	repeat_option: number;
 	content: string;
 	color: number;
 }

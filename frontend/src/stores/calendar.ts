@@ -15,7 +15,8 @@ export const ModalSchedule = atom({
 		title: '',
 		start_date: new Date().toString(),
 		end_date: new Date().toString(),
-		repeat_id: 0,
+		repeat_id: '',
+		repeat_option: 0,
 		content: '',
 	},
 });

@@ -22,9 +22,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
 	handleModalClose: () => void;
-	addSchedule: (newSchedule: ScheduleType) => void;
+	addSchedule: (newSchedule: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
-	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
+	updateScheduleById: (id: number, newSchedule: ScheduleType[]) => void;
 }
 
 const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
@@ -40,6 +40,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 	const [selectedEndTime, setSelectedEndTime] = useState(new Date());
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputContent, setInputContent] = useState('');
+	const [selectedRepeatCount, setSelectedRepeatCount] = useState(0);
 
 	const titleRef = useRef<HTMLInputElement>(null);
 	const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -56,7 +57,8 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				`${dateToFormatString(selectedDate, 'YYYY-MM-DD')} ${dateToFormatString(selectedEndTime, 'HH:mm')}`,
 				'YYYY-MM-DD hh:mm',
 			).toString(),
-			repeat_id: selectedRepeat,
+			repeat_option: selectedRepeat,
+			repeat_count: !isNum(selectedRepeatCount) ? selectedRepeatCount : 1,
 			content: contentRef.current?.value,
 		};
 	};
@@ -83,7 +85,6 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 	const handleSubmit = async () => {
 		const newScheduleData = getScheduleData();
 		if (checkModalMode('update')) newScheduleData.schedule_id = scheduleId;
-
 		if (validateSchedule(newScheduleData)) {
 			const newSchedule = await createNewSchedule(1, newScheduleData);
 			if (checkModalMode('create')) addSchedule(newSchedule);
@@ -104,10 +105,21 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		setModalMode({ mode: 'update' });
 	};
 
+	const isNum = (num: number | string) => Number.isNaN(Number(num));
+
+	const checkValidateRepeatCount = (e: any) => {
+		if (selectedRepeat === 0 || isNum(e.target.value)) {
+			e.target.value = '';
+			setSelectedRepeatCount(0);
+		} else {
+			setSelectedRepeatCount(e.target.value);
+		}
+	};
+
 	useEffect(() => {
-		const { title, color, repeat_id, start_date, end_date, content } = modalSchedule;
+		const { title, color, repeat_option, start_date, end_date, content } = modalSchedule;
 		setSelectedColor(color);
-		setSelectedRepeat(repeat_id);
+		setSelectedRepeat(repeat_option);
 		setSelectedDate(new Date(start_date));
 		setSelectedStartTime(new Date(start_date));
 		setSelectedEndTime(new Date(end_date));
@@ -162,11 +174,14 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				{checkModalMode('read') ? (
 					<span>{repeatOptions[selectedRepeat]}</span>
 				) : (
-					<DropDown
-						options={repeatOptions}
-						selectedOption={repeatOptions[selectedRepeat]}
-						setSelectedOption={setSelectedRepeat}
-					/>
+					<>
+						<DropDown
+							options={repeatOptions}
+							selectedOption={repeatOptions[selectedRepeat]}
+							setSelectedOption={setSelectedRepeat}
+						/>
+						<input onChange={checkValidateRepeatCount} placeholder='반복횟수' readOnly={selectedRepeat === 0} />
+					</>
 				)}
 				<textarea
 					ref={contentRef}
