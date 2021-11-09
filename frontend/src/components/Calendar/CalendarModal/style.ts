@@ -14,6 +14,10 @@ export const FormContainer = styled.form`
 			outline: none;
 		}
 	}
+	span {
+		font-weight: bold;
+		font-size: ${Font.SMALL};
+	}
 `;
 
 export const TitleContainer = styled.div`
@@ -26,11 +30,12 @@ export const TitleContainer = styled.div`
 	}
 `;
 export const TimeContainer = styled.div`
-	width: 24rem;
+	width: 20rem;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 1.5rem;
 	input {
+		width: 5rem;
 		font-family: inherit;
 		font-size: ${Font.SMALL};
 		cursor: pointer;

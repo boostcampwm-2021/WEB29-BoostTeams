@@ -12,10 +12,12 @@ import ColorPicker from '../../common/ColorPicker';
 import DropDown from '../../common/DropDown';
 import Modal from '../../common/Modal';
 
-import { dateToFormatString } from '../../../utils/calendar';
 import { createNewSchedule, deleteSchedule, ScheduleReqType } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
+import { dateToFormatString } from '../../../utils/calendar';
+import { PrimaryPalette } from '../../../utils/constants';
 import { FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
+import { ColorCircle } from '../../common/ColorPicker/style';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
@@ -117,7 +119,11 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={checkModalMode('read')}>
 			<FormContainer>
 				<TitleContainer>
-					<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+					{checkModalMode('read') ? (
+						<ColorCircle color={PrimaryPalette[selectedColor]} />
+					) : (
+						<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+					)}
 					<input
 						ref={titleRef}
 						defaultValue={inputTitle}
@@ -141,7 +147,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 						dateFormat='h:mm aa'
 						readOnly={checkModalMode('read')}
 					/>
-					<span>~</span>
+					<span>&nbsp;~&nbsp;</span>
 					<DatePicker
 						selected={selectedEndTime}
 						onChange={(date: Date) => setSelectedEndTime(date)}
@@ -153,11 +159,15 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 						readOnly={checkModalMode('read')}
 					/>
 				</TimeContainer>
-				<DropDown
-					options={repeatOptions}
-					selectedOption={repeatOptions[selectedRepeat]}
-					setSelectedOption={setSelectedRepeat}
-				/>
+				{checkModalMode('read') ? (
+					<span>{repeatOptions[selectedRepeat]}</span>
+				) : (
+					<DropDown
+						options={repeatOptions}
+						selectedOption={repeatOptions[selectedRepeat]}
+						setSelectedOption={setSelectedRepeat}
+					/>
+				)}
 				<textarea
 					ref={contentRef}
 					defaultValue={inputContent}

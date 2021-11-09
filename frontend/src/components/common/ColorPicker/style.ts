@@ -5,6 +5,7 @@ export const Container = styled.div`
 	position: relative;
 	width: 1.2rem;
 	height: 1.2rem;
+	z-index: 30;
 `;
 
 export const ColorDropDown = styled.div`
