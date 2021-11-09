@@ -9,6 +9,12 @@ export const getLastDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
 
 export const dateToFormatString = (date: Date, format: string) => moment(date).format(format).toString();
 
+export const isTodayDate = (date: Date, i: number) =>
+	moment(date).add(i, 'days').format('YYYYMMDD') === moment().format('YYYYMMDD');
+
+export const isSameDate = (date: Date, i: number, refDate: Date) =>
+	moment(date).add(i, 'days').format('YYYYMMDD') === moment(refDate).format('YYYYMMDD');
+
 const getIsDoubleMonth = (date: moment.Moment) => date.month() !== date.add(7, 'days').month();
 
 export const getCurrDateInfo = () => {
@@ -58,3 +64,5 @@ export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Da
 		isDoubleMonth: getIsDoubleMonth(date),
 	};
 };
+
+export const isNum = (num: number | string) => !Number.isNaN(Number(num));
