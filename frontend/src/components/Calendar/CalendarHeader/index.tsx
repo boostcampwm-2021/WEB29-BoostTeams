@@ -4,7 +4,7 @@ import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
 import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 import { Container, InfoContainer, TodayBtn, NewAppointmentBtn, ConvertCalenderBtn, ButtonContainer } from './style';
-import { DateInfoType } from '../dataStructure';
+import { DateInfoType, weekContentNumber } from '../dataStructure';
 
 interface Props {
 	changeToCurrDate: () => void;
@@ -35,7 +35,7 @@ const CalendarHeader: React.FC<Props> = ({
 	};
 
 	const nextDateInfo = () => {
-		const date = moment(dateInfo.weeklyStartDate).add(7, 'days');
+		const date = moment(dateInfo.weeklyStartDate).add(weekContentNumber.WEEK_NUMBER, 'days');
 		return { year: date.year(), month: date.month() };
 	};
 
