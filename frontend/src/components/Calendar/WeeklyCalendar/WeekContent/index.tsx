@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { Container, TimeContainer, DaysContainer, DayContainer, DayBox, CurrTimeLine } from './style';
 import { DateInfoType, weekContentNumber, ScheduleType } from '../../dataStructure';
@@ -52,12 +53,19 @@ const Schedule: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => 
 			</TimeContainer>
 			<DaysContainer>
 				{[...Array(7)].map((v, i) => (
-					<DayContainer key={uuidv4()}>
+					<DayContainer
+						key={uuidv4()}
+						focus={moment(dateInfo.weeklyStartDate).add(i, 'days').format('YYYYMMDD') === moment().format('YYYYMMDD')}
+					>
 						{[...Array(48)].map(() => (
 							<DayBox key={uuidv4()} />
 						))}
 						{schedules
-							.filter((schedule) => new Date(schedule.start_date).getDay() === i)
+							.filter(
+								(schedule) =>
+									moment(dateInfo.weeklyStartDate).add(i, 'days').format('YYYYMMDD') ===
+									moment(schedule.start_date).format('YYYYMMDD'),
+							)
 							.map((schedule) => (
 								<ScheduleItem
 									key={schedule.schedule_id}

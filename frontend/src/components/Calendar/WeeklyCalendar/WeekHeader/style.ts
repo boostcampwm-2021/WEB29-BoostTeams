@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { ColorCode } from '../../../../utils/constants';
 
+interface DayContainerProps {
+	focus: boolean;
+}
+
 export const Container = styled.header`
 	display: flex;
 	align-items: center;
@@ -11,7 +15,7 @@ export const Container = styled.header`
 	box-sizing: border-box;
 `;
 
-export const DayContainer = styled.div`
+export const DayContainer = styled.div<DayContainerProps>`
 	height: 100%;
 	border-left: solid 1px ${ColorCode.LINE2};
 	flex-grow: 1;
@@ -19,6 +23,7 @@ export const DayContainer = styled.div`
 	padding: 0.5rem;
 	box-sizing: border-box;
 	color: ${ColorCode.FONT1};
+	background-color: ${(props) => `${props.focus ? ColorCode.WHITE : ''}`};
 	b {
 		display: block;
 		font-size: 1.5rem;

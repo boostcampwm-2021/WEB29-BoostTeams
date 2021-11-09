@@ -5,6 +5,10 @@ interface CurrTimeLineProps {
 	start: number;
 }
 
+interface DayContainerProps {
+	focus: boolean;
+}
+
 export const Container = styled.div`
 	display: flex;
 	background-color: ${ColorCode.BACKGROUND1};
@@ -39,10 +43,11 @@ export const DaysContainer = styled.div`
 	flex-wrap: wrap;
 `;
 
-export const DayContainer = styled.div`
+export const DayContainer = styled.div<DayContainerProps>`
 	position: relative;
 	flex-grow: 1;
 	border-left: solid 1px ${ColorCode.LINE2};
+	background-color: ${(props) => `${props.focus ? ColorCode.WHITE : ''}`};
 `;
 
 export const DayBox = styled.div`
