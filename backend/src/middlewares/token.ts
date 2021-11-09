@@ -15,7 +15,7 @@ export const authenticateToken = (req: any, res: Response, next: NextFunction) =
 		return res.status(401).send({ msg: 'invalid JWT' });
 	}
 
-	req.user_id = user_id;
+	req.user_id = Number(user_id);
 	next();
 };
 
