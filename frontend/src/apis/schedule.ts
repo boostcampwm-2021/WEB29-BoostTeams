@@ -37,7 +37,7 @@ export const deleteSchedule = async (schedule_id: number): Promise<any> => {
 		}
 		return true;
 	} catch (err) {
-		toast.error('😣 일정  삭제에 실패하였습니다!');
+		toast.error('😣 일정 삭제에 실패하였습니다!');
 		return false;
 	}
 };
