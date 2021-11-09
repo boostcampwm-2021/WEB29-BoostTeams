@@ -33,7 +33,14 @@ class UserService {
 		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
 		const user_state = Math.floor(Math.random() * 12); // TODO : user_color로 바꾸기
-		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state, github_name });
+		const github = github_name ?? '';
+		const newUser = await this.userRepository.save({
+			user_email,
+			user_password,
+			user_name,
+			user_state,
+			github_name: github
+		});
 		return newUser;
 	}
 
