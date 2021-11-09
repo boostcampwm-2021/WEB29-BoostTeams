@@ -1,12 +1,12 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ContentContainer } from './style';
-import { DateInfoType } from '../../dataStructure';
+import { DateInfoType, ScheduleType } from '../../dataStructure';
 import Week from './week';
 
 interface Props {
 	dateInfo: DateInfoType;
-	schedules: any[];
+	schedules: ScheduleType[];
 	handleModalOpen: () => void;
 }
 
@@ -50,7 +50,7 @@ const MonthContent: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen })
 	};
 	return (
 		<ContentContainer>
-			{generateDays(firstDay, lastDay).map((week, i) => (
+			{generateDays(firstDay, lastDay).map((week) => (
 				<Week key={uuidv4()} week={week} schedules={schedules} handleModalOpen={handleModalOpen} />
 			))}
 		</ContentContainer>

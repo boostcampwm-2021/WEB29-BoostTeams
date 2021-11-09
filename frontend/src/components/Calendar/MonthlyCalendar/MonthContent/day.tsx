@@ -3,11 +3,12 @@ import { useSetRecoilState } from 'recoil';
 import { PrimaryPalette } from '../../../../utils/constants';
 import { ModalMode, ModalSchedule } from '../../../../stores/calendar';
 import { DayWrapper, Schedule, DayNum } from './style';
+import { ScheduleType } from '../../dataStructure';
 
 interface Props {
 	day: number;
 	idx: number;
-	schedules: any[];
+	schedules: ScheduleType[];
 	handleModalOpen: () => void;
 }
 
@@ -16,7 +17,7 @@ const Week: React.FC<Props> = ({ day, idx, schedules, handleModalOpen }) => {
 
 	const setModalMode = useSetRecoilState(ModalMode);
 	const setModalSchedule = useSetRecoilState(ModalSchedule);
-	const handleScheduleClick = (schedule: any) => {
+	const handleScheduleClick = (schedule: ScheduleType) => {
 		setModalMode({ mode: 'read' });
 		setModalSchedule(schedule);
 		handleModalOpen();

@@ -2,10 +2,11 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { WeekContainer } from './style';
 import Day from './day';
+import { ScheduleType } from '../../dataStructure';
 
 interface Props {
 	week: number[];
-	schedules: any[];
+	schedules: ScheduleType[];
 	handleModalOpen: () => void;
 }
 
