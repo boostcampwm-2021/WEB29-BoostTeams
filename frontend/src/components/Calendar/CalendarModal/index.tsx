@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import { toast } from 'react-toastify';
 
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
@@ -11,12 +10,13 @@ import { ModalMode, ModalSchedule } from '../../../stores/calendar';
 import ColorPicker from '../../common/ColorPicker';
 import DropDown from '../../common/DropDown';
 import Modal from '../../common/Modal';
+import TimeInput from './TimeInput';
 
 import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
-import { dateToFormatString } from '../../../utils/calendar';
+import { dateToFormatString, isNum } from '../../../utils/calendar';
 import { PrimaryPalette } from '../../../utils/constants';
-import { FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
+import { FormContainer, TitleContainer, ButtonContainer } from './style';
 import { ColorCircle } from '../../common/ColorPicker/style';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -38,8 +38,8 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [selectedStartTime, setSelectedStartTime] = useState(new Date());
 	const [selectedEndTime, setSelectedEndTime] = useState(new Date());
-	const [inputTitle, setInputTitle] = useState('');
-	const [inputContent, setInputContent] = useState('');
+	const [DefaultTitle, setDefaultTitle] = useState('');
+	const [DefaultContent, setDefaultContent] = useState('');
 	const [selectedRepeatCount, setSelectedRepeatCount] = useState(0);
 
 	const titleRef = useRef<HTMLInputElement>(null);
@@ -58,7 +58,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				'YYYY-MM-DD hh:mm',
 			).toString(),
 			repeat_option: selectedRepeat,
-			repeat_count: !isNum(selectedRepeatCount) ? selectedRepeatCount : 1,
+			repeat_count: isNum(selectedRepeatCount) ? selectedRepeatCount : 1,
 			content: contentRef.current?.value,
 		};
 	};
@@ -109,10 +109,8 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		setModalMode({ mode: 'update' });
 	};
 
-	const isNum = (num: number | string) => Number.isNaN(Number(num));
-
 	const checkValidateRepeatCount = (e: any) => {
-		if (selectedRepeat === 0 || isNum(e.target.value)) {
+		if (selectedRepeat === 0 || !isNum(e.target.value)) {
 			e.target.value = '';
 			setSelectedRepeatCount(0);
 		} else {
@@ -120,15 +118,33 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		}
 	};
 
-	useEffect(() => {
-		const { title, color, repeat_option, start_date, end_date, content } = modalSchedule;
+	const setScheduleState = ({
+		title,
+		color,
+		repeat_option,
+		start_date,
+		end_date,
+		content,
+	}: {
+		title: string;
+		color: number;
+		repeat_option: number;
+		start_date: string;
+		end_date: string;
+		content: string;
+	}) => {
 		setSelectedColor(color);
 		setSelectedRepeat(repeat_option);
 		setSelectedDate(new Date(start_date));
 		setSelectedStartTime(new Date(start_date));
 		setSelectedEndTime(new Date(end_date));
-		setInputTitle(title);
-		setInputContent(content);
+		setDefaultTitle(title);
+		setDefaultContent(content);
+	};
+
+	useEffect(() => {
+		const { title, color, repeat_option, start_date, end_date, content } = modalSchedule;
+		setScheduleState({ title, color, repeat_option, start_date, end_date, content });
 	}, [modalMode, modalSchedule]);
 
 	return (
@@ -142,39 +158,20 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 					)}
 					<input
 						ref={titleRef}
-						defaultValue={inputTitle}
+						defaultValue={DefaultTitle}
 						placeholder='제목을 입력해 주세요.'
 						readOnly={checkModalMode('read')}
 					/>
 				</TitleContainer>
-				<TimeContainer>
-					<DatePicker
-						selected={selectedDate}
-						onChange={(date: Date) => setSelectedDate(date)}
-						readOnly={checkModalMode('read')}
-					/>
-					<DatePicker
-						selected={selectedStartTime}
-						onChange={(date: Date) => setSelectedStartTime(date)}
-						showTimeSelect
-						showTimeSelectOnly
-						timeIntervals={30}
-						timeCaption='Time'
-						dateFormat='h:mm aa'
-						readOnly={checkModalMode('read')}
-					/>
-					<span>&nbsp;~&nbsp;</span>
-					<DatePicker
-						selected={selectedEndTime}
-						onChange={(date: Date) => setSelectedEndTime(date)}
-						showTimeSelect
-						showTimeSelectOnly
-						timeIntervals={30}
-						timeCaption='Time'
-						dateFormat='h:mm aa'
-						readOnly={checkModalMode('read')}
-					/>
-				</TimeContainer>
+				<TimeInput
+					selectedDate={selectedDate}
+					setSelectedDate={setSelectedDate}
+					checkModalMode={checkModalMode}
+					selectedStartTime={selectedStartTime}
+					setSelectedStartTime={setSelectedStartTime}
+					selectedEndTime={selectedEndTime}
+					setSelectedEndTime={setSelectedEndTime}
+				/>
 				{!checkModalMode('create') ? (
 					<span>{repeatOptions[selectedRepeat]}</span>
 				) : (
@@ -189,7 +186,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				)}
 				<textarea
 					ref={contentRef}
-					defaultValue={inputContent}
+					defaultValue={DefaultContent}
 					readOnly={checkModalMode('read')}
 					placeholder='설명을 입력해 주세요'
 				/>
