@@ -34,7 +34,6 @@ const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
 const UserInfo: React.FC<ProfileProps> = ({ user, status }) => {
 	const { name } = user;
 	const color = user.state;
-	console.log(user);
 	return (
 		<Container>
 			<ProfileIcon name={name} color={color} status={status} width={5} isHover={false} />
