@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { useRecoilValue } from 'recoil';
 import { userInviteList, userTeamList } from '../../../stores/team';
+
 import TeamCard from '../TeamCard';
 import { CardListContainer } from './style';
 

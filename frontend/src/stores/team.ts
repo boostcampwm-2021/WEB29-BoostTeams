@@ -23,9 +23,15 @@ export const userInviteList = atom({
 	],
 });
 
+export const teamListLoadTrigger = atom({
+	key: 'loadTrigger',
+	default: 0,
+});
+
 export const userTeamList = selector({
 	key: 'teamList',
-	get: async () => {
+	get: async ({ get }) => {
+		get(teamListLoadTrigger);
 		const teamList = await readMyTeam();
 		return teamList;
 	},
