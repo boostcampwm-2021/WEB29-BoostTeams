@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { toast } from 'react-toastify';
 import fetchApi from '../utils/fetch';
 

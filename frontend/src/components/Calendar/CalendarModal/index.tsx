@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userInviteList, userTeamList } from '../../../stores/team';

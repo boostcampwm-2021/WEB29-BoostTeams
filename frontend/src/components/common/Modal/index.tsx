@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { ColorCode } from '../../../utils/constants';
