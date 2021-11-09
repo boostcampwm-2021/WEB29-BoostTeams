@@ -3,6 +3,7 @@ import TeamUserRepository from '../repositories/team-user-repository';
 import TeamRepository from '../repositories/team-repository';
 
 interface teamInfo {
+	team_id?: number;
 	team_name: string;
 	team_desc: string;
 }
@@ -22,32 +23,48 @@ export default class TeamUserService {
 	}
 
 	async getTeamsByUserId(userId: number) {
-		const teams = await this.teamUserRepository
+		const teams = await this.SelectAllTeam(userId);
+		return teams;
+	}
+
+	async joinTeam(userId: number, team: teamInfo) {
+		// 이미 맴버인 유저한테는 초대 못 보내게 해야 함 / 아니면 서버에서 무시하도록 구현 예정
+		// 초대 목록은 DB로 관리? 아니면 localStorage로 관리
+		await this.InsertTeamUserRecord(userId, team.team_id);
+	}
+
+	async createNewTeam(userId: number, newTeam: teamInfo) {
+		const insertResult = await this.InsertTeamRecord(newTeam);
+		const newTeamId = insertResult.raw.insertId;
+		await this.InsertTeamUserRecord(userId, newTeamId);
+	}
+
+	private async SelectAllTeam(userId: number) {
+		return await this.teamUserRepository
 			.createQueryBuilder('teamUser')
 			.leftJoinAndSelect('teamUser.team', 'team')
 			.where('teamUser.user = :userId', { userId })
 			.getMany();
-		return teams;
 	}
 
-	async createNewTeam(userId: number, newTeam: teamInfo) {
-		// team Table에 데이터 삽입
-		// team-user-service에서 분리해야 함
+	private async InsertTeamRecord(newTeam: teamInfo) {
 		const insertResult = await getCustomRepository(TeamRepository)
 			.createQueryBuilder('team')
 			.insert()
 			.into('team')
 			.values(newTeam)
 			.execute();
-		const newTeamId = insertResult.raw.insertId;
-		// team-user Table에 데이터 삽입
+		return insertResult.raw.insertId;
+	}
+
+	private async InsertTeamUserRecord(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder('team_user')
 			.insert()
 			.into('team_user')
 			.values({
 				user: userId,
-				team: newTeamId
+				team: teamId
 			})
 			.execute();
 	}

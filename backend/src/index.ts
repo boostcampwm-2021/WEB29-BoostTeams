@@ -52,7 +52,7 @@ class App {
 		// this.app.use('/api/user', userRouter);
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
-		this.app.use('/api/users', teamUserRouter);
+		this.app.use('/api/team', teamUserRouter);
 	}
 
 	listen() {
