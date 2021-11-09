@@ -77,6 +77,11 @@ class ScheduleService {
 		const deleted = await this.scheduleRepository.delete({ schedule_id });
 		return deleted;
 	}
+
+	async updateRepeatSchedule(scheduleInfo) {
+		const result = await this.scheduleRepository.save(scheduleInfo);
+		return result;
+	}
 }
 
 export default ScheduleService;

@@ -39,6 +39,14 @@ const ScheduleController = {
 		} catch (err) {
 			res.send(err);
 		}
+	},
+	async updateRepeatSchedule(req: Request, res: Response) {
+		try {
+			const newSchedule = await ScheduleService.getInstance().updateRepeatSchedule(req.body);
+			res.status(200).send(newSchedule);
+		} catch (err) {
+			res.send(err);
+		}
 	}
 };
 

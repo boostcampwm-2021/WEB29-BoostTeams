@@ -12,7 +12,7 @@ import ColorPicker from '../../common/ColorPicker';
 import DropDown from '../../common/DropDown';
 import Modal from '../../common/Modal';
 
-import { createNewSchedule, deleteSchedule, ScheduleReqType } from '../../../apis/schedule';
+import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
 import { dateToFormatString } from '../../../utils/calendar';
 import { PrimaryPalette } from '../../../utils/constants';
@@ -24,7 +24,7 @@ interface Props {
 	handleModalClose: () => void;
 	addSchedule: (newSchedule: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
-	updateScheduleById: (id: number, newSchedule: ScheduleType[]) => void;
+	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
 }
 
 const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
@@ -84,11 +84,15 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 
 	const handleSubmit = async () => {
 		const newScheduleData = getScheduleData();
-		if (checkModalMode('update')) newScheduleData.schedule_id = scheduleId;
 		if (validateSchedule(newScheduleData)) {
-			const newSchedule = await createNewSchedule(1, newScheduleData);
-			if (checkModalMode('create')) addSchedule(newSchedule);
-			else updateScheduleById(scheduleId, newSchedule);
+			if (checkModalMode('create')) {
+				const newSchedule = await createNewSchedule(1, newScheduleData);
+				addSchedule(newSchedule);
+			} else {
+				newScheduleData.schedule_id = scheduleId;
+				const newSchedule = await updateSchedule(scheduleId, newScheduleData);
+				updateScheduleById(scheduleId, newSchedule);
+			}
 			handleModalClose();
 		}
 	};
@@ -171,7 +175,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 						readOnly={checkModalMode('read')}
 					/>
 				</TimeContainer>
-				{checkModalMode('read') ? (
+				{!checkModalMode('create') ? (
 					<span>{repeatOptions[selectedRepeat]}</span>
 				) : (
 					<>
