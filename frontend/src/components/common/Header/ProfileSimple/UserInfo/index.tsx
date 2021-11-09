@@ -19,7 +19,8 @@ const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
 		<TextContainer>
 			<span>{name}</span>
 			<span>{email}</span>
-			{status && <span>대화 가능 | 상태 메시지 설정</span>}
+			{status === 'none' && <span>Online</span>}
+			{status !== 'none' && <span>대화 가능 | 상태 메시지 설정</span>}
 		</TextContainer>
 	);
 };
