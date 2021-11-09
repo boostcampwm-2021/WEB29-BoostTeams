@@ -3,20 +3,10 @@ import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
 import { ModalMode, ModalSchedule } from '../../../stores/calendar';
-import {
-	Container,
-	InfoContainer,
-	TodayBtn,
-	NewAppointmentBtn,
-	ConvertCalenderBtn,
-	ButtonContainer,
-	ToggleBtnWrapper,
-	HiddenInput,
-	Slider,
-} from './style';
+import { Container, InfoContainer, TodayBtn, NewAppointmentBtn, ConvertCalenderBtn, ButtonContainer } from './style';
 import { DateInfoType } from '../dataStructure';
 
-interface CalendarHeaderProps {
+interface Props {
 	changeToCurrDate: () => void;
 	changeToPrevDate: () => void;
 	changeToNextDate: () => void;
@@ -26,7 +16,7 @@ interface CalendarHeaderProps {
 	dateInfo: DateInfoType;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+const CalendarHeader: React.FC<Props> = ({
 	changeToCurrDate,
 	changeToPrevDate,
 	changeToNextDate,
@@ -72,10 +62,6 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>
-				<ToggleBtnWrapper>
-					<HiddenInput type='checkbox' onChange={changeCalendar} />
-					<Slider />
-				</ToggleBtnWrapper>
 				<ConvertCalenderBtn onClick={changeCalendar}>{isMonthly ? '주간' : '월간'}</ConvertCalenderBtn>
 				<NewAppointmentBtn onClick={handleCreateModalOpen}>
 					<FaPlus />
