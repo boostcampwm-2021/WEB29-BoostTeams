@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { Container, DayContainer } from './style';
 import { DateInfoType, DayCode } from '../../dataStructure';
@@ -18,7 +19,10 @@ const WeekHeader: React.FC<Props> = ({ dateInfo }) => {
 		<Container>
 			{dayInfo.map((el, i) => {
 				return (
-					<DayContainer key={uuidv4()}>
+					<DayContainer
+						key={uuidv4()}
+						focus={moment(dateInfo.weeklyStartDate).add(i, 'days').format('YYYYMMDD') === moment().format('YYYYMMDD')}
+					>
 						<b>{el.date}</b>
 						<span>{DayCode[el.day]}</span>
 					</DayContainer>

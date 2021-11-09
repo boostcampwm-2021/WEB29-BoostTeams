@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '../../utils/calendar';
-import { useDate } from '../../hooks/schedule';
 import UserState from '../../stores/user';
 import { getSchedules } from '../../apis/schedule';
 import { ScheduleType } from '../../components/Calendar/dataStructure';
@@ -11,14 +10,14 @@ import { Header, Navbar } from '../../components/common';
 import CalendarHeader from '../../components/Calendar/CalendarHeader';
 import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
-import CalendarModal from '../../components/common/Modal/Calendar';
+import CalendarModal from '../../components/Calendar/CalendarModal';
 import { Layout, MainContainer, CalendarContainer } from './style';
 
 const Calendar: React.FC = () => {
-	const [isMonthly, setIsMonthly] = useState<boolean>(false);
 	const [schedules, setSchedules] = useState<ScheduleType[]>([]);
-	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-	const [dateInfo, setDateInfo] = useDate();
+	const [dateInfo, setDateInfo] = useState(getCurrDateInfo());
+	const [isMonthly, setIsMonthly] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const teamId = useRecoilValue(UserState).team_id;
 	const firstDate = getFirstDate(isMonthly, dateInfo).format('YYYYMMDD');
@@ -29,27 +28,29 @@ const Calendar: React.FC = () => {
 		setSchedules(scheduleList);
 	};
 
+	const deleteScheduleById = (id: number) => setSchedules(schedules.filter((schedule) => schedule.schedule_id !== id));
+	const addSchedule = (newSchedule: ScheduleType) => setSchedules([...schedules, newSchedule]);
+	const updateScheduleById = (id: number, newSchedule: ScheduleType) => {
+		setSchedules([...schedules.filter((schedule) => schedule.schedule_id !== id), newSchedule]);
+	};
+
 	const handleModalOpen = () => setIsModalVisible(true);
 	const handleModalClose = () => setIsModalVisible(false);
 	const changeCalendar = () => setIsMonthly(!isMonthly);
 
-	const changeToCurrDate = () => {
-		setDateInfo(getCurrDateInfo());
-	};
+	const changeToCurrDate = () => setDateInfo(getCurrDateInfo());
 	const changeToPrevDate = () => {
 		const { year, month, weeklyStartDate } = dateInfo;
-		const type = isMonthly ? 'monthly' : 'weekly';
-		setDateInfo(getPrevDateInfo(year, month, weeklyStartDate, type));
+		setDateInfo(getPrevDateInfo(year, month, weeklyStartDate, isMonthly));
 	};
 	const changeToNextDate = () => {
 		const { year, month, weeklyStartDate } = dateInfo;
-		const type = isMonthly ? 'monthly' : 'weekly';
-		setDateInfo(getNextDateInfo(year, month, weeklyStartDate, type));
+		setDateInfo(getNextDateInfo(year, month, weeklyStartDate, isMonthly));
 	};
 
 	useEffect(() => {
 		fetchSchedules();
-	}, [dateInfo]);
+	}, [dateInfo, isMonthly]);
 
 	return (
 		<Layout>
@@ -67,13 +68,20 @@ const Calendar: React.FC = () => {
 						dateInfo={dateInfo}
 					/>
 					{isMonthly ? (
-						<MonthlyCalendar dateInfo={dateInfo} schedules={schedules} />
+						<MonthlyCalendar dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
 					) : (
 						<WeeklyCalendar dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
 					)}
 				</CalendarContainer>
 			</MainContainer>
-			{isModalVisible && <CalendarModal handleModalClose={handleModalClose} />}
+			{isModalVisible && (
+				<CalendarModal
+					handleModalClose={handleModalClose}
+					addSchedule={addSchedule}
+					deleteScheduleById={deleteScheduleById}
+					updateScheduleById={updateScheduleById}
+				/>
+			)}
 		</Layout>
 	);
 };

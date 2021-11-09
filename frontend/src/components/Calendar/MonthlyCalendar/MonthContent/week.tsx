@@ -3,16 +3,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { WeekContainer } from './style';
 import Day from './day';
 
-interface WeekProps {
+interface Props {
 	week: number[];
 	schedules: any[];
+	handleModalOpen: () => void;
 }
 
-const Week: React.FC<WeekProps> = ({ week, schedules }: WeekProps) => {
+const Week: React.FC<Props> = ({ week, schedules, handleModalOpen }) => {
 	return (
 		<WeekContainer>
 			{week.map((day, idx) => (
-				<Day key={uuidv4()} day={day} idx={idx} schedules={schedules} />
+				<Day key={uuidv4()} day={day} idx={idx} schedules={schedules} handleModalOpen={handleModalOpen} />
 			))}
 		</WeekContainer>
 	);

@@ -37,6 +37,11 @@ class ScheduleService {
 
 		return schedules;
 	}
+
+	async deleteSchedule(schedule_id) {
+		const deleted = await this.scheduleRepository.delete({schedule_id});
+		return deleted;
+	}
 }
 
 export default ScheduleService;

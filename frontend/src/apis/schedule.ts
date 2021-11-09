@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import fetchApi from '../utils/fetch';
 
 export interface ScheduleReqType {
+	schedule_id?: number;
 	title?: string;
 	start_date: string;
 	end_date: string;
@@ -21,6 +22,23 @@ export const createNewSchedule = async (team_id: number, newSchedule: ScheduleRe
 	} catch (err) {
 		toast.error('😣 일정 추가에 실패하였습니다!');
 		return {};
+	}
+};
+
+export const deleteSchedule = async (schedule_id: number): Promise<any> => {
+	try {
+		const res = await fetchApi.delete(`/api/schedule/${schedule_id}`);
+		if (res.status === 200) {
+			return true;
+		}
+		if (res.status === 404) {
+			toast.error('😣 일정 삭제에 실패하였습니다!');
+			return false;
+		}
+		return true;
+	} catch (err) {
+		toast.error('😣 일정 삭제에 실패하였습니다!');
+		return false;
 	}
 };
 

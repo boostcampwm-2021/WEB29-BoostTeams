@@ -1,25 +1,5 @@
 import styled from 'styled-components';
-import { ColorCode, Font } from '../../../../utils/constants';
-
-export const Container = styled.div`
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 30rem;
-	background-color: ${ColorCode.WHITE};
-	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	border-radius: 8px;
-	z-index: 25;
-	padding: 4rem 2rem 2rem 2rem;
-	box-sizing: border-box;
-	input {
-		border: none;
-		&:focus {
-			outline: none;
-		}
-	}
-`;
+import { ColorCode, Font } from '../../../utils/constants';
 
 export const FormContainer = styled.form`
 	textarea {
@@ -57,15 +37,7 @@ export const TimeContainer = styled.div`
 	}
 `;
 
-export const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: right;
-	button {
-		margin-left: 1rem;
-	}
-`;
-
-export const DeleteButtonWrapper = styled.button`
+export const ButtonContainer = styled.button`
 	position: absolute;
 	top: 1.5rem;
 	right: 1.5rem;
@@ -73,6 +45,7 @@ export const DeleteButtonWrapper = styled.button`
 	background-color: transparent;
 	padding: 0;
 	svg {
+		margin-left: 1rem;
 		color: ${ColorCode.LINE3};
 		cursor: pointer;
 		width: 1.2rem;
