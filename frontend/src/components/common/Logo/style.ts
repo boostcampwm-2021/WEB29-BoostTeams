@@ -13,5 +13,8 @@ export const Wrapper = styled.div`
 			padding-right: 0.5rem;
 			width: 2rem;
 		}
+		&:visited {
+			color: ${ColorCode.WHITE};
+		}
 	}
 `;

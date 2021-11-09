@@ -1,11 +1,14 @@
 import React from 'react';
 import { ProfileIcon } from '../../..';
-import { Container, TextContainer } from './style';
+import EmailBox from './EmailBox';
+import GithubBadge from './GithubBadge';
+import { Container, NameContainer, TextContainer } from './style';
 
 type User = {
 	name: string;
 	email: string;
 	state: number;
+	github?: string;
 };
 
 type ProfileProps = {
@@ -14,11 +17,14 @@ type ProfileProps = {
 };
 
 const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
-	const { name, email } = user;
+	const { name, email, github } = user;
 	return (
 		<TextContainer>
-			<span>{name}</span>
-			<span>{email}</span>
+			<NameContainer>
+				<span>{name} |</span>
+				{github && <GithubBadge github={github} />}
+				{!github && <EmailBox email={email} />}
+			</NameContainer>
 			{status === 'none' && <span>Online</span>}
 			{status !== 'none' && <span>대화 가능 | 상태 메시지 설정</span>}
 		</TextContainer>
@@ -28,7 +34,7 @@ const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
 const UserInfo: React.FC<ProfileProps> = ({ user, status }) => {
 	const { name } = user;
 	const color = user.state;
-
+	console.log(user);
 	return (
 		<Container>
 			<ProfileIcon name={name} color={color} status={status} width={5} isHover={false} />

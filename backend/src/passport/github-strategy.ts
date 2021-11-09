@@ -19,7 +19,7 @@ const getUserRawData = (userJson) => {
 const githubLoginCallback = async (accessToken, refreshToken, profile, callback) => {
 	const { user_email, user_password, user_name } = getUserRawData(profile._json);
 	let user = await UserService.getInstance().getUserByEmail(user_email);
-	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, user_name);
+	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, user_name, user_name);
 	return callback(null, user);
 };
 
