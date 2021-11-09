@@ -22,7 +22,25 @@ export default class TeamUserService {
 		return TeamUserService.instance;
 	}
 
-	async getTeamsByUserId(userId: number) {
+	async updateTeam(team: teamInfo) {
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.update('team')
+			.set({ team_name: team.team_name, team_desc: team.team_desc })
+			.where('team_id=:id', { id: team.team_id })
+			.execute();
+	}
+
+	async deleteTeam(team: teamInfo) {
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.delete()
+			.from('team')
+			.where('team_id=:id', { id: team.team_id })
+			.execute();
+	}
+
+	async getTeam(userId: number) {
 		const teams = await this.SelectAllTeam(userId);
 		return teams;
 	}
@@ -33,7 +51,7 @@ export default class TeamUserService {
 		await this.InsertTeamUserRecord(userId, team.team_id);
 	}
 
-	async createNewTeam(userId: number, newTeam: teamInfo) {
+	async createTeam(userId: number, newTeam: teamInfo) {
 		const insertResult = await this.InsertTeamRecord(newTeam);
 		const newTeamId = insertResult.raw.insertId;
 		await this.InsertTeamUserRecord(userId, newTeamId);

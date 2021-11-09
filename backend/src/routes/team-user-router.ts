@@ -7,6 +7,6 @@ router.post('/new', authenticateToken, TeamUserController.createTeam);
 router.post('/join', authenticateToken, TeamUserController.joinTeam);
 router.get('/', authenticateToken, TeamUserController.getTeam);
 router.put('/:team_id', authenticateToken, TeamUserController.updateTeam);
-router.delete('/:team_id', authenticateToken, TeamUserController.deleteTeam);
+router.delete('/:team_id', TeamUserController.deleteTeam);
 
 export default router;
