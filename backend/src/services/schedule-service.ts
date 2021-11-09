@@ -21,9 +21,9 @@ class ScheduleService {
 		return newSchedule;
 	}
 
-	async getSchedule(startDate, endDate) {
+	async getSchedule(teamId, startDate, endDate) {
 		const schedules = await this.scheduleRepository.find({
-			where: { start_date: MoreThan(startDate), end_date: LessThan(endDate) },
+			where: { team_id: teamId, start_date: MoreThan(startDate), end_date: LessThan(endDate) },
 			relations: ['team']
 		});
 
@@ -39,7 +39,7 @@ class ScheduleService {
 	}
 
 	async deleteSchedule(schedule_id) {
-		const deleted = await this.scheduleRepository.delete({schedule_id});
+		const deleted = await this.scheduleRepository.delete({ schedule_id });
 		return deleted;
 	}
 }
