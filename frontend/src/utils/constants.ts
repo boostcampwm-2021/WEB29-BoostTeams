@@ -54,9 +54,9 @@ const SecondaryPalette = [
 ];
 
 const TeamCard = {
-	borderRadius: '1rem',
-	width: '15rem',
-	height: '15rem',
+	BORDER_RADIUS: '1rem',
+	WIDTH: '15rem',
+	HEIGHT: '15rem',
 };
 
 export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard };

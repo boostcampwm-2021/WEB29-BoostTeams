@@ -7,17 +7,17 @@ export const TeamCardContainer = Styled.div`
   justify-content: center;
   align-items : center;
   background-color: ${ColorCode.WHITE};
-  border-radius: ${TeamCard.borderRadius};
-  width : ${TeamCard.width};
-  height :${TeamCard.height};
+  border-radius: ${TeamCard.BORDER_RADIUS};
+  width : ${TeamCard.WIDTH};
+  height :${TeamCard.HEIGHT};
 `;
 
 export const TeamCardImage = Styled.div`
   display: flex;
   justify-content : center;
   align-items : center;
-  width : ${TeamCard.width};
-  height : calc(${TeamCard.height} * 0.6);
+  width : ${TeamCard.WIDTH};
+  height : calc(${TeamCard.HEIGHT} * 0.6);
   img {
     max-width: 100%;
     max-height: 100%;
@@ -25,8 +25,8 @@ export const TeamCardImage = Styled.div`
 `;
 
 export const TeamCardName = Styled.span`
-  width : ${TeamCard.width};
-  height : calc(${TeamCard.height} * 0.1);
+  width : ${TeamCard.WIDTH};
+  height : calc(${TeamCard.HEIGHT} * 0.1);
   font-size: ${Font.MEDIUM};
   font-weight: bold;
   text-align: center;
@@ -34,9 +34,9 @@ export const TeamCardName = Styled.span`
   padding-bottom : 0.5rem;
 `;
 
-export const InviteButtonWrapper = Styled.div`
-    width : ${TeamCard.width};
-    height : calc(${TeamCard.height} * 0.1);
+export const InviteButtonContainer = Styled.div`
+    width : ${TeamCard.WIDTH};
+    height : calc(${TeamCard.HEIGHT} * 0.1);
     display: flex;
     align-items : center;
     justify-content : space-evenly; 

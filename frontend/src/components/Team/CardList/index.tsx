@@ -19,10 +19,13 @@ interface Props {
 const CardList: React.FC<Props> = ({ dummy, type }) => {
 	// const teamList = type === 'myTeam' ? useRecoilValue(userTeamList) : useRecoilState(userInviteList); // 개선 필요
 	const teamList = dummy;
-	const teamCards = teamList.map((team: TeamData) => (
-		<TeamCard key={team.team_id} type={type} team_name={team.team_name} />
-	));
-	return <CardListContainer>{teamCards}</CardListContainer>;
+	return (
+		<CardListContainer>
+			{teamList.map((team: TeamData) => (
+				<TeamCard key={team.team_id} type={type} team_name={team.team_name} />
+			))}
+		</CardListContainer>
+	);
 };
 
 export default CardList;
