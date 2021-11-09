@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
 import { ModalMode, ModalSchedule } from '../../../stores/calendar';
@@ -43,6 +44,11 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 		handleModalOpen();
 	};
 
+	const nextDateInfo = () => {
+		const date = moment(dateInfo.weeklyStartDate).add(7, 'days');
+		return { year: date.year(), month: date.month() };
+	};
+
 	return (
 		<Container>
 			<InfoContainer>
@@ -51,9 +57,18 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 					<span>오늘</span>
 				</TodayBtn>
 				<FaChevronLeft onClick={changeToPrevDate} />
-				<span>
-					{dateInfo.year}년 {dateInfo.month}월
-				</span>
+				<div>
+					{!isMonthly && dateInfo.isDoubleMonth ? (
+						<span>
+							{dateInfo.weeklyStartDate.getFullYear()}년 {dateInfo.weeklyStartDate.getMonth() + 1}월 -{' '}
+							{nextDateInfo().year}년 {nextDateInfo().month + 1}월
+						</span>
+					) : (
+						<span>
+							{dateInfo.year}년 {dateInfo.month}월
+						</span>
+					)}
+				</div>
 				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>

@@ -3,6 +3,7 @@ export interface DateInfoType {
 	year: number;
 	month: number;
 	weeklyStartDate: Date;
+	isDoubleMonth: boolean;
 }
 
 export interface ScheduleType {

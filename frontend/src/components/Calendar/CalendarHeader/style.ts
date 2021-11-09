@@ -18,10 +18,11 @@ export const Container = styled.header`
 
 export const InfoContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	width: 13rem;
 	font-size: 0.9rem;
+	div {
+		padding: 0 0.8rem;
+	}
 	svg {
 		cursor: pointer;
 		&:hover {
