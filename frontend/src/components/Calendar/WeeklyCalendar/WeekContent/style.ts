@@ -50,7 +50,7 @@ export const DayContainer = styled.div<DayContainerProps>`
 	background-color: ${(props) => `${props.focus ? ColorCode.WHITE : ''}`};
 `;
 
-export const DayBox = styled.div`
+export const TimeBlock = styled.div`
 	box-sizing: border-box;
 	height: 2.5rem;
 	border-bottom: solid 1px ${ColorCode.LINE2};

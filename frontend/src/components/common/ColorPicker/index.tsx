@@ -15,9 +15,7 @@ const ColorPicker: React.FC<Props> = ({ selectedColor, setSelectedColor }) => {
 	};
 
 	// React.MouseEvent<HTMLElement> 타입으로 하면 dataset을 이용 못한다..
-	const handleColorClick = (e: any) => {
-		setSelectedColor(e.target.dataset.color);
-	};
+	const handleColorClick = (e: any) => setSelectedColor(e.target.dataset.color);
 
 	return (
 		<Container onClick={handleDropDownOpen}>
