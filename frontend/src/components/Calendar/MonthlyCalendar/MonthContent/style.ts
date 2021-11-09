@@ -34,6 +34,7 @@ export const Schedule = styled.div<ScheduleProps>`
 	padding: 0.5rem;
 	margin: 0.3rem 0;
 	color: ${ColorCode.BLACK};
+	cursor: pointer;
 `;
 
 export const WeekContainer = styled.div`
