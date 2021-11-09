@@ -5,6 +5,7 @@ export const Container = styled.div`
 	display: flex;
 	flex-direction: row;
 	padding: 0 1rem;
+	gap: 0.25rem;
 	margin-bottom: 1rem;
 `;
 
