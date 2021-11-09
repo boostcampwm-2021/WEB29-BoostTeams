@@ -44,6 +44,10 @@ class UserService {
 		return newUser;
 	}
 
+	async updateUserToName(user_id: number, newName: string) {
+		return await this.userRepository.update({ user_id }, { user_name: newName });
+	}
+
 	async getUserByEmail(user_email: string) {
 		const user = await this.userRepository.findOne({
 			where: { user_email }
