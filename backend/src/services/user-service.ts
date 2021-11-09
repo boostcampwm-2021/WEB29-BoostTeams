@@ -25,14 +25,15 @@ class UserService {
 			return undefined;
 		}
 
-		const { user_id, user_email, user_name, user_state } = user;
-		return { user_id, user_email, user_name, user_state };
+		const { user_id, user_email, user_name, user_state, github_name } = user;
+		return { user_id, user_email, user_name, user_state, github_name };
 	}
 
-	async createUser(user_email: string, encryptedPassword: string, user_name: string) {
+	async createUser(user_email: string, encryptedPassword: string, user_name: string, github_name?: string) {
 		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
-		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state: 0 });
+		const user_state = Math.floor(Math.random() * 12); // TODO : user_color로 바꾸기
+		const newUser = await this.userRepository.save({ user_email, user_password, user_name, user_state, github_name });
 		return newUser;
 	}
 

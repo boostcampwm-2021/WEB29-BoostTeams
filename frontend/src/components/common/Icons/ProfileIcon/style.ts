@@ -1,28 +1,42 @@
 import styled from 'styled-components';
 import { ColorCode } from '../../../../utils/constants';
 
-export const Container = styled.div`
-	width: 3rem;
-	height: 3rem;
+interface ContainerProps {
+	width: string;
+	isHover?: boolean;
+}
+
+interface ProfileIconContainerProps extends ContainerProps {
+	backgroundColor: string;
+	fontColor: string;
+}
+
+export const Container = styled('div')<ContainerProps>`
+	height: ${(props) => props.width};
+	width: ${(props) => props.width};
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	&:hover {
-		background-color: ${ColorCode.HOVER};
+		background-color: ${(props) => (props.isHover ? ColorCode.HOVER : 'none')};
 	}
+	cursor: pointer;
 `;
 
-export const ProfileIconContainer = styled.div`
+export const ProfileIconContainer = styled('div')<ProfileIconContainerProps>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	height: 2rem;
-	width: 2rem;
+	height: ${(props) => props.width};
+	width: ${(props) => props.width};
 	border-radius: 50%;
-	background-color: ${(props) => props.color || ColorCode.WHITE};
+	background-color: ${(props) => props.backgroundColor || ColorCode.WHITE};
+	color: ${(props) => props.fontColor || ColorCode.BLACK};
 	span {
 		font-weight: bold;
+		font-size: calc(${(props) => props.width} / 2);
+		vertical-align: middle;
 	}
 `;
 

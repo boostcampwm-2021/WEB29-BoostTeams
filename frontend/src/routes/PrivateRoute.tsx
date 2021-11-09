@@ -11,7 +11,13 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 		if (localStorage.getItem('JWT')) {
 			check(
 				(res: any) => {
-					setUser({ name: res.user_name, email: res.user_email, state: res.user_state, team_id: 1 });
+					setUser({
+						name: res.user_name,
+						email: res.user_email,
+						state: res.user_state,
+						team_id: 1,
+						github: res.github_name,
+					});
 				},
 				() => {
 					localStorage.removeItem('JWT');

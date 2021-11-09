@@ -1,25 +1,47 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-import { Container, LogoWrapper } from './style';
+import React, { useLayoutEffect, useState } from 'react';
+import { useLocation } from 'react-router';
+import { useRecoilValue } from 'recoil';
+
+import { Container } from './style';
+import { LongLogo } from '../Logo';
 import ProfileIcon from '../Icons/ProfileIcon';
+import UserState from '../../../stores/user';
+import ProfileSimple from './ProfileSimple';
 
 const Header: React.FC = () => {
-	const history = useHistory();
+	const user = useRecoilValue(UserState);
+	const [status, setStatus] = useState('green'); // TODO: Socket으로부터 status 받아오기, Status 문자열로 관리 이대로 괜찮은가?
+	const [showProfileSimple, setShowProfileSimple] = useState(false);
+	const location = useLocation();
 
-	const linkHome = (e: any) => {
-		e.preventDefault();
-		// history.push('/');
+	const handleCloseModal = () => {
+		setShowProfileSimple(false);
 	};
+
+	const handleOpenModal = () => {
+		setShowProfileSimple(true);
+	};
+
+	const clickHandler = () => {
+		if (showProfileSimple) {
+			handleCloseModal();
+		} else {
+			handleOpenModal();
+		}
+	};
+
+	useLayoutEffect(() => {
+		// TODO: Socket으로부터 status 받아오기
+		if (location.pathname === '/team') {
+			setStatus('none');
+		}
+	}, []);
 
 	return (
 		<Container>
-			<LogoWrapper>
-				<a href='/' onClick={linkHome}>
-					<img src='logo.png' alt='logo' />
-					BoostTeams
-				</a>
-			</LogoWrapper>
-			<ProfileIcon name='부' color='orange' status='green' />
+			<LongLogo />
+			<ProfileIcon name={user.name} color={user.state} status={status} onClick={clickHandler} width={3} />
+			{showProfileSimple && <ProfileSimple status={status} handleCloseModal={handleCloseModal} />}
 		</Container>
 	);
 };
