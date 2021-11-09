@@ -12,7 +12,7 @@ const dropAnimation = keyframes`
 	}
 `;
 
-export const Wrapper = styled.div`
+export const ModalContainer = styled.div`
 	position: absolute;
 	top: 2rem;
 	right: 1rem;

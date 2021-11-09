@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import UserState from '../../../../stores/user';
 import UserInfo from './UserInfo';
-import { Background, Container, Wrapper } from './style';
+import { Background, Container, ModalContainer } from './style';
 import { AccountButton, LogoutButton } from './Buttons';
 import { logout } from '../../../../apis/auth';
 
@@ -25,7 +25,7 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({ status, handleCloseModal 
 
 	return (
 		<Container>
-			<Wrapper>
+			<ModalContainer>
 				<UserInfo user={user} status={status} />
 				<AccountButton
 					onClick={() => {
@@ -33,7 +33,7 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({ status, handleCloseModal 
 					}}
 				/>
 				<LogoutButton onClick={logoutHandler} />
-			</Wrapper>
+			</ModalContainer>
 			<Background onClick={handleCloseModal} />
 		</Container>
 	);
