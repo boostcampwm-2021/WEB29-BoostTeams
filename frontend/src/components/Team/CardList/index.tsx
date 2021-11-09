@@ -1,24 +1,28 @@
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userInviteList, userTeamList } from '../../../stores/team';
 import TeamCard from '../TeamCard';
 import { CardListContainer } from './style';
 
-export interface TeamData {
+interface TeamData {
 	team_id: number;
 	team_name: string;
 	team_desc: string;
+}
+export interface CardData {
+	team_user_id: number;
+	team: TeamData;
 }
 interface Props {
 	type: string;
 }
 
 const CardList: React.FC<Props> = ({ type }) => {
-	const [list, setList] = type === 'myTeam' ? useRecoilValue(userTeamList) : useRecoilState(userInviteList);
+	const teamList = useRecoilValue(type === 'myTeam' ? userTeamList : userInviteList);
 	return (
 		<CardListContainer>
-			{list.map((team: TeamData) => (
-				<TeamCard key={team.team_id} type={type} teamData={team} />
+			{teamList.map((team: CardData) => (
+				<TeamCard key={team.team_user_id} type={type} data={team} />
 			))}
 		</CardListContainer>
 	);
