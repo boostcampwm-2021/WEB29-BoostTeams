@@ -30,16 +30,17 @@ interface Props {
 const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
-	const [modalMode, setModalMode] = useRecoilState(ModalMode);
 	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
-	const [modalSchedule, setModalSchedule] = useRecoilState(ModalSchedule);
+	const modalSchedule = useRecoilValue(ModalSchedule);
+	const [modalMode, setModalMode] = useRecoilState(ModalMode);
+
 	const [selectedColor, setSelectedColor] = useState(0);
 	const [selectedRepeat, setSelectedRepeat] = useState(0);
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [selectedStartTime, setSelectedStartTime] = useState(new Date());
 	const [selectedEndTime, setSelectedEndTime] = useState(new Date());
-	const [DefaultTitle, setDefaultTitle] = useState('');
-	const [DefaultContent, setDefaultContent] = useState('');
+	const [defaultTitle, setDefaultTitle] = useState('');
+	const [defaultContent, setDefaultContent] = useState('');
 	const [selectedRepeatCount, setSelectedRepeatCount] = useState(0);
 
 	const titleRef = useRef<HTMLInputElement>(null);
@@ -158,7 +159,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 					)}
 					<input
 						ref={titleRef}
-						defaultValue={DefaultTitle}
+						defaultValue={defaultTitle}
 						placeholder='제목을 입력해 주세요.'
 						readOnly={checkModalMode('read')}
 					/>
@@ -186,7 +187,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				)}
 				<textarea
 					ref={contentRef}
-					defaultValue={DefaultContent}
+					defaultValue={defaultContent}
 					readOnly={checkModalMode('read')}
 					placeholder='설명을 입력해 주세요'
 				/>
