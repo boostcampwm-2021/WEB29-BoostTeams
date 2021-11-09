@@ -26,6 +26,9 @@ export class Schedule {
 	repeat_id: string;
 
 	@Column()
+	repeat_option: number;
+
+	@Column()
 	content: string;
 
 	@Column()
