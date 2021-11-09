@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface DateInfoType {
 	year: number;
 	month: number;
