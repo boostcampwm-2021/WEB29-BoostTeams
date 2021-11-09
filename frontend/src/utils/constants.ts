@@ -53,4 +53,10 @@ const SecondaryPalette = [
 	ColorCode.DARKBLUE,
 ];
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette };
+const TeamCard = {
+	BORDER_RADIUS: '1rem',
+	WIDTH: '15rem',
+	HEIGHT: '15rem',
+};
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard };
