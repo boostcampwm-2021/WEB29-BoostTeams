@@ -2,7 +2,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { ColorCode } from '../../../utils/constants';
-import { Container, ButtonContainer } from './style';
+import { Background, Container, ButtonContainer } from './style';
 import Button from '../Button';
 
 interface Props {
@@ -14,17 +14,29 @@ interface Props {
 
 const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton = false }) => {
 	const MODAL: Element = document.getElementById('modal')!;
-
 	return createPortal(
-		<Container>
-			{children}
-			<ButtonContainer>
-				{!removeSubmitButton && (
-					<Button text='저장' handler={handleSubmit} backgroundColor={ColorCode.PRIMARY1} fontColor={ColorCode.WHITE} />
-				)}
-				<Button text='닫기' handler={handleModalClose} backgroundColor={ColorCode.WHITE} fontColor={ColorCode.BLACK} />
-			</ButtonContainer>
-		</Container>,
+		<>
+			<Background onClick={handleModalClose} />
+			<Container>
+				{children}
+				<ButtonContainer>
+					{!removeSubmitButton && (
+						<Button
+							text='저장'
+							handler={handleSubmit}
+							backgroundColor={ColorCode.PRIMARY1}
+							fontColor={ColorCode.WHITE}
+						/>
+					)}
+					<Button
+						text='닫기'
+						handler={handleModalClose}
+						backgroundColor={ColorCode.WHITE}
+						fontColor={ColorCode.BLACK}
+					/>
+				</ButtonContainer>
+			</Container>
+		</>,
 		MODAL,
 	);
 };
