@@ -37,6 +37,10 @@ export const ButtonContainer = styled.div`
 	& > * {
 		margin-left: 0.5rem;
 	}
+	button {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
 `;
 
 export const TodayBtn = styled.button`
@@ -70,13 +74,24 @@ export const NewAppointmentBtn = styled.button`
 	}
 `;
 
-export const ConvertCalenderBtn = styled.button`
-	background-color: transparent;
-	border: 1px solid ${ColorCode.LINE2};
+interface btnProps {
+	focus: boolean;
+}
+
+export const ConvertBtnContainer = styled.div`
 	border-radius: 8px;
-	padding: 0.3rem 0.5rem;
-	&:hover {
-		color: ${ColorCode.PRIMARY1};
+	border: 1px solid ${ColorCode.LINE2};
+`;
+
+export const ConvertBtn = styled.button<btnProps>`
+	background-color: ${(props) => (props.focus ? `${ColorCode.PRIMARY1}` : 'transparent')};
+	color: ${(props) => (props.focus ? `${ColorCode.WHITE}` : `${ColorCode.BLACK}`)};
+	border: 1px solid transparent;
+	border-radius: 8px;
+	cursor: pointer;
+	padding: 0.3rem 0.4rem;
+	:hover {
 		border: 1px solid ${ColorCode.PRIMARY1};
+		opacity: 0.9;
 	}
 `;

@@ -36,7 +36,8 @@ const Calendar: React.FC = () => {
 
 	const handleModalOpen = () => setIsModalVisible(true);
 	const handleModalClose = () => setIsModalVisible(false);
-	const changeCalendar = () => setIsMonthly(!isMonthly);
+	const changeToMonthly = () => setIsMonthly(true);
+	const changeToWeekly = () => setIsMonthly(false);
 
 	const changeToCurrDate = () => setDateInfo(getCurrDateInfo());
 	const changeToPrevDate = () => {
@@ -62,7 +63,8 @@ const Calendar: React.FC = () => {
 						changeToCurrDate={changeToCurrDate}
 						changeToPrevDate={changeToPrevDate}
 						changeToNextDate={changeToNextDate}
-						changeCalendar={changeCalendar}
+						changeToMonthly={changeToMonthly}
+						changeToWeekly={changeToWeekly}
 						handleModalOpen={handleModalOpen}
 						isMonthly={isMonthly}
 						dateInfo={dateInfo}

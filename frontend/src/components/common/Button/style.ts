@@ -18,4 +18,7 @@ export const NormalButton = styled.button<NormalButtonProps>`
 	font-weight: 500;
 	padding: 0.2rem 1rem;
 	cursor: pointer;
+	:hover {
+		opacity: 0.9;
+	}
 `;
