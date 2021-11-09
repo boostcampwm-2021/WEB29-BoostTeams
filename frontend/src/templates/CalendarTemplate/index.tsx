@@ -20,8 +20,8 @@ const Calendar: React.FC = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const teamId = useRecoilValue(UserState).team_id;
-	const firstDate = getFirstDate(isMonthly, dateInfo).format('YYYYMMDD');
-	const lastDate = getLastDate(isMonthly, dateInfo).format('YYYYMMDD');
+	const firstDate = getFirstDate(isMonthly, dateInfo);
+	const lastDate = getLastDate(isMonthly, dateInfo);
 
 	const fetchSchedules = async () => {
 		const scheduleList = await getSchedules(teamId, firstDate, lastDate);
