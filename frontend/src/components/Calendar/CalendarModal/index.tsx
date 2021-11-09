@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
 import { toast } from 'react-toastify';
 
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
@@ -12,23 +13,17 @@ import ColorPicker from '../../common/ColorPicker';
 import DropDown from '../../common/DropDown';
 import Modal from '../../common/Modal';
 
-import { FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
-import { strToFormatString } from '../../../utils/calendar';
+import { dateToFormatString } from '../../../utils/calendar';
 import { createNewSchedule, deleteSchedule, ScheduleReqType } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
+import { FormContainer, TitleContainer, TimeContainer, ButtonContainer } from './style';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
 	handleModalClose: () => void;
 	addSchedule: (newSchedule: ScheduleType) => void;
 	deleteScheduleById: (id: number) => void;
 	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
-}
-interface InputScheduleType {
-	title: string;
-	date: string;
-	startTime: string;
-	endTime: string;
-	content: string;
 }
 
 const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
@@ -37,22 +32,29 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 	const [modalMode, setModalMode] = useRecoilState(ModalMode);
 	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
 	const [modalSchedule, setModalSchedule] = useRecoilState(ModalSchedule);
-	const [selectedColor, setSelectedColor] = useState<number>(0);
-	const [selectedRepeat, setSelectedRepeat] = useState<number>(0);
-	const [inputSchedule, setInputSchedule] = useState<InputScheduleType>();
+	const [selectedColor, setSelectedColor] = useState(0);
+	const [selectedRepeat, setSelectedRepeat] = useState(0);
+	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [selectedStartTime, setSelectedStartTime] = useState(new Date());
+	const [selectedEndTime, setSelectedEndTime] = useState(new Date());
+	const [inputTitle, setInputTitle] = useState('');
+	const [inputContent, setInputContent] = useState('');
 
 	const titleRef = useRef<HTMLInputElement>(null);
-	const dateRef = useRef<HTMLInputElement>(null);
-	const startTimeRef = useRef<HTMLInputElement>(null);
-	const endTimeRef = useRef<HTMLInputElement>(null);
 	const contentRef = useRef<HTMLTextAreaElement>(null);
 
 	const getScheduleData = (): ScheduleReqType => {
 		return {
 			color: selectedColor,
 			title: titleRef.current?.value,
-			start_date: moment(`${dateRef.current?.value} ${startTimeRef.current?.value}`, 'YYYY-MM-DD hh:mm').toString(),
-			end_date: moment(`${dateRef.current?.value} ${endTimeRef.current?.value}`, 'YYYY-MM-DD hh:mm').toString(),
+			start_date: moment(
+				`${dateToFormatString(selectedDate, 'YYYY-MM-DD')} ${dateToFormatString(selectedStartTime, 'HH:mm')}`,
+				'YYYY-MM-DD hh:mm',
+			).toString(),
+			end_date: moment(
+				`${dateToFormatString(selectedDate, 'YYYY-MM-DD')} ${dateToFormatString(selectedEndTime, 'HH:mm')}`,
+				'YYYY-MM-DD hh:mm',
+			).toString(),
 			repeat_id: selectedRepeat,
 			content: contentRef.current?.value,
 		};
@@ -105,13 +107,11 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		const { title, color, repeat_id, start_date, end_date, content } = modalSchedule;
 		setSelectedColor(color);
 		setSelectedRepeat(repeat_id);
-		setInputSchedule({
-			title,
-			content,
-			date: strToFormatString(start_date, 'YYYY-MM-DD'),
-			startTime: strToFormatString(start_date, 'HH:mm'),
-			endTime: strToFormatString(end_date, 'HH:mm'),
-		});
+		setSelectedDate(new Date(start_date));
+		setSelectedStartTime(new Date(start_date));
+		setSelectedEndTime(new Date(end_date));
+		setInputTitle(title);
+		setInputContent(content);
 	}, [modalMode, modalSchedule]);
 
 	return (
@@ -121,21 +121,38 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 					<ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
 					<input
 						ref={titleRef}
-						defaultValue={inputSchedule?.title}
+						defaultValue={inputTitle}
 						placeholder='제목을 입력해 주세요.'
 						readOnly={checkModalMode('read')}
 					/>
 				</TitleContainer>
 				<TimeContainer>
-					<input ref={dateRef} type='date' defaultValue={inputSchedule?.date} readOnly={checkModalMode('read')} />
-					<input
-						ref={startTimeRef}
-						type='time'
-						defaultValue={inputSchedule?.startTime}
+					<DatePicker
+						selected={selectedDate}
+						onChange={(date: Date) => setSelectedDate(date)}
+						readOnly={checkModalMode('read')}
+					/>
+					<DatePicker
+						selected={selectedStartTime}
+						onChange={(date: Date) => setSelectedStartTime(date)}
+						showTimeSelect
+						showTimeSelectOnly
+						timeIntervals={30}
+						timeCaption='Time'
+						dateFormat='h:mm aa'
 						readOnly={checkModalMode('read')}
 					/>
 					<span>~</span>
-					<input ref={endTimeRef} type='time' defaultValue={inputSchedule?.endTime} readOnly={checkModalMode('read')} />
+					<DatePicker
+						selected={selectedEndTime}
+						onChange={(date: Date) => setSelectedEndTime(date)}
+						showTimeSelect
+						showTimeSelectOnly
+						timeIntervals={30}
+						timeCaption='Time'
+						dateFormat='h:mm aa'
+						readOnly={checkModalMode('read')}
+					/>
 				</TimeContainer>
 				<DropDown
 					options={repeatOptions}
@@ -144,7 +161,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 				/>
 				<textarea
 					ref={contentRef}
-					defaultValue={inputSchedule?.content}
+					defaultValue={inputContent}
 					readOnly={checkModalMode('read')}
 					placeholder='설명을 입력해 주세요'
 				/>

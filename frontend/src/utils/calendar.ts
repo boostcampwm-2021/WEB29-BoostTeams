@@ -7,7 +7,7 @@ export const getFirstDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
 export const getLastDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
 	isMonthly ? moment(new Date(dateInfo.year, dateInfo.month, 0)) : moment(dateInfo.weeklyStartDate).add(7, 'days');
 
-export const strToFormatString = (dateStr: string, format: string) => moment(dateStr).format(format).toString();
+export const dateToFormatString = (date: Date, format: string) => moment(date).format(format).toString();
 
 const getIsDoubleMonth = (date: moment.Moment) => date.month() !== date.add(7, 'days').month();
 
