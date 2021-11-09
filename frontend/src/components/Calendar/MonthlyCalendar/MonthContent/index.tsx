@@ -2,7 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ContentContainer } from './style';
 import { DateInfoType, ScheduleType, weekContentNumber } from '../../dataStructure';
-import Week from './week';
+import Week from './Week';
 
 interface Props {
 	dateInfo: DateInfoType;
