@@ -13,6 +13,7 @@ import SocketIO from './sockets';
 import userRouter from './routes/user-router';
 import authRouter from './routes/auth-router';
 import scheduleRouter from './routes/schedule-router';
+import teamUserRouter from './routes/team-user-router';
 
 class App {
 	app: express.Application;
@@ -48,9 +49,10 @@ class App {
 	}
 
 	private route() {
-		this.app.use('/api/user', userRouter);
+		// this.app.use('/api/user', userRouter);
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
+		this.app.use('/api/users', teamUserRouter);
 	}
 
 	listen() {
