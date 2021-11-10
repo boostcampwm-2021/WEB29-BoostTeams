@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, Column } from 'typeorm';
 import { ChatRoomUser } from './chat_room-user';
 import { Team } from './team';
 import { User } from './user';
@@ -18,4 +18,7 @@ export class TeamUser {
 
 	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room_user_id)
 	chat_room_users: ChatRoomUser[];
+
+	@Column()
+	state: Boolean;
 }
