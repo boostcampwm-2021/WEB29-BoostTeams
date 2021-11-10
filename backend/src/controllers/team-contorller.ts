@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import TeamUserService from '../services/team-user-service';
 import TeamService from '../services/team-service';
 import UserService from '../services/user-service';
@@ -21,37 +21,41 @@ const TeamController = {
 			await TeamUserService.getInstance().create(userId, teamId);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	},
+
 	async delete(req: any, res: Response) {
 		try {
-			const teamId = req.body.teamId;
+			const teamId = req.body.team_id;
 			await TeamService.getInstance().delete(teamId);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	},
+
 	async update(req: any, res: Response) {
 		try {
 			await TeamService.getInstance().update(req.body);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	},
+
 	async invite(req: any, res: Response) {
 		try {
-			const { userEmail, teamId } = req.body;
-			const user = await UserService.getInstance().getUserByEmail(userEmail);
-			const userId = user.user_id;
-			await TeamUserService.getInstance().create(userId, teamId);
+			const { userEmail, team_id } = req.body;
+			const userInfo = await UserService.getInstance().getUserByEmail(userEmail);
+			const userId = userInfo.user_id;
+			await TeamUserService.getInstance().create(userId, team_id);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	},
+
 	async acceptInvitation(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
@@ -59,9 +63,10 @@ const TeamController = {
 			await TeamUserService.getInstance().update(userId, teamId);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	},
+
 	async declineInvitation(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
@@ -69,7 +74,7 @@ const TeamController = {
 			await TeamUserService.getInstance().delete(userId, teamId);
 			res.sendStatus(200);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 		}
 	}
 };

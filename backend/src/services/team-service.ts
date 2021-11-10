@@ -17,30 +17,51 @@ export default class TeamService {
 	}
 
 	async create(teamData: TeamData) {
-		const insertResult = await getCustomRepository(TeamRepository)
-			.createQueryBuilder('team')
-			.insert()
-			.into('team')
-			.values(teamData)
-			.execute();
-		return insertResult.raw.insertId;
+		try {
+			const insertResult = await getCustomRepository(TeamRepository)
+				.createQueryBuilder('team')
+				.insert()
+				.into('team')
+				.values(teamData)
+				.execute();
+			return insertResult.raw.insertId;
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	async read(teamId: number) {
-		return await this.teamRepository.createQueryBuilder('team').where('team_id=:id', { id: teamId });
+		try {
+			return await this.teamRepository.createQueryBuilder('team').where('team_id=:id', { id: teamId });
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	async update(teamData: TeamData) {
-		await this.teamRepository
-			.createQueryBuilder()
-			.update('team')
-			.set(teamData)
-			.where('team_id=:id', { id: teamData.team_id })
-			.execute();
+		try {
+			await this.teamRepository
+				.createQueryBuilder()
+				.update('team')
+				.set(teamData)
+				.where('team_id=:id', { id: teamData.team_id })
+				.execute();
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	async delete(teamId: number) {
-		await this.teamRepository.createQueryBuilder().delete().from('team').where('team_id=:id', { id: teamId }).execute();
+		try {
+			await this.teamRepository
+				.createQueryBuilder()
+				.delete()
+				.from('team')
+				.where('team_id=:id', { id: teamId })
+				.execute();
+		} catch (err) {
+			throw err;
+		}
 	}
 }
 
