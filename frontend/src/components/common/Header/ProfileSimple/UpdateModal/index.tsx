@@ -25,6 +25,8 @@ const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 	const handleSubmit = () => {
 		if (name === '') {
 			toast.warn('😮 새 이름을 입력해주세요!');
+		} else if (name === user.name) {
+			toast.warn('😮 같은 이름으로 바꿀 수 없습니다!');
 		} else if (!nameRegExp.test(name) || name.length > 20) {
 			toast.warn('😮 올바르지 않은 이름입니다!');
 		} else {

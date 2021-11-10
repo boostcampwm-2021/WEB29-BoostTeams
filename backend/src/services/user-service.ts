@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repositories/user-repository';
 import Crypto from 'crypto-js';
 import bcrypt from 'bcrypt';
+import { User } from '../entities/user';
 
 class UserService {
 	static instance: UserService;
@@ -56,12 +57,17 @@ class UserService {
 	}
 
 	async getUserByName(user_name: string) {
-		const user = await this.userRepository.findOne({
+		const users = await this.userRepository.find({
 			where: {
 				user_name: user_name
 			}
 		});
-		return user;
+		return users.reduce((pre: User, cur: User) => {
+			if (cur.user_name === user_name) {
+				pre = cur;
+			}
+			return pre;
+		}, undefined);
 	}
 }
 

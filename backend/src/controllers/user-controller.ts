@@ -15,55 +15,62 @@ const UserController = {
 			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(userEmail);
 			const nameAlreadyUsed = await UserService.getInstance().getUserByName(userName);
 
-			if (emailAlreadyUsed) return res.status(409).send({ conflict: 'email' });
-			if (nameAlreadyUsed) return res.status(409).send({ conflict: 'name' });
+			if (emailAlreadyUsed) return res.status(409).json({ conflict: 'email' });
+			if (nameAlreadyUsed) return res.status(409).json({ conflict: 'name' });
 
 			const newUser = await UserService.getInstance().createUser(userEmail, encryptedPassword, userName);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
 
-			res.status(201).send({ msg: 'create user success' });
+			res.status(201).json({ msg: 'create user success' });
 		} catch (err) {
-			res.send(err);
+			console.error(err);
+			res.sendStatus(404);
 		}
 	},
 	getUser(req: Request, res: Response) {
 		try {
 			const user = req.user;
-			res.status(200).send(user);
+			res.status(200).json(user);
 		} catch (err) {
-			res.send(err);
+			console.error(err);
+			res.sendStatus(404);
 		}
 	},
 	async updateUser(req: IUser, res: Response) {
 		try {
+			const existUser = await UserService.getInstance().getUserByName(req.body.newName);
+			if (existUser) return res.status(409).json({ msg: 'user has existed' });
 			const newUser = await UserService.getInstance().updateUserToName(req.user_id, req.body.newName);
-			if (!newUser) return res.status(401).send({ msg: 'user not found' });
-			res.status(200).send({ msg: 'update user success' });
+			if (!newUser) return res.status(401).json({ msg: 'user not found' });
+			res.status(200).json({ msg: 'update user success' });
 		} catch (err) {
-			res.send(err);
+			console.error(err);
+			res.sendStatus(404);
 		}
 	},
 	login(req: Request, res: Response) {
-		if (req.user === undefined) res.status(401).send({ msg: 'user not found' });
+		if (req.user === undefined) res.status(401).json({ msg: 'user not found' });
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
-			res.status(200).send({ msg: 'login success' });
+			res.status(200).json({ msg: 'login success' });
 		} catch (err) {
-			res.send(err);
+			console.error(err);
+			res.sendStatus(404);
 		}
 	},
 	githubLogin(req: Request, res: Response) {
-		if (req.user === undefined) res.status(401).send({ msg: 'error!' });
+		if (req.user === undefined) res.status(401).json({ msg: 'error!' });
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
 			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
-			res.send(err);
+			console.error(err);
+			res.sendStatus(404);
 		}
 	}
 };
