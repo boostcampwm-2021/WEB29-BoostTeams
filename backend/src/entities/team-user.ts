@@ -12,7 +12,7 @@ export class TeamUser {
 	@JoinColumn({ name: 'user_id' })
 	user: User;
 
-	@ManyToOne(() => Team, (team) => team.team_id)
+	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
 
