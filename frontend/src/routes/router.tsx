@@ -14,13 +14,20 @@ const Router: React.FC = () => {
 		<BrowserRouter>
 			<Switch>
 				<PublicRoute exact path='/' component={LoginPage} />
-				<PublicRoute path='/signup' component={SignUpPage} />
-				<PrivateRoute path='/team' component={TeamPage} />
-				<PrivateRoute path='/chat' component={ChatPage} />
-				<PrivateRoute path='/calendar' component={CalendarPage} />
+				<PublicRoute exact path='/signup' component={SignUpPage} />
+				<PrivateRoute exact path='/team' component={TeamPage} />
+				<PrivateRoute exact path='/team/:team_id/chat' component={ChatPage} />
+				<PrivateRoute exact path='/team/:team_id/calendar' component={CalendarPage} />
 			</Switch>
 		</BrowserRouter>
 	);
 };
 
 export default Router;
+/* 
+1. url에 유저 id 안 넣어도 됨? (안 넣어도 여전히 RESTful한 가?)
+
+users/:user_id/teams/:team_id/calendar
+users/:user_id/teams/:team_id/chats
+users/:user_id/teams/:team_id/chats/:chat_id
+*/

@@ -1,20 +1,38 @@
 import { atom, selector } from 'recoil';
 import { readMyTeam } from '../apis/team';
-import UserState from './user';
 
 export const userInviteList = atom({
 	key: 'inviteList',
-	default: [],
+	default: [
+		{
+			team_user_id: 1,
+			team: {
+				team_id: 3,
+				team_name: 'team#4',
+				team_desc: 'team_desc#4',
+			},
+		},
+		{
+			team_user_id: 2,
+			team: {
+				team_id: 4,
+				team_name: 'team#5',
+				team_desc: 'team_desc#5',
+			},
+		},
+	],
+});
+
+export const teamListLoadTrigger = atom({
+	key: 'loadTrigger',
+	default: 0,
 });
 
 export const userTeamList = selector({
 	key: 'teamList',
 	get: async ({ get }) => {
-		const user = get(UserState);
-		// 일단은 email로 찾는데, user_id가 있으면 좋을 듯?
-		const userEmail = user.email;
-		const response = await readMyTeam(userEmail);
-		const json = await response.json();
-		return json;
+		get(teamListLoadTrigger);
+		const teamList = await readMyTeam();
+		return teamList;
 	},
 });

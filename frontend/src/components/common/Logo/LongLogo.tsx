@@ -1,22 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { Wrapper } from './style';
 
 const LongLogo: React.FC = () => {
-	const history = useHistory();
-
-	const linkHome = (e: any) => {
-		e.preventDefault();
-		// history.push('/');
-	};
-
 	return (
 		<Wrapper>
-			<a href='/' onClick={linkHome}>
-				<img src='logo.png' alt='logo' />
+			<Link to='/'>
+				<img src='/logo.png' alt='logo' />
 				BoostTeams
-			</a>
+			</Link>
 		</Wrapper>
 	);
 };

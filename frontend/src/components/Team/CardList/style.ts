@@ -1,11 +1,12 @@
-import Styled from 'styled-components';
+import styled from 'styled-components';
 
-export const CardListContainer = Styled.div`
-  display:grid;
-  grid-template-columns : repeat(auto-fill, minmax(20%, auto));
-  grid-templates-rows : repeat(auto-fill, minmax(33%, auto));
-  align-items: center;
-  justify-items: center;
-  top:3rem;
-  height: calc((100% - 3rem) / 2);
-  `;
+export const CardListContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3rem;
+	align-items: center;
+	justify-items: center;
+	top: 3rem;
+	padding: 1rem;
+	height: calc((100% - 3rem) / 2 - 2rem); // 3rem: header, 2rem: padding
+`;
