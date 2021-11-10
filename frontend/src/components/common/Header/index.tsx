@@ -12,21 +12,23 @@ const Header: React.FC = () => {
 	const user = useRecoilValue(UserState);
 	const [status, setStatus] = useState('green'); // TODO: Socket으로부터 status 받아오기, Status 문자열로 관리 이대로 괜찮은가?
 	const [showProfileSimple, setShowProfileSimple] = useState(false);
+	const [showUpdateModal, setShowUpdateModal] = useState(false);
 	const location = useLocation();
 
-	const handleCloseModal = () => {
+	const handleModalClose = () => {
 		setShowProfileSimple(false);
+		setShowUpdateModal(false);
 	};
 
-	const handleOpenModal = () => {
+	const handleModalOpen = () => {
 		setShowProfileSimple(true);
 	};
 
 	const clickHandler = () => {
 		if (showProfileSimple) {
-			handleCloseModal();
+			handleModalClose();
 		} else {
-			handleOpenModal();
+			handleModalOpen();
 		}
 	};
 
@@ -41,7 +43,14 @@ const Header: React.FC = () => {
 		<Container>
 			<LongLogo />
 			<ProfileIcon name={user.name} color={user.state} status={status} onClick={clickHandler} width={3} />
-			{showProfileSimple && <ProfileSimple status={status} handleCloseModal={handleCloseModal} />}
+			{showProfileSimple && (
+				<ProfileSimple
+					status={status}
+					handleModalClose={handleModalClose}
+					showUpdateModal={showUpdateModal}
+					setShowUpdateModal={setShowUpdateModal}
+				/>
+			)}
 		</Container>
 	);
 };

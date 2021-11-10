@@ -30,6 +30,7 @@ export const ProfileIconContainer = styled('div')<ProfileIconContainerProps>`
 	position: relative;
 	height: ${(props) => props.width};
 	width: ${(props) => props.width};
+	border: 1px solid ${ColorCode.PRIMARY1};
 	border-radius: 50%;
 	background-color: ${(props) => props.backgroundColor || ColorCode.WHITE};
 	color: ${(props) => props.fontColor || ColorCode.BLACK};

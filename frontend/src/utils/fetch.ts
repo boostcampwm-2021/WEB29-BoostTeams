@@ -29,9 +29,19 @@ const fetchApi = {
 			headers: getHeader(),
 			body: JSON.stringify(data),
 		}),
+
 	put: (path: string, data: RequestData): Promise<Response> =>
 		fetch(`${baseUrl}${path}`, {
 			method: 'PUT',
+			mode: 'cors',
+			credentials: 'include',
+			headers: getHeader(),
+			body: JSON.stringify(data),
+		}),
+
+	patch: (path: string, data: RequestData): Promise<Response> =>
+		fetch(`${baseUrl}${path}`, {
+			method: 'PATCH',
 			mode: 'cors',
 			credentials: 'include',
 			headers: getHeader(),
