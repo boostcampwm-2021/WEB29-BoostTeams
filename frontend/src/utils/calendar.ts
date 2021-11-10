@@ -1,15 +1,25 @@
 import moment from 'moment';
 import { DateInfoType } from '../components/Calendar/dataStructure';
 
-export const getFirstDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
-	isMonthly ? moment(new Date(dateInfo.year, dateInfo.month - 1, 1)) : moment(dateInfo.weeklyStartDate);
+export const getFirstDate = (isMonthly: boolean, dateInfo: DateInfoType): string =>
+	isMonthly
+		? moment(new Date(dateInfo.year, dateInfo.month - 1, 1)).format('YYYYMMDD')
+		: moment(dateInfo.weeklyStartDate).format('YYYYMMDD');
 
 export const getLastDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
-	isMonthly ? moment(new Date(dateInfo.year, dateInfo.month, 0)) : moment(dateInfo.weeklyStartDate).add(7, 'days');
+	isMonthly
+		? moment(new Date(dateInfo.year, dateInfo.month, 0)).format('YYYYMMDD')
+		: moment(dateInfo.weeklyStartDate).add(7, 'days').format('YYYYMMDD');
 
-export const dateToFormatString = (date: Date, format: string) => moment(date).format(format).toString();
+export const dateToFormatString = (date: Date, format: string): string => moment(date).format(format).toString();
 
-const getIsDoubleMonth = (date: moment.Moment) => date.month() !== date.add(7, 'days').month();
+export const isTodayDate = (date: Date, i: number): boolean =>
+	moment(date).add(i, 'days').format('YYYYMMDD') === moment().format('YYYYMMDD');
+
+export const isSameDate = (date: Date, i: number, refDate: Date): boolean =>
+	moment(date).add(i, 'days').format('YYYYMMDD') === moment(refDate).format('YYYYMMDD');
+
+const isDoubleMonth = (date: moment.Moment) => date.month() !== date.add(7, 'days').month();
 
 export const getCurrDateInfo = () => {
 	const date = moment().startOf('week');
@@ -17,7 +27,7 @@ export const getCurrDateInfo = () => {
 		year: date.year(),
 		month: date.month() + 1,
 		weeklyStartDate: date.toDate(),
-		isDoubleMonth: getIsDoubleMonth(date),
+		isDoubleMonth: isDoubleMonth(date),
 	};
 };
 
@@ -28,7 +38,7 @@ export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Da
 			year: date.year(),
 			month: date.month() + 1,
 			weeklyStartDate: date.startOf('week').toDate(),
-			isDoubleMonth: getIsDoubleMonth(date),
+			isDoubleMonth: isDoubleMonth(date),
 		};
 	}
 	const date = moment(weeklyStartDate).subtract(1, 'weeks');
@@ -36,7 +46,7 @@ export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Da
 		year: date.year(),
 		month: date.month() + 1,
 		weeklyStartDate: date.toDate(),
-		isDoubleMonth: getIsDoubleMonth(date),
+		isDoubleMonth: isDoubleMonth(date),
 	};
 };
 
@@ -47,7 +57,7 @@ export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Da
 			year: date.year(),
 			month: date.month() + 1,
 			weeklyStartDate: date.startOf('week').toDate(),
-			isDoubleMonth: getIsDoubleMonth(date),
+			isDoubleMonth: isDoubleMonth(date),
 		};
 	}
 	const date = moment(weeklyStartDate).add(1, 'weeks');
@@ -55,6 +65,8 @@ export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Da
 		year: date.year(),
 		month: date.month() + 1,
 		weeklyStartDate: date.toDate(),
-		isDoubleMonth: getIsDoubleMonth(date),
+		isDoubleMonth: isDoubleMonth(date),
 	};
 };
+
+export const isNum = (num: number | string) => !Number.isNaN(Number(num));

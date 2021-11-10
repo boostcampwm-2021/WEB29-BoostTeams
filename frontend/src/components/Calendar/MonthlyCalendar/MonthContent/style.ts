@@ -17,12 +17,10 @@ export const DayNum = styled.div`
 export const DayWrapper = styled.div`
 	height: 100%;
 	border-right: 1px solid ${ColorCode.LINE2};
-	border-bottom: 1px solid ${ColorCode.LINE2};
 	&.sunday {
 		color: ${ColorCode.RED};
 	}
 	&:hover {
-		border-top: 1px solid ${ColorCode.LINE2};
 		background-color: ${ColorCode.BACKGROUND1};
 	}
 `;
@@ -34,6 +32,7 @@ export const Schedule = styled.div<ScheduleProps>`
 	padding: 0.5rem;
 	margin: 0.3rem 0;
 	color: ${ColorCode.BLACK};
+	cursor: pointer;
 `;
 
 export const WeekContainer = styled.div`
@@ -41,4 +40,5 @@ export const WeekContainer = styled.div`
 	grid-template-columns: repeat(7, 1fr);
 	width: 100%;
 	min-height: 16%;
+	border-bottom: 1px solid ${ColorCode.LINE2};
 `;

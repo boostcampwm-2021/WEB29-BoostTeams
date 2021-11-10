@@ -1,36 +1,31 @@
 import React from 'react';
 import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
-import { FaChevronLeft, FaChevronRight, FaPlus, FaCalendarAlt } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
 import { ModalMode, ModalSchedule } from '../../../stores/calendar';
-import {
-	Container,
-	InfoContainer,
-	TodayBtn,
-	NewAppointmentBtn,
-	ConvertCalenderBtn,
-	ButtonContainer,
-	ToggleBtnWrapper,
-	HiddenInput,
-	Slider,
-} from './style';
-import { DateInfoType } from '../dataStructure';
+import { DateInfoType, weekContentNumber } from '../dataStructure';
+import { ColorCode } from '../../../utils/constants';
 
-interface CalendarHeaderProps {
+import NewAppointmentBtn from '../../common/Button';
+import { Container, InfoContainer, TodayBtn, ConvertBtn, ConvertBtnContainer, ButtonContainer } from './style';
+
+interface Props {
 	changeToCurrDate: () => void;
 	changeToPrevDate: () => void;
 	changeToNextDate: () => void;
-	changeCalendar: () => void;
+	changeToMonthly: () => void;
+	changeToWeekly: () => void;
 	handleModalOpen: () => void;
 	isMonthly: boolean;
 	dateInfo: DateInfoType;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+const CalendarHeader: React.FC<Props> = ({
 	changeToCurrDate,
 	changeToPrevDate,
 	changeToNextDate,
-	changeCalendar,
+	changeToMonthly,
+	changeToWeekly,
 	handleModalOpen,
 	isMonthly,
 	dateInfo,
@@ -45,7 +40,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 	};
 
 	const nextDateInfo = () => {
-		const date = moment(dateInfo.weeklyStartDate).add(7, 'days');
+		const date = moment(dateInfo.weeklyStartDate).add(weekContentNumber.WEEK_NUMBER, 'days');
 		return { year: date.year(), month: date.month() };
 	};
 
@@ -72,15 +67,20 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>
-				<ToggleBtnWrapper>
-					<HiddenInput type='checkbox' onChange={changeCalendar} />
-					<Slider />
-				</ToggleBtnWrapper>
-				<ConvertCalenderBtn onClick={changeCalendar}>{isMonthly ? '주간' : '월간'}</ConvertCalenderBtn>
-				<NewAppointmentBtn onClick={handleCreateModalOpen}>
-					<FaPlus />
-					<span>새 모임</span>
-				</NewAppointmentBtn>
+				<ConvertBtnContainer>
+					<ConvertBtn focus={!isMonthly} onClick={changeToWeekly}>
+						주간
+					</ConvertBtn>
+					<ConvertBtn focus={isMonthly} onClick={changeToMonthly}>
+						월간
+					</ConvertBtn>
+				</ConvertBtnContainer>
+				<NewAppointmentBtn
+					text='+ 새 일정'
+					handler={handleCreateModalOpen}
+					backgroundColor={ColorCode.PRIMARY1}
+					fontColor={ColorCode.WHITE}
+				/>
 			</ButtonContainer>
 		</Container>
 	);

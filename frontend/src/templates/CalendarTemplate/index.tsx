@@ -20,8 +20,8 @@ const Calendar: React.FC = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const teamId = useRecoilValue(UserState).team_id;
-	const firstDate = getFirstDate(isMonthly, dateInfo).format('YYYYMMDD');
-	const lastDate = getLastDate(isMonthly, dateInfo).format('YYYYMMDD');
+	const firstDate = getFirstDate(isMonthly, dateInfo);
+	const lastDate = getLastDate(isMonthly, dateInfo);
 
 	const fetchSchedules = async () => {
 		const scheduleList = await getSchedules(teamId, firstDate, lastDate);
@@ -29,14 +29,15 @@ const Calendar: React.FC = () => {
 	};
 
 	const deleteScheduleById = (id: number) => setSchedules(schedules.filter((schedule) => schedule.schedule_id !== id));
-	const addSchedule = (newSchedule: ScheduleType) => setSchedules([...schedules, newSchedule]);
+	const addSchedule = (newSchedule: ScheduleType[]) => setSchedules([...schedules, ...newSchedule]);
 	const updateScheduleById = (id: number, newSchedule: ScheduleType) => {
 		setSchedules([...schedules.filter((schedule) => schedule.schedule_id !== id), newSchedule]);
 	};
 
 	const handleModalOpen = () => setIsModalVisible(true);
 	const handleModalClose = () => setIsModalVisible(false);
-	const changeCalendar = () => setIsMonthly(!isMonthly);
+	const changeToMonthly = () => setIsMonthly(true);
+	const changeToWeekly = () => setIsMonthly(false);
 
 	const changeToCurrDate = () => setDateInfo(getCurrDateInfo());
 	const changeToPrevDate = () => {
@@ -62,7 +63,8 @@ const Calendar: React.FC = () => {
 						changeToCurrDate={changeToCurrDate}
 						changeToPrevDate={changeToPrevDate}
 						changeToNextDate={changeToNextDate}
-						changeCalendar={changeCalendar}
+						changeToMonthly={changeToMonthly}
+						changeToWeekly={changeToWeekly}
 						handleModalOpen={handleModalOpen}
 						isMonthly={isMonthly}
 						dateInfo={dateInfo}

@@ -37,6 +37,10 @@ export const ButtonContainer = styled.div`
 	& > * {
 		margin-left: 0.5rem;
 	}
+	button {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
 `;
 
 export const TodayBtn = styled.button`
@@ -70,65 +74,24 @@ export const NewAppointmentBtn = styled.button`
 	}
 `;
 
-export const ConvertCalenderBtn = styled.button`
-	background-color: transparent;
-	border: 1px solid ${ColorCode.LINE2};
+interface btnProps {
+	focus: boolean;
+}
+
+export const ConvertBtnContainer = styled.div`
 	border-radius: 8px;
-	padding: 0.3rem 0.5rem;
-	&:hover {
-		color: ${ColorCode.PRIMARY1};
-		border: 1px solid ${ColorCode.PRIMARY1};
-	}
+	border: 1px solid ${ColorCode.LINE2};
 `;
 
-export const ToggleBtnWrapper = styled.label`
-	position: relative;
-`;
-
-export const HiddenInput = styled.input`
-	position: absolute;
-	width: 0;
-	height: 0;
-	&:checked + span {
-		background-color: ${ColorCode.HOVER};
-		&:before {
-			left: calc(100% - 2px);
-			transform: translateX(-100%);
-		}
-	}
-
-	&:hover + span {
-		box-shadow: 0 0 0 2px ${ColorCode.LINE2};
-	}
-
-	&:hover:checked + span {
-		box-shadow: 0 0 0 2px ${ColorCode.PRIMARY1};
-	}
-`;
-
-export const Slider = styled.span`
-	display: flex;
+export const ConvertBtn = styled.button<btnProps>`
+	background-color: ${(props) => (props.focus ? `${ColorCode.PRIMARY1}` : 'transparent')};
+	color: ${(props) => (props.focus ? `${ColorCode.WHITE}` : `${ColorCode.BLACK}`)};
+	border: 1px solid transparent;
+	border-radius: 8px;
 	cursor: pointer;
-	width: 3rem;
-	height: 1.5rem;
-	border-radius: 100px;
-	background-color: ${ColorCode.LINE3};
-	position: relative;
-	transition: background-color 0.2s, box-shadow 0.2s;
-
-	&:before {
-		content: '';
-		position: absolute;
-		top: 2px;
-		left: 2px;
-		width: 1.2rem;
-		height: 1.2rem;
-		border-radius: 3rem;
-		transition: 0.2s;
-		background: ${ColorCode.WHITE};
-	}
-
-	&:active:before {
-		width: 2rem;
+	padding: 0.3rem 0.4rem;
+	:hover {
+		border: 1px solid ${ColorCode.PRIMARY1};
+		opacity: 0.9;
 	}
 `;

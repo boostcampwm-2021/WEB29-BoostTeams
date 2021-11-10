@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import { Container, TimeContainer, DaysContainer, DayContainer, DayBox, CurrTimeLine } from './style';
-import { DateInfoType, weekContentNumber, ScheduleType } from '../../dataStructure';
+import { Container, TimeContainer, DaysContainer, DayContainer, TimeBlock, CurrTimeLine } from './style';
+import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '../../dataStructure';
 import ScheduleItem from '../ScheduleItem';
+import { isTodayDate, isSameDate } from '../../../../utils/calendar';
 
 interface Props {
 	dateInfo: DateInfoType;
@@ -11,10 +11,28 @@ interface Props {
 	handleModalOpen: () => void;
 }
 
-const { MSEC_TO_HOUR, HALF_HOUR_TO_MIN, HOUR_TO_MIN, LINE_SPACE_PX, EXTRA_SPACE_PX, TIME_LIST } = weekContentNumber;
+interface TimeListProps {
+	timeList: TimeType[];
+	renderItem: (item: TimeType) => unknown;
+}
+
+const {
+	MSEC_TO_HOUR,
+	HALF_HOUR_TO_MIN,
+	HOUR_TO_MIN,
+	LINE_SPACE_PX,
+	EXTRA_SPACE_PX,
+	TIME_LIST,
+	WEEK_NUMBER,
+	DAY_TIME_NUMBER,
+} = weekContentNumber;
+
+const TimeListGenerator: React.FC<TimeListProps> = ({ timeList, renderItem }) => {
+	return <TimeContainer>{timeList.map((item: { hour: number; text: string }) => renderItem(item))}</TimeContainer>;
+};
 
 const Schedule: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => {
-	const [time, setTime] = useState<Date>(new Date());
+	const [time, setTime] = useState(new Date());
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const getStartY = (date: Date) => {
@@ -38,33 +56,24 @@ const Schedule: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => 
 
 	return (
 		<Container ref={containerRef}>
-			<TimeContainer>
-				{TIME_LIST.map((hour: number) => (
+			<TimeListGenerator
+				timeList={TIME_LIST}
+				renderItem={(item) => (
 					<div key={uuidv4()}>
-						<span>오전 {hour}시</span>
+						<span>
+							{item.text} {item.hour}시
+						</span>
 					</div>
-				))}
-				{TIME_LIST.map((hour: number) => (
-					<div key={uuidv4()}>
-						<span>오후 {hour}시</span>
-					</div>
-				))}
-			</TimeContainer>
+				)}
+			/>
 			<DaysContainer>
-				{[...Array(7)].map((v, i) => (
-					<DayContainer
-						key={uuidv4()}
-						focus={moment(dateInfo.weeklyStartDate).add(i, 'days').format('YYYYMMDD') === moment().format('YYYYMMDD')}
-					>
-						{[...Array(48)].map(() => (
-							<DayBox key={uuidv4()} />
+				{[...Array(WEEK_NUMBER)].map((v, i) => (
+					<DayContainer key={uuidv4()} focus={isTodayDate(dateInfo.weeklyStartDate, i)}>
+						{[...Array(DAY_TIME_NUMBER)].map(() => (
+							<TimeBlock key={uuidv4()} />
 						))}
 						{schedules
-							.filter(
-								(schedule) =>
-									moment(dateInfo.weeklyStartDate).add(i, 'days').format('YYYYMMDD') ===
-									moment(schedule.start_date).format('YYYYMMDD'),
-							)
+							.filter((schedule) => isSameDate(dateInfo.weeklyStartDate, i, new Date(schedule.start_date)))
 							.map((schedule) => (
 								<ScheduleItem
 									key={schedule.schedule_id}

@@ -10,9 +10,15 @@ export interface ScheduleType {
 	title: string;
 	start_date: string;
 	end_date: string;
-	repeat_id: number;
+	repeat_id: string;
+	repeat_option: number;
 	content: string;
 	color: number;
+}
+
+export interface TimeType {
+	hour: number;
+	text: string;
 }
 
 export enum DayCode {
@@ -31,5 +37,32 @@ export const weekContentNumber: any = {
 	HOUR_TO_MIN: 60,
 	LINE_SPACE_PX: 2.5 * 16,
 	EXTRA_SPACE_PX: 10,
-	TIME_LIST: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+	WEEK_NUMBER: 7,
+	DAY_TIME_NUMBER: 48,
+	TIME_LIST: [
+		{ hour: 12, text: '오전' },
+		{ hour: 1, text: '오전' },
+		{ hour: 2, text: '오전' },
+		{ hour: 3, text: '오전' },
+		{ hour: 4, text: '오전' },
+		{ hour: 5, text: '오전' },
+		{ hour: 6, text: '오전' },
+		{ hour: 7, text: '오전' },
+		{ hour: 8, text: '오전' },
+		{ hour: 9, text: '오전' },
+		{ hour: 10, text: '오후' },
+		{ hour: 11, text: '오후' },
+		{ hour: 12, text: '오후' },
+		{ hour: 1, text: '오후' },
+		{ hour: 2, text: '오후' },
+		{ hour: 3, text: '오후' },
+		{ hour: 4, text: '오후' },
+		{ hour: 5, text: '오후' },
+		{ hour: 6, text: '오후' },
+		{ hour: 7, text: '오후' },
+		{ hour: 8, text: '오후' },
+		{ hour: 9, text: '오후' },
+		{ hour: 10, text: '오후' },
+		{ hour: 11, text: '오후' },
+	],
 };
