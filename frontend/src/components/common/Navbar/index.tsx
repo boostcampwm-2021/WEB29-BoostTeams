@@ -32,9 +32,11 @@ const Navbar: React.FC = () => {
 			</TabContainer>
 			<TeamIconContainer>
 				{teamDummy.map((e) => (
-					<TeamIcon key={e.team_id} color={PrimaryPalette[e.team_id % 6]}>
-						{e.name[0].toUpperCase()}
-					</TeamIcon>
+					<Link to={`/team/${e.team_id}`}>
+						<TeamIcon key={e.team_id} color={PrimaryPalette[e.team_id % 6]}>
+							{e.name[0].toUpperCase()}
+						</TeamIcon>
+					</Link>
 				))}
 			</TeamIconContainer>
 		</Container>
