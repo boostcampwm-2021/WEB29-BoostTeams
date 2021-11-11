@@ -1,6 +1,5 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import TeamTemplate from '../../templates/TeamTemplate';
-import LoadingPage from '../LoadingPage';
 
 const TeamPage: React.FC = () => {
 	const [showCreateTeamModal, setShowCreateTeamModal] = useState(false);
@@ -12,13 +11,11 @@ const TeamPage: React.FC = () => {
 	};
 
 	return (
-		<Suspense fallback={<LoadingPage />}>
-			<TeamTemplate
-				showCreateTeamModal={showCreateTeamModal}
-				handleModalOpen={handleModalOpen}
-				handleModalClose={handleModalClose}
-			/>
-		</Suspense>
+		<TeamTemplate
+			showCreateTeamModal={showCreateTeamModal}
+			handleModalOpen={handleModalOpen}
+			handleModalClose={handleModalClose}
+		/>
 	);
 };
 
