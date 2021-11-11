@@ -23,7 +23,7 @@ export class Postit {
 	@JoinColumn({ name: 'updated_by' })
 	user2: User;
 
-	@ManyToOne(() => Team, (team) => team.team_id)
+	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
 

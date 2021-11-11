@@ -13,7 +13,7 @@ import SocketIO from './sockets';
 import userRouter from './routes/user-router';
 import authRouter from './routes/auth-router';
 import scheduleRouter from './routes/schedule-router';
-import teamUserRouter from './routes/team-user-router';
+import teamRouter from './routes/team-router';
 
 class App {
 	app: express.Application;
@@ -52,7 +52,7 @@ class App {
 		this.app.use('/api/user', userRouter);
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
-		this.app.use('/api/team', teamUserRouter);
+		this.app.use('/api/team', teamRouter);
 	}
 
 	listen() {

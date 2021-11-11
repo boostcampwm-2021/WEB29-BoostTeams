@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, Column } from 'typeorm';
 import { ChatRoomUser } from './chat_room-user';
 import { Team } from './team';
 import { User } from './user';
@@ -12,10 +12,13 @@ export class TeamUser {
 	@JoinColumn({ name: 'user_id' })
 	user: User;
 
-	@ManyToOne(() => Team, (team) => team.team_id)
+	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
 
 	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room_user_id)
 	chat_room_users: ChatRoomUser[];
+
+	@Column()
+	state: Boolean;
 }

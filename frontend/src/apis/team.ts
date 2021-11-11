@@ -1,20 +1,14 @@
-import { MutableRefObject } from 'react';
 import fetchApi from '../utils/fetch';
-import { CardData } from '../components/Team/CardList';
 
 export const readMyTeam = async () => {
-	const response = await fetchApi.get(`/api/team`);
-	const json = await response.json();
-	return json;
+	const res = await fetchApi.get(`/api/team`);
+	const data = await res.json();
+	return data;
 };
 
-export const joinNewTeam = async (setLoadTrigger: (param: any) => void, cardData: MutableRefObject<CardData>) => {
+export const joinNewTeam = async (setLoadTrigger: (param: any) => void, team_id: number) => {
 	// add 따로
-	const response = await fetchApi.post('/api/team/join', {
-		team_id: cardData.current.team.team_id,
-		team_name: cardData.current.team.team_name,
-		team_desc: cardData.current.team.team_desc,
-	});
+	const res = await fetchApi.post('/api/team/invite/response', { team_id });
 	// refresh 따로
 	setLoadTrigger((prev: number) => prev + 1);
 };

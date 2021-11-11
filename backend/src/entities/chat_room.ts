@@ -8,7 +8,7 @@ export class ChatRoom {
 	@PrimaryGeneratedColumn()
 	chat_room_id!: number;
 
-	@ManyToOne(() => Team, (team) => team.team_id)
+	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
 

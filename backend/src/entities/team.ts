@@ -15,15 +15,15 @@ export class Team {
 	@Column()
 	team_desc!: string;
 
-	@OneToMany(() => TeamUser, (teamUser) => teamUser.team)
+	@OneToMany(() => TeamUser, (teamUser) => teamUser.team, { cascade: true })
 	team_users: TeamUser[];
 
-	@OneToMany(() => Schedule, (schedule) => schedule.team)
+	@OneToMany(() => Schedule, (schedule) => schedule.team, { cascade: true })
 	schedules: Schedule[];
 
-	@OneToMany(() => ChatRoom, (chatRoom) => chatRoom.team)
+	@OneToMany(() => ChatRoom, (chatRoom) => chatRoom.team, { cascade: true })
 	chat_rooms: ChatRoom[];
 
-	@OneToMany(() => Postit, (postit) => postit.team)
+	@OneToMany(() => Postit, (postit) => postit.team, { cascade: true })
 	postits: Postit[];
 }
