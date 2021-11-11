@@ -21,55 +21,49 @@ const UserController = {
 			const newUser = await UserService.getInstance().createUser(userEmail, encryptedPassword, userName);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
-
-			res.status(201).json({ msg: 'create user success' });
+			res.sendStatus(201);
 		} catch (err) {
-			console.error(err);
-			res.sendStatus(404);
+			res.sendStatus(409);
 		}
 	},
 	getUser(req: Request, res: Response) {
 		try {
 			const user = req.user;
-			res.status(200).json(user);
+			res.json(user);
 		} catch (err) {
-			console.error(err);
-			res.sendStatus(404);
+			res.sendStatus(409);
 		}
 	},
 	async updateUser(req: IUser, res: Response) {
 		try {
 			const existUser = await UserService.getInstance().getUserByName(req.body.newName);
-			if (existUser) return res.status(409).json({ msg: 'user has existed' });
+			if (existUser) return res.sendStatus(409);
 			const newUser = await UserService.getInstance().updateUserToName(req.user_id, req.body.newName);
-			if (!newUser) return res.status(401).json({ msg: 'user not found' });
-			res.status(200).json({ msg: 'update user success' });
+			if (!newUser) return res.sendStatus(401);
+			res.sendStatus(204);
 		} catch (err) {
-			console.error(err);
-			res.sendStatus(404);
+			res.sendStatus(409);
 		}
 	},
 	login(req: Request, res: Response) {
-		if (req.user === undefined) res.status(401).json({ msg: 'user not found' });
+		if (req.user === undefined) res.sendStatus(404);
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
-			res.status(200).json({ msg: 'login success' });
+			res.sendStatus(204);
 		} catch (err) {
-			console.error(err);
 			res.sendStatus(404);
 		}
 	},
 	githubLogin(req: Request, res: Response) {
-		if (req.user === undefined) res.status(401).json({ msg: 'error!' });
+		if (req.user === undefined) res.sendStatus(404);
 		try {
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
 			res.redirect(process.env.FRONT_URL);
 		} catch (err) {
-			console.error(err);
 			res.sendStatus(404);
 		}
 	}
