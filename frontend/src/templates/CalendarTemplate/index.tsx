@@ -13,16 +13,18 @@ import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
 import CalendarModal from '../../components/Calendar/CalendarModal';
 import { Layout, MainContainer, CalendarContainer } from './style';
 
-const Calendar: React.FC = () => {
+interface Props {
+	params: { teamId: string };
+}
+
+const Calendar: React.FC<Props> = ({ params }) => {
 	const [schedules, setSchedules] = useState<ScheduleType[]>([]);
 	const [dateInfo, setDateInfo] = useState(getCurrDateInfo());
 	const [isMonthly, setIsMonthly] = useState(false);
 	const [isModalVisible, setIsModalVisible] = useState(false);
-
-	const teamId = useRecoilValue(UserState).team_id;
 	const firstDate = getFirstDate(isMonthly, dateInfo);
 	const lastDate = getLastDate(isMonthly, dateInfo);
-
+	const teamId = Number(params.teamId);
 	const fetchSchedules = async () => {
 		const scheduleList = await getSchedules(teamId, firstDate, lastDate);
 		setSchedules(scheduleList);
@@ -31,6 +33,7 @@ const Calendar: React.FC = () => {
 	const deleteScheduleById = (id: number) => setSchedules(schedules.filter((schedule) => schedule.schedule_id !== id));
 	const addSchedule = (newSchedule: ScheduleType[]) => setSchedules([...schedules, ...newSchedule]);
 	const updateScheduleById = (id: number, newSchedule: ScheduleType) => {
+		console.log(newSchedule);
 		setSchedules([...schedules.filter((schedule) => schedule.schedule_id !== id), newSchedule]);
 	};
 
@@ -82,6 +85,7 @@ const Calendar: React.FC = () => {
 					addSchedule={addSchedule}
 					deleteScheduleById={deleteScheduleById}
 					updateScheduleById={updateScheduleById}
+					teamId={teamId}
 				/>
 			)}
 		</Layout>

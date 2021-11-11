@@ -25,9 +25,16 @@ interface Props {
 	addSchedule: (newSchedule: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
 	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
+	teamId: number;
 }
 
-const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteScheduleById, updateScheduleById }) => {
+const CalendarModal: React.FC<Props> = ({
+	handleModalClose,
+	addSchedule,
+	deleteScheduleById,
+	updateScheduleById,
+	teamId,
+}) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
 	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
@@ -87,7 +94,7 @@ const CalendarModal: React.FC<Props> = ({ handleModalClose, addSchedule, deleteS
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
 			if (checkModalMode('create')) {
-				const newSchedule = await createNewSchedule(1, newScheduleData);
+				const newSchedule = await createNewSchedule(teamId, newScheduleData);
 				addSchedule(newSchedule);
 			} else {
 				newScheduleData.schedule_id = scheduleId;

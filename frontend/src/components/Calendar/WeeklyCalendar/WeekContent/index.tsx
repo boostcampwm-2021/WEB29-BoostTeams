@@ -31,7 +31,7 @@ const TimeListGenerator: React.FC<TimeListProps> = ({ timeList, renderItem }) =>
 	return <TimeContainer>{timeList.map((item: { hour: number; text: string }) => renderItem(item))}</TimeContainer>;
 };
 
-const Schedule: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => {
+const Schedule: React.FC<Props> = ({ dateInfo, schedules = [], handleModalOpen }) => {
 	const [time, setTime] = useState(new Date());
 	const containerRef = useRef<HTMLDivElement>(null);
 
