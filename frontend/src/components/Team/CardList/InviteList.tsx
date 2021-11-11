@@ -13,7 +13,7 @@ const InviteList: React.FC<Props> = ({ list }) => {
 			<Title>초대 목록</Title>
 			<CardListContainer>
 				{list.map((team: CardData) => (
-					<InviteCard key={team.team_user_id} teamName={team.team.team_name} teamId={team.team.team_id} />
+					<InviteCard key={team.team_user_id} team_id={team.team.team_id} team_name={team.team.team_name} />
 				))}
 			</CardListContainer>
 		</Container>

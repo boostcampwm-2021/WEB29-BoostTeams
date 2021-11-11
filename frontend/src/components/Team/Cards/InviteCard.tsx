@@ -4,18 +4,19 @@ import { joinNewTeam } from '../../../apis/team';
 import { teamListLoadTrigger } from '../../../stores/team';
 import { ColorCode } from '../../../utils/constants';
 import Button from '../../common/Button';
+import Thumbnail from './Thumbnail';
 
-import { Container, ImageWrapper, InviteButtonContainer, Name } from './style';
+import { Container, InviteButtonContainer, Name } from './style';
 
 interface Props {
-	teamName: string;
-	teamId: number;
+	team_id: number;
+	team_name: string;
 }
 
-const InviteCard: React.FC<Props> = ({ teamName, teamId }) => {
+const InviteCard: React.FC<Props> = ({ team_id, team_name }) => {
 	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
 	const acceptHandler = () => {
-		joinNewTeam(setLoadTrigger, teamId);
+		joinNewTeam(setLoadTrigger, team_id);
 	};
 	const declineHandler = () => {
 		// TODO: team-user 테이블에서 삭제하는 API
@@ -23,10 +24,8 @@ const InviteCard: React.FC<Props> = ({ teamName, teamId }) => {
 
 	return (
 		<Container>
-			<ImageWrapper>
-				<img src='/logo.png' alt='/logo.png' />
-			</ImageWrapper>
-			<Name>{teamName}</Name>
+			<Thumbnail team_id={team_id} team_name={team_name} />
+			<Name>{team_name}</Name>
 			<InviteButtonContainer>
 				<Button text='수락' backgroundColor={ColorCode.PRIMARY1} fontColor={ColorCode.WHITE} handler={acceptHandler} />
 				<Button text='거절' backgroundColor='' fontColor='' handler={declineHandler} />

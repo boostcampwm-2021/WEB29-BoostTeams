@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { ColorCode, TeamCard, Font } from '../../../utils/constants';
+import { ColorCode, TeamCard, Font, PrimaryPalette } from '../../../utils/constants';
+
+interface ThumbnailProps {
+	team_id: number;
+}
 
 export const Container = styled.div`
 	display: flex;
@@ -19,7 +23,7 @@ export const Container = styled.div`
 	transition: filter 0.2s ease-in-out;
 `;
 
-export const ImageWrapper = styled.div`
+export const ThumbnailWrapper = styled('div')<ThumbnailProps>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -28,11 +32,7 @@ export const ImageWrapper = styled.div`
 	border-radius: 5px;
 	font-size: 3rem;
 	color: ${ColorCode.FONT1};
-	background-color: ${ColorCode.PRIMARY2};
-	img {
-		max-width: 80%;
-		max-height: 80%;
-	}
+	background-color: ${(props) => PrimaryPalette[props.team_id % 6]};
 	margin-bottom: 1rem;
 `;
 
