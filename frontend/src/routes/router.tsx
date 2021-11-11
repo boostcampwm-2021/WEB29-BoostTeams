@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
@@ -8,6 +8,8 @@ import LoginPage from '../pages/LoginPage';
 import CalendarPage from '../pages/CalendarPage';
 import TeamPage from '../pages/TeamPage';
 import SignUpPage from '../pages/SignUpPage';
+import LoadingPage from '../pages/LoadingPage';
+import ErrorPage from '../pages/ErrorPage';
 
 const Router: React.FC = () => {
 	return (
@@ -18,6 +20,8 @@ const Router: React.FC = () => {
 				<PrivateRoute exact path='/team' component={TeamPage} />
 				<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
 				<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
+				<Route exact path='/loading' component={LoadingPage} />
+				<Route path='*' component={ErrorPage} />
 			</Switch>
 		</BrowserRouter>
 	);
