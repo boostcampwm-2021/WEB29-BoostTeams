@@ -1,12 +1,23 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
-import indexRouter from './routes/index';
+
+import passport from 'passport';
+import { initStrategy } from './passport';
+
 import SocketIO from './sockets';
+import userRouter from './routes/user-router';
+import authRouter from './routes/auth-router';
+import scheduleRouter from './routes/schedule-router';
+import teamRouter from './routes/team-router';
 
 class App {
 	app: express.Application;
-	server: any;
+	server: any; // Server from http? https?
 	port: string;
 
 	constructor() {
@@ -18,20 +29,30 @@ class App {
 	}
 
 	private config() {
-		this.app.use(bodyParser.json());
-		// TODO : DB CONFIG
+		this.app.use(express.urlencoded({ extended: true }));
+		this.app.use(express.json());
+		createConnection()
+			.then(() => {
+				console.log('DB Connected');
+			})
+			.catch((error) => console.error(error));
 	}
 
 	private middleware() {
 		const corsOptions = {
-			origin: process.env.FRONT_HOST || 'http://localhost:3000',
-			credentials: true,
+			origin: process.env.FRONT_URL || 'http://localhost:3000',
+			credentials: true
 		};
 		this.app.use(cors(corsOptions));
+		this.app.use(passport.initialize());
+		initStrategy();
 	}
 
 	private route() {
-		this.app.use('/', indexRouter);
+		this.app.use('/api/user', userRouter);
+		this.app.use('/api/auth', authRouter);
+		this.app.use('/api/schedule', scheduleRouter);
+		this.app.use('/api/team', teamRouter);
 	}
 
 	listen() {
@@ -41,7 +62,7 @@ class App {
 
 		const corsOptions = {
 			cors: true,
-			origins: [process.env.FRONT_HOST || 'http://localhost:3000'],
+			origins: [process.env.FRONT_URL || 'http://localhost:3000']
 		};
 
 		SocketIO.attach(this.server, corsOptions);

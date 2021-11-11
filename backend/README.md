@@ -1,0 +1,11 @@
+## Backend README
+
+### .env
+
+```
+DB_HOST=[DB HOST]
+DB_PORT=[DB PORT]
+DB_USERNAME=[DB Username]
+DB_PASSWORD=[DB UserPW]
+DB_DATABASENAME=[DB Name]
+```
