@@ -20,5 +20,5 @@ export class TeamUser {
 	chat_room_users: ChatRoomUser[];
 
 	@Column()
-	state: Boolean;
+	state: boolean;
 }
