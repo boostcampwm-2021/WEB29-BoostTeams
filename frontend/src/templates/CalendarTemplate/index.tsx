@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '../../utils/calendar';
-import UserState from '../../stores/user';
 import { getSchedules } from '../../apis/schedule';
 import { ScheduleType } from '../../components/Calendar/dataStructure';
 
@@ -33,7 +31,6 @@ const Calendar: React.FC<Props> = ({ params }) => {
 	const deleteScheduleById = (id: number) => setSchedules(schedules.filter((schedule) => schedule.schedule_id !== id));
 	const addSchedule = (newSchedule: ScheduleType[]) => setSchedules([...schedules, ...newSchedule]);
 	const updateScheduleById = (id: number, newSchedule: ScheduleType) => {
-		console.log(newSchedule);
 		setSchedules([...schedules.filter((schedule) => schedule.schedule_id !== id), newSchedule]);
 	};
 
@@ -54,7 +51,7 @@ const Calendar: React.FC<Props> = ({ params }) => {
 
 	useEffect(() => {
 		fetchSchedules();
-	}, [dateInfo, isMonthly]);
+	}, [dateInfo, isMonthly, teamId]);
 
 	return (
 		<Layout>

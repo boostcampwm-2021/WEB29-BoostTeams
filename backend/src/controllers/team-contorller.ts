@@ -10,7 +10,7 @@ const TeamController = {
 			const teams = await TeamUserService.getInstance().read(userId);
 			res.status(200).send(teams);
 		} catch (err) {
-			res.status(400).send(err);
+			res.status(404).send(err);
 		}
 	},
 
@@ -19,9 +19,9 @@ const TeamController = {
 			const userId = req.user_id;
 			const teamId = await TeamService.getInstance().create(req.body);
 			await TeamUserService.getInstance().create(userId, teamId);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	},
 
@@ -29,18 +29,18 @@ const TeamController = {
 		try {
 			const teamId = req.body.team_id;
 			await TeamService.getInstance().delete(teamId);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	},
 
 	async update(req: any, res: Response) {
 		try {
 			await TeamService.getInstance().update(req.body);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	},
 
@@ -50,9 +50,9 @@ const TeamController = {
 			const userInfo = await UserService.getInstance().getUserByEmail(userEmail);
 			const userId = userInfo.user_id;
 			await TeamUserService.getInstance().create(userId, team_id);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	},
 
@@ -61,9 +61,9 @@ const TeamController = {
 			const userId = req.user_id;
 			const teamId = req.body.team_id;
 			await TeamUserService.getInstance().update(userId, teamId);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	},
 
@@ -72,9 +72,9 @@ const TeamController = {
 			const userId = req.user_id;
 			const teamId = req.body.team_id;
 			await TeamUserService.getInstance().delete(userId, teamId);
-			res.sendStatus(200);
+			res.sendStatus(204);
 		} catch (err) {
-			res.sendStatus(400);
+			res.sendStatus(409);
 		}
 	}
 };
