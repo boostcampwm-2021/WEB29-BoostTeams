@@ -21,7 +21,7 @@ const UserController = {
 			const newUser = await UserService.getInstance().createUser(userEmail, encryptedPassword, userName);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
-			res.sendStatus(201);
+			return res.json({ signup: true });
 		} catch (err) {
 			res.sendStatus(409);
 		}
@@ -31,7 +31,7 @@ const UserController = {
 			const user = req.user;
 			res.json(user);
 		} catch (err) {
-			res.sendStatus(409);
+			res.sendStatus(401);
 		}
 	},
 	async updateUser(req: IUser, res: Response) {
@@ -46,14 +46,14 @@ const UserController = {
 		}
 	},
 	login(req: Request, res: Response) {
-		if (req.user === undefined) res.sendStatus(404);
 		try {
+			if (req.user === undefined) return res.sendStatus(401);
 			const user = req.user as User;
 			const JWT = createJWT(user.user_id);
 			res.cookie('JWT', JWT);
-			res.sendStatus(204);
+			res.json(user);
 		} catch (err) {
-			res.sendStatus(404);
+			res.sendStatus(401);
 		}
 	},
 	githubLogin(req: Request, res: Response) {

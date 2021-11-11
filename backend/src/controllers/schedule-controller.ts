@@ -13,7 +13,7 @@ const ScheduleController = {
 		try {
 			const scheduleInfo = changeFieldToNumber(req.params.teamId, req.body);
 			const newSchedule = await ScheduleService.getInstance().createSchedule(scheduleInfo);
-			res.status(201).json(newSchedule);
+			res.json(newSchedule);
 		} catch (err) {
 			res.sendStatus(409);
 		}
