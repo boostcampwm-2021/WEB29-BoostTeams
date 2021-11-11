@@ -15,7 +15,7 @@ const ScheduleController = {
 			const newSchedule = await ScheduleService.getInstance().createSchedule(scheduleInfo);
 			res.status(201).json(newSchedule);
 		} catch (err) {
-			res.status(400).send(err);
+			res.sendStatus(409);
 		}
 	},
 	async getSchedule(req: Request, res: Response) {
@@ -25,26 +25,26 @@ const ScheduleController = {
 			const startDate = moment(start_date, 'YYYYMMDD').format('YYYY-MM-DD');
 			const endDate = moment(end_date, 'YYYYMMDD').format('YYYY-MM-DD');
 			const schedules = await ScheduleService.getInstance().getSchedule(team_id, startDate, endDate);
-			res.status(200).json(schedules);
+			res.json(schedules);
 		} catch (err) {
-			res.status(400).send(err);
+			res.sendStatus(404);
 		}
 	},
 	async deleteSchedule(req: Request, res: Response) {
 		try {
 			const scheduleId = Number(req.params.scheduleId);
 			await ScheduleService.getInstance().deleteSchedule(scheduleId);
-			res.status(200).send();
+			res.sendStatus(204);
 		} catch (err) {
-			res.status(400).send(err);
+			res.sendStatus(409);
 		}
 	},
 	async updateRepeatSchedule(req: Request, res: Response) {
 		try {
 			const newSchedule = await ScheduleService.getInstance().updateRepeatSchedule(req.body);
-			res.status(201).json(newSchedule);
+			res.json(newSchedule);
 		} catch (err) {
-			res.status(400).send(err);
+			res.sendStatus(409);
 		}
 	}
 };
