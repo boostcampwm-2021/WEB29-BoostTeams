@@ -1,16 +1,20 @@
 import React from 'react';
 import { FaBell, FaChalkboard, FaComments, FaCalendarDay, FaUserFriends } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { Container, BellIconWrapper, TabContainer, TeamIconContainer, TeamIcon } from './style';
 import { PrimaryPalette } from '../../../utils/constants';
+import { userTeamList } from '../../../stores/team';
+import { CardData } from '../../Team/type';
 
 const Navbar: React.FC = () => {
 	const path = window.location.pathname.match(/\/team\/[0-9]+/)![0];
-	const teamDummy = [
-		{ team_id: 1, name: 'boost' },
-		{ team_id: 2, name: 'example' },
-		{ team_id: 3, name: 'test' },
-	];
+	const teamList = useRecoilValue(userTeamList);
+	const myTeamList: CardData[] = [];
+	teamList.reduce((pre: void, team: CardData) => {
+		if (team.state) myTeamList.push(team);
+		return pre;
+	}, '');
 	return (
 		<Container>
 			<BellIconWrapper>
@@ -31,10 +35,10 @@ const Navbar: React.FC = () => {
 				</Link>
 			</TabContainer>
 			<TeamIconContainer>
-				{teamDummy.map((e) => (
-					<Link to={`/team/${e.team_id}`}>
-						<TeamIcon key={e.team_id} color={PrimaryPalette[e.team_id % 6]}>
-							{e.name[0].toUpperCase()}
+				{myTeamList.map((e) => (
+					<Link key={e.team.team_id} to={`/team/${e.team.team_id}/calendar`}>
+						<TeamIcon key={e.team.team_id} color={PrimaryPalette[e.team.team_id % 6]}>
+							{e.team.team_name[0].toUpperCase()}
 						</TeamIcon>
 					</Link>
 				))}
