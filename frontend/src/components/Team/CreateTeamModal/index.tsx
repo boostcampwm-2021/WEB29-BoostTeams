@@ -1,18 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { toast } from 'react-toastify';
 
+import { teamListLoadTrigger } from '../../../stores/team';
+import { create } from '../../../apis/team';
 import Modal from '../../common/Modal';
+import { Container, Input, Textarea, Title } from './style';
 
 type Props = {
 	handleModalClose: () => void;
 };
 
 const CreateTeamModal: React.FC<Props> = ({ handleModalClose }) => {
-	const handleSubmit = () => {
-		// TODO: 팀 생성하는 API 호출
+	const loadTrigger = useSetRecoilState(teamListLoadTrigger);
+	const [name, setName] = useState('');
+	const [desc, setDesc] = useState('');
+
+	const inputNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setName(e.target.value);
 	};
+
+	const inputDescHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setDesc(e.target.value);
+	};
+
+	const handleSubmit = () => {
+		if (name !== '') {
+			const teamData = {
+				team_name: name,
+				team_desc: desc,
+			};
+			create(loadTrigger, teamData);
+			handleModalClose();
+		} else {
+			toast.warn('😮 팀 이름을 입력해주세요!');
+		}
+	};
+
 	return (
 		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<span>Create Team Modal</span>
+			<Container>
+				<Title>팀 만들기</Title>
+				<Input onChange={inputNameHandler} value={name} placeholder='팀 이름을 입력하세요' />
+				<Textarea onChange={inputDescHandler} value={desc} placeholder='팀에 대한 세부 정보를 입력하세요' />
+			</Container>
 		</Modal>
 	);
 };

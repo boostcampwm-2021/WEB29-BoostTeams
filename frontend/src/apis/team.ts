@@ -6,9 +6,22 @@ export const readMyTeam = async () => {
 	return data;
 };
 
-export const joinNewTeam = async (setLoadTrigger: (param: any) => void, team_id: number) => {
-	// add 따로
-	const res = await fetchApi.post('/api/team/invite/response', { team_id });
-	// refresh 따로
+interface teamData {
+	team_name: string;
+	team_desc: string;
+}
+
+export const create = async (setLoadTrigger: (param: any) => void, teamData: teamData) => {
+	await fetchApi.post('/api/team/create', { ...teamData });
+	setLoadTrigger((prev: number) => prev + 1);
+};
+
+export const accept = async (setLoadTrigger: (param: any) => void, team_id: number) => {
+	await fetchApi.post('/api/team/invite/response', { team_id });
+	setLoadTrigger((prev: number) => prev + 1);
+};
+
+export const decline = async (setLoadTrigger: (param: any) => void, team_id: number) => {
+	await fetchApi.delete('/api/team/invite/response', { team_id });
 	setLoadTrigger((prev: number) => prev + 1);
 };

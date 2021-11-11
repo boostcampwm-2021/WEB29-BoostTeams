@@ -17,59 +17,43 @@ export default class TeamUserService {
 	}
 
 	async create(userId: number, teamId: number) {
-		try {
-			await this.teamUserRepository
-				.createQueryBuilder()
-				.insert()
-				.into('team_user')
-				.values({
-					user: userId,
-					team: teamId,
-					state: false
-				})
-				.execute();
-		} catch (err) {
-			throw err;
-		}
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.insert()
+			.into('team_user')
+			.values({
+				user: userId,
+				team: teamId,
+				state: true
+			})
+			.execute();
 	}
 
 	async read(userId: number) {
-		try {
-			return await this.teamUserRepository
-				.createQueryBuilder('team_user')
-				.leftJoinAndSelect('team_user.team', 'team')
-				.where('team_user.user = :userId', { userId })
-				.getMany();
-		} catch (err) {
-			throw err;
-		}
+		return await this.teamUserRepository
+			.createQueryBuilder('team_user')
+			.leftJoinAndSelect('team_user.team', 'team')
+			.where('team_user.user = :userId', { userId })
+			.getMany();
 	}
 
 	async update(userId: number, teamId: number) {
-		try {
-			await this.teamUserRepository
-				.createQueryBuilder()
-				.update()
-				.set({ state: true })
-				.where('team = :teamId', { teamId })
-				.andWhere('user = :userId', { userId })
-				.execute();
-		} catch (err) {
-			throw err;
-		}
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.update()
+			.set({ state: true })
+			.where('team = :teamId', { teamId })
+			.andWhere('user = :userId', { userId })
+			.execute();
 	}
 
 	async delete(userId: number, teamId: number) {
-		try {
-			await this.teamUserRepository
-				.createQueryBuilder()
-				.delete()
-				.from('team_user')
-				.where('team = :teamId', { teamId })
-				.andWhere('user = :userId', { userId })
-				.execute();
-		} catch (err) {
-			throw err;
-		}
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.delete()
+			.from('team_user')
+			.where('team = :teamId', { teamId })
+			.andWhere('user = :userId', { userId })
+			.execute();
 	}
 }
