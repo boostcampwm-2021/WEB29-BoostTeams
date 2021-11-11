@@ -6,7 +6,7 @@ export const Container = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	width: 4.2rem;
-	height: calc(100% - 3rem); // 3rem : 헤더 높이
+	height: calc(100vh - 3rem); // 3rem : 헤더 높이
 	background-color: ${ColorCode.LINE1};
 `;
 
@@ -45,8 +45,12 @@ export const TabContainer = styled.div`
 export const TeamIcon = styled.div`
 	width: 2rem;
 	height: 2rem;
-	background-color: ${ColorCode.FONT2};
+	background-color: ${(props) => props.color || ColorCode.FONT2};
 	border-radius: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: ${ColorCode.WHITE};
 `;
 
 export const TeamIconContainer = styled.div`
