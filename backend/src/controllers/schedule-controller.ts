@@ -4,7 +4,6 @@ import ScheduleService from '../services/schedule-service';
 
 const changeFieldToNumber = (teamID, newScheduleData) => {
 	newScheduleData.team_id = Number(teamID);
-	newScheduleData.repeat_id = Number(newScheduleData.repeat_id);
 	newScheduleData.color = Number(newScheduleData.color);
 	return newScheduleData;
 };

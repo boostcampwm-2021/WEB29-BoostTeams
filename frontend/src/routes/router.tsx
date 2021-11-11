@@ -16,8 +16,8 @@ const Router: React.FC = () => {
 				<PublicRoute exact path='/' component={LoginPage} />
 				<PublicRoute exact path='/signup' component={SignUpPage} />
 				<PrivateRoute exact path='/team' component={TeamPage} />
-				<PrivateRoute exact path='/team/:team_id/chat' component={ChatPage} />
-				<PrivateRoute exact path='/team/:team_id/calendar' component={CalendarPage} />
+				<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
+				<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
 			</Switch>
 		</BrowserRouter>
 	);
