@@ -7,25 +7,15 @@ import fetchApi from '../utils/fetch';
  * @param cb: 로그인 확인 성공시 콜백 함수
  * @param err: 로그인 확인 실패시 콜백 함수
  */
-export const login = async (
-	{ userEmail, userPassword }: { userEmail: string; userPassword: string },
-	cb?: any,
-	err?: any,
-) => {
+export const login = async ({ userEmail, userPassword }: { userEmail: string; userPassword: string }, cb?: any) => {
 	const key = process.env.REACT_APP_AES_KEY || 'key';
 	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
 		const res = await fetchApi.post('/api/auth/login', { userEmail, encryptedPassword });
 		const data = await res.json();
-		if (res.status === 200) {
-			cb(data);
-		}
-		if (res.status === 401) {
-			toast.error('😣 존재하지 않는 계정입니다!');
-			err();
-		}
-	} catch (err) {
-		toast.error('😣 서버와의 연결이 심상치 않습니다!');
+		cb(data);
+	} catch (error) {
+		toast.error('😣 존재하지 않는 계정입니다!');
 	}
 };
 
@@ -61,7 +51,7 @@ export const signUp = async (
 	try {
 		const res = await fetchApi.post('/api/auth/signup', { userName, userEmail, encryptedPassword });
 		const data = await res.json();
-		if (res.status === 201) {
+		if (res.status === 200) {
 			cb();
 		}
 		if (res.status === 409 && data.conflict === 'email') {

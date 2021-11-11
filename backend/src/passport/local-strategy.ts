@@ -14,11 +14,10 @@ const LOCAL_CONFIG = {
 const localLoginCallback = async (user_email: string, encryptedPassword: string, callback) => {
 	const user = await UserService.getInstance().getUserByEmail(user_email);
 	const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
-
-	if (!user) return callback(null, undefined, { reason: 'user does not exist' });
+	if (!user) return callback(null, user);
 
 	const isValidPassword = bcrypt.compareSync(decryptedPassword, user.user_password);
-	if (!isValidPassword) return callback(null, undefined, { reason: 'wrong password' });
+	if (!isValidPassword) return callback(null, undefined);
 
 	return callback(null, user);
 };
