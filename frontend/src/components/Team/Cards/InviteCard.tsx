@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { joinNewTeam } from '../../../apis/team';
+import { accept, decline } from '../../../apis/team';
 import { teamListLoadTrigger } from '../../../stores/team';
 import { ColorCode } from '../../../utils/constants';
 import Button from '../../common/Button';
@@ -16,10 +16,10 @@ interface Props {
 const InviteCard: React.FC<Props> = ({ team_id, team_name }) => {
 	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
 	const acceptHandler = () => {
-		joinNewTeam(setLoadTrigger, team_id);
+		accept(setLoadTrigger, team_id);
 	};
 	const declineHandler = () => {
-		// TODO: team-user 테이블에서 삭제하는 API
+		decline(setLoadTrigger, team_id);
 	};
 
 	return (

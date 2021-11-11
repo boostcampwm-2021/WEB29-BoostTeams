@@ -48,12 +48,13 @@ const fetchApi = {
 			body: JSON.stringify(data),
 		}),
 
-	delete: (path: string): Promise<Response> =>
+	delete: (path: string, data?: RequestData): Promise<Response> =>
 		fetch(`${baseUrl}${path}`, {
 			method: 'DELETE',
 			mode: 'cors',
 			credentials: 'include',
 			headers: getHeader(),
+			body: JSON.stringify(data),
 		}),
 };
 
