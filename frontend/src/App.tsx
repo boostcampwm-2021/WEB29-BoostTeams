@@ -6,21 +6,22 @@ import { ToastContainer } from 'react-toastify';
 import Router from './routes/router';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingPage from './pages/LoadingPage';
+import { SocketContext } from './utils/socketContext';
 
 dotenv.config();
 
 const App: React.FC = () => {
-	useEffect(() => {
-		const socket = socketIOClient(process.env.REACT_APP_SERVER || 'http://localhost:4000');
-		socket.connect();
-	}, []);
+	const socket = socketIOClient(process.env.REACT_APP_SERVER || 'http://localhost:4000');
+	socket.connect();
 
 	return (
 		<Suspense fallback={<LoadingPage />}>
-			<RecoilRoot>
-				<Router />
-			</RecoilRoot>
-			<ToastContainer />
+			<SocketContext.Provider value={socket}>
+				<RecoilRoot>
+					<Router />
+				</RecoilRoot>
+				<ToastContainer />
+			</SocketContext.Provider>
 		</Suspense>
 	);
 };
