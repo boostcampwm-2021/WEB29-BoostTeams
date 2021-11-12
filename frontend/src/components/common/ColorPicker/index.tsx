@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, ColorDropDown, ColorCircle } from './style';
 import { PrimaryPalette } from '../../../utils/constants';
 
-interface Props {
+export interface Props {
 	selectedColor: number;
 	setSelectedColor: any;
 }
