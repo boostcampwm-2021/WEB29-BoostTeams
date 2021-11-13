@@ -99,30 +99,30 @@ const CalendarModal: React.FC<Props> = ({
 			} else {
 				newScheduleData.schedule_id = scheduleId;
 				const newSchedule = await updateSchedule(scheduleId, newScheduleData);
-				updateScheduleById(scheduleId, newSchedule);
+				if (newSchedule) updateScheduleById(scheduleId, newSchedule);
 			}
 			handleModalClose();
 		}
 	};
 
-	const handleDeleteButtonClick = async (e: any) => {
+	const handleDeleteButtonClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		await deleteSchedule(scheduleId);
 		deleteScheduleById(scheduleId);
 		handleModalClose();
 	};
 
-	const changeUpdateMode = async (e: any) => {
+	const changeUpdateMode = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		setModalMode({ mode: 'update' });
 	};
 
-	const checkValidateRepeatCount = (e: any) => {
-		if (selectedRepeat === 0 || !isNum(e.target.value)) {
-			e.target.value = '';
+	const checkValidateRepeatCount = (e: React.FormEvent<HTMLInputElement>) => {
+		if (selectedRepeat === 0 || !isNum(e.currentTarget.value)) {
+			e.currentTarget.value = '';
 			setSelectedRepeatCount(0);
 		} else {
-			setSelectedRepeatCount(e.target.value);
+			setSelectedRepeatCount(Number(e.currentTarget.value));
 		}
 	};
 
@@ -189,7 +189,12 @@ const CalendarModal: React.FC<Props> = ({
 							selectedOption={repeatOptions[selectedRepeat]}
 							setSelectedOption={setSelectedRepeat}
 						/>
-						<input onChange={checkValidateRepeatCount} placeholder='반복횟수' readOnly={selectedRepeat === 0} />
+						<input
+							type='number'
+							onChange={checkValidateRepeatCount}
+							placeholder='반복횟수'
+							readOnly={selectedRepeat === 0}
+						/>
 					</>
 				)}
 				<textarea

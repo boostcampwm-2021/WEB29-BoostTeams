@@ -6,7 +6,7 @@ export const getFirstDate = (isMonthly: boolean, dateInfo: DateInfoType): string
 		? moment(new Date(dateInfo.year, dateInfo.month - 1, 1)).format('YYYYMMDD')
 		: moment(dateInfo.weeklyStartDate).format('YYYYMMDD');
 
-export const getLastDate = (isMonthly: boolean, dateInfo: DateInfoType) =>
+export const getLastDate = (isMonthly: boolean, dateInfo: DateInfoType): string =>
 	isMonthly
 		? moment(new Date(dateInfo.year, dateInfo.month, 0)).format('YYYYMMDD')
 		: moment(dateInfo.weeklyStartDate).add(7, 'days').format('YYYYMMDD');
@@ -19,9 +19,9 @@ export const isTodayDate = (date: Date, i: number): boolean =>
 export const isSameDate = (date: Date, i: number, refDate: Date): boolean =>
 	moment(date).add(i, 'days').format('YYYYMMDD') === moment(refDate).format('YYYYMMDD');
 
-const isDoubleMonth = (date: moment.Moment) => date.month() !== date.add(7, 'days').month();
+const isDoubleMonth = (date: moment.Moment): boolean => date.month() !== date.add(7, 'days').month();
 
-export const getCurrDateInfo = () => {
+export const getCurrDateInfo = (): DateInfoType => {
 	const date = moment().startOf('week');
 	return {
 		year: date.year(),
@@ -31,7 +31,12 @@ export const getCurrDateInfo = () => {
 	};
 };
 
-export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Date, isMonthly: boolean) => {
+export const getPrevDateInfo = (
+	year: number,
+	month: number,
+	weeklyStartDate: Date,
+	isMonthly: boolean,
+): DateInfoType => {
 	if (isMonthly) {
 		const date = moment([year, month - 1, 1]).subtract(1, 'months');
 		return {
@@ -50,7 +55,12 @@ export const getPrevDateInfo = (year: number, month: number, weeklyStartDate: Da
 	};
 };
 
-export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Date, isMonthly: boolean) => {
+export const getNextDateInfo = (
+	year: number,
+	month: number,
+	weeklyStartDate: Date,
+	isMonthly: boolean,
+): DateInfoType => {
 	if (isMonthly) {
 		const date = moment([year, month - 1, 1]).add(1, 'months');
 		return {
@@ -69,4 +79,4 @@ export const getNextDateInfo = (year: number, month: number, weeklyStartDate: Da
 	};
 };
 
-export const isNum = (num: number | string) => !Number.isNaN(Number(num));
+export const isNum = (num: number | string): boolean => !Number.isNaN(Number(num));
