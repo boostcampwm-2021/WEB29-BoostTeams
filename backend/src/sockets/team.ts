@@ -15,10 +15,17 @@ const teamInit = (namespace: Namespace): void => {
 		onlineUsersInfo[socketId] = { teamId, userId };
 	};
 
-	const setUserStatusToOffline = (socketId: string): void => {
-		const { teamId, userId } = onlineUsersInfo[socketId];
+	const setUserStatusToOffline = (teamId: number, userId: string, socketId: string): void => {
 		onlineUsersByTeam[teamId] = onlineUsersByTeam[teamId].filter((user: UserType) => user.userId !== userId);
 		delete onlineUsersInfo[socketId];
+	};
+
+	const sendOnlineUsers = (socket: Socket, teamId: number): void => {
+		socket.emit('online users', { onlineUsers: onlineUsersByTeam[teamId] });
+	};
+
+	const sendOnlineUsersToRoom = (socket: Socket, teamId: number): void => {
+		socket.to('users').emit('online users', { onlineUsers: onlineUsersByTeam[teamId] });
 	};
 
 	namespace.on('connect', (socket: Socket) => {
@@ -26,12 +33,26 @@ const teamInit = (namespace: Namespace): void => {
 
 		socket.on('change status to online', ({ teamId, userId }: { teamId: number; userId: string }) => {
 			setUserStatusToOnline(teamId, userId, socket.id);
-			console.log('online', onlineUsersByTeam, onlineUsersInfo);
+			sendOnlineUsersToRoom(socket, teamId);
+			// console.log('online', onlineUsersByTeam, onlineUsersInfo);
+		});
+
+		socket.on('enter users room', () => {
+			const { teamId } = onlineUsersInfo[socket.id];
+			socket.join('users');
+			sendOnlineUsers(socket, teamId);
+			console.log('join users');
+		});
+
+		socket.on('leave users room', () => {
+			socket.leave('users');
 		});
 
 		socket.on('disconnect', () => {
-			setUserStatusToOffline(socket.id);
-			console.log('offline', onlineUsersByTeam, onlineUsersInfo);
+			const { teamId, userId } = onlineUsersInfo[socket.id];
+			setUserStatusToOffline(teamId, userId, socket.id);
+			sendOnlineUsersToRoom(socket, teamId);
+			// console.log('offline', onlineUsersByTeam, onlineUsersInfo);
 		});
 	});
 };

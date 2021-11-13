@@ -7,6 +7,7 @@ import UserState from '../stores/user';
 
 import ChatPage from '../pages/ChatPage';
 import CalendarPage from '../pages/CalendarPage';
+import UsersPage from '../pages/UsersPage';
 
 const TeamRoute = ({ computedMatch }: any) => {
 	const { teamId } = computedMatch.params;
@@ -25,6 +26,7 @@ const TeamRoute = ({ computedMatch }: any) => {
 		<SocketContext.Provider value={socketRef}>
 			<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
 			<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
+			<PrivateRoute exact path='/team/:teamId/users' component={UsersPage} />
 		</SocketContext.Provider>
 	);
 };

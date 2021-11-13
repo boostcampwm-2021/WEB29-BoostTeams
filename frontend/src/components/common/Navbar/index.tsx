@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
 				<Link to={`${path}/calendar`}>
 					<FaCalendarDay />
 				</Link>
-				<Link to={`${path}/setting`}>
+				<Link to={`${path}/users`}>
 					<FaUserFriends />
 				</Link>
 			</TabContainer>
