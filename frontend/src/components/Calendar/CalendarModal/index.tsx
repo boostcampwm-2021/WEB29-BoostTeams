@@ -22,7 +22,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
 	handleModalClose: () => void;
-	addSchedule: (newSchedule: ScheduleType[]) => void;
+	addSchedule: (newSchedules: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
 	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
 	teamId: number;
@@ -94,8 +94,8 @@ const CalendarModal: React.FC<Props> = ({
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
 			if (checkModalMode('create')) {
-				const newSchedule = await createNewSchedule(teamId, newScheduleData);
-				addSchedule(newSchedule);
+				const newSchedules = await createNewSchedule(teamId, newScheduleData);
+				addSchedule(newSchedules);
 			} else {
 				newScheduleData.schedule_id = scheduleId;
 				const newSchedule = await updateSchedule(scheduleId, newScheduleData);

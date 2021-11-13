@@ -15,7 +15,7 @@ interface Props {
 	isMonthly: boolean;
 	dateInfo: DateInfoType;
 	isModalVisible: boolean;
-	addSchedule: (newSchedule: ScheduleType[]) => void;
+	addSchedule: (newSchedules: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
 	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
 	handleModalOpen: () => void;
@@ -51,14 +51,14 @@ const CalendarTemplate: React.FC<Props> = ({
 				<Navbar />
 				<CalendarContainer>
 					<CalendarHeader
+						isMonthly={isMonthly}
+						dateInfo={dateInfo}
 						changeToCurrDate={changeToCurrDate}
 						changeToPrevDate={changeToPrevDate}
 						changeToNextDate={changeToNextDate}
 						changeToMonthly={changeToMonthly}
 						changeToWeekly={changeToWeekly}
 						handleModalOpen={handleModalOpen}
-						isMonthly={isMonthly}
-						dateInfo={dateInfo}
 					/>
 					{isMonthly ? (
 						<MonthlyCalendar dateInfo={dateInfo} schedules={schedules} handleModalOpen={handleModalOpen} />
