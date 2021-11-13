@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { check } from '../apis/auth';
 import UserState from '../stores/user';
 import { removeCookie } from '../utils/cookie';
-import { SocketContext } from '../utils/socketContext';
 
 const PrivateRoute = ({ component: Component, ...rest }: any) => {
-	const [user, setUser] = useRecoilState(UserState);
-	const socket = useContext(SocketContext);
-	useLayoutEffect(() => {
+	const setUser = useSetRecoilState(UserState);
+	useEffect(() => {
 		if (localStorage.getItem('JWT')) {
 			check(
 				(res: any) => {
@@ -26,18 +24,6 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 					removeCookie('JWT', '');
 				},
 			);
-		}
-	});
-	useEffect(() => {
-		if (true) {
-			socket.emit('check team join', { teamId: 1, userId: user.email });
-			socket.on('check team join result', (res: any) => {
-				if (res.result === ' true') {
-					console.log(true);
-				} else {
-					socket.emit('join team', { teamId: 1, userId: res.userId });
-				}
-			});
 		}
 	}, []);
 	return (
