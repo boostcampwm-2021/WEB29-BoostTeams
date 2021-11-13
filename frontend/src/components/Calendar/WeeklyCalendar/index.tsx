@@ -2,19 +2,15 @@ import React from 'react';
 import { Container } from './style';
 import WeekHeader from './WeekHeader';
 import WeekContent from './WeekContent';
-import { DateInfoType } from '../dataStructure';
+import { DateInfoType, ScheduleType } from '../dataStructure';
 
-interface WeeklyCalendarProps {
+interface Props {
 	dateInfo: DateInfoType;
-	schedules: any[];
+	schedules: ScheduleType[];
 	handleModalOpen: () => void;
 }
 
-const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
-	dateInfo,
-	schedules,
-	handleModalOpen,
-}: WeeklyCalendarProps) => {
+const WeeklyCalendar: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen }) => {
 	return (
 		<Container>
 			<WeekHeader dateInfo={dateInfo} />

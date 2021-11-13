@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '../../utils/calendar';
 import { getSchedules } from '../../apis/schedule';
+import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '../../utils/calendar';
+import { ScheduleType, DateInfoType } from '../../components/Calendar/dataStructure';
 
 import CalendarTemplate from '../../templates/CalendarTemplate';
-import { ScheduleType, DateInfoType } from '../../components/Calendar/dataStructure';
 
 type SchedulesAction =
 	| { type: 'FETCH'; newSchedules: ScheduleType[] }
