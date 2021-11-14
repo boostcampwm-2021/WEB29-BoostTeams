@@ -28,7 +28,6 @@ const ScheduleItem: React.FC<Props> = ({ start, len, schedule, handleModalOpen }
 			start={start}
 			color={PrimaryPalette[schedule.color]}
 			borderColor={SecondaryPalette[schedule.color]}
-			data-schedule={schedule}
 			onClick={handleScheduleClick}
 		>
 			<span>{schedule.title}</span>
