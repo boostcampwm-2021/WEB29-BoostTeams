@@ -2,10 +2,9 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import TeamRoute from './TeamRoute';
 
-import ChatPage from '../pages/ChatPage';
 import LoginPage from '../pages/LoginPage';
-import CalendarPage from '../pages/CalendarPage';
 import TeamPage from '../pages/TeamPage';
 import SignUpPage from '../pages/SignUpPage';
 import LoadingPage from '../pages/LoadingPage';
@@ -18,8 +17,7 @@ const Router: React.FC = () => {
 				<PublicRoute exact path='/' component={LoginPage} />
 				<PublicRoute exact path='/signup' component={SignUpPage} />
 				<PrivateRoute exact path='/team' component={TeamPage} />
-				<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
-				<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
+				<TeamRoute path='/team/:teamId' />
 				<Route exact path='/loading' component={LoadingPage} />
 				<Route path='*' component={ErrorPage} />
 			</Switch>

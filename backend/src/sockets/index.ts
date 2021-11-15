@@ -1,10 +1,8 @@
-import { Socket } from 'socket.io';
+import { Namespace } from 'socket.io';
+import teamInit from './team';
 
-const io = require('socket.io');
-const socketIO = io();
+const socketInit = (namespace: Namespace): void => {
+	teamInit(namespace);
+};
 
-socketIO.on('connect', (socket: Socket) => {
-	console.log('socket connect');
-});
-
-export default socketIO;
+export default socketInit;
