@@ -17,3 +17,10 @@ export const timeSince = (timestamp: Date) => {
 	}
 	return `${timestamp.getMonth() + 1}. ${timestamp.getDate()}.`;
 };
+
+export const timeToString = (timestamp: Date) => {
+	return `${timestamp.getMonth() + 1}. ${timestamp.getDate()}. ${timestamp.getHours()}:${timestamp
+		.getMinutes()
+		.toString()
+		.padStart(2, '0')}`;
+};

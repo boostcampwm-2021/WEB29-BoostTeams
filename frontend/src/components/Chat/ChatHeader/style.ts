@@ -22,6 +22,7 @@ export const InvitationBtn = styled.button`
 	border: none;
 	background-color: transparent;
 	color: ${ColorCode.FONT1};
+	flex-shrink: 0;
 	svg {
 		width: 1.2rem;
 		height: 1.2rem;
@@ -34,6 +35,7 @@ export const InvitationBtn = styled.button`
 export const ChatRoomInfoContainer = styled.div`
 	display: flex;
 	align-items: center;
+	flex-shrink: 0;
 	h2 {
 		margin: 0 0.6rem;
 		font-weight: bold;
