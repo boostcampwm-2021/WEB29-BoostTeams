@@ -1,7 +1,5 @@
-import Header from './Header';
-import ProfileIcon from './Icons/ProfileIcon';
-import TeamIcon from './Icons/TeamIcon';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
-
-export { Header, ProfileIcon, TeamIcon, Navbar, Sidebar };
+export { default as Header } from './Header';
+export { default as ProfileIcon } from './Icons/ProfileIcon';
+export { default as TeamIcon } from './Icons/TeamIcon';
+export { default as Navbar } from './Navbar';
+export { default as Sidebar } from './Sidebar';

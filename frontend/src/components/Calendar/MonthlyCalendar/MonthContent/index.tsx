@@ -1,8 +1,8 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ContentContainer } from './style';
-import { DateInfoType, ScheduleType, weekContentNumber } from '../../dataStructure';
+import { DateInfoType, ScheduleType, weekContentNumber } from '@components/Calendar/dataStructure';
 import Week from './Week';
+import { ContentContainer } from './style';
 
 interface Props {
 	dateInfo: DateInfoType;

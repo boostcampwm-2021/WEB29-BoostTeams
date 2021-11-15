@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { PrimaryPalette } from '@utils/constants';
 import { Container, ColorDropDown, ColorCircle } from './style';
-import { PrimaryPalette } from '../../../utils/constants';
 
 export interface Props {
 	selectedColor: number;

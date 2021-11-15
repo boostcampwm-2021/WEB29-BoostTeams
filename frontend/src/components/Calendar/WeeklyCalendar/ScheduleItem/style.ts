@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Font } from '../../../../utils/constants';
+import { Font } from '@utils/constants';
 
 interface ContainerProps {
 	len: number;

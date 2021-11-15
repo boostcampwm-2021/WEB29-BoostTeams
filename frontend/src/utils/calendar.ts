@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { DateInfoType } from '../components/Calendar/dataStructure';
+import { DateInfoType } from '@components/Calendar/dataStructure';
 
 export const getFirstDate = (isMonthly: boolean, dateInfo: DateInfoType): string =>
 	isMonthly

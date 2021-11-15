@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
-import UserRepository from '../repositories/user-repository';
+import UserRepository from '@repositories/user-repository';
 import Crypto from 'crypto-js';
 import bcrypt from 'bcrypt';
-import { User } from '../entities/user';
+import { User } from '@entities/user';
 
 class UserService {
 	static instance: UserService;

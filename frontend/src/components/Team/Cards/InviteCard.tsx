@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { accept, decline } from '../../../apis/team';
-import { teamListLoadTrigger } from '../../../stores/team';
-import { ColorCode } from '../../../utils/constants';
-import Button from '../../common/Button';
+import { accept, decline } from '@apis/team';
+import { teamListLoadTrigger } from '@stores/team';
+import { ColorCode } from '@utils/constants';
+import Button from '@components/common/Button';
 import Thumbnail from './Thumbnail';
 
 import { Container, InviteButtonContainer, Name } from './style';

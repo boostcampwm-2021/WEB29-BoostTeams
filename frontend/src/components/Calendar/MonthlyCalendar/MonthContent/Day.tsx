@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { PrimaryPalette } from '../../../../utils/constants';
-import { ModalMode, ModalSchedule } from '../../../../stores/calendar';
+import { PrimaryPalette } from '@utils/constants';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
+import { ScheduleType } from '@components/Calendar/dataStructure';
 import { DayWrapper, Schedule, DayNum } from './style';
-import { ScheduleType } from '../../dataStructure';
 
 interface Props {
 	day: number;

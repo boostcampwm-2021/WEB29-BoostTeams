@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { signUp } from '../../apis/auth';
-import SignUpTemplate from '../../templates/SignUpTemplate';
-import { getCookie } from '../../utils/cookie';
-import { emailRegExp, pwRegExp, nameRegExp } from '../../utils/regexs';
+import { signUp } from '@apis/auth';
+import SignUpTemplate from '@templates/SignUpTemplate';
+import { getCookie } from '@utils/cookie';
+import { emailRegExp, pwRegExp, nameRegExp } from '@utils/regexs';
 
 const checkName = (name: string) => {
 	if (name === '') {

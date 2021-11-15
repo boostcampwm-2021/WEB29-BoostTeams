@@ -1,7 +1,7 @@
 import AES from 'crypto-js/aes';
 import { toast } from 'react-toastify';
-import { removeCookie } from '../utils/cookie';
-import fetchApi from '../utils/fetch';
+import { removeCookie } from '@utils/cookie';
+import fetchApi from '@utils/fetch';
 
 /**
  * @param cb: 로그인 확인 성공시 콜백 함수

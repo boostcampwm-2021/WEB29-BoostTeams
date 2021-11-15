@@ -2,10 +2,10 @@ import React from 'react';
 import { FaBell, FaChalkboard, FaComments, FaCalendarDay, FaUserFriends } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { PrimaryPalette } from '@utils/constants';
+import { userTeamList } from '@stores/team';
+import { CardData } from '@components/Team/type';
 import { Container, BellIconWrapper, TabContainer, TeamIconContainer, TeamIcon } from './style';
-import { PrimaryPalette } from '../../../utils/constants';
-import { userTeamList } from '../../../stores/team';
-import { CardData } from '../../Team/type';
 
 const Navbar: React.FC = () => {
 	const path = window.location.pathname.match(/\/team\/\d+/)?.[0];

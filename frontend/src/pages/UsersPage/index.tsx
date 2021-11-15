@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
-import UsersTemplate from '../../templates/UsersTemplate';
-import { SocketContext } from '../../utils/socketContext';
+import UsersTemplate from '@templates/UsersTemplate';
+import { SocketContext } from '@utils/socketContext';
 
 const UsersPage: React.FC = () => {
 	const socketRef = useContext(SocketContext);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorCode, PrimaryPalette, SecondaryPalette } from '../../../../utils/constants';
+import { ColorCode, PrimaryPalette, SecondaryPalette } from '@utils/constants';
 import { Container, ProfileIconContainer, Status } from './style';
 
 interface ProfileProps {

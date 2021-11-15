@@ -1,8 +1,8 @@
-import UserService from '../services/user-service';
-import { User } from '../entities/user';
+import UserService from '@services/user-service';
+import { User } from '@entities/user';
 
 import { Request, Response } from 'express';
-import { createJWT } from '../middlewares/token';
+import { createJWT } from '@middlewares/token';
 
 interface IUser extends Request {
 	user_id: number;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { userTeamList } from '../../stores/team';
+import { userTeamList } from '@stores/team';
 
-import { CardData } from '../../components/Team/type';
-import { Header } from '../../components/common';
-import { MyTeamList, InviteList, CreateTeamModal } from '../../components/Team';
+import { CardData } from '@components/Team/type';
+import { Header } from '@components/common';
+import { MyTeamList, InviteList, CreateTeamModal } from '@components/Team';
 import { Layout } from './style';
 
 type Props = {

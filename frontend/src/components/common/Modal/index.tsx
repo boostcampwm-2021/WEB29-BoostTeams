@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { ColorCode } from '../../../utils/constants';
+import { ColorCode } from '@utils/constants';
 import { Background, Container, ButtonContainer } from './style';
 import Button from '../Button';
 

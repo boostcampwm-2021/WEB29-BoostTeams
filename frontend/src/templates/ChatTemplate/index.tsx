@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Navbar, Sidebar } from '../../components/common';
+import { Header, Navbar, Sidebar } from '@components/common';
 import { MainContainer } from './style';
 
 const Chat: React.FC = () => {

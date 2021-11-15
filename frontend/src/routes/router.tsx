@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import LoginPage from '@pages/LoginPage';
+import TeamPage from '@pages/TeamPage';
+import SignUpPage from '@pages/SignUpPage';
+import LoadingPage from '@pages/LoadingPage';
+import ErrorPage from '@pages/ErrorPage';
+
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import TeamRoute from './TeamRoute';
-
-import LoginPage from '../pages/LoginPage';
-import TeamPage from '../pages/TeamPage';
-import SignUpPage from '../pages/SignUpPage';
-import LoadingPage from '../pages/LoadingPage';
-import ErrorPage from '../pages/ErrorPage';
 
 const Router: React.FC = () => {
 	return (

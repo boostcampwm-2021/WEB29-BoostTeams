@@ -2,11 +2,11 @@ import React from 'react';
 import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
-import { ModalMode, ModalSchedule } from '../../../stores/calendar';
-import { DateInfoType, weekContentNumber } from '../dataStructure';
-import { ColorCode } from '../../../utils/constants';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
+import { ColorCode } from '@utils/constants';
+import NewAppointmentBtn from '@components/common/Button';
 
-import NewAppointmentBtn from '../../common/Button';
+import { DateInfoType, weekContentNumber } from '../dataStructure';
 import { Container, InfoContainer, TodayBtn, ConvertBtn, ConvertBtnContainer, ButtonContainer } from './style';
 
 interface Props {

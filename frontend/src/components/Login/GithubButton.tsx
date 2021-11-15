@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiFillGithub } from 'react-icons/ai';
-import { githubLogin } from '../../apis/auth';
+import { githubLogin } from '@apis/auth';
 import { Button } from './style';
 
 const GithubButton: React.FC = () => {

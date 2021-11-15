@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TeamTemplate from '../../templates/TeamTemplate';
+import TeamTemplate from '@templates/TeamTemplate';
 
 const TeamPage: React.FC = () => {
 	const [showCreateTeamModal, setShowCreateTeamModal] = useState(false);

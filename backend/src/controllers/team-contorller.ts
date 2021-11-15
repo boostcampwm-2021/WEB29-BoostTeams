@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import TeamUserService from '../services/team-user-service';
-import TeamService from '../services/team-service';
-import UserService from '../services/user-service';
+import TeamUserService from '@services/team-user-service';
+import TeamService from '@services/team-service';
+import UserService from '@services/user-service';
 
 const TeamController = {
 	async read(req: any, res: Response) {

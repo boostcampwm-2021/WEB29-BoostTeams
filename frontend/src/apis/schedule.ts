@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
-import { ScheduleType } from '../components/Calendar/dataStructure';
-import fetchApi from '../utils/fetch';
+import { ScheduleType } from '@components/Calendar/dataStructure';
+import fetchApi from '@utils/fetch';
 
 export interface ScheduleReqType {
 	schedule_id?: number;

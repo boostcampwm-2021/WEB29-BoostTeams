@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DateInfoType, ScheduleType } from '../../components/Calendar/dataStructure';
+import { DateInfoType, ScheduleType } from '@components/Calendar/dataStructure';
 
-import { Header, Navbar } from '../../components/common';
-import CalendarHeader from '../../components/Calendar/CalendarHeader';
-import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
-import WeeklyCalendar from '../../components/Calendar/WeeklyCalendar';
-import CalendarModal from '../../components/Calendar/CalendarModal';
+import { Header, Navbar } from '@components/common';
+import CalendarHeader from '@components/Calendar/CalendarHeader';
+import MonthlyCalendar from '@components/Calendar/MonthlyCalendar';
+import WeeklyCalendar from '@components/Calendar/WeeklyCalendar';
+import CalendarModal from '@components/Calendar/CalendarModal';
 import { Layout, MainContainer, CalendarContainer } from './style';
 
 interface Props {

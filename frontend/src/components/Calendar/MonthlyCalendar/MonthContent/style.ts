@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorCode, Font } from '../../../../utils/constants';
+import { ColorCode, Font } from '@utils/constants';
 
 interface ScheduleProps {
 	onClick: () => void;

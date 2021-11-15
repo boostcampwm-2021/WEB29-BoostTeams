@@ -1,4 +1,4 @@
-import fetchApi from '../utils/fetch';
+import fetchApi from '@utils/fetch';
 
 export const readMyTeam = async () => {
 	const res = await fetchApi.get(`/api/team`);

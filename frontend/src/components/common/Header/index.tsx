@@ -1,11 +1,11 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useRecoilValue } from 'recoil';
+import UserState from '@stores/user';
 
 import { Container } from './style';
 import { LongLogo } from '../Logo';
 import ProfileIcon from '../Icons/ProfileIcon';
-import UserState from '../../../stores/user';
 import ProfileSimple from './ProfileSimple';
 
 const Header: React.FC = () => {

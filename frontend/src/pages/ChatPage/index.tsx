@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatTemplate from '../../templates/ChatTemplate';
+import ChatTemplate from '@templates/ChatTemplate';
 
 const ChatPage: React.FC = () => {
 	return <ChatTemplate />;

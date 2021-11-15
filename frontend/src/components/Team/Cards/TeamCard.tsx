@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Container, Name } from './style';
 import Thumbnail from './Thumbnail';
+
+import { Container, Name } from './style';
 
 interface Props {
 	team_id: number;
