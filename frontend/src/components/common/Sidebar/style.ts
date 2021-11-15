@@ -1,22 +1,8 @@
 import styled from 'styled-components';
 import { ColorCode } from '@utils/constants';
 
-export const Container = styled.nav`
+export const Container = styled.div`
 	background-color: ${ColorCode.BACKGROUND2};
-	width: 300px;
-	height: 100vh;
-	padding: 1.5rem 0.5rem;
-	box-sizing: border-box;
-	text-align: left;
-	& > * {
-		text-decoration: none;
-		color: ${ColorCode.BLACK};
-	}
-`;
-
-export const TeamTitleContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 0.5rem;
+	width: 17rem;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 `;

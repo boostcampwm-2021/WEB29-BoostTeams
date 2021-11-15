@@ -6,7 +6,6 @@ export const Container = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	width: 4.2rem;
-	height: calc(100vh - 3rem); // 3rem : 헤더 높이
 	background-color: ${ColorCode.LINE1};
 `;
 
