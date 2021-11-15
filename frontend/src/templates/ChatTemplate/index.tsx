@@ -1,16 +1,18 @@
 import React from 'react';
-import { Header, Navbar, Sidebar } from '@components/common';
-import { MainContainer } from './style';
+import { Header, Navbar } from '@components/common';
+import ChatSidebar from '@src/components/Chat/ChatSidebar';
+import { Layout, MainContainer, ChatContainer } from './style';
 
-const Chat: React.FC = () => {
+const ChatTemplate: React.FC = () => {
 	return (
-		<div>
+		<Layout>
 			<Header />
 			<MainContainer>
 				<Navbar />
-				<Sidebar />
+				<ChatSidebar />
+				<ChatContainer>hi</ChatContainer>
 			</MainContainer>
-		</div>
+		</Layout>
 	);
 };
-export default Chat;
+export default ChatTemplate;
