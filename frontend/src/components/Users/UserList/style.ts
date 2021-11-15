@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const UserHeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
-	padding: 5%;
 	width: 100%;
 `;
 
@@ -13,7 +12,7 @@ export const Teamname = styled.div`
 `;
 
 export const HeaderText = styled.div`
-	font-size: 2rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 `;
 
@@ -33,12 +32,13 @@ export const SearchInput = styled.input`
 	padding: 0.5rem;
 	border-radius: 8px;
 	border: 1px solid ${ColorCode.BACKGROUND2};
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 `;
 
 export const LabelContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin: 1rem;
+	padding: 0 1rem;
 `;
 
 export const UserWrapper = styled.div`
@@ -46,17 +46,16 @@ export const UserWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
+	border-radius: 8px;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 `;
 
 export const Container = styled.div`
 	& > * {
-		margin: 2rem;
+		margin: 1.5rem 0;
 	}
 `;
 
 export const UserListWrapper = styled.div`
-	padding: 0 5% 5% 5%;
-	& > * {
-		margin: 1rem;
-	}
+	padding: 0 3% 3% 3%;
 `;

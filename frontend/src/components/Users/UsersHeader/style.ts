@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const UserHeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
-	padding: 5%;
+	padding: 2% 5%;
 `;
 
 export const Teamname = styled.div`
