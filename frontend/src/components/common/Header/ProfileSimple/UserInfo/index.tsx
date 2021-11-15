@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProfileIcon } from '../../..';
+import { ProfileIcon } from '@components/common';
 import EmailBox from './EmailBox';
 import GithubBadge from './GithubBadge';
 import { Container, NameContainer, TextContainer } from './style';

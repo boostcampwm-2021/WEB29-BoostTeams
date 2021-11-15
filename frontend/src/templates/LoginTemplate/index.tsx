@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Logo, Input, BtnContainer, GithubButton, LoginButton, SignUpButton } from '../../components/Login';
+import { Logo, Input, BtnContainer, GithubButton, LoginButton, SignUpButton } from '@components/Login';
 import { Container, Layout } from './style';
 
 interface Props {

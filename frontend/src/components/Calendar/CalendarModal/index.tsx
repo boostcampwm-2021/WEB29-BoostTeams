@@ -5,19 +5,20 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
-import { ModalMode, ModalSchedule } from '../../../stores/calendar';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
 
-import ColorPicker from '../../common/ColorPicker';
-import DropDown from '../../common/DropDown';
-import Modal from '../../common/Modal';
+import ColorPicker from '@components/common/ColorPicker';
+import DropDown from '@components/common/DropDown';
+import Modal from '@components/common/Modal';
+
+import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '@apis/schedule';
+import { dateToFormatString, isNum } from '@utils/calendar';
+import { PrimaryPalette } from '@utils/constants';
+import { ColorCircle } from '@components/common/ColorPicker/style';
+
 import TimeInput from './TimeInput';
-
-import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
-import { dateToFormatString, isNum } from '../../../utils/calendar';
-import { PrimaryPalette } from '../../../utils/constants';
 import { FormContainer, TitleContainer, ButtonContainer } from './style';
-import { ColorCircle } from '../../common/ColorPicker/style';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {

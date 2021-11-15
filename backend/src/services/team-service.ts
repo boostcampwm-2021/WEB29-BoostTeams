@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import TeamRepository from '../repositories/team-repository';
+import TeamRepository from '@repositories/team-repository';
 
 export default class TeamService {
 	static instance: TeamService;

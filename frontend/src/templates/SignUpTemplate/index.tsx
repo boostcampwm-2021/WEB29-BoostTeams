@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputContainer, BtnContainer, GithubButton, Input, Logo, SignUpButton } from '../../components/Login';
+import { InputContainer, BtnContainer, GithubButton, Input, Logo, SignUpButton } from '@components/Login';
 import { Container, Layout } from './style';
 
 interface Props {

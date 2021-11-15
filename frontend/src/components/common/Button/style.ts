@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Font, ColorCode } from '../../../utils/constants';
+import { Font, ColorCode } from '@utils/constants';
 
 interface NormalButtonProps {
 	backgroundColor: string;

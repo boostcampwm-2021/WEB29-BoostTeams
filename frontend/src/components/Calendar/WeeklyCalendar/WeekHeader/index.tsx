@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import { DateInfoType, DayCode, weekContentNumber } from '@components/Calendar/dataStructure';
 import { Container, DayContainer } from './style';
-import { DateInfoType, DayCode, weekContentNumber } from '../../dataStructure';
 
 interface Props {
 	dateInfo: DateInfoType;

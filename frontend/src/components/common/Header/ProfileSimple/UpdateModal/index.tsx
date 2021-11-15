@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
-import UserState from '../../../../../stores/user';
+import UserState from '@stores/user';
 
-import { check } from '../../../../../apis/auth';
-import { updateName } from '../../../../../apis/user';
-import { nameRegExp } from '../../../../../utils/regexs';
+import { check } from '@apis/auth';
+import { updateName } from '@apis/user';
+import { nameRegExp } from '@utils/regexs';
 
-import Modal from '../../../Modal';
+import Modal from '@components/common/Modal';
 
 import { Container, Input, Title, InputContainer } from './style';
 

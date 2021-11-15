@@ -1,8 +1,8 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { ScheduleType } from '@Components/Calendar/dataStructure';
 import { WeekContainer } from './style';
 import Day from './Day';
-import { ScheduleType } from '../../dataStructure';
 
 interface Props {
 	week: number[];

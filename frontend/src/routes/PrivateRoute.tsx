@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
 import { useSetRecoilState } from 'recoil';
-import { check } from '../apis/auth';
-import UserState from '../stores/user';
-import { removeCookie } from '../utils/cookie';
+import { check } from '@apis/auth';
+import UserState from '@stores/user';
+import { removeCookie } from '@utils/cookie';
 
 const PrivateRoute = ({ component: Component, ...rest }: any) => {
 	const setUser = useSetRecoilState(UserState);

@@ -1,10 +1,10 @@
 import express from 'express';
 import passport from 'passport';
 
-import UserController from '../controllers/user-controller';
+import UserController from '@controllers/user-controller';
 
-import { authenticateToken } from '../middlewares/token';
-import { getUserInfo } from '../middlewares/user';
+import { authenticateToken } from '@middlewares/token';
+import { getUserInfo } from '@middlewares/user';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorCode } from '../../../../utils/constants';
+import { ColorCode } from '@/utils/constants';
 
 interface CurrTimeLineProps {
 	start: number;

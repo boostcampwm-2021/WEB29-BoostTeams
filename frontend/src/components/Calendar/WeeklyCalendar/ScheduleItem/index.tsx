@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { ModalMode, ModalSchedule } from '../../../../stores/calendar';
-import { ScheduleType } from '../../dataStructure';
-import { PrimaryPalette, SecondaryPalette } from '../../../../utils/constants';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
+import { ScheduleType } from '@components/Calnedar/dataStructure';
+import { PrimaryPalette, SecondaryPalette } from '@utils/constants';
 import { Container } from './style';
 
 interface Props {

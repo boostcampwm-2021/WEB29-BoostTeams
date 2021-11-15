@@ -12,10 +12,10 @@ import { initStrategy } from './passport';
 import { Namespace, Server } from 'socket.io';
 import socketInit from './sockets';
 
-import userRouter from './routes/user-router';
-import authRouter from './routes/auth-router';
-import scheduleRouter from './routes/schedule-router';
-import teamRouter from './routes/team-router';
+import userRouter from '@routes/user-router';
+import authRouter from '@routes/auth-router';
+import scheduleRouter from '@routes/schedule-router';
+import teamRouter from '@routes/team-router';
 
 class App {
 	app: express.Application;

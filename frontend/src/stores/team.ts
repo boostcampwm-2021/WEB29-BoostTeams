@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { readMyTeam } from '../apis/team';
+import { readMyTeam } from '@apis/team';
 
 export const teamListLoadTrigger = atom({
 	key: 'loadTrigger',

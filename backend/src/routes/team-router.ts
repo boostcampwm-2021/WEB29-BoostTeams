@@ -1,6 +1,6 @@
 import express from 'express';
-import TeamController from '../controllers/team-contorller';
-import { authenticateToken } from '../middlewares/token';
+import TeamController from '@controllers/team-contorller';
+import { authenticateToken } from '@middlewares/token';
 const router = express.Router();
 
 router.post('/create', authenticateToken, TeamController.create); // 팀 생성, [team, team-user]

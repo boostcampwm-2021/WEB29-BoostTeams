@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Meta, Story } from '@storybook/react';
+import { ColorCode } from '@utils/constants';
 import Button, { Props } from './index';
-import { ColorCode } from '../../../utils/constants';
 
 export default {
 	title: 'common/Button',

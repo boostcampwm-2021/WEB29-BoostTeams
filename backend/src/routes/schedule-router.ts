@@ -1,5 +1,5 @@
 import express from 'express';
-import ScheduleController from '../controllers/schedule-controller';
+import ScheduleController from '@controllers/schedule-controller';
 
 const router = express.Router();
 
