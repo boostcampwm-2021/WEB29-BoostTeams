@@ -49,14 +49,8 @@ export const ChatRoom = styled.div<ChatRoomProps>`
 	}
 `;
 
-export const ChatRoomIconWrapper = styled.div`
-	div {
-		width: 2.5rem;
-		height: 2.5rem;
-	}
-`;
-
 export const ChatRoomInfoContainer = styled.div`
+	width: calc(100% - 2.3rem);
 	padding-left: 0.5rem;
 	font-size: ${Font.X_SMALL};
 	flex-grow: 1;

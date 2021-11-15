@@ -1,16 +1,9 @@
 import React from 'react';
-import { Sidebar, TeamIcon } from '@components/common';
+import { Sidebar, ChatIcon } from '@components/common';
 import { BiListPlus } from 'react-icons/bi';
 import { PrimaryPalette } from '@utils/constants';
 import { timeSince } from '@utils/time';
-import {
-	SidebarHeader,
-	ChatRoomsContainer,
-	ChatRoom,
-	ChatRoomIconWrapper,
-	ChatRoomInfoContainer,
-	ChatRoomInfo,
-} from './style';
+import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo } from './style';
 
 const chatRooms = [
 	{
@@ -36,9 +29,7 @@ const ChatSidebar = () => {
 			<ChatRoomsContainer>
 				{chatRooms.map((chatRoom) => (
 					<ChatRoom key={chatRoom.id} focus={false}>
-						<ChatRoomIconWrapper>
-							<TeamIcon name={chatRoom.title[0]} color={PrimaryPalette[chatRoom.id % 6]} />
-						</ChatRoomIconWrapper>
+						<ChatIcon name={chatRoom.title[0]} color={PrimaryPalette[chatRoom.id % 6]} />
 						<ChatRoomInfoContainer>
 							<ChatRoomInfo>
 								<h3>{chatRoom.title}</h3>
