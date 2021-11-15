@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton = false }) => {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const MODAL: Element = document.getElementById('modal')!;
 	return createPortal(
 		<>

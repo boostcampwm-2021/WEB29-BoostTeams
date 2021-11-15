@@ -42,7 +42,7 @@ export const TimeContainer = styled.div`
 	}
 `;
 
-export const ButtonContainer = styled.button`
+export const ButtonContainer = styled.div`
 	position: absolute;
 	top: 1.5rem;
 	right: 1.5rem;

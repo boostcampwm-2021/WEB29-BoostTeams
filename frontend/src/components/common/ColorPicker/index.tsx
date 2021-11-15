@@ -4,7 +4,7 @@ import { PrimaryPalette } from '../../../utils/constants';
 
 export interface Props {
 	selectedColor: number;
-	setSelectedColor: any;
+	setSelectedColor: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ColorPicker: React.FC<Props> = ({ selectedColor, setSelectedColor }) => {
@@ -14,8 +14,8 @@ const ColorPicker: React.FC<Props> = ({ selectedColor, setSelectedColor }) => {
 		setDropDownOpen(!dropDownOpen);
 	};
 
-	// React.MouseEvent<HTMLElement> 타입으로 하면 dataset을 이용 못한다..
-	const handleColorClick = (e: any) => setSelectedColor(e.target.dataset.color);
+	const handleColorClick = (e: React.MouseEvent<HTMLElement>) =>
+		setSelectedColor(Number(e.currentTarget.dataset.color));
 
 	return (
 		<Container onClick={handleDropDownOpen}>

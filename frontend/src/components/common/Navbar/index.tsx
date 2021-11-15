@@ -8,7 +8,7 @@ import { userTeamList } from '../../../stores/team';
 import { CardData } from '../../Team/type';
 
 const Navbar: React.FC = () => {
-	const path = window.location.pathname.match(/\/team\/[0-9]+/)![0];
+	const path = window.location.pathname.match(/\/team\/\d+/)?.[0];
 	const teamList = useRecoilValue(userTeamList);
 	const myTeamList: CardData[] = [];
 	teamList.reduce((pre: void, team: CardData) => {

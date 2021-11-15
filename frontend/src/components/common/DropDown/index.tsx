@@ -7,7 +7,7 @@ import { Container, OptionsWrapper } from './style';
 interface Props {
 	options: string[];
 	selectedOption: string;
-	setSelectedOption: any;
+	setSelectedOption: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {
@@ -16,8 +16,8 @@ const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption 
 	const handleDropDownOpen = () => {
 		setDropDownOpen(!dropDownOpen);
 	};
-	const handleOptionClick = (e: any) => {
-		setSelectedOption(e.target.dataset.option);
+	const handleOptionClick = (e: React.MouseEvent<HTMLElement>) => {
+		setSelectedOption(Number(e.currentTarget.dataset.option));
 		setDropDownOpen(false);
 	};
 
