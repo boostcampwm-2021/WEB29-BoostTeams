@@ -7,26 +7,38 @@ interface ChatRoomProps {
 
 export const SidebarHeader = styled.div`
 	display: flex;
-	height: 3rem;
+	height: 3.5rem;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 1rem;
+	padding-left: 1rem;
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	h2 {
 		font-weight: bold;
 	}
+`;
+
+export const NewChatBtn = styled.button`
+	width: 2.5rem;
+	height: 2.5rem;
+	cursor: pointer;
+	border-radius: 50%;
+	border: none;
+	background-color: transparent;
+	margin-right: 0.4rem;
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;
 		color: ${ColorCode.FONT1};
-		cursor: pointer;
+	}
+	:hover {
+		background-color: ${ColorCode.WHITE};
 	}
 `;
 
 export const ChatRoomsContainer = styled.div`
 	width: 100%;
 	position: absolute;
-	top: 3rem;
+	top: 3.5rem;
 	bottom: 0;
 	overflow-y: scroll;
 	::-webkit-scrollbar {

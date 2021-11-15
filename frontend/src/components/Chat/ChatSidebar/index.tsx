@@ -3,7 +3,7 @@ import { Sidebar, ChatIcon } from '@components/common';
 import { BiListPlus } from 'react-icons/bi';
 import { PrimaryPalette } from '@utils/constants';
 import { timeSince } from '@utils/time';
-import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo } from './style';
+import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo, NewChatBtn } from './style';
 
 const chatRooms = [
 	{
@@ -19,12 +19,14 @@ const chatRooms = [
 	{ title: '채팅방7', id: 7, previewChat: { message: '안녕', name: '나', date: new Date(2021, 9, 1, 12, 0) } },
 ];
 
-const ChatSidebar = () => {
+const ChatSidebar: React.FC = () => {
 	return (
 		<Sidebar>
 			<SidebarHeader>
 				<h2>채팅</h2>
-				<BiListPlus />
+				<NewChatBtn>
+					<BiListPlus />
+				</NewChatBtn>
 			</SidebarHeader>
 			<ChatRoomsContainer>
 				{chatRooms.map((chatRoom) => (

@@ -1,16 +1,23 @@
 import React from 'react';
 import { Header, Navbar } from '@components/common';
-import ChatSidebar from '@src/components/Chat/ChatSidebar';
+import ChatSidebar from '@components/Chat/ChatSidebar';
+import ChatHeader from '@components/Chat/ChatHeader';
 import { Layout, MainContainer, ChatContainer } from './style';
 
-const ChatTemplate: React.FC = () => {
+interface Props {
+	newChatMode: boolean;
+}
+
+const ChatTemplate: React.FC<Props> = ({ newChatMode }) => {
 	return (
 		<Layout>
 			<Header />
 			<MainContainer>
 				<Navbar />
 				<ChatSidebar />
-				<ChatContainer>hi</ChatContainer>
+				<ChatContainer>
+					<ChatHeader newChatMode={newChatMode} />
+				</ChatContainer>
 			</MainContainer>
 		</Layout>
 	);
