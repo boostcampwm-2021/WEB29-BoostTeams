@@ -1,4 +1,3 @@
-import { useEffect } from 'hoist-non-react-statics/node_modules/@types/react';
 import React from 'react';
 import { LabelContainer, UserWrapper, Container } from './style';
 
