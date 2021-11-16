@@ -7,28 +7,45 @@ import { UserType } from '@components/Chat/dataStructure';
 import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
-	newChatMode: boolean;
+	chatMode: string;
 	inviteUsers: UserType[];
+	setChatModeToNone: () => void;
+	setChatModeToCreate: () => void;
+	setChatModeToChat: () => void;
 	addInviteUser: (newUser: UserType) => void;
 	deleteInviteUser: (email: string) => void;
 }
 
-const ChatTemplate: React.FC<Props> = ({ newChatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const ChatTemplate: React.FC<Props> = ({
+	chatMode,
+	inviteUsers,
+	setChatModeToNone,
+	setChatModeToCreate,
+	setChatModeToChat,
+	addInviteUser,
+	deleteInviteUser,
+}) => {
 	return (
 		<Layout>
 			<Header />
 			<MainContainer>
 				<Navbar />
-				<ChatSidebar />
-				<ChatContainer>
-					<ChatHeader
-						newChatMode={newChatMode}
-						inviteUsers={inviteUsers}
-						addInviteUser={addInviteUser}
-						deleteInviteUser={deleteInviteUser}
-					/>
-					<ChatContent />
-				</ChatContainer>
+				<ChatSidebar
+					setChatModeToNone={setChatModeToNone}
+					setChatModeToCreate={setChatModeToCreate}
+					setChatModeToChat={setChatModeToChat}
+				/>
+				{chatMode !== 'none' && (
+					<ChatContainer>
+						<ChatHeader
+							chatMode={chatMode}
+							inviteUsers={inviteUsers}
+							addInviteUser={addInviteUser}
+							deleteInviteUser={deleteInviteUser}
+						/>
+						<ChatContent />
+					</ChatContainer>
+				)}
 			</MainContainer>
 		</Layout>
 	);

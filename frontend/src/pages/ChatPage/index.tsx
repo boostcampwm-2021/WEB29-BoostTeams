@@ -15,17 +15,26 @@ const inviteUsersReducer = (inviteUsers: UserType[], action: InviteUsersAction):
 	}
 };
 
+type ChatModeType = 'none' | 'create' | 'chat';
+
 const ChatPage: React.FC = () => {
-	const [newChatMode, setNewChatMode] = useState(true);
+	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
 	const addInviteUser = (newUser: UserType) => dispatchInviteUsers({ type: 'ADD', newUser });
 	const deleteInviteUser = (email: string) => dispatchInviteUsers({ type: 'DELETE', email });
 
+	const setChatModeToNone = () => setChatMode('none');
+	const setChatModeToCreate = () => setChatMode('create');
+	const setChatModeToChat = () => setChatMode('chat');
+
 	return (
 		<ChatTemplate
-			newChatMode={newChatMode}
+			chatMode={chatMode}
 			inviteUsers={inviteUsers}
+			setChatModeToNone={setChatModeToNone}
+			setChatModeToCreate={setChatModeToCreate}
+			setChatModeToChat={setChatModeToChat}
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 		/>

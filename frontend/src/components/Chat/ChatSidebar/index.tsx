@@ -2,35 +2,36 @@ import React from 'react';
 import { Sidebar, ProfileIcon } from '@components/common';
 import { BiListPlus } from 'react-icons/bi';
 import { timeSince } from '@utils/time';
+import { chatRooms } from '../dataStructure';
 import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo, NewChatBtn } from './style';
 
-const chatRooms = [
-	{
-		title: '채팅방1',
-		id: 1,
-		previewChat: { message: '안녕아아아아아아아아아아아아아아아아아아아아아아아아', name: '나', date: new Date() },
-	},
-	{ title: '채팅방2', id: 2, previewChat: { message: '안녕', name: '나', date: new Date(2021, 10, 15, 12, 0) } },
-	{ title: '채팅방3', id: 3, previewChat: { message: '안녕', name: '나', date: new Date(2021, 10, 14, 12, 0) } },
-	{ title: '채팅방4', id: 4, previewChat: { message: '안녕', name: '나', date: new Date(2021, 10, 7, 12, 0) } },
-	{ title: '채팅방5', id: 5, previewChat: { message: '안녕', name: '나', date: new Date(2021, 10, 5, 12, 0) } },
-	{ title: '채팅방6', id: 6, previewChat: { message: '안녕', name: '나', date: new Date(2021, 9, 17, 12, 0) } },
-	{ title: '채팅방7', id: 7, previewChat: { message: '안녕', name: '나', date: new Date(2021, 9, 1, 12, 0) } },
-];
+interface Props {
+	setChatModeToNone: () => void;
+	setChatModeToCreate: () => void;
+	setChatModeToChat: () => void;
+}
 
-const ChatSidebar: React.FC = () => {
+const ChatSidebar: React.FC<Props> = ({ setChatModeToNone, setChatModeToCreate, setChatModeToChat }) => {
 	return (
 		<Sidebar>
 			<SidebarHeader>
-				<h2>채팅</h2>
-				<NewChatBtn>
+				<button type='button' onClick={setChatModeToNone}>
+					채팅
+				</button>
+				<NewChatBtn onClick={setChatModeToCreate}>
 					<BiListPlus />
 				</NewChatBtn>
 			</SidebarHeader>
 			<ChatRoomsContainer>
 				{chatRooms.map((chatRoom) => (
-					<ChatRoom key={chatRoom.id} focus={false}>
-						<ProfileIcon name={chatRoom.title} color={chatRoom.id % 6} status='none' width={3.2} isHover={false} />
+					<ChatRoom key={chatRoom.chat_room_id} focus={false} onClick={setChatModeToChat}>
+						<ProfileIcon
+							name={chatRoom.title}
+							color={chatRoom.chat_room_id % 6}
+							status='none'
+							width={3.2}
+							isHover={false}
+						/>
 						<ChatRoomInfoContainer>
 							<ChatRoomInfo>
 								<h3>{chatRoom.title}</h3>

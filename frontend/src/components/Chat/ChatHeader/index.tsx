@@ -16,7 +16,7 @@ import {
 } from './style';
 
 interface Props {
-	newChatMode: boolean;
+	chatMode: string;
 	inviteUsers: UserType[];
 	addInviteUser: (newUser: UserType) => void;
 	deleteInviteUser: (email: string) => void;
@@ -28,7 +28,7 @@ const chatRoomInfo = {
 	userList: ['user1', 'user2', 'user3'],
 };
 
-const ChatHeader: React.FC<Props> = ({ newChatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const ChatHeader: React.FC<Props> = ({ chatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [userSearchResult, setUserSearchResult] = useState<UserType[]>([]);
 
@@ -66,7 +66,7 @@ const ChatHeader: React.FC<Props> = ({ newChatMode, inviteUsers, addInviteUser, 
 
 	return (
 		<Container>
-			{newChatMode ? (
+			{chatMode === 'create' ? (
 				<InputHeaderContainer>
 					<UserListContainer>
 						{inviteUsers.map((user) => (
