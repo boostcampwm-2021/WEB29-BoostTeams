@@ -4,6 +4,7 @@ import { SocketContext } from '@utils/socketContext';
 
 const UsersPage: React.FC = () => {
 	const socketRef = useContext(SocketContext);
+
 	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.on('online users', (data: any) => {

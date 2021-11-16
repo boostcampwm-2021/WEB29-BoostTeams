@@ -1,30 +1,12 @@
 import React from 'react';
-import { FaEllipsisH, FaAngleLeft } from 'react-icons/fa';
-import TeamIcon from '../Icons/TeamIcon';
-import { Container, TeamTitleContainer } from './style';
+import { Container } from './style';
 
-const Sidebar: React.FC = () => {
-	const teamSelectPage = (e: any) => {
-		e.preventDefault();
-	};
+interface Props {
+	children: React.ReactNode;
+}
 
-	const openDropdown = () => {
-		console.log('open dropdown');
-	};
-
-	return (
-		<Container>
-			<a href='/' onClick={teamSelectPage}>
-				<FaAngleLeft />
-				<span>모든 팀</span>
-			</a>
-			<TeamIcon name='bw' color='blue' />
-			<TeamTitleContainer>
-				<span>boostcamp web29</span>
-				<FaEllipsisH onClick={openDropdown} />
-			</TeamTitleContainer>
-		</Container>
-	);
+const Sidebar: React.FC<Props> = ({ children }) => {
+	return <Container>{children}</Container>;
 };
 
 export default Sidebar;
