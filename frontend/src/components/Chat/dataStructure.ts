@@ -3,6 +3,8 @@ export interface UserType {
 	user_email: string;
 }
 
+export type ChatModeType = 'none' | 'create' | 'chat';
+
 export const userEx: UserType[] = [
 	{ user_name: '강민지', user_email: 'test1@test.com' },
 	{ user_name: '이명재', user_email: 'test2@test.com' },

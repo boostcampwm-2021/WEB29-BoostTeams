@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from 'react';
 import ChatTemplate from '@templates/ChatTemplate';
-import { UserType } from '@components/Chat/dataStructure';
+import { UserType, ChatModeType } from '@components/Chat/dataStructure';
 
 type InviteUsersAction = { type: 'ADD'; newUser: UserType } | { type: 'DELETE'; email: string };
 
@@ -14,8 +14,6 @@ const inviteUsersReducer = (inviteUsers: UserType[], action: InviteUsersAction):
 			throw new Error();
 	}
 };
-
-type ChatModeType = 'none' | 'create' | 'chat';
 
 const ChatPage: React.FC = () => {
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');

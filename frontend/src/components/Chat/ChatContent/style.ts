@@ -21,6 +21,24 @@ export const MessagesContainer = styled.div`
 	}
 `;
 
+export const NoticeContainer = styled.div`
+	position: absolute;
+	top: 0;
+	bottom: 4.6rem;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	span {
+		color: ${ColorCode.FONT1};
+		font-weight: bold;
+		display: block;
+		margin-bottom: 1rem;
+	}
+`;
+
 export const InputContainer = styled.div`
 	position: absolute;
 	bottom: 0;

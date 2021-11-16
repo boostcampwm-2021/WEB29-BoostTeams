@@ -3,11 +3,11 @@ import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';
 import ChatHeader from '@components/Chat/ChatHeader';
 import ChatContent from '@components/Chat/ChatContent';
-import { UserType } from '@components/Chat/dataStructure';
+import { UserType, ChatModeType } from '@components/Chat/dataStructure';
 import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
-	chatMode: string;
+	chatMode: ChatModeType;
 	inviteUsers: UserType[];
 	setChatModeToNone: () => void;
 	setChatModeToCreate: () => void;
@@ -43,7 +43,7 @@ const ChatTemplate: React.FC<Props> = ({
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
 						/>
-						<ChatContent />
+						<ChatContent chatMode={chatMode} />
 					</ChatContainer>
 				)}
 			</MainContainer>
