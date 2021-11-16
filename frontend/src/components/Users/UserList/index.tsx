@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchUsers from '@components/Users/UserList/SearchUsers';
 import UserList from '@components/Users/UserList/UserList';
-import { UserListWrapper } from './style';
+import { Layout } from './style';
 
 const UsersTemplate: React.FC = () => {
 	const users = [
@@ -30,10 +30,10 @@ const UsersTemplate: React.FC = () => {
 		setFilteredUsers(users.filter((elem) => elem.name.indexOf(e.target.value) !== -1));
 	};
 	return (
-		<UserListWrapper>
+		<Layout>
 			<SearchUsers handleInput={handleInput} />
 			<UserList users={filteredUsers} />
-		</UserListWrapper>
+		</Layout>
 	);
 };
 export default UsersTemplate;

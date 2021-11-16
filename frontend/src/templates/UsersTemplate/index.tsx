@@ -11,17 +11,16 @@ const UsersTemplate: React.FC = () => {
 		teamDesc: '팀 성명 정보입니다.',
 	};
 	return (
-		<div>
+		<>
 			<Header />
 			<MainContainer>
 				<Navbar />
-				<Sidebar />
 				<ContentContainer>
 					<UsersHeader teamInfo={teamInfo} />
 					<Users />
 				</ContentContainer>
 			</MainContainer>
-		</div>
+		</>
 	);
 };
 export default UsersTemplate;

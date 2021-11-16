@@ -1,16 +1,6 @@
 import { ColorCode } from '@src/utils/constants';
 import styled from 'styled-components';
 
-export const UserHeaderContainer = styled.div`
-	display: flex;
-	align-items: center;
-	width: 100%;
-`;
-
-export const Teamname = styled.div`
-	font-size: 18;
-`;
-
 export const HeaderText = styled.div`
 	font-size: 1.5rem;
 	font-weight: bold;
@@ -56,6 +46,6 @@ export const Container = styled.div`
 	}
 `;
 
-export const UserListWrapper = styled.div`
+export const Layout = styled.div`
 	padding: 0 3% 3% 3%;
 `;

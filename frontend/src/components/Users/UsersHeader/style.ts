@@ -6,7 +6,7 @@ export const UserHeaderContainer = styled.div`
 	padding: 2% 5%;
 `;
 
-export const Teamname = styled.div`
+export const TeamName = styled.div`
 	font-size: 1.5rem;
 	font-weight: bold;
 	margin: 0 5%;
