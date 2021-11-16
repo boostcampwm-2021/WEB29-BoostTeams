@@ -7,5 +7,4 @@ export const Layout = styled.div`
 
 export const MainContainer = styled.div`
 	display: flex;
-	flex-direction: row;
 `;

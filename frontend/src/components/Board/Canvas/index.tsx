@@ -1,14 +1,34 @@
-import React, { useState, useRef } from 'react';
-import { Stage, Layer } from 'react-konva';
+import React, { useContext } from 'react';
+import { Stage, Layer, Text } from 'react-konva';
 import { CANVAS } from '@utils/constants';
+import { PostitType } from '@pages/BoardPage';
+import { SocketContext } from '@utils/socketContext';
 import Postit from '../Postit';
 
-const Canvas: React.FC = () => {
+interface Props {
+	postits: any[];
+	setModalType: (type: string) => void;
+	setClickedPostit: (postit: PostitType) => void;
+	handleModalOpen: () => void;
+}
+
+const Canvas: React.FC<Props> = ({ postits, setModalType, setClickedPostit, handleModalOpen }) => {
+	const socket = useContext(SocketContext);
+	const dragPostit = (id: number, x: number, y: number) => socket.current.emit('drag postit', { id, x, y });
+
 	return (
 		<Stage width={CANVAS.WITDH} height={CANVAS.HEIGHT}>
 			<Layer>
-				{dummy.map((postit) => (
+				<Text
+					onClick={() => {
+						setModalType('create');
+						handleModalOpen();
+					}}
+					text='새 포스트잇 작성'
+				/>
+				{postits.map((postit) => (
 					<Postit
+						onDrag={dragPostit}
 						key={postit.key}
 						id={postit.key}
 						x={postit.x}
@@ -17,42 +37,12 @@ const Canvas: React.FC = () => {
 						title={postit.title}
 						content={postit.content}
 						updatedDate={postit.updatedDate}
+						setModalType={setModalType}
+						setClickedPostit={setClickedPostit}
 					/>
 				))}
 			</Layer>
 		</Stage>
 	);
 };
-// { id, x, y, color, title, content, updatedDate }
 export default Canvas;
-
-const dummy = [
-	{
-		key: 1,
-		title: 'title#1',
-		content:
-			'desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1',
-		x: 10,
-		y: 10,
-		color: 'red',
-		updatedDate: '2021.07.02.',
-	},
-	{
-		key: 2,
-		title: 'title#2',
-		content: 'desc#2',
-		x: 100,
-		y: 100,
-		color: 'blue',
-		updatedDate: '2021.07.02.',
-	},
-	{
-		key: 3,
-		title: 'title#3',
-		content: 'desc#3',
-		x: 200,
-		y: 200,
-		color: 'green',
-		updatedDate: '2021.07.02.',
-	},
-];
