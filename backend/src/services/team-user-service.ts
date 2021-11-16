@@ -37,6 +37,14 @@ export default class TeamUserService {
 			.getMany();
 	}
 
+	async readAllUsers(teamId: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder('team_user')
+			.leftJoinAndSelect('team_user.user', 'user')
+			.where('team_user.team = :teamId', { teamId })
+			.getMany();
+	}
+
 	async update(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder()

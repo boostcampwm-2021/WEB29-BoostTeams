@@ -4,9 +4,10 @@ import { HeaderText, SearchInput, IconWrapper, InputContainer, Container } from 
 
 interface Props {
 	handleInput: (e: any) => void;
+	handleModalOpen: () => void;
 }
 
-const SearchUsers: React.FC<Props> = ({ handleInput }) => {
+const SearchUsers: React.FC<Props> = ({ handleInput, handleModalOpen }) => {
 	return (
 		<Container>
 			<HeaderText>구성원</HeaderText>
@@ -15,6 +16,9 @@ const SearchUsers: React.FC<Props> = ({ handleInput }) => {
 				<IconWrapper>
 					<FaSearch />
 				</IconWrapper>
+				<button type='button' onClick={handleModalOpen}>
+					팀 나가기
+				</button>
 			</InputContainer>
 		</Container>
 	);

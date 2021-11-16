@@ -9,8 +9,8 @@ interface Props {
 const UsersHeader: React.FC<Props> = ({ teamInfo }) => {
 	return (
 		<UserHeaderContainer>
-			<Thumbnail team_id={teamInfo.teamId} team_name={teamInfo.teamName} />
-			<TeamName>{teamInfo.teamName}</TeamName>
+			<Thumbnail team_id={teamInfo?.team_id} team_name={teamInfo?.team_name} />
+			<TeamName>{teamInfo?.team_name}</TeamName>
 		</UserHeaderContainer>
 	);
 };

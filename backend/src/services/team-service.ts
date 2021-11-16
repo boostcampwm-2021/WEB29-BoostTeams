@@ -26,8 +26,9 @@ export default class TeamService {
 		return insertResult.raw.insertId;
 	}
 
-	async read(teamId: number) {
-		return await this.teamRepository.createQueryBuilder('team').where('team_id=:id', { id: teamId });
+	async read(team_id: number) {
+		const result = await this.teamRepository.find({where: {team_id}})
+		return result;
 	}
 
 	async update(teamData: TeamData) {
