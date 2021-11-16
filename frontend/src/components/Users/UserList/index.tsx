@@ -22,9 +22,9 @@ const UsersTemplate: React.FC<Props> = ({ teamId, handleModalOpen }) => {
 	const getUsers = async () => {
 		const result = await readTeamUsers(teamId);
 		const resultArr: any = [];
-		result.forEach((e: any) => {
-			resultArr.push({ id: e.user.user_id, name: e.user.user_name, state: e.user.user_state });
-		});
+		result.forEach((e: any) =>
+			resultArr.push({ id: e.user.user_id, name: e.user.user_name, state: e.user.user_state }),
+		);
 		setUsers(resultArr);
 		setFilteredUsers(resultArr);
 	};

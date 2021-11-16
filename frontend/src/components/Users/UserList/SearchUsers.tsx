@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { HeaderText, SearchInput, IconWrapper, InputContainer, Container } from './style';
+import { HeaderText, SearchInput, IconWrapper, InputContainer, Container, ExitBtn } from './style';
 
 interface Props {
 	handleInput: (e: any) => void;
@@ -16,9 +16,9 @@ const SearchUsers: React.FC<Props> = ({ handleInput, handleModalOpen }) => {
 				<IconWrapper>
 					<FaSearch />
 				</IconWrapper>
-				<button type='button' onClick={handleModalOpen}>
+				<ExitBtn type='button' onClick={handleModalOpen}>
 					팀 나가기
-				</button>
+				</ExitBtn>
 			</InputContainer>
 		</Container>
 	);
