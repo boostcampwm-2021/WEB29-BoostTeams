@@ -13,7 +13,6 @@ export const MainContainer = styled.div`
 	right: 0;
 	bottom: 0;
 	display: flex;
-	min-width: max-content;
 `;
 
 export const ChatContainer = styled.div`
