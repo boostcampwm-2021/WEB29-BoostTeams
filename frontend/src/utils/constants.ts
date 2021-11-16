@@ -59,4 +59,34 @@ const TeamCard = {
 	HEIGHT: '15rem',
 };
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard };
+const PostIt = {
+	Length: {
+		Width: 250,
+		Height: 250,
+	},
+	Position: {
+		CONTENT: {
+			Y: 15,
+		},
+		FOOTER: {
+			X: 120,
+			Y: 235,
+		},
+	},
+};
+
+const NAVBAR = {
+	WIDTH: 4.2,
+};
+
+const HEADER = {
+	HEIGHT: 3,
+};
+
+const CANVAS = {
+	WITDH: window.innerWidth - NAVBAR.WIDTH * parseFloat(getComputedStyle(document.documentElement).fontSize),
+	HEIGHT: window.innerHeight - HEADER.HEIGHT * parseFloat(getComputedStyle(document.documentElement).fontSize),
+};
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt };
+export { CANVAS, NAVBAR, HEADER };

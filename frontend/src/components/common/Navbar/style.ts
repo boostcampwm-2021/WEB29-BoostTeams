@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { ColorCode } from '@utils/constants';
+import { ColorCode, NAVBAR } from '@utils/constants';
 
 export const Container = styled.nav`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 4.2rem;
+	width: ${NAVBAR.WIDTH}rem;
 	background-color: ${ColorCode.LINE1};
 `;
 
