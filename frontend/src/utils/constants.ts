@@ -83,9 +83,10 @@ const HEADER = {
 	HEIGHT: 3,
 };
 
+const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 const CANVAS = {
-	WITDH: window.innerWidth - NAVBAR.WIDTH * parseFloat(getComputedStyle(document.documentElement).fontSize),
-	HEIGHT: window.innerHeight - HEADER.HEIGHT * parseFloat(getComputedStyle(document.documentElement).fontSize),
+	WITDH: window.innerWidth - converRemToPx(NAVBAR.WIDTH),
+	HEIGHT: window.innerHeight - converRemToPx(HEADER.HEIGHT),
 };
 
 export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt };
