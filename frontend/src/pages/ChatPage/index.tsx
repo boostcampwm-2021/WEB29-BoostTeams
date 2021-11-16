@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatTemplate from '@templates/ChatTemplate';
 
 const ChatPage: React.FC = () => {
-	return <ChatTemplate />;
+	const [newChatMode, setNewChatMode] = useState(false);
+
+	return <ChatTemplate newChatMode={newChatMode} />;
 };
 
 export default ChatPage;
