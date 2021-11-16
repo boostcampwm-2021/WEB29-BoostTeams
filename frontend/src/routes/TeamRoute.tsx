@@ -15,12 +15,14 @@ const TeamRoute = ({ computedMatch }: any) => {
 	const socketRef = useRef<Socket>();
 
 	useEffect(() => {
-		socketRef.current = io(`${process.env.REACT_APP_SERVER}/team-${teamId}` || `http://localhost:4000/team-${teamId}`);
-		socketRef.current.emit('change status to online', { teamId, userId: userEmail });
+		if (userEmail) {
+			socketRef.current = io(`${process.env.REACT_APP_SERVER}/team-${teamId}`);
+			socketRef.current.emit('change status to online', { teamId, userId: userEmail });
+		}
 		return () => {
 			socketRef.current?.disconnect();
 		};
-	}, [teamId]);
+	}, [teamId, userEmail]);
 
 	return (
 		<SocketContext.Provider value={socketRef}>
