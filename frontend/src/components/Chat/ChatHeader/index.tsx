@@ -1,6 +1,5 @@
 import React from 'react';
-import { ChatIcon } from '@components/common';
-import { PrimaryPalette } from '@utils/constants';
+import { ProfileIcon } from '@components/common';
 import { FaUserPlus, FaPen } from 'react-icons/fa';
 import { Container, HeaderContainer, InputHeaderContainer, ChatRoomInfoContainer, InvitationBtn } from './style';
 
@@ -24,7 +23,7 @@ const ChatHeader: React.FC<Props> = ({ newChatMode }) => {
 			) : (
 				<HeaderContainer>
 					<ChatRoomInfoContainer>
-						<ChatIcon name={chatRoomInfo.title[0]} color={PrimaryPalette[chatRoomInfo.id % 6]} />
+						<ProfileIcon name={chatRoomInfo.title} color={0} status='none' width={3.2} isHover={false} />
 						<h2>{chatRoomInfo.title}</h2>
 						<FaPen />
 					</ChatRoomInfoContainer>

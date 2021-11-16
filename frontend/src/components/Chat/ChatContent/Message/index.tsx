@@ -1,7 +1,6 @@
 import React from 'react';
-import { ChatIcon } from '@components/common';
+import { ProfileIcon } from '@components/common';
 import { timeToString } from '@utils/time';
-import { PrimaryPalette } from '@utils/constants';
 import { Container, ChatIconWrapper, MessageContainer, InfoContainer, ImojiWraper } from './style';
 
 interface Props {
@@ -22,7 +21,7 @@ const Message: React.FC<Props> = ({ message }) => {
 		<Container myChat={isMyChat()}>
 			{!isMyChat() && (
 				<ChatIconWrapper>
-					<ChatIcon name={message.user_name[0]} color={PrimaryPalette[message.user_id % 6]} />
+					<ProfileIcon name={message.user_name} color={0} status='none' width={3.2} isHover={false} />
 				</ChatIconWrapper>
 			)}
 			<MessageContainer myChat={isMyChat()}>

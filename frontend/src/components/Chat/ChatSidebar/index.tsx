@@ -1,7 +1,6 @@
 import React from 'react';
-import { Sidebar, ChatIcon } from '@components/common';
+import { Sidebar, ProfileIcon } from '@components/common';
 import { BiListPlus } from 'react-icons/bi';
-import { PrimaryPalette } from '@utils/constants';
 import { timeSince } from '@utils/time';
 import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo, NewChatBtn } from './style';
 
@@ -31,15 +30,15 @@ const ChatSidebar: React.FC = () => {
 			<ChatRoomsContainer>
 				{chatRooms.map((chatRoom) => (
 					<ChatRoom key={chatRoom.id} focus={false}>
-						<ChatIcon name={chatRoom.title[0]} color={PrimaryPalette[chatRoom.id % 6]} />
+						<ProfileIcon name={chatRoom.title} color={chatRoom.id % 6} status='none' width={3.2} isHover={false} />
 						<ChatRoomInfoContainer>
 							<ChatRoomInfo>
 								<h3>{chatRoom.title}</h3>
 								<span>{timeSince(chatRoom.previewChat.date)}</span>
 							</ChatRoomInfo>
-							<div>
+							<span>
 								{chatRoom.previewChat.name}: {chatRoom.previewChat.message}
-							</div>
+							</span>
 						</ChatRoomInfoContainer>
 					</ChatRoom>
 				))}
