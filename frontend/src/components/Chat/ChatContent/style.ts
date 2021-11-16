@@ -34,7 +34,6 @@ export const InputContainer = styled.div`
 	input {
 		width: 80%;
 		height: 3rem;
-		border: solid 1px ${ColorCode.LINE1};
 		border-radius: 5px;
 		box-sizing: border-box;
 		border: solid 2px transparent;
