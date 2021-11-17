@@ -52,7 +52,7 @@ export const ChatRoomInfoContainer = styled.div`
 	}
 `;
 
-export const InputHeaderContainer = styled.div`
+export const SearchHeaderContainer = styled.div`
 	min-height: 100%;
 	background-color: ${ColorCode.WHITE};
 	padding: 0 0.6rem;

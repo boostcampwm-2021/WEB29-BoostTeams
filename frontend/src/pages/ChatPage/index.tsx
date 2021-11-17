@@ -1,4 +1,6 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { readTeamUsers } from '@apis/users';
 import ChatTemplate from '@templates/ChatTemplate';
 import { UserType, ChatModeType } from '@components/Chat/dataStructure';
 
@@ -15,8 +17,15 @@ const inviteUsersReducer = (inviteUsers: UserType[], action: InviteUsersAction):
 	}
 };
 
-const ChatPage: React.FC = () => {
+interface MatchParams {
+	teamId: string;
+}
+
+type Props = RouteComponentProps<MatchParams>;
+
+const ChatPage: React.FC<Props> = ({ match }) => {
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
+	const [teamUsers, setTeamUsers] = useState<UserType[]>([]);
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
 	const addInviteUser = (newUser: UserType) => dispatchInviteUsers({ type: 'ADD', newUser });
@@ -26,9 +35,22 @@ const ChatPage: React.FC = () => {
 	const setChatModeToCreate = () => setChatMode('create');
 	const setChatModeToChat = () => setChatMode('chat');
 
+	const getTeamUsers = async () => {
+		const usersData = await readTeamUsers(Number(match.params.teamId));
+		const teamUsersInfo = usersData.map(({ user }: any) => {
+			return { user_id: user.user_id, user_name: user.user_name, user_email: user.user_email };
+		});
+		setTeamUsers(teamUsersInfo);
+	};
+
+	useEffect(() => {
+		getTeamUsers();
+	}, []);
+
 	return (
 		<ChatTemplate
 			chatMode={chatMode}
+			teamUsers={teamUsers}
 			inviteUsers={inviteUsers}
 			setChatModeToNone={setChatModeToNone}
 			setChatModeToCreate={setChatModeToCreate}

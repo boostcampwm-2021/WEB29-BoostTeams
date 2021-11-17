@@ -8,6 +8,7 @@ import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
 	chatMode: ChatModeType;
+	teamUsers: UserType[];
 	inviteUsers: UserType[];
 	setChatModeToNone: () => void;
 	setChatModeToCreate: () => void;
@@ -18,6 +19,7 @@ interface Props {
 
 const ChatTemplate: React.FC<Props> = ({
 	chatMode,
+	teamUsers,
 	inviteUsers,
 	setChatModeToNone,
 	setChatModeToCreate,
@@ -39,6 +41,7 @@ const ChatTemplate: React.FC<Props> = ({
 					<ChatContainer>
 						<ChatHeader
 							chatMode={chatMode}
+							teamUsers={teamUsers}
 							inviteUsers={inviteUsers}
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
