@@ -7,7 +7,7 @@ import UserState from '@stores/user';
 import ChatTemplate from '@templates/ChatTemplate';
 import { UserType, ChatModeType } from '@components/Chat/dataStructure';
 
-type InviteUsersAction = { type: 'ADD'; newUser: UserType } | { type: 'DELETE'; id: number };
+type InviteUsersAction = { type: 'ADD'; newUser: UserType } | { type: 'DELETE'; id: number } | { type: 'INIT' };
 
 const inviteUsersReducer = (inviteUsers: UserType[], action: InviteUsersAction): UserType[] => {
 	switch (action.type) {
@@ -15,6 +15,8 @@ const inviteUsersReducer = (inviteUsers: UserType[], action: InviteUsersAction):
 			return [...inviteUsers, action.newUser];
 		case 'DELETE':
 			return [...inviteUsers.filter((users) => users.user_id !== action.id)];
+		case 'INIT':
+			return [];
 		default:
 			throw new Error();
 	}
@@ -27,6 +29,7 @@ interface MatchParams {
 type Props = RouteComponentProps<MatchParams>;
 
 const ChatPage: React.FC<Props> = ({ match }) => {
+	const teamId = Number(match.params.teamId);
 	const userId = useRecoilValue(UserState).id;
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [teamUsers, setTeamUsers] = useState<UserType[]>([]);
@@ -34,13 +37,14 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const addInviteUser = (newUser: UserType) => dispatchInviteUsers({ type: 'ADD', newUser });
 	const deleteInviteUser = (id: number) => dispatchInviteUsers({ type: 'DELETE', id });
+	const initInviteUser = () => dispatchInviteUsers({ type: 'INIT' });
 
 	const setChatModeToNone = () => setChatMode('none');
 	const setChatModeToCreate = () => setChatMode('create');
 	const setChatModeToChat = () => setChatMode('chat');
 
 	const getTeamUsers = async () => {
-		const usersData = await readTeamUsers(Number(match.params.teamId));
+		const usersData = await readTeamUsers(teamId);
 		const teamUsersInfo = usersData
 			.filter(({ user }: any) => user.user_id !== userId)
 			.map(({ user }: any) => {
@@ -55,6 +59,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	return (
 		<ChatTemplate
+			teamId={teamId}
 			chatMode={chatMode}
 			teamUsers={teamUsers}
 			inviteUsers={inviteUsers}
@@ -63,6 +68,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			setChatModeToChat={setChatModeToChat}
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
+			initInviteUser={initInviteUser}
 		/>
 	);
 };

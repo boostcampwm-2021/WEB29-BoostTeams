@@ -4,7 +4,17 @@ export interface UserType {
 	user_email: string;
 }
 
+export interface UserIdListType {
+	user_id: number;
+}
+
 export type ChatModeType = 'none' | 'create' | 'chat';
+
+export interface RoomInfoType {
+	team_id: number;
+	chat_room_name: string;
+	user_id_list: { user_id: number }[];
+}
 
 export const chatRooms = [
 	{
