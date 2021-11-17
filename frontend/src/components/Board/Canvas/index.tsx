@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
-import UserState from '@stores/user';
 import { PostitType } from '@pages/BoardPage';
-import { PrimaryPalette, REM } from '@utils/constants';
+import { REM } from '@utils/constants';
 import Postit from '../Postit';
 
 interface Props {
@@ -45,7 +44,6 @@ const Canvas: React.FC<Props> = ({
 	};
 
 	const handleDrag = (event: any) => {
-		console.log(event);
 		socketApi.dragPostit(event);
 	};
 
