@@ -60,7 +60,6 @@ const teamInit = (namespace: Namespace): void => {
 		});
 
 		socket.on('create new postit', ({ title, desc, teamId }) => {
-			console.log(title, desc, teamId);
 			// 새로운 post 생성 & 저장
 			const newPostit = makeNewPostit(title, desc, teamId);
 			dummyPostit.push(newPostit);
@@ -70,17 +69,22 @@ const teamInit = (namespace: Namespace): void => {
 			socket.broadcast.to('board').emit('create new postit', dummyPostit);
 		});
 
-		socket.on('drag postit', ({ id, x, y }) => {
-			const updatedPostit = dummyPostit.filter((postit) => {
-				if (postit.key !== id) return postit;
-				else {
-					const temp = postit;
-					temp.x = x;
-					temp.y = y;
-					return temp;
-				}
-			});
+		socket.on('update postit', ({ id, title, content }) => {
+			const updatedPostit = dummyPostit.find((postit) => postit.id === Number(id));
+			updatedPostit.title = title;
+			updatedPostit.content = content;
+			dummyPostit = dummyPostit.filter((postit) => postit.id !== Number(id));
+			dummyPostit.push(updatedPostit);
 			socket.broadcast.to('board').emit('drag postit', updatedPostit);
+		});
+
+		socket.on('drag postit', ({ id, x, y }) => {
+			const movedPostit = dummyPostit.find((postit) => postit.id === Number(id));
+			movedPostit.x = x;
+			movedPostit.y = y;
+			dummyPostit = dummyPostit.filter((postit) => postit.id !== Number(id));
+			dummyPostit.push(movedPostit);
+			socket.broadcast.to('board').emit('drag postit', movedPostit);
 		});
 
 		socket.on('disconnect', () => {
@@ -92,34 +96,45 @@ const teamInit = (namespace: Namespace): void => {
 };
 
 export default teamInit;
-/* 
-{
-	team#1 : [{post#1}, {post#2}],
-	team#2 : [{post#1}, {post#2}, {post#3}]
-}
-*/
 
 const makeNewPostit = (title, desc, teamId) => {
 	return {
-		key: dummyPostit.length + 1,
+		id: dummyPostit.length + 1,
 		title: title,
 		content: desc,
 		x: 0,
 		y: 0,
-		color: 'red',
-		updatedDate: JSON.stringify(new Date())
+		color: Math.floor(Math.random() * 6),
+		updatedAt: new Date(),
+		updatedBy: 'user#?',
+		createdAt: new Date(),
+		createdBy: 'user#?'
 	};
 };
 
-const dummyPostit = [
+let dummyPostit = [
 	{
-		key: 1,
+		id: 1,
 		title: 'title#1',
-		content:
-			'desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1desc#1',
+		content: 'desc#2',
 		x: 10,
 		y: 10,
-		color: 'red',
-		updatedDate: '2021.07.02.'
+		color: 0,
+		updatedAt: new Date(2021, 11, 16),
+		updatedBy: 'LeeMir',
+		createdAt: new Date(2021, 11, 15),
+		createdBy: 'wonju-dev'
+	},
+	{
+		id: 2,
+		title: 'title#2',
+		content: 'desc#2',
+		x: 50,
+		y: 50,
+		color: 2,
+		updatedAt: new Date(2021, 11, 16),
+		updatedBy: 'LeeMir',
+		createdAt: new Date(2021, 11, 15),
+		createdBy: 'wonju-dev'
 	}
 ];
