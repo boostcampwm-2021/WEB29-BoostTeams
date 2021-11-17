@@ -1,37 +1,28 @@
 import React from 'react';
 import { FaTelegramPlane } from 'react-icons/fa';
 import Message from './Message';
-import { Container, MessagesContainer, InputContainer } from './style';
+import { messages, ChatModeType } from '../dataStructure';
+import { Container, MessagesContainer, NoticeContainer, InputContainer } from './style';
 
-const messages = [
-	{ message_id: 1, user_id: 1, user_name: 'user1', content: 'hi', created_at: new Date() },
-	{ message_id: 2, user_id: 2, user_name: 'user2', content: 'hi2', created_at: new Date() },
-	{ message_id: 3, user_id: 3, user_name: 'user3', content: 'hi3', created_at: new Date() },
-	{
-		message_id: 4,
-		user_id: 4,
-		user_name: 'user4',
-		content: 'hiㅁㅎㅇㄴㅇㅎㄴㅇㅎㄴㅇㅎㄴㅇㅎㄴㅇㅎㄴㅁㅇㅎㄴㅇㅎㄴㅇㅎㄴㅁㅎㄴㅇㅎㄴㅇㅎㄴㅇㅎㄴㄴㅇㄴㅇㅎㄴㅎㅇ4',
-		created_at: new Date(),
-	},
-	{ message_id: 5, user_id: 5, user_name: 'user5', content: 'hi3', created_at: new Date() },
-	{ message_id: 6, user_id: 6, user_name: 'user6', content: 'hi4', created_at: new Date() },
-	{ message_id: 7, user_id: 7, user_name: 'user7', content: 'hi3', created_at: new Date() },
-	{ message_id: 8, user_id: 3, user_name: 'user8', content: 'hi4', created_at: new Date() },
-	{ message_id: 9, user_id: 3, user_name: 'user9', content: 'hi3', created_at: new Date() },
-	{ message_id: 10, user_id: 10, user_name: 'user10', content: 'hi4', created_at: new Date() },
-	{ message_id: 11, user_id: 11, user_name: 'user11', content: 'hi3', created_at: new Date() },
-	{ message_id: 12, user_id: 12, user_name: 'user12', content: 'hi4', created_at: new Date() },
-];
+interface Props {
+	chatMode: ChatModeType;
+}
 
-const ChatContent: React.FC = () => {
+const ChatContent: React.FC<Props> = ({ chatMode }) => {
 	return (
 		<Container>
-			<MessagesContainer>
-				{messages.map((message) => (
-					<Message key={message.message_id} message={message} />
-				))}
-			</MessagesContainer>
+			{chatMode === 'chat' ? (
+				<MessagesContainer>
+					{messages.map((message) => (
+						<Message key={message.message_id} message={message} />
+					))}
+				</MessagesContainer>
+			) : (
+				<NoticeContainer>
+					<span>새 대화를 시작하고 있습니다.</span>
+					<span>아래에 첫 번째 메시지를 입력하세요.</span>
+				</NoticeContainer>
+			)}
 			<InputContainer>
 				<input type='text' placeholder='새 메시지 입력' />
 				<FaTelegramPlane />

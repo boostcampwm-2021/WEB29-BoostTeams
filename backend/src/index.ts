@@ -16,6 +16,7 @@ import userRouter from '@routes/user-router';
 import authRouter from '@routes/auth-router';
 import scheduleRouter from '@routes/schedule-router';
 import teamRouter from '@routes/team-router';
+import chatRouter from '@routes/chat-router';
 import usersRouter from '@routes/users-router';
 
 class App {
@@ -56,6 +57,7 @@ class App {
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
 		this.app.use('/api/team', teamRouter);
+		this.app.use('/api/chat', chatRouter);
 		this.app.use('/api/users', usersRouter);
 	}
 

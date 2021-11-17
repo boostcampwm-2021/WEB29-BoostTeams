@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ColorCode } from '@utils/constants';
 
 export const Container = styled.nav`
+	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
