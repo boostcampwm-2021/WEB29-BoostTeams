@@ -59,7 +59,14 @@ const UsersTemplate: React.FC<Props> = ({
 				</ContentContainer>
 			</MainContainer>
 			{isExitModalVisible && <ExitTeamModal handleModalClose={handleExitModalClose} teamId={teamId} />}
-			{isUpdateModalVisible && <UpdateTeamModal handleModalClose={handleUpdateModalClose} teamId={teamId} />}
+			{isUpdateModalVisible && (
+				<UpdateTeamModal
+					handleModalClose={handleUpdateModalClose}
+					teamId={teamId}
+					teamInfo={teamInfo}
+					getTeam={getTeam}
+				/>
+			)}
 			{isDeleteModalVisible && <DeleteTeamModal handleModalClose={handleDeleteModalClose} teamId={teamId} />}
 		</>
 	);

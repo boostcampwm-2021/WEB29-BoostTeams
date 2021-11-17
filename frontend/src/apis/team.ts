@@ -7,12 +7,18 @@ export const readMyTeam = async () => {
 };
 
 interface teamData {
+	team_id?: number;
 	team_name: string;
 	team_desc: string;
 }
 
 export const create = async (setLoadTrigger: (param: any) => void, teamData: teamData) => {
 	await fetchApi.post('/api/team/create', { ...teamData });
+	setLoadTrigger((prev: number) => prev + 1);
+};
+
+export const update = async (setLoadTrigger: (param: any) => void, teamData: teamData) => {
+	await fetchApi.put('/api/team', { ...teamData });
 	setLoadTrigger((prev: number) => prev + 1);
 };
 

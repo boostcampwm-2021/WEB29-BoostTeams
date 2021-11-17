@@ -3,11 +3,8 @@ import SearchUsers from '@components/Users/UserList/SearchUsers';
 import UserList from '@components/Users/UserList/UserList';
 import { readTeamUsers } from '@apis/users';
 import { Role } from '@src/utils/constants';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import UserState from '@src/stores/user';
-import { deleteTeam } from '@src/apis/team';
-import { teamListLoadTrigger } from '@src/stores/team';
-import { useHistory } from 'react-router';
 import { Layout } from './style';
 
 interface Props {
@@ -33,8 +30,6 @@ const UserListIndex: React.FC<Props> = ({
 	const [filteredUsers, setFilteredUsers] = useState(users);
 	const user = useRecoilValue(UserState);
 	const [isAdmin, setIsAdmin] = useState(false);
-	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
-	const history = useHistory();
 
 	const getUsers = async () => {
 		const result = await readTeamUsers(teamId);
@@ -77,7 +72,7 @@ const UserListIndex: React.FC<Props> = ({
 				handleDeleteModalOpen={handleDeleteModalOpen}
 				isAdmin={isAdmin}
 			/>
-			<UserList users={filteredUsers} />
+			<UserList users={filteredUsers} isAdmin={isAdmin} />
 		</Layout>
 	);
 };

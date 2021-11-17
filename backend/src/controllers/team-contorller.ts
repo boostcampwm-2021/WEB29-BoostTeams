@@ -94,6 +94,17 @@ const TeamController = {
 		} catch (err) {
 			res.sendStatus(409);
 		}
+	},
+
+	async kickOut(req: any, res: Response) {
+		try {
+			const userId = req.params.id;
+			const teamId = req.body.team_id;
+			await TeamUserService.getInstance().delete(userId, teamId);
+			res.sendStatus(204);
+		} catch (err) {
+			res.sendStatus(409);
+		}
 	}
 };
 

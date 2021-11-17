@@ -15,4 +15,6 @@ router.post('/invite', authenticateToken, TeamController.invite); // 초대 전�
 router.post('/invite/response', authenticateToken, TeamController.acceptInvitation); // 초대 수락 [team-user]
 router.delete('/invite/response', authenticateToken, TeamController.declineInvitation); // 초대 거절 [team-user]
 
+router.delete('/:id', authenticateToken, TeamController.kickOut); // 유저 강퇴
+
 export default router;

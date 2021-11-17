@@ -1,9 +1,15 @@
+import { ColorCode } from '@src/utils/constants';
 import styled from 'styled-components';
 
 export const Content = styled.div`
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-family: inherit;
-	padding: 0 0 10% 0;
+	flex-direction: column;
+	padding: 0 10%;
+	& > * {
+		margin: 5%;
+	}
+`;
+
+export const Input = styled.input`
+	font-size: 1rem;
 `;
