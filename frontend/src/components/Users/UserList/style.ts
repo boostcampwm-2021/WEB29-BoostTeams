@@ -49,3 +49,11 @@ export const Container = styled.div`
 export const Layout = styled.div`
 	padding: 0 3% 3% 3%;
 `;
+
+export const ExitBtn = styled.button`
+	padding: 2% 4%;
+	width: 10rem;
+	background-color: ${ColorCode.PRIMARY1};
+	color: ${ColorCode.WHITE};
+	border-radius: 8px;
+`;

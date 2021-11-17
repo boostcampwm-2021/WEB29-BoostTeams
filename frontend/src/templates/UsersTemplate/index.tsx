@@ -1,15 +1,29 @@
-import React from 'react';
-import { Header, Navbar, Sidebar } from '@components/common';
+import React, { useEffect, useState } from 'react';
+import { Header, Navbar } from '@components/common';
 import UsersHeader from '@components/Users/UsersHeader';
 import Users from '@src/components/Users/UserList';
+import { readTeamInfo } from '@src/apis/users';
+import UserModal from '@src/components/Users/UsersModal';
 import { MainContainer, ContentContainer } from './style';
 
-const UsersTemplate: React.FC = () => {
-	const teamInfo = {
-		teamId: 1,
-		teamName: 'boostcamp web-29',
-		teamDesc: '팀 성명 정보입니다.',
+interface Props {
+	teamId: number;
+	isModalVisible: boolean;
+	handleModalClose: () => void;
+	handleModalOpen: () => void;
+}
+
+const UsersTemplate: React.FC<Props> = ({ teamId, handleModalOpen, handleModalClose, isModalVisible }) => {
+	const [teamInfo, setTeamInfo] = useState({});
+	const getTeam = async () => {
+		const result = await readTeamInfo(teamId);
+		setTeamInfo(result);
 	};
+
+	useEffect(() => {
+		getTeam();
+	}, []);
+
 	return (
 		<>
 			<Header />
@@ -17,9 +31,10 @@ const UsersTemplate: React.FC = () => {
 				<Navbar />
 				<ContentContainer>
 					<UsersHeader teamInfo={teamInfo} />
-					<Users />
+					<Users teamId={teamId} handleModalOpen={handleModalOpen} />
 				</ContentContainer>
 			</MainContainer>
+			{isModalVisible && <UserModal handleModalClose={handleModalClose} teamId={teamId} />}
 		</>
 	);
 };
