@@ -89,9 +89,7 @@ const ChatHeader: React.FC<Props> = ({ chatMode, inviteUsers, addInviteUser, del
 						{userSearchResult.map((user) => (
 							<UserContainer key={user.user_email} onClick={() => handleUserClick(user.user_email)}>
 								<ProfileIcon name={user.user_name} color={0} status='none' width={2.4} isHover={false} />
-								<span>
-									{user.user_name} ({user.user_email})
-								</span>
+								<span>{`${user.user_name} (${user.user_email})`}</span>
 							</UserContainer>
 						))}
 					</SearchContainer>

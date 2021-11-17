@@ -1,10 +1,6 @@
 import { ColorCode, Font } from '@src/utils/constants';
 import styled from 'styled-components';
 
-interface UserContainerProps {
-	select: boolean;
-}
-
 export const Container = styled.div`
 	position: absolute;
 	width: 100%;
