@@ -14,6 +14,24 @@ const TeamController = {
 		}
 	},
 
+	async readTeamInfo(req: any, res: Response) {
+		try {
+			const team = await TeamService.getInstance().read(req.params.id);
+			res.status(200).send(team);
+		} catch (err) {
+			res.status(404).send(err);
+		}
+	},
+
+	async readTeamUsers(req: any, res: Response) {
+		try {
+			const teams = await TeamUserService.getInstance().readAllUsers(req.params.id);
+			res.status(200).send(teams);
+		} catch (err) {
+			res.status(404).send(err);
+		}
+	},
+
 	async create(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
@@ -71,6 +89,7 @@ const TeamController = {
 		try {
 			const userId = req.user_id;
 			const teamId = req.body.team_id;
+			console.log(userId, teamId)
 			await TeamUserService.getInstance().delete(userId, teamId);
 			res.sendStatus(204);
 		} catch (err) {

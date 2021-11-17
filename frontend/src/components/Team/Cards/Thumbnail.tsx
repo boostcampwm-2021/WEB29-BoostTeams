@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Thumbnail: React.FC<Props> = ({ team_id, team_name }) => {
-	const shortenName = team_name.slice(0, 1).toUpperCase();
+	const shortenName = team_name?.slice(0, 1).toUpperCase();
 	return (
 		<ThumbnailWrapper team_id={team_id}>
 			<span>{shortenName}</span>

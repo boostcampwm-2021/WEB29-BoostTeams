@@ -21,4 +21,7 @@ export class TeamUser {
 
 	@Column()
 	state: boolean;
+
+	@Column()
+	role: number;
 }
