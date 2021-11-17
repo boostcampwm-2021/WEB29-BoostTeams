@@ -1,5 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { teamListLoadTrigger } from '@src/stores/team';
 import Modal from '@src/components/common/Modal';
 import { leaveTeam } from '@apis/team';
 import { Content } from './style';
@@ -9,17 +11,17 @@ interface Props {
 	teamId: number;
 }
 
-const UserModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
 	const history = useHistory();
 	const handleSubmit = async () => {
-		const result = await leaveTeam(teamId);
-		history.push('/');
+		console.log('update');
 	};
 	return (
 		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<Content>정말 탈퇴하시겠습니까?</Content>
+			<Content>update</Content>
 		</Modal>
 	);
 };
 
-export default UserModal;
+export default UpdateTeamModal;

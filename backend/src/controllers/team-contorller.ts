@@ -89,7 +89,6 @@ const TeamController = {
 		try {
 			const userId = req.user_id;
 			const teamId = req.body.team_id;
-			console.log(userId, teamId)
 			await TeamUserService.getInstance().delete(userId, teamId);
 			res.sendStatus(204);
 		} catch (err) {

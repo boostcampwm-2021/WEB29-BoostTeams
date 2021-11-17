@@ -26,6 +26,12 @@ export const decline = async (setLoadTrigger: (param: any) => void, team_id: num
 	setLoadTrigger((prev: number) => prev + 1);
 };
 
-export const leaveTeam = async (team_id: number) => {
+export const leaveTeam = async (setLoadTrigger: (param: any) => void, team_id: number) => {
 	await fetchApi.delete('/api/team/invite/response', { team_id });
+	setLoadTrigger((prev: number) => prev + 1);
+};
+
+export const deleteTeam = async (setLoadTrigger: (param: any) => void, team_id: number) => {
+	await fetchApi.delete('/api/team', { team_id });
+	setLoadTrigger((prev: number) => prev + 1);
 };
