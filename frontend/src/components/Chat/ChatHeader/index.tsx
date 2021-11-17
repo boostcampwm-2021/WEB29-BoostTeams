@@ -9,7 +9,7 @@ interface Props {
 	teamUsers: UserType[];
 	inviteUsers: UserType[];
 	addInviteUser: (newUser: UserType) => void;
-	deleteInviteUser: (email: string) => void;
+	deleteInviteUser: (id: number) => void;
 }
 
 const ChatHeader: React.FC<Props> = ({ chatMode, teamUsers, inviteUsers, addInviteUser, deleteInviteUser }) => {

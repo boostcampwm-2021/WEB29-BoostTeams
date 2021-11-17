@@ -14,7 +14,7 @@ interface Props {
 	setChatModeToCreate: () => void;
 	setChatModeToChat: () => void;
 	addInviteUser: (newUser: UserType) => void;
-	deleteInviteUser: (email: string) => void;
+	deleteInviteUser: (id: number) => void;
 }
 
 const ChatTemplate: React.FC<Props> = ({

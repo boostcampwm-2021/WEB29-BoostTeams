@@ -8,7 +8,7 @@ interface Props {
 	teamUsers: UserType[];
 	inviteUsers: UserType[];
 	addInviteUser: (newUser: UserType) => void;
-	deleteInviteUser: (email: string) => void;
+	deleteInviteUser: (id: number) => void;
 }
 
 const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, deleteInviteUser }) => {
@@ -28,8 +28,8 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 		setUserSearchResult(matches);
 	};
 
-	const handleUserClick = (userEmail: string) => {
-		const user = teamUsers.find((user) => user.user_email === userEmail);
+	const handleUserClick = (userId: number) => {
+		const user = teamUsers.find((user) => user.user_id === userId);
 		if (user) addToInvitationList(user);
 	};
 
@@ -41,7 +41,7 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 
 	const addToInvitationList = (user: UserType) => {
 		if (!inputRef.current) return;
-		if (inviteUsers.find((invitedUser) => invitedUser.user_email === user.user_email)) return;
+		if (inviteUsers.find((invitedUser) => invitedUser.user_id === user.user_id)) return;
 		addInviteUser(user);
 		setUserSearchResult([]);
 		inputRef.current.value = '';
@@ -51,9 +51,9 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 		<SearchHeaderContainer>
 			<UserListContainer>
 				{inviteUsers.map((user) => (
-					<div key={user.user_email}>
+					<div key={user.user_id}>
 						<span>{user.user_name}</span>
-						<FaTimes onClick={() => deleteInviteUser(user.user_email)} />
+						<FaTimes onClick={() => deleteInviteUser(user.user_id)} />
 					</div>
 				))}
 			</UserListContainer>
@@ -68,7 +68,7 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 			</InputWrapper>
 			<SearchContainer>
 				{userSearchResult.map((user) => (
-					<UserContainer key={user.user_email} onClick={() => handleUserClick(user.user_email)}>
+					<UserContainer key={user.user_id} onClick={() => handleUserClick(user.user_id)}>
 						<ProfileIcon name={user.user_name} color={0} status='none' width={2.4} isHover={false} />
 						<span>{`${user.user_name} (${user.user_email})`}</span>
 					</UserContainer>
