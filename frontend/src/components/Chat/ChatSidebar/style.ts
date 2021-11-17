@@ -30,6 +30,7 @@ export const NewChatBtn = styled.button`
 	margin-right: 0.4rem;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;
