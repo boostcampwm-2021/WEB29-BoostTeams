@@ -6,11 +6,12 @@ import { PostitType } from '@pages/BoardPage';
 import { Layout, MainContainer } from './style';
 
 interface Props {
-	postits: any[];
-	socket: any;
+	postits: PostitType[];
+	socketApi: any;
 	showModal: boolean;
 	modalType: string;
 	clickedPostit: any;
+	setPostits: any;
 	setClickedPostit: (postit: PostitType) => void;
 	setModalType: (type: string) => void;
 	handleModalOpen: () => void;
@@ -19,10 +20,11 @@ interface Props {
 
 const BoardTemplate: React.FC<Props> = ({
 	postits,
-	socket,
+	socketApi,
 	showModal,
 	modalType,
 	clickedPostit,
+	setPostits,
 	setModalType,
 	setClickedPostit,
 	handleModalOpen,
@@ -35,6 +37,8 @@ const BoardTemplate: React.FC<Props> = ({
 				<Navbar />
 				<Canvas
 					postits={postits}
+					socketApi={socketApi}
+					setPostits={setPostits}
 					setModalType={setModalType}
 					setClickedPostit={setClickedPostit}
 					handleModalOpen={handleModalOpen}
@@ -42,7 +46,7 @@ const BoardTemplate: React.FC<Props> = ({
 			</MainContainer>
 			{showModal && (
 				<CreatePostItModal
-					socket={socket}
+					socketApi={socketApi}
 					modalType={modalType}
 					clickedPostit={clickedPostit}
 					handleModalClose={handleModalClose}

@@ -1,24 +1,43 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef } from 'react';
 import Modal from '@components/common/Modal';
+import { PostitType } from '@pages/BoardPage';
 import { Container, Input, Textarea } from './style';
 
 interface Props {
-	socket: any;
+	socketApi: any;
 	modalType: string;
-	clickedPostit: any;
+	clickedPostit: PostitType;
 	handleModalClose: () => void;
 }
 
-const CreatePostItModal: React.FC<Props> = ({ socket, modalType, clickedPostit, handleModalClose }) => {
+const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+	const makePostitObj = (modalType: string, title: string, content: string) => {
+		if (modalType === 'update') {
+			const updatedPostit = clickedPostit;
+			updatedPostit.title = title;
+			updatedPostit.content = content;
+			return updatedPostit;
+		}
+		if (modalType === 'create') {
+			return {
+				title,
+				content,
+			};
+		}
+		return undefined;
+	};
+
 	const handleSubmit = () => {
-		if (inputRef.current && textareaRef.current && socket.current) {
+		if (inputRef.current && textareaRef.current) {
 			const title = inputRef.current.value;
-			const desc = textareaRef.current.value;
-			const teamId = socket.current.nsp.slice(6, socket.current.nsp.length);
-			socket.current.emit('create new postit', { title, desc, teamId });
+			const content = textareaRef.current.value;
+			const postit = makePostitObj(modalType, title, content);
+			if (modalType === 'create') socketApi.createNewPostit(postit);
+			else if (modalType === 'update') socketApi.updatePostit(postit);
+			handleModalClose();
 		}
 	};
 
@@ -32,7 +51,7 @@ const CreatePostItModal: React.FC<Props> = ({ socket, modalType, clickedPostit, 
 				/>
 				<Textarea
 					ref={textareaRef}
-					defaultValue={modalType === 'update' ? clickedPostit.desc : ''}
+					defaultValue={modalType === 'update' ? clickedPostit.content : ''}
 					placeholder='내용을 입력하세요'
 				/>
 			</Container>

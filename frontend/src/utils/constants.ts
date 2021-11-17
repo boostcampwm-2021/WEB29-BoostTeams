@@ -89,5 +89,7 @@ const CANVAS = {
 	HEIGHT: window.innerHeight - converRemToPx(HEADER.HEIGHT),
 };
 
+const REM = 16; // TODO: 반응형 (style과 별도로 적용)
+
 export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt };
-export { CANVAS, NAVBAR, HEADER };
+export { CANVAS, NAVBAR, HEADER, REM };
