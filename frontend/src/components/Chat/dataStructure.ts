@@ -10,10 +10,15 @@ export interface UserIdListType {
 
 export type ChatModeType = 'none' | 'create' | 'chat';
 
-export interface RoomInfoType {
+export interface ChatRoomReqType {
 	team_id: number;
 	chat_room_name: string;
 	user_id_list: { user_id: number }[];
+}
+
+export interface ChatRoomType {
+	chat_room_id: number;
+	chat_room_name: string;
 }
 
 export const chatRooms = [

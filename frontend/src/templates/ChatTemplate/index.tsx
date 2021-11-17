@@ -3,17 +3,19 @@ import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';
 import ChatHeader from '@components/Chat/ChatHeader';
 import ChatContent from '@components/Chat/ChatContent';
-import { UserType, ChatModeType } from '@components/Chat/dataStructure';
+import { UserType, ChatModeType, ChatRoomType } from '@components/Chat/dataStructure';
 import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
 	teamId: number;
 	chatMode: ChatModeType;
+	chatRooms: ChatRoomType[];
 	teamUsers: UserType[];
 	inviteUsers: UserType[];
 	setChatModeToNone: () => void;
 	setChatModeToCreate: () => void;
 	setChatModeToChat: () => void;
+	addChatRoom: (newRoom: ChatRoomType) => void;
 	addInviteUser: (newUser: UserType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
@@ -22,11 +24,13 @@ interface Props {
 const ChatTemplate: React.FC<Props> = ({
 	teamId,
 	chatMode,
+	chatRooms,
 	teamUsers,
 	inviteUsers,
 	setChatModeToNone,
 	setChatModeToCreate,
 	setChatModeToChat,
+	addChatRoom,
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
@@ -37,6 +41,7 @@ const ChatTemplate: React.FC<Props> = ({
 			<MainContainer>
 				<Navbar />
 				<ChatSidebar
+					chatRooms={chatRooms}
 					setChatModeToNone={setChatModeToNone}
 					setChatModeToCreate={setChatModeToCreate}
 					setChatModeToChat={setChatModeToChat}
@@ -54,6 +59,8 @@ const ChatTemplate: React.FC<Props> = ({
 							teamId={teamId}
 							chatMode={chatMode}
 							inviteUsers={inviteUsers}
+							setChatModeToChat={setChatModeToChat}
+							addChatRoom={addChatRoom}
 							initInviteUser={initInviteUser}
 						/>
 					</ChatContainer>

@@ -81,6 +81,8 @@ export const ChatRoomInfo = styled.div`
 	justify-content: space-between;
 	margin-bottom: 0.5rem;
 	h3 {
+		width: 8rem;
+		overflow: hidden;
 		font-size: ${Font.SMALL};
 	}
 `;

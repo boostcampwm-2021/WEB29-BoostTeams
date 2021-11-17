@@ -4,7 +4,7 @@ import { FaTelegramPlane } from 'react-icons/fa';
 
 import { createChatRoom } from '@apis/chat';
 import UserState from '@stores/user';
-import { messages, ChatModeType, UserType } from '../dataStructure';
+import { messages, ChatModeType, UserType, ChatRoomType } from '../dataStructure';
 import Message from './Message';
 import { Container, MessagesContainer, NoticeContainer, InputContainer } from './style';
 
@@ -12,14 +12,23 @@ interface Props {
 	teamId: number;
 	chatMode: ChatModeType;
 	inviteUsers: UserType[];
+	setChatModeToChat: () => void;
+	addChatRoom: (newRoom: ChatRoomType) => void;
 	initInviteUser: () => void;
 }
 
-const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, initInviteUser }) => {
+const ChatContent: React.FC<Props> = ({
+	teamId,
+	chatMode,
+	inviteUsers,
+	setChatModeToChat,
+	addChatRoom,
+	initInviteUser,
+}) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const user = useRecoilValue(UserState);
 
-	const handleNewChatRoom = () => {
+	const handleNewChatRoom = async () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
 		if (!inviteUsers.length) return;
@@ -32,9 +41,12 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, initInvit
 			chat_room_name: chatRoomName,
 			user_id_list: [...userIdList, { user_id: user.id }],
 		};
-		createChatRoom(roomInfo);
-		initInviteUser();
+		const newChatRoomInfo = await createChatRoom(roomInfo);
+		if (!newChatRoomInfo) return;
+		addChatRoom(newChatRoomInfo);
 		inputRef.current.value = '';
+		initInviteUser();
+		setChatModeToChat();
 	};
 
 	return (
