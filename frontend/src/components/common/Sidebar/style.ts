@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ColorCode } from '@utils/constants';
 
 export const Container = styled.div`
+	flex-shrink: 0;
 	position: relative;
 	background-color: ${ColorCode.BACKGROUND2};
 	width: 17rem;

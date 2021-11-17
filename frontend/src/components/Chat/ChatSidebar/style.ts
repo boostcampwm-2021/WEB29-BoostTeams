@@ -12,8 +12,11 @@ export const SidebarHeader = styled.div`
 	justify-content: space-between;
 	padding-left: 1rem;
 	border-bottom: solid 1px ${ColorCode.LINE2};
-	h2 {
+	button {
+		font-size: ${Font.MEDIUM};
 		font-weight: bold;
+		border: none;
+		cursor: pointer;
 	}
 `;
 
@@ -25,6 +28,8 @@ export const NewChatBtn = styled.button`
 	border: none;
 	background-color: transparent;
 	margin-right: 0.4rem;
+	display: flex;
+	align-items: center;
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;

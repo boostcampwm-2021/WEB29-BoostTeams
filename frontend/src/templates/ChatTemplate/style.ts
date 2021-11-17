@@ -13,7 +13,7 @@ export const MainContainer = styled.div`
 	right: 0;
 	bottom: 0;
 	display: flex;
-	min-width: max-content;
+	background-color: ${ColorCode.BACKGROUND1};
 `;
 
 export const ChatContainer = styled.div`

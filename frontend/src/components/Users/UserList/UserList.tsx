@@ -20,8 +20,11 @@ const UsersList: React.FC<Props> = ({ users }) => {
 				<span>역할</span>
 			</LabelContainer>
 			{managerUsers.map((e) => (
-				<UserWrapper key={e.name}>
-					<span>{e.name}</span>
+				<UserWrapper key={e.id}>
+					<span>
+						<span>{e.state}</span>
+						<span>{e.name}</span>
+					</span>
 					<span>{e.role}</span>
 				</UserWrapper>
 			))}
@@ -31,8 +34,11 @@ const UsersList: React.FC<Props> = ({ users }) => {
 				<span>역할</span>
 			</LabelContainer>
 			{normalUsers.map((e) => (
-				<UserWrapper key={e.name}>
-					<span>{e.name}</span>
+				<UserWrapper key={e.id}>
+					<span>
+						<span>{e.state}</span>
+						<span>{e.name}</span>
+					</span>
 					<span>{e.role}</span>
 				</UserWrapper>
 			))}
