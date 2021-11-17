@@ -5,8 +5,8 @@ const ChatController = {
 	async createChatRoom(req: Request, res: Response) {
 		try {
 			const chatRoomInfo = req.body;
-			const newChatRoomInfo = await ChatRoomService.getInstance().createChatRoom(chatRoomInfo);
-			res.json(newChatRoomInfo);
+			const chatRoomResult = await ChatRoomService.getInstance().createChatRoom(chatRoomInfo);
+			res.status(201).json(chatRoomResult);
 		} catch (err) {
 			res.sendStatus(409);
 		}
