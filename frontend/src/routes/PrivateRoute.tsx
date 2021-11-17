@@ -11,7 +11,9 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 		if (localStorage.getItem('JWT')) {
 			check(
 				(res: any) => {
+					console.log(res);
 					setUser({
+						id: res.user_id,
 						name: res.user_name,
 						email: res.user_email,
 						state: res.user_state,
