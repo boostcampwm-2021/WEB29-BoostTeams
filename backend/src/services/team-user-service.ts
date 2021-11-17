@@ -24,7 +24,8 @@ export default class TeamUserService {
 			.values({
 				user: userId,
 				team: teamId,
-				state: true
+				state: true,
+				role: 0
 			})
 			.execute();
 	}
