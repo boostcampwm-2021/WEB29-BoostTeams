@@ -10,6 +10,17 @@ const ChatController = {
 		} catch (err) {
 			res.sendStatus(409);
 		}
+	},
+
+	async getChatRooms(req: Request, res: Response) {
+		try {
+			const { userId, teamId } = req.query;
+			if (!userId || !teamId) throw Error();
+			const chatRooms = await ChatRoomService.getInstance().getChatRooms(Number(teamId), Number(userId));
+			res.status(200).json(chatRooms);
+		} catch (err) {
+			res.sendStatus(409);
+		}
 	}
 };
 
