@@ -1,10 +1,6 @@
 import { ColorCode, Font } from '@src/utils/constants';
 import styled from 'styled-components';
 
-interface UserContainerProps {
-	select: boolean;
-}
-
 export const Container = styled.div`
 	position: absolute;
 	width: 100%;
@@ -56,7 +52,7 @@ export const ChatRoomInfoContainer = styled.div`
 	}
 `;
 
-export const InputHeaderContainer = styled.div`
+export const SearchHeaderContainer = styled.div`
 	min-height: 100%;
 	background-color: ${ColorCode.WHITE};
 	padding: 0 0.6rem;

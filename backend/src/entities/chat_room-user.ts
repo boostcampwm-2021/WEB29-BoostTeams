@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
 import { ChatRoom } from './chat_room';
 import { User } from './user';
-​
+
 @Entity({ name: 'chat_room_user' })
 export class ChatRoomUser {
 	@PrimaryGeneratedColumn()

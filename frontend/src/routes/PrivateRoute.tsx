@@ -12,6 +12,7 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 			check(
 				(res: any) => {
 					setUser({
+						id: res.user_id,
 						name: res.user_name,
 						email: res.user_email,
 						state: res.user_state,

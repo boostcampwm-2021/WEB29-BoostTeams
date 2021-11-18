@@ -2,16 +2,17 @@ import React from 'react';
 import { Sidebar, ProfileIcon } from '@components/common';
 import { BiListPlus } from 'react-icons/bi';
 import { timeSince } from '@utils/time';
-import { chatRooms } from '../dataStructure';
+import { ChatRoomType } from '../dataStructure';
 import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo, NewChatBtn } from './style';
 
 interface Props {
+	chatRooms: ChatRoomType[];
 	setChatModeToNone: () => void;
 	setChatModeToCreate: () => void;
 	setChatModeToChat: () => void;
 }
 
-const ChatSidebar: React.FC<Props> = ({ setChatModeToNone, setChatModeToCreate, setChatModeToChat }) => {
+const ChatSidebar: React.FC<Props> = ({ chatRooms, setChatModeToNone, setChatModeToCreate, setChatModeToChat }) => {
 	return (
 		<Sidebar>
 			<SidebarHeader>
@@ -26,7 +27,7 @@ const ChatSidebar: React.FC<Props> = ({ setChatModeToNone, setChatModeToCreate, 
 				{chatRooms.map((chatRoom) => (
 					<ChatRoom key={chatRoom.chat_room_id} focus={false} onClick={setChatModeToChat}>
 						<ProfileIcon
-							name={chatRoom.title}
+							name={chatRoom.chat_room_name}
 							color={chatRoom.chat_room_id % 6}
 							status='none'
 							width={3.2}
@@ -34,12 +35,10 @@ const ChatSidebar: React.FC<Props> = ({ setChatModeToNone, setChatModeToCreate, 
 						/>
 						<ChatRoomInfoContainer>
 							<ChatRoomInfo>
-								<h3>{chatRoom.title}</h3>
-								<span>{timeSince(chatRoom.previewChat.date)}</span>
+								<h3>{chatRoom.chat_room_name}</h3>
+								<span>{timeSince(new Date())}</span>
 							</ChatRoomInfo>
-							<span>
-								{chatRoom.previewChat.name}: {chatRoom.previewChat.message}
-							</span>
+							<span>작성자: 메시지</span>
 						</ChatRoomInfoContainer>
 					</ChatRoom>
 				))}

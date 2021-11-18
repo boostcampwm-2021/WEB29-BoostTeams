@@ -1,16 +1,25 @@
 export interface UserType {
+	user_id: number;
 	user_name: string;
 	user_email: string;
 }
 
+export interface UserIdListType {
+	user_id: number;
+}
+
 export type ChatModeType = 'none' | 'create' | 'chat';
 
-export const userEx: UserType[] = [
-	{ user_name: '강민지', user_email: 'test1@test.com' },
-	{ user_name: '이명재', user_email: 'test2@test.com' },
-	{ user_name: '이원주', user_email: 'test3@test.com' },
-	{ user_name: '장수용', user_email: 'test4@test.com' },
-];
+export interface ChatRoomReqType {
+	team_id: number;
+	chat_room_name: string;
+	user_id_list: { user_id: number }[];
+}
+
+export interface ChatRoomType {
+	chat_room_id: number;
+	chat_room_name: string;
+}
 
 export const chatRooms = [
 	{

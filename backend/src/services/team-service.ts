@@ -27,7 +27,7 @@ export default class TeamService {
 	}
 
 	async read(team_id: number) {
-		const result = await this.teamRepository.find({where: {team_id}})
+		const result = await this.teamRepository.find({ where: { team_id } });
 		return result;
 	}
 

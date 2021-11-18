@@ -7,10 +7,10 @@ import { Team } from './team';
 export class ChatRoom {
 	@PrimaryGeneratedColumn()
 	chat_room_id!: number;
-​
+
 	@Column()
 	team_id: number;
-​
+
 	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;

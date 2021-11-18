@@ -12,18 +12,18 @@ import PrivateRoute from './PrivateRoute';
 
 const TeamRoute = ({ computedMatch }: any) => {
 	const { teamId } = computedMatch.params;
-	const userEmail = useRecoilValue(UserState).email;
+	const userId = useRecoilValue(UserState).id;
 	const socketRef = useRef<Socket>();
 
 	useEffect(() => {
-		if (userEmail) {
+		if (userId !== -1) {
 			socketRef.current = io(`${process.env.REACT_APP_SERVER}/team-${teamId}`);
-			socketRef.current.emit('change status to online', { teamId, userId: userEmail });
+			socketRef.current.emit('change status to online', { teamId, userId });
 		}
 		return () => {
 			socketRef.current?.disconnect();
 		};
-	}, [teamId, userEmail]);
+	}, [teamId, userId]);
 
 	return (
 		<SocketContext.Provider value={socketRef}>
