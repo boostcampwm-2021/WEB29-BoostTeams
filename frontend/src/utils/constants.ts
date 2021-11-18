@@ -91,5 +91,14 @@ const CANVAS = {
 
 const REM = 16; // TODO: 반응형 (style과 별도로 적용)
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt };
+type RoleType = {
+	[key: number]: string;
+};
+
+const Role: RoleType = {
+	0: '관리자',
+	1: '구성원',
+};
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role };
 export { CANVAS, NAVBAR, HEADER, REM };

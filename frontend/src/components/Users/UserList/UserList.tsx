@@ -1,17 +1,22 @@
 import React from 'react';
+import Button from '@src/components/common/Button';
+import { ColorCode } from '@src/utils/constants';
 import { LabelContainer, UserWrapper, Container } from './style';
 
 interface Props {
 	users: any[];
+	isAdmin: boolean;
 }
 
-const UsersList: React.FC<Props> = ({ users }) => {
+const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
 	const managerUsers: any[] = [];
 	const normalUsers: any[] = [];
 	users.forEach((e) => {
 		if (e.role === '관리자') managerUsers.push(e);
 		else normalUsers.push(e);
 	});
+
+	const kickOut = () => console.log('강퇴');
 	return (
 		<Container>
 			<div>소유자</div>
@@ -40,6 +45,9 @@ const UsersList: React.FC<Props> = ({ users }) => {
 						<span>{e.name}</span>
 					</span>
 					<span>{e.role}</span>
+					{isAdmin ? (
+						<Button text='강퇴' backgroundColor={ColorCode.WHITE} fontColor={ColorCode.RED} handler={kickOut} />
+					) : null}
 				</UserWrapper>
 			))}
 		</Container>

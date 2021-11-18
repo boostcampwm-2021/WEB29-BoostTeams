@@ -7,7 +7,7 @@ export const HeaderText = styled.div`
 `;
 
 export const InputContainer = styled.div`
-	width: 20%;
+	width: 100%;
 	display: flex;
 	align-items: center;
 `;
@@ -18,7 +18,7 @@ export const IconWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-	width: 100%;
+	width: 15%;
 	padding: 0.5rem;
 	border-radius: 8px;
 	border: 1px solid ${ColorCode.BACKGROUND2};
@@ -50,10 +50,11 @@ export const Layout = styled.div`
 	padding: 0 3% 3% 3%;
 `;
 
-export const ExitBtn = styled.button`
-	padding: 2% 4%;
-	width: 10rem;
-	background-color: ${ColorCode.PRIMARY1};
-	color: ${ColorCode.WHITE};
-	border-radius: 8px;
+export const ButtonContainer = styled.div`
+	width: 50%;
+	display: flex;
+	flex-direction: row;
+	& > * {
+		margin: 0 2%;
+	}
 `;
