@@ -59,6 +59,38 @@ const TeamCard = {
 	HEIGHT: '15rem',
 };
 
+const PostIt = {
+	Length: {
+		Width: 250,
+		Height: 250,
+	},
+	Position: {
+		CONTENT: {
+			Y: 15,
+		},
+		FOOTER: {
+			X: 120,
+			Y: 235,
+		},
+	},
+};
+
+const NAVBAR = {
+	WIDTH: 4.2,
+};
+
+const HEADER = {
+	HEIGHT: 3,
+};
+
+const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+const CANVAS = {
+	WITDH: window.innerWidth - converRemToPx(NAVBAR.WIDTH),
+	HEIGHT: window.innerHeight - converRemToPx(HEADER.HEIGHT),
+};
+
+const REM = 16; // TODO: 반응형 (style과 별도로 적용)
+
 type RoleType = {
 	[key: number]: string;
 };
@@ -68,4 +100,5 @@ const Role: RoleType = {
 	1: '구성원',
 };
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, Role };
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role };
+export { CANVAS, NAVBAR, HEADER, REM };
