@@ -17,7 +17,6 @@ const initTeamBoard = (socket: Socket) => {
 			dummyPostit[teamId] = [];
 		}
 		dummyPostit[teamId].push(newPostit);
-		console.log(dummyPostit[teamId]);
 		socket.emit('create new postit', dummyPostit[teamId]);
 		socket.broadcast.to('board').emit('create new postit', dummyPostit[teamId]);
 	});
