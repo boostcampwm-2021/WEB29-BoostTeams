@@ -50,18 +50,19 @@ const Canvas: React.FC<Props> = ({
 	return (
 		<Stage width={window.innerWidth - 4.2 * REM} height={window.innerHeight - 3 * REM}>
 			<Layer>
-				{postits.map((postit) => (
-					<Postit
-						key={postit.id}
-						postit={postit}
-						onDrag={handleDrag}
-						onDragStart={handleDragStart}
-						onDragEnd={handleDragEnd}
-						setModalType={setModalType}
-						setClickedPostit={setClickedPostit}
-						handleModalOpen={handleModalOpen}
-					/>
-				))}
+				{postits &&
+					postits.map((postit) => (
+						<Postit
+							key={postit.id}
+							postit={postit}
+							onDrag={handleDrag}
+							onDragStart={handleDragStart}
+							onDragEnd={handleDragEnd}
+							setModalType={setModalType}
+							setClickedPostit={setClickedPostit}
+							handleModalOpen={handleModalOpen}
+						/>
+					))}
 			</Layer>
 		</Stage>
 	);

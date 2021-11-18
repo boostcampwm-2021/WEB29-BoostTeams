@@ -1,7 +1,10 @@
-import React, { useRef } from 'react';
-import Modal from '@components/common/Modal';
+import React, { useRef, useState, useEffect } from 'react';
+import UserState from '@stores/user';
+import { useRecoilValue } from 'recoil';
 import { PostitType } from '@pages/BoardPage';
-import { Container, Input, Textarea } from './style';
+import Modal from '@components/common/Modal';
+import ColorPicker from '@components/common/ColorPicker';
+import { Container, Input, Textarea, TitleContainer } from './style';
 
 interface Props {
 	socketApi: any;
@@ -13,18 +16,26 @@ interface Props {
 const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const user = useRecoilValue(UserState);
+	const [color, setColor] = useState<number>(0);
 
 	const makePostitObj = (modalType: string, title: string, content: string) => {
 		if (modalType === 'update') {
 			const updatedPostit = clickedPostit;
+			updatedPostit.id = Number(updatedPostit.id);
 			updatedPostit.title = title;
+			updatedPostit.color = color;
 			updatedPostit.content = content;
+			updatedPostit.updatedBy = user.id;
 			return updatedPostit;
 		}
 		if (modalType === 'create') {
 			return {
 				title,
+				color,
 				content,
+				createdBy: user.id,
+				updatedBy: user.id,
 			};
 		}
 		return undefined;
@@ -35,20 +46,30 @@ const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 			const title = inputRef.current.value;
 			const content = textareaRef.current.value;
 			const postit = makePostitObj(modalType, title, content);
+			// 포스트잇 객체, 요청 유저 정보, 팀 아이디
 			if (modalType === 'create') socketApi.createNewPostit(postit);
 			else if (modalType === 'update') socketApi.updatePostit(postit);
 			handleModalClose();
 		}
 	};
 
+	useEffect(() => {
+		if (modalType === 'update') {
+			setColor(clickedPostit.color);
+		}
+	}, []);
+
 	return (
 		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
 			<Container>
-				<Input
-					ref={inputRef}
-					defaultValue={modalType === 'update' ? clickedPostit.title : ''}
-					placeholder='제목을 입력하세요'
-				/>
+				<TitleContainer>
+					<ColorPicker selectedColor={color} setSelectedColor={setColor} />
+					<Input
+						ref={inputRef}
+						defaultValue={modalType === 'update' ? clickedPostit.title : ''}
+						placeholder='제목을 입력하세요'
+					/>
+				</TitleContainer>
 				<Textarea
 					ref={textareaRef}
 					defaultValue={modalType === 'update' ? clickedPostit.content : ''}
