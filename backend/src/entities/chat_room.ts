@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, OneToMan
 import { ChatRoomUser } from './chat_room-user';
 import { Message } from './message';
 import { Team } from './team';
-
+​
 @Entity({ name: 'chat_room' })
 export class ChatRoom {
 	@PrimaryGeneratedColumn()
@@ -14,13 +14,13 @@ export class ChatRoom {
 	@ManyToOne(() => Team, (team) => team.team_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'team_id' })
 	team: Team;
-
+​
 	@Column()
 	chat_room_name: string;
-
+​
 	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room)
 	chat_room_users: ChatRoomUser[];
-
+​
 	@OneToMany(() => Message, (message) => message.chat_room)
 	messages: Message[];
 }

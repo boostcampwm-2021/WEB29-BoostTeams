@@ -7,6 +7,7 @@ import UserState from '@stores/user';
 import ChatPage from '@pages/ChatPage';
 import CalendarPage from '@pages/CalendarPage';
 import UsersPage from '@pages/UsersPage';
+import BoardPage from '@pages/BoardPage';
 import PrivateRoute from './PrivateRoute';
 
 const TeamRoute = ({ computedMatch }: any) => {
@@ -29,6 +30,7 @@ const TeamRoute = ({ computedMatch }: any) => {
 			<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
 			<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
 			<PrivateRoute exact path='/team/:teamId/users' component={UsersPage} teamId={teamId} />
+			<PrivateRoute exact path='/team/:teamId/board' component={BoardPage} />
 		</SocketContext.Provider>
 	);
 };
