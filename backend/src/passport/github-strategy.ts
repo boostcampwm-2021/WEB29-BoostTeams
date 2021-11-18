@@ -1,7 +1,7 @@
 import passport from 'passport';
 import GithubStrategy from 'passport-github';
 
-import UserService from '../services/user-service';
+import UserService from '@services/user-service';
 
 const GITHUB_CONFIG = {
 	clientID: process.env.GITHUB_CLIENT_ID,

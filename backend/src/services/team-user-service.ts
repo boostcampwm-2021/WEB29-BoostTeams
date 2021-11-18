@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import TeamUserRepository from '../repositories/team-user-repository';
+import TeamUserRepository from '@repositories/team-user-repository';
 
 export default class TeamUserService {
 	static instance: TeamUserService;
@@ -16,6 +16,20 @@ export default class TeamUserService {
 		return TeamUserService.instance;
 	}
 
+	async invite(userId: number, teamId: number) {
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.insert()
+			.into('team_user')
+			.values({
+				user: userId,
+				team: teamId,
+				state: false,
+				role: 1
+			})
+			.execute();
+	}
+
 	async create(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder()
@@ -24,7 +38,8 @@ export default class TeamUserService {
 			.values({
 				user: userId,
 				team: teamId,
-				state: true
+				state: true,
+				role: 0
 			})
 			.execute();
 	}
@@ -34,6 +49,14 @@ export default class TeamUserService {
 			.createQueryBuilder('team_user')
 			.leftJoinAndSelect('team_user.team', 'team')
 			.where('team_user.user = :userId', { userId })
+			.getMany();
+	}
+
+	async readAllUsers(teamId: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder('team_user')
+			.leftJoinAndSelect('team_user.user', 'user')
+			.where('team_user.team = :teamId', { teamId })
 			.getMany();
 	}
 

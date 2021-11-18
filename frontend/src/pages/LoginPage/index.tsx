@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
-import LoginTemplate from '../../templates/LoginTemplate';
-import { getCookie } from '../../utils/cookie';
-import { login } from '../../apis/auth';
+import LoginTemplate from '@templates/LoginTemplate';
+import { getCookie } from '@utils/cookie';
+import { login } from '@apis/auth';
 
 const LoginPage: React.FC = () => {
 	const history = useHistory();

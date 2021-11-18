@@ -1,11 +1,11 @@
 import React from 'react';
 import { NormalButton } from './style';
 
-interface Props {
+export interface Props {
 	text: string;
 	backgroundColor: string;
 	fontColor: string;
-	handler: any;
+	handler: () => void;
 }
 
 const Button: React.FC<Props> = ({ text, backgroundColor, fontColor, handler }) => {

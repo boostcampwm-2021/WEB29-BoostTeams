@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorCode, TeamCard, Font, PrimaryPalette } from '../../../utils/constants';
+import { ColorCode, TeamCard, Font, PrimaryPalette } from '@utils/constants';
 
 interface ThumbnailProps {
 	team_id: number;

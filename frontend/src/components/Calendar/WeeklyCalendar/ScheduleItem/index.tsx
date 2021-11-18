@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { ModalMode, ModalSchedule } from '../../../../stores/calendar';
-import { ScheduleType } from '../../dataStructure';
-import { PrimaryPalette, SecondaryPalette } from '../../../../utils/constants';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
+import { ScheduleType } from '@components/Calendar/dataStructure';
+import { PrimaryPalette, SecondaryPalette } from '@utils/constants';
 import { Container } from './style';
 
 interface Props {
@@ -28,7 +28,6 @@ const ScheduleItem: React.FC<Props> = ({ start, len, schedule, handleModalOpen }
 			start={start}
 			color={PrimaryPalette[schedule.color]}
 			borderColor={SecondaryPalette[schedule.color]}
-			data-schedule={schedule}
 			onClick={handleScheduleClick}
 		>
 			<span>{schedule.title}</span>

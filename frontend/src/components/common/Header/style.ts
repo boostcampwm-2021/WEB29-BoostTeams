@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { ColorCode } from '../../../utils/constants';
+import { ColorCode, HEADER } from '@utils/constants';
 
 export const Container = styled.header`
-	height: 3rem;
+	height: ${HEADER.HEIGHT}rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

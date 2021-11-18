@@ -27,4 +27,21 @@ module.exports = {
 		'jsx-a11y/no-noninteractive-element-interactions': 0,
 		camelcase: 0,
 	},
+	settings: {
+		'import/resolver': {
+			alias: {
+				map: [
+					['@src', './src'],
+					['@apis', '.src/apis'],
+					['@components', '.src/components'],
+					['@pages', '.src/pages'],
+					['@routes', '.src/routes'],
+					['@stores', '.src/stores'],
+					['@styles', '.src/styles'],
+					['@templates', '.src/templates'],
+					['@utils', '.src/utils'],
+				],
+			},
+		},
+	},
 };

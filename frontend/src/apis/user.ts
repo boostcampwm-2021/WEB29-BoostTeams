@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import fetchApi from '../utils/fetch';
+import fetchApi from '@utils/fetch';
 
 export const updateName = async ({ newName }: { newName: string }, cb?: any) => {
 	try {

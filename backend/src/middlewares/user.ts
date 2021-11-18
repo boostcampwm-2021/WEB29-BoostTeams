@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express';
-import UserService from '../services/user-service';
+import UserService from '@services/user-service';
 
 export const getUserInfo = async (req: any, res: Response, next: NextFunction) => {
 	const user_id = req.user_id;

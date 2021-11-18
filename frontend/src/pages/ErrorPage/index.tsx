@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorTemplate from '../../templates/ErrorTemplate';
+import ErrorTemplate from '@templates/ErrorTemplate';
 
 const ErrorPage: React.FC = () => {
 	return <ErrorTemplate />;

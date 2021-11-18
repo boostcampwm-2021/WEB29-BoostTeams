@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import moment from 'moment';
-import ScheduleService from '../services/schedule-service';
+import ScheduleService from '@services/schedule-service';
 
 const changeFieldToNumber = (teamID, newScheduleData) => {
 	newScheduleData.team_id = Number(teamID);

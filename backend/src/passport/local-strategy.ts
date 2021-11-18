@@ -3,7 +3,7 @@ import passportLocal from 'passport-local';
 import CryptoJS from 'crypto-js';
 import bcrypt from 'bcrypt';
 
-import UserService from '../services/user-service';
+import UserService from '@services/user-service';
 
 const LocalStrategy = passportLocal.Strategy;
 const LOCAL_CONFIG = {

@@ -9,11 +9,14 @@ import cors from 'cors';
 import passport from 'passport';
 import { initStrategy } from './passport';
 
-import SocketIO from './sockets';
-import userRouter from './routes/user-router';
-import authRouter from './routes/auth-router';
-import scheduleRouter from './routes/schedule-router';
-import teamRouter from './routes/team-router';
+import { Namespace, Server } from 'socket.io';
+import socketInit from './sockets';
+
+import userRouter from '@routes/user-router';
+import authRouter from '@routes/auth-router';
+import scheduleRouter from '@routes/schedule-router';
+import teamRouter from '@routes/team-router';
+import chatRouter from '@routes/chat-router';
 
 class App {
 	app: express.Application;
@@ -53,6 +56,7 @@ class App {
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
 		this.app.use('/api/team', teamRouter);
+		this.app.use('/api/chat', chatRouter);
 	}
 
 	listen() {
@@ -61,11 +65,12 @@ class App {
 		});
 
 		const corsOptions = {
-			cors: true,
-			origins: [process.env.FRONT_URL || 'http://localhost:3000']
+			cors: { origin: [process.env.FRONT_URL || 'http://localhost:3000'] }
 		};
 
-		SocketIO.attach(this.server, corsOptions);
+		const io: Server = new Server(this.server, corsOptions);
+		const namespace: Namespace = io.of(/^\/team-\d+$/);
+		socketInit(namespace);
 	}
 }
 

@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { readMyTeam } from '../apis/team';
+import { readMyTeam } from '@apis/team';
 
 export const teamListLoadTrigger = atom({
 	key: 'loadTrigger',
@@ -12,5 +12,12 @@ export const userTeamList = selector({
 		get(teamListLoadTrigger);
 		const teamList = await readMyTeam();
 		return teamList;
+	},
+});
+
+export const selectedUser = atom({
+	key: 'user',
+	default: {
+		id: -1,
 	},
 });

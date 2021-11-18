@@ -2,12 +2,15 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import UserState from '../../../../stores/user';
+
+import UserState from '@stores/user';
+import { logout } from '@apis/auth';
+
 import UserInfo from './UserInfo';
-import { Background, Container, ModalContainer } from './style';
-import { AccountButton, LogoutButton } from './Buttons';
-import { logout } from '../../../../apis/auth';
 import UpdateModal from './UpdateModal';
+import { AccountButton, LogoutButton } from './Buttons';
+
+import { Background, Container, ModalContainer } from './style';
 
 interface ProfileSimpleProps {
 	status: string;

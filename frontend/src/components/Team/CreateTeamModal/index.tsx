@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { toast } from 'react-toastify';
 
-import { teamListLoadTrigger } from '../../../stores/team';
-import { create } from '../../../apis/team';
-import Modal from '../../common/Modal';
+import { teamListLoadTrigger } from '@stores/team';
+import { create } from '@apis/team';
+import Modal from '@components/common/Modal';
+
 import { Container, Input, Textarea, Title } from './style';
 
 type Props = {

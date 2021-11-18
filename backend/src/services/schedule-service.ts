@@ -1,5 +1,5 @@
-import { getCustomRepository, LessThan, MoreThan } from 'typeorm';
-import ScheduleRepository from '../repositories/schedule-repository';
+import { getCustomRepository } from 'typeorm';
+import ScheduleRepository from '@repositories/schedule-repository';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 
@@ -31,8 +31,8 @@ class ScheduleService {
 		schedules.push({
 			title,
 			team_id,
-			start_date: moment(start_date).toDate(),
-			end_date: moment(end_date).toDate(),
+			start_date: new Date(start_date),
+			end_date: new Date(end_date),
 			content,
 			color,
 			repeat_id,
@@ -40,10 +40,10 @@ class ScheduleService {
 		});
 		if (repeat_option !== 0) {
 			[...Array(repeat_count - 1)].forEach((v, i) => {
-				const startDate = moment(new Date(start_date))
+				const startDate = moment(new Date(start_date).toISOString())
 					.add(i + 1, addOption[repeat_option])
 					.toDate();
-				const endDate = moment(new Date(end_date))
+				const endDate = moment(new Date(end_date).toISOString())
 					.add(i + 1, addOption[repeat_option])
 					.toDate();
 				schedules.push({

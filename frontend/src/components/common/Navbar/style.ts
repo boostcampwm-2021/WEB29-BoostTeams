@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { ColorCode } from '../../../utils/constants';
+import { ColorCode, NAVBAR } from '@utils/constants';
 
 export const Container = styled.nav`
+	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 4.2rem;
-	height: calc(100vh - 3rem); // 3rem : 헤더 높이
+	width: ${NAVBAR.WIDTH}rem;
 	background-color: ${ColorCode.LINE1};
+	overflow-y: hidden;
 `;
 
 export const BellIconWrapper = styled.div`

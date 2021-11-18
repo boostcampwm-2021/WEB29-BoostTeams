@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { ColorCode } from '../../../utils/constants';
+import { ColorCode } from '@utils/constants';
 import { Background, Container, ButtonContainer } from './style';
 import Button from '../Button';
 
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton = false }) => {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const MODAL: Element = document.getElementById('modal')!;
 	return createPortal(
 		<>

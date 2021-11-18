@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { ColorCode } from '../../../../utils/constants';
+import { ColorCode } from '@utils/constants';
 
 const dropAnimation = keyframes`
 	0% {

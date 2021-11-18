@@ -1,13 +1,31 @@
 import { Response } from 'express';
-import TeamUserService from '../services/team-user-service';
-import TeamService from '../services/team-service';
-import UserService from '../services/user-service';
+import TeamUserService from '@services/team-user-service';
+import TeamService from '@services/team-service';
+import UserService from '@services/user-service';
 
 const TeamController = {
 	async read(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
 			const teams = await TeamUserService.getInstance().read(userId);
+			res.status(200).send(teams);
+		} catch (err) {
+			res.status(404).send(err);
+		}
+	},
+
+	async readTeamInfo(req: any, res: Response) {
+		try {
+			const team = await TeamService.getInstance().read(req.params.id);
+			res.status(200).send(team);
+		} catch (err) {
+			res.status(404).send(err);
+		}
+	},
+
+	async readTeamUsers(req: any, res: Response) {
+		try {
+			const teams = await TeamUserService.getInstance().readAllUsers(req.params.id);
 			res.status(200).send(teams);
 		} catch (err) {
 			res.status(404).send(err);
@@ -46,13 +64,13 @@ const TeamController = {
 
 	async invite(req: any, res: Response) {
 		try {
-			const { userEmail, team_id } = req.body;
-			const userInfo = await UserService.getInstance().getUserByEmail(userEmail);
+			const { user_email, team_id } = req.body;
+			const userInfo = await UserService.getInstance().getUserByEmail(user_email);
 			const userId = userInfo.user_id;
-			await TeamUserService.getInstance().create(userId, team_id);
-			res.sendStatus(204);
+			await TeamUserService.getInstance().invite(userId, team_id);
+			res.sendStatus(201);
 		} catch (err) {
-			res.sendStatus(409);
+			res.sendStatus(204);
 		}
 	},
 
@@ -70,6 +88,17 @@ const TeamController = {
 	async declineInvitation(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
+			const teamId = req.body.team_id;
+			await TeamUserService.getInstance().delete(userId, teamId);
+			res.sendStatus(204);
+		} catch (err) {
+			res.sendStatus(409);
+		}
+	},
+
+	async kickOut(req: any, res: Response) {
+		try {
+			const userId = req.params.id;
 			const teamId = req.body.team_id;
 			await TeamUserService.getInstance().delete(userId, teamId);
 			res.sendStatus(204);

@@ -5,24 +5,25 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
-import { ModalMode, ModalSchedule } from '../../../stores/calendar';
+import { ModalMode, ModalSchedule } from '@stores/calendar';
 
-import ColorPicker from '../../common/ColorPicker';
-import DropDown from '../../common/DropDown';
-import Modal from '../../common/Modal';
+import ColorPicker from '@components/common/ColorPicker';
+import DropDown from '@components/common/DropDown';
+import Modal from '@components/common/Modal';
+
+import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '@apis/schedule';
+import { dateToFormatString, isNum } from '@utils/calendar';
+import { PrimaryPalette } from '@utils/constants';
+import { ColorCircle } from '@components/common/ColorPicker/style';
+
 import TimeInput from './TimeInput';
-
-import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '../../../apis/schedule';
 import { ScheduleType } from '../dataStructure';
-import { dateToFormatString, isNum } from '../../../utils/calendar';
-import { PrimaryPalette } from '../../../utils/constants';
 import { FormContainer, TitleContainer, ButtonContainer } from './style';
-import { ColorCircle } from '../../common/ColorPicker/style';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
 	handleModalClose: () => void;
-	addSchedule: (newSchedule: ScheduleType[]) => void;
+	addSchedule: (newSchedules: ScheduleType[]) => void;
 	deleteScheduleById: (id: number) => void;
 	updateScheduleById: (id: number, newSchedule: ScheduleType) => void;
 	teamId: number;
@@ -94,35 +95,35 @@ const CalendarModal: React.FC<Props> = ({
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
 			if (checkModalMode('create')) {
-				const newSchedule = await createNewSchedule(teamId, newScheduleData);
-				addSchedule(newSchedule);
+				const newSchedules = await createNewSchedule(teamId, newScheduleData);
+				addSchedule(newSchedules);
 			} else {
 				newScheduleData.schedule_id = scheduleId;
 				const newSchedule = await updateSchedule(scheduleId, newScheduleData);
-				updateScheduleById(scheduleId, newSchedule);
+				if (newSchedule) updateScheduleById(scheduleId, newSchedule);
 			}
 			handleModalClose();
 		}
 	};
 
-	const handleDeleteButtonClick = async (e: any) => {
+	const handleDeleteButtonClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		await deleteSchedule(scheduleId);
 		deleteScheduleById(scheduleId);
 		handleModalClose();
 	};
 
-	const changeUpdateMode = async (e: any) => {
+	const changeUpdateMode = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		setModalMode({ mode: 'update' });
 	};
 
-	const checkValidateRepeatCount = (e: any) => {
-		if (selectedRepeat === 0 || !isNum(e.target.value)) {
-			e.target.value = '';
+	const checkValidateRepeatCount = (e: React.FormEvent<HTMLInputElement>) => {
+		if (selectedRepeat === 0 || !isNum(e.currentTarget.value)) {
+			e.currentTarget.value = '';
 			setSelectedRepeatCount(0);
 		} else {
-			setSelectedRepeatCount(e.target.value);
+			setSelectedRepeatCount(Number(e.currentTarget.value));
 		}
 	};
 
@@ -189,7 +190,12 @@ const CalendarModal: React.FC<Props> = ({
 							selectedOption={repeatOptions[selectedRepeat]}
 							setSelectedOption={setSelectedRepeat}
 						/>
-						<input onChange={checkValidateRepeatCount} placeholder='반복횟수' readOnly={selectedRepeat === 0} />
+						<input
+							type='number'
+							onChange={checkValidateRepeatCount}
+							placeholder='반복횟수'
+							readOnly={selectedRepeat === 0}
+						/>
 					</>
 				)}
 				<textarea

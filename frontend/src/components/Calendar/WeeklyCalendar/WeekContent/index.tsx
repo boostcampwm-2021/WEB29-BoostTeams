@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Container, TimeContainer, DaysContainer, DayContainer, TimeBlock, CurrTimeLine } from './style';
-import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '../../dataStructure';
+import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '@components/Calendar/dataStructure';
+import { isTodayDate, isSameDate } from '@utils/calendar';
 import ScheduleItem from '../ScheduleItem';
-import { isTodayDate, isSameDate } from '../../../../utils/calendar';
+import { Container, TimeContainer, DaysContainer, DayContainer, TimeBlock, CurrTimeLine } from './style';
 
 interface Props {
 	dateInfo: DateInfoType;
