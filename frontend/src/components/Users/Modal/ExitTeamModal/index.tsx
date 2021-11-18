@@ -6,7 +6,7 @@ import Modal from '@src/components/common/Modal';
 import { leaveTeam } from '@apis/team';
 import { readTeamUsers } from '@src/apis/users';
 import { handleDeleteBtn } from '@src/utils/team';
-import { Content } from './style';
+import { Content } from '../style';
 
 interface Props {
 	handleModalClose: () => void;

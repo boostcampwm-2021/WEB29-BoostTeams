@@ -16,6 +16,20 @@ export default class TeamUserService {
 		return TeamUserService.instance;
 	}
 
+	async invite(userId: number, teamId: number) {
+		await this.teamUserRepository
+			.createQueryBuilder()
+			.insert()
+			.into('team_user')
+			.values({
+				user: userId,
+				team: teamId,
+				state: false,
+				role: 1
+			})
+			.execute();
+	}
+
 	async create(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder()

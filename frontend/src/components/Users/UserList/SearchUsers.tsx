@@ -2,26 +2,18 @@ import Button from '@src/components/common/Button';
 import { ColorCode } from '@src/utils/constants';
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { HeaderText, SearchInput, IconWrapper, InputContainer, Container, ButtonContainer } from './style';
+import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonContainer } from './style';
 
 interface Props {
 	handleInput: (e: any) => void;
-	handleExitModalOpen: () => void;
-	handleUpdateModalOpen: () => void;
-	handleDeleteModalOpen: () => void;
+	onBtnClick: (mode: string) => void;
 	isAdmin: boolean;
 }
 
-const SearchUsers: React.FC<Props> = ({
-	handleInput,
-	handleExitModalOpen,
-	handleUpdateModalOpen,
-	handleDeleteModalOpen,
-	isAdmin,
-}) => {
+const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
 	return (
-		<Container>
-			<HeaderText>구성원</HeaderText>
+		<SearchUsersContainer>
+			<h2>구성원</h2>
 			<InputContainer>
 				<SearchInput type='text' placeholder='구성원 검색' onChange={handleInput} />
 				<IconWrapper>
@@ -30,7 +22,7 @@ const SearchUsers: React.FC<Props> = ({
 				<ButtonContainer>
 					<Button
 						text='팀 나가기'
-						handler={handleExitModalOpen}
+						handler={() => onBtnClick('EXIT')}
 						backgroundColor={ColorCode.PRIMARY1}
 						fontColor={ColorCode.WHITE}
 					/>
@@ -38,13 +30,13 @@ const SearchUsers: React.FC<Props> = ({
 						<>
 							<Button
 								text='팀 삭제'
-								handler={handleDeleteModalOpen}
+								handler={() => onBtnClick('DELETE')}
 								backgroundColor={ColorCode.PRIMARY1}
 								fontColor={ColorCode.WHITE}
 							/>
 							<Button
 								text='팀 정보 수정하기'
-								handler={handleUpdateModalOpen}
+								handler={() => onBtnClick('UPDATE')}
 								backgroundColor={ColorCode.PRIMARY1}
 								fontColor={ColorCode.WHITE}
 							/>
@@ -52,7 +44,7 @@ const SearchUsers: React.FC<Props> = ({
 					)}
 				</ButtonContainer>
 			</InputContainer>
-		</Container>
+		</SearchUsersContainer>
 	);
 };
 

@@ -1,15 +1,13 @@
-import { ColorCode } from '@src/utils/constants';
+import { ColorCode, Font } from '@src/utils/constants';
 import styled from 'styled-components';
-
-export const HeaderText = styled.div`
-	font-size: 1.5rem;
-	font-weight: bold;
-`;
 
 export const InputContainer = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
+	* {
+		flex-shrink: 0;
+	}
 `;
 
 export const IconWrapper = styled.div`
@@ -18,43 +16,63 @@ export const IconWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-	width: 15%;
+	width: 12rem;
 	padding: 0.5rem;
 	border-radius: 8px;
 	border: 1px solid ${ColorCode.BACKGROUND2};
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-`;
-
-export const LabelContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	padding: 0 1rem;
+	outline: none;
 `;
 
 export const UserWrapper = styled.div`
 	background-color: ${ColorCode.WHITE};
 	display: flex;
 	justify-content: space-between;
-	padding: 1rem;
+	align-items: center;
+	padding: 0.5rem 0.7rem 0.5rem 0.5rem;
 	border-radius: 8px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-`;
-
-export const Container = styled.div`
-	& > * {
-		margin: 1.5rem 0;
+	margin: 1rem 0;
+	font-size: ${Font.SMALL};
+	div {
+		display: flex;
+		align-items: center;
 	}
 `;
 
-export const Layout = styled.div`
-	padding: 0 3% 3% 3%;
+export const SearchUsersContainer = styled.div`
+	margin-top: 2rem;
+	h2 {
+		font-size: ${Font.LARGE};
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+	}
 `;
+
+export const UserListContainer = styled.div`
+	margin-top: 2rem;
+	h3 {
+		display: flex;
+		font-weight: bold;
+		font-size: 1.2rem;
+		padding: 1rem 0;
+		svg {
+			margin-left: 0.5rem;
+			cursor: pointer;
+		}
+	}
+`;
+
+export const LabelContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding: 0 0.2rem;
+`;
+
+export const Layout = styled.div``;
 
 export const ButtonContainer = styled.div`
-	width: 50%;
+	width: 22rem;
 	display: flex;
-	flex-direction: row;
-	& > * {
-		margin: 0 2%;
-	}
+	justify-content: space-between;
 `;

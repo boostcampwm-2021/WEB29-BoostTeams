@@ -14,3 +14,10 @@ export const userTeamList = selector({
 		return teamList;
 	},
 });
+
+export const selectedUser = atom({
+	key: 'user',
+	default: {
+		id: -1,
+	},
+});
