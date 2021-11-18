@@ -13,6 +13,9 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on('create new postit', (postit) => {
 		const teamId = Number(onlineUsersInfo[socket.id].teamId);
 		const newPostit = makePostit(postit);
+		if (!dummyPostit[teamId]) {
+			dummyPostit[teamId] = [];
+		}
 		dummyPostit[teamId].push(newPostit);
 		socket.emit('create new postit', dummyPostit[teamId]);
 		socket.broadcast.to('board').emit('create new postit', dummyPostit[teamId]);
@@ -70,7 +73,7 @@ const updatePostit = (targetPostit, newData, updateType) => {
 	return updatedPostit;
 };
 
-let dummyPostit = {
+const dummyPostit = {
 	numberOfPostit: 2,
 	17: [
 		{
