@@ -17,7 +17,7 @@ const TeamRoute = ({ computedMatch }: any) => {
 
 	useEffect(() => {
 		if (userId !== -1) {
-			socketRef.current = io(`${process.env.REACT_APP_SERVER}/team-${teamId}`);
+			socketRef.current = io(`${process.env.REACT_APP_SERVER}/team-${teamId}`, { transports: ['websocket'] });
 			socketRef.current.emit('change status to online', { teamId, userId });
 		}
 		return () => {
