@@ -13,7 +13,7 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on('create new postit', (postit) => {
 		const teamId = Number(onlineUsersInfo[socket.id].teamId);
 		const newPostit = makePostit(postit);
-		if (!dummyPostit[teamId]) {
+		if (!dummyPostit[teamId] || dummyPostit[teamId] === []) {
 			dummyPostit[teamId] = [];
 		}
 		dummyPostit[teamId].push(newPostit);
@@ -23,18 +23,18 @@ const initTeamBoard = (socket: Socket) => {
 
 	socket.on('update postit', (newPostit) => {
 		const teamId = Number(onlineUsersInfo[socket.id].teamId);
-		const targetPostit = dummyPostit[teamId].find((postit) => postit.id === Number(newPostit.id));
+		const targetPostit = dummyPostit[teamId].find((postit) => Number(postit.id) === Number(newPostit.id));
 		const updatedPostit = updatePostit(targetPostit, newPostit, 'update');
-		dummyPostit[teamId] = dummyPostit[teamId].filter((postit) => postit.id !== Number(newPostit.id));
+		dummyPostit[teamId] = dummyPostit[teamId].filter((postit) => Number(postit.id) !== Number(newPostit.id));
 		dummyPostit[teamId].push(updatedPostit);
 		socket.broadcast.to('board').emit('drag postit', updatedPostit);
 	});
 
 	socket.on('drag postit', (newPostit) => {
 		const teamId = Number(onlineUsersInfo[socket.id].teamId);
-		const targetPostit = dummyPostit[teamId].find((postit) => postit.id === Number(newPostit.id));
+		const targetPostit = dummyPostit[teamId].find((postit) => Number(postit.id) === Number(newPostit.id));
 		const updatedPostit = updatePostit(targetPostit, newPostit, 'drag');
-		dummyPostit[teamId] = dummyPostit[teamId].filter((postit) => postit.id !== Number(newPostit.id));
+		dummyPostit[teamId] = dummyPostit[teamId].filter((postit) => Number(postit.id) !== Number(newPostit.id));
 		dummyPostit[teamId].push(updatedPostit);
 		socket.broadcast.to('board').emit('drag postit', updatedPostit);
 	});
@@ -50,8 +50,9 @@ const initTeamBoard = (socket: Socket) => {
 export default initTeamBoard;
 
 const makePostit = (newData) => {
+	dummyPostit.numberOfPostit += 1;
 	return {
-		id: dummyPostit.numberOfPostit + 1,
+		id: dummyPostit.numberOfPostit,
 		title: newData.title,
 		content: newData.content,
 		x: 0,
@@ -74,32 +75,5 @@ const updatePostit = (targetPostit, newData, updateType) => {
 };
 
 const dummyPostit = {
-	numberOfPostit: 2,
-	17: [
-		{
-			id: 1,
-			title: 'title#1',
-			content: 'desc#2',
-			x: 10,
-			y: 10,
-			color: 0,
-			updatedAt: new Date(),
-			updatedBy: 'LeeMir',
-			createdAt: new Date(),
-			createdBy: 'wonju-dev'
-		},
-		{
-			id: 2,
-			title: 'title#2',
-			content: 'desc#2',
-			x: 50,
-			y: 50,
-			color: 2,
-			updatedAt: new Date(),
-			updatedBy: 'LeeMir',
-			createdAt: new Date(),
-			createdBy: 'wonju-dev'
-		}
-	],
-	18: []
+	numberOfPostit: 0
 };
