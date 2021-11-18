@@ -64,13 +64,13 @@ const TeamController = {
 
 	async invite(req: any, res: Response) {
 		try {
-			const { userEmail, team_id } = req.body;
-			const userInfo = await UserService.getInstance().getUserByEmail(userEmail);
+			const { user_email, team_id } = req.body;
+			const userInfo = await UserService.getInstance().getUserByEmail(user_email);
 			const userId = userInfo.user_id;
-			await TeamUserService.getInstance().create(userId, team_id);
-			res.sendStatus(204);
+			await TeamUserService.getInstance().invite(userId, team_id);
+			res.sendStatus(201);
 		} catch (err) {
-			res.sendStatus(409);
+			res.sendStatus(204);
 		}
 	},
 
