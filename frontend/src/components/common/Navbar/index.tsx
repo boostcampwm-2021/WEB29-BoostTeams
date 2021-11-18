@@ -8,7 +8,8 @@ import { CardData } from '@components/Team/type';
 import { Container, BellIconWrapper, TabContainer, TeamIconContainer, TeamIcon } from './style';
 
 const Navbar: React.FC = () => {
-	const path = window.location.pathname.match(/\/team\/\d+/)?.[0];
+	const groups = window.location.pathname.match(/\/team\/(?<teamId>\d+)\/(?<path>\w+)/)?.groups;
+	const { teamId, path }: any = groups;
 	const teamList = useRecoilValue(userTeamList);
 	const myTeamList: CardData[] = [];
 	teamList.reduce((pre: void, team: CardData) => {
@@ -21,22 +22,22 @@ const Navbar: React.FC = () => {
 				<FaBell />
 			</BellIconWrapper>
 			<TabContainer>
-				<Link to={`${path}/board`}>
+				<Link to={`/team/${teamId}/board`}>
 					<FaChalkboard />
 				</Link>
-				<Link to={`${path}/chat`}>
+				<Link to={`/team/${teamId}/chat`}>
 					<FaComments />
 				</Link>
-				<Link to={`${path}/calendar`}>
+				<Link to={`/team/${teamId}/calendar`}>
 					<FaCalendarDay />
 				</Link>
-				<Link to={`${path}/users`}>
+				<Link to={`/team/${teamId}/users`}>
 					<FaUserFriends />
 				</Link>
 			</TabContainer>
 			<TeamIconContainer>
 				{myTeamList.map((e) => (
-					<Link key={e.team.team_id} to={`/team/${e.team.team_id}/calendar`}>
+					<Link key={e.team.team_id} to={`/team/${e.team.team_id}/${path}`}>
 						<TeamIcon key={e.team.team_id} color={PrimaryPalette[e.team.team_id % 6]}>
 							{e.team.team_name[0].toUpperCase()}
 						</TeamIcon>
