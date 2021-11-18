@@ -8,6 +8,7 @@ export const Container = styled.nav`
 	align-items: center;
 	width: ${NAVBAR.WIDTH}rem;
 	background-color: ${ColorCode.LINE1};
+	overflow-y: hidden;
 `;
 
 export const BellIconWrapper = styled.div`

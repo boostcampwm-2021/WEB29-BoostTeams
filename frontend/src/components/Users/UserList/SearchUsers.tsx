@@ -2,7 +2,7 @@ import Button from '@src/components/common/Button';
 import { ColorCode } from '@src/utils/constants';
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { HeaderText, SearchInput, IconWrapper, InputContainer, Container, ButtonContainer } from './style';
+import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonContainer } from './style';
 
 interface Props {
 	handleInput: (e: any) => void;
@@ -20,8 +20,8 @@ const SearchUsers: React.FC<Props> = ({
 	isAdmin,
 }) => {
 	return (
-		<Container>
-			<HeaderText>구성원</HeaderText>
+		<SearchUsersContainer>
+			<h2>구성원</h2>
 			<InputContainer>
 				<SearchInput type='text' placeholder='구성원 검색' onChange={handleInput} />
 				<IconWrapper>
@@ -52,7 +52,7 @@ const SearchUsers: React.FC<Props> = ({
 					)}
 				</ButtonContainer>
 			</InputContainer>
-		</Container>
+		</SearchUsersContainer>
 	);
 };
 

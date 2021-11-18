@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@src/components/common/Button';
 import { ColorCode } from '@src/utils/constants';
-import { LabelContainer, UserWrapper, Container } from './style';
+import { LabelContainer, UserWrapper, UserListContainer } from './style';
 
 interface Props {
 	users: any[];
@@ -18,8 +18,8 @@ const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
 
 	const kickOut = () => console.log('강퇴');
 	return (
-		<Container>
-			<div>소유자</div>
+		<UserListContainer>
+			<b>소유자</b>
 			<LabelContainer>
 				<span>이름</span>
 				<span>역할</span>
@@ -33,7 +33,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
 					<span>{e.role}</span>
 				</UserWrapper>
 			))}
-			<div>구성원</div>
+			<b>구성원</b>
 			<LabelContainer>
 				<span>이름</span>
 				<span>역할</span>
@@ -50,7 +50,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
 					) : null}
 				</UserWrapper>
 			))}
-		</Container>
+		</UserListContainer>
 	);
 };
 
