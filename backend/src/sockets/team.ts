@@ -30,20 +30,17 @@ const initTeam = (socket: Socket): void => {
 
 	socket.on('leave users room', () => {
 		socket.leave('users');
-		console.log('leave users room');
 	});
 
 	socket.on('change status to online', ({ teamId, userId }: { teamId: number; userId: number }) => {
 		setUserStatusToOnline(teamId, userId, socket.id);
 		sendOnlineUsersToRoom(socket, teamId);
-		console.log('online', onlineUsersByTeam, onlineUsersInfo);
 	});
 
 	socket.on('enter users room', () => {
 		const { teamId } = onlineUsersInfo[socket.id];
 		socket.join('users');
 		sendOnlineUsers(socket, teamId);
-		console.log('join users room');
 	});
 
 	socket.on('disconnect', () => {

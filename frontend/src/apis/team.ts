@@ -51,7 +51,6 @@ export const deleteTeam = async (setLoadTrigger: (param: any) => void, team_id: 
 export const inviteUser = async (team_id: number, user_email: string) => {
 	try {
 		const res = await fetchApi.post('/api/team/invite', { team_id, user_email });
-		console.log(res, res.status);
 		if (res.status === 204) throw new Error();
 	} catch (err) {
 		toast.error('😣 해당 유저가 존재하지 않습니다!');

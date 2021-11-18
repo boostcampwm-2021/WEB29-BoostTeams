@@ -4,7 +4,6 @@ import { onlineUsersInfo } from '@sockets/store';
 const initTeamBoard = (socket: Socket) => {
 	socket.on('join board page', () => {
 		const teamId = Number(onlineUsersInfo[socket.id].teamId);
-		console.log('join board page');
 		socket.join('board');
 		socket.emit('join board page', dummyPostit[teamId]);
 	});

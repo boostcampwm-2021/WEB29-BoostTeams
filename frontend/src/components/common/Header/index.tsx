@@ -37,7 +37,7 @@ const Header: React.FC = () => {
 			<ProfileIcon name={user.name} color={user.state} status='online' onClick={clickHandler} width={3} />
 			{showProfileSimple && (
 				<ProfileSimple
-					status='online'
+					status='none'
 					handleModalClose={handleModalClose}
 					showUpdateModal={showUpdateModal}
 					setShowUpdateModal={setShowUpdateModal}
