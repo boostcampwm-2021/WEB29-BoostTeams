@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SocketContext } from '@utils/socketContext';
 import BoardTemplate from '@templates/BoardTemplate';
+import UserState from '@stores/user';
+import { useRecoilValue } from 'recoil';
 
 export interface PostitType {
 	id: number;
@@ -9,13 +11,15 @@ export interface PostitType {
 	title: string;
 	content: string;
 	color: number;
-	createdBy: string;
+	createdBy: number;
 	createdAt: string;
-	updatedBy: string;
+	updatedBy: number;
 	updatedAt: string;
 }
 
 const BoardPage: React.FC = () => {
+	const user = useRecoilValue(UserState);
+
 	const [postits, setPostits] = useState<PostitType[]>([]);
 	const [showModal, setShowModal] = useState(false);
 	const [modalType, setModalType] = useState('create');
@@ -25,10 +29,8 @@ const BoardPage: React.FC = () => {
 
 	const socket = useContext(SocketContext);
 	const socketApi = {
-		createNewPostit: (postit: PostitType) => socket.current.emit('create new postit', postit),
-		updatePostit: (postit: PostitType) => {
-			socket.current.emit('update postit', postit);
-		},
+		createNewPostit: (newPostit: PostitType) => socket.current.emit('create new postit', newPostit),
+		updatePostit: (newPostit: PostitType) => socket.current.emit('update postit', newPostit),
 		dragPostit: (e: any) => {
 			const id = e.target.id();
 			const x = e.target.x();
@@ -58,6 +60,7 @@ const BoardPage: React.FC = () => {
 			socket.current.emit('leave board page');
 			socket.current.off('join board page');
 			socket.current.off('create new postit');
+			socket.current.off('update postit');
 			socket.current.off('drag postit');
 		};
 	}, [socket]);

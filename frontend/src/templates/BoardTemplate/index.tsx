@@ -1,8 +1,9 @@
 import React from 'react';
 import { Header, Navbar } from '@components/common';
+import { PostitType } from '@pages/BoardPage';
 import Canvas from '@components/Board/Canvas';
 import CreatePostItModal from '@components/Board/Modal';
-import { PostitType } from '@pages/BoardPage';
+import CreateButton from '@components/Board/CreateButton';
 import { Layout, MainContainer } from './style';
 
 interface Props {
@@ -44,6 +45,7 @@ const BoardTemplate: React.FC<Props> = ({
 					handleModalOpen={handleModalOpen}
 				/>
 			</MainContainer>
+			<CreateButton setModalType={setModalType} handleModalOpen={handleModalOpen} />
 			{showModal && (
 				<CreatePostItModal
 					socketApi={socketApi}

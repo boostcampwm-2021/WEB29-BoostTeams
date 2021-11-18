@@ -20,7 +20,7 @@ enum ColorCode {
 	DARKMINT = '#0a3a2a',
 	BABYBLUE = '#c9eaff',
 	DARKBLUE = '#274472',
-	YELLOW = '#effd5f',
+	YELLOW = '#FFD972',
 	BABYPINK = '#FCC7CF',
 	HOTPINK = '#D85678',
 	BABYGREEN = '#C5E89B',
