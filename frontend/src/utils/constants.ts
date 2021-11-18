@@ -25,6 +25,7 @@ enum ColorCode {
 	HOTPINK = '#D85678',
 	BABYGREEN = '#C5E89B',
 	DEEPGREEN = '#2B4D00',
+	GREEN = '#008000',
 }
 
 enum Font {
@@ -34,7 +35,6 @@ enum Font {
 	X_SMALL = '0.8rem',
 }
 
-// 0-5 primary color, 6-11 side color
 const PrimaryPalette = [
 	ColorCode.PRIMARY2,
 	ColorCode.BABYPINK,

@@ -28,11 +28,16 @@ export const UserWrapper = styled.div`
 	background-color: ${ColorCode.WHITE};
 	display: flex;
 	justify-content: space-between;
-	padding: 1rem;
+	align-items: center;
+	padding: 0.5rem 0.7rem 0.5rem 0.5rem;
 	border-radius: 8px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 	margin: 1rem 0;
 	font-size: ${Font.SMALL};
+	div {
+		display: flex;
+		align-items: center;
+	}
 `;
 
 export const SearchUsersContainer = styled.div`
@@ -46,11 +51,15 @@ export const SearchUsersContainer = styled.div`
 
 export const UserListContainer = styled.div`
 	margin-top: 2rem;
-	b {
-		display: block;
+	h3 {
+		display: flex;
 		font-weight: bold;
 		font-size: 1.2rem;
 		padding: 1rem 0;
+		svg {
+			margin-left: 0.5rem;
+			cursor: pointer;
+		}
 	}
 `;
 

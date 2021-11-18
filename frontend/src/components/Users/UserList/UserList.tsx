@@ -1,14 +1,17 @@
 import React from 'react';
-import Button from '@src/components/common/Button';
-import { ColorCode } from '@src/utils/constants';
-import { LabelContainer, UserWrapper, UserListContainer } from './style';
+import { BsPlusCircle } from 'react-icons/bs';
+import User from './User';
+import { LabelContainer, UserListContainer } from './style';
 
 interface Props {
 	users: any[];
 	isAdmin: boolean;
+	onlineUsers: { userId: number }[];
+	teamId: number;
+	onBtnClick: (mode: string) => void;
 }
 
-const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
+const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, onBtnClick }) => {
 	const managerUsers: any[] = [];
 	const normalUsers: any[] = [];
 	users.forEach((e) => {
@@ -16,39 +19,28 @@ const UsersList: React.FC<Props> = ({ users, isAdmin }) => {
 		else normalUsers.push(e);
 	});
 
-	const kickOut = () => console.log('강퇴');
+	const isOnline = (userId: number) => onlineUsers.find((user) => user.userId === userId) !== undefined;
+
 	return (
 		<UserListContainer>
-			<b>소유자</b>
+			<h3>소유자</h3>
 			<LabelContainer>
 				<span>이름</span>
 				<span>역할</span>
 			</LabelContainer>
 			{managerUsers.map((e) => (
-				<UserWrapper key={e.id}>
-					<span>
-						<span>{e.state}</span>
-						<span>{e.name}</span>
-					</span>
-					<span>{e.role}</span>
-				</UserWrapper>
+				<User key={e.id} user={e} mode='ADMIN' isAdmin={isAdmin} isOnline={isOnline} onBtnClick={onBtnClick} />
 			))}
-			<b>구성원</b>
+			<h3>
+				<span>구성원</span>
+				<BsPlusCircle onClick={() => onBtnClick('INVITE')} />
+			</h3>
 			<LabelContainer>
 				<span>이름</span>
 				<span>역할</span>
 			</LabelContainer>
 			{normalUsers.map((e) => (
-				<UserWrapper key={e.id}>
-					<span>
-						<span>{e.state}</span>
-						<span>{e.name}</span>
-					</span>
-					<span>{e.role}</span>
-					{isAdmin ? (
-						<Button text='강퇴' backgroundColor={ColorCode.WHITE} fontColor={ColorCode.RED} handler={kickOut} />
-					) : null}
-				</UserWrapper>
+				<User key={e.id} user={e} mode='MEMBER' isAdmin={isAdmin} isOnline={isOnline} onBtnClick={onBtnClick} />
 			))}
 		</UserListContainer>
 	);

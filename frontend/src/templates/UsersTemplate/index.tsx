@@ -1,48 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Header, Navbar } from '@components/common';
 import UsersHeader from '@components/Users/UsersHeader';
 import Users from '@src/components/Users/UserList';
-import { readTeamInfo } from '@src/apis/users';
-import ExitTeamModal from '@src/components/Users/ExitTeamModal';
-import UpdateTeamModal from '@src/components/Users/UpdateTeamModal';
-import DeleteTeamModal from '@src/components/Users/DeleteTeamModal';
+import {
+	ExitTeamModal,
+	UpdateTeamModal,
+	DeleteTeamModal,
+	KickoutTeamModal,
+	InviteUserModal,
+} from '@components/Users/Modal';
 import { MainContainer, ContentContainer } from './style';
 
 interface Props {
 	teamId: number;
-	handleExitModalOpen: () => void;
-	handleExitModalClose: () => void;
-	handleUpdateModalOpen: () => void;
-	handleUpdateModalClose: () => void;
-	handleDeleteModalOpen: () => void;
-	handleDeleteModalClose: () => void;
-	isExitModalVisible: boolean;
-	isUpdateModalVisible: boolean;
-	isDeleteModalVisible: boolean;
+	onlineUsers: { userId: number }[];
+	mode: string | null;
+	isModalOpen: boolean;
+	closeModal: () => void;
+	teamInfo: any;
+	getTeam: () => void;
+	filteredUsers: any;
+	handleInput: (e: any) => void;
+	onBtnClick: (mode: string) => void;
+	isAdmin: boolean;
+	deleteUserById: (id: number) => void;
 }
 
 const UsersTemplate: React.FC<Props> = ({
 	teamId,
-	handleExitModalOpen,
-	handleExitModalClose,
-	handleUpdateModalOpen,
-	handleUpdateModalClose,
-	handleDeleteModalOpen,
-	handleDeleteModalClose,
-	isExitModalVisible,
-	isUpdateModalVisible,
-	isDeleteModalVisible,
+	onlineUsers,
+	filteredUsers,
+	isAdmin,
+	mode,
+	isModalOpen,
+	closeModal,
+	teamInfo,
+	getTeam,
+	handleInput,
+	onBtnClick,
+	deleteUserById,
 }) => {
-	const [teamInfo, setTeamInfo] = useState({});
-	const getTeam = async () => {
-		const result = await readTeamInfo(teamId);
-		setTeamInfo(result);
-	};
-
-	useEffect(() => {
-		getTeam();
-	}, []);
-
 	return (
 		<>
 			<Header />
@@ -52,22 +49,23 @@ const UsersTemplate: React.FC<Props> = ({
 					<UsersHeader teamInfo={teamInfo} />
 					<Users
 						teamId={teamId}
-						handleExitModalOpen={handleExitModalOpen}
-						handleUpdateModalOpen={handleUpdateModalOpen}
-						handleDeleteModalOpen={handleDeleteModalOpen}
+						onlineUsers={onlineUsers}
+						isAdmin={isAdmin}
+						filteredUsers={filteredUsers}
+						handleInput={handleInput}
+						onBtnClick={onBtnClick}
 					/>
 				</ContentContainer>
 			</MainContainer>
-			{isExitModalVisible && <ExitTeamModal handleModalClose={handleExitModalClose} teamId={teamId} />}
-			{isUpdateModalVisible && (
-				<UpdateTeamModal
-					handleModalClose={handleUpdateModalClose}
-					teamId={teamId}
-					teamInfo={teamInfo}
-					getTeam={getTeam}
-				/>
+			{mode === 'EXIT' && isModalOpen && <ExitTeamModal handleModalClose={closeModal} teamId={teamId} />}
+			{mode === 'UPDATE' && isModalOpen && (
+				<UpdateTeamModal handleModalClose={closeModal} teamId={teamId} teamInfo={teamInfo} getTeam={getTeam} />
 			)}
-			{isDeleteModalVisible && <DeleteTeamModal handleModalClose={handleDeleteModalClose} teamId={teamId} />}
+			{mode === 'DELETE' && isModalOpen && <DeleteTeamModal handleModalClose={closeModal} teamId={teamId} />}
+			{mode === 'KICKOUT' && isModalOpen && (
+				<KickoutTeamModal handleModalClose={closeModal} teamId={teamId} deleteUserById={deleteUserById} />
+			)}
+			{mode === 'INVITE' && isModalOpen && <InviteUserModal handleModalClose={closeModal} teamId={teamId} />}
 		</>
 	);
 };

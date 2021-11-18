@@ -1,10 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { teamListLoadTrigger } from '@src/stores/team';
-import Modal from '@src/components/common/Modal';
-import { handleDeleteBtn } from '@src/utils/team';
-import { Content } from './style';
+import { teamListLoadTrigger } from '@stores/team';
+import { handleDeleteBtn } from '@utils/team';
+
+import Modal from '@components/common/Modal';
+import { Content } from '../style';
 
 interface Props {
 	handleModalClose: () => void;
