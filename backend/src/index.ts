@@ -69,7 +69,7 @@ class App {
 		};
 
 		const io: Server = new Server(this.server, corsOptions);
-		const namespace: Namespace = io.of(/^\/team-\d+$/);
+		const namespace: Namespace = io.of(/^\/socket\/team-\d+$/);
 		socketInit(namespace);
 	}
 }
