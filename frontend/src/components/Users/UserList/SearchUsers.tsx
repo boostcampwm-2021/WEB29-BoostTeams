@@ -1,13 +1,24 @@
+import Button from '@src/components/common/Button';
+import { ColorCode } from '@src/utils/constants';
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { HeaderText, SearchInput, IconWrapper, InputContainer, Container, ExitBtn } from './style';
+import { HeaderText, SearchInput, IconWrapper, InputContainer, Container, ButtonContainer } from './style';
 
 interface Props {
 	handleInput: (e: any) => void;
-	handleModalOpen: () => void;
+	handleExitModalOpen: () => void;
+	handleUpdateModalOpen: () => void;
+	handleDeleteModalOpen: () => void;
+	isAdmin: boolean;
 }
 
-const SearchUsers: React.FC<Props> = ({ handleInput, handleModalOpen }) => {
+const SearchUsers: React.FC<Props> = ({
+	handleInput,
+	handleExitModalOpen,
+	handleUpdateModalOpen,
+	handleDeleteModalOpen,
+	isAdmin,
+}) => {
 	return (
 		<Container>
 			<HeaderText>구성원</HeaderText>
@@ -16,9 +27,30 @@ const SearchUsers: React.FC<Props> = ({ handleInput, handleModalOpen }) => {
 				<IconWrapper>
 					<FaSearch />
 				</IconWrapper>
-				<ExitBtn type='button' onClick={handleModalOpen}>
-					팀 나가기
-				</ExitBtn>
+				<ButtonContainer>
+					<Button
+						text='팀 나가기'
+						handler={handleExitModalOpen}
+						backgroundColor={ColorCode.PRIMARY1}
+						fontColor={ColorCode.WHITE}
+					/>
+					{isAdmin && (
+						<>
+							<Button
+								text='팀 삭제'
+								handler={handleDeleteModalOpen}
+								backgroundColor={ColorCode.PRIMARY1}
+								fontColor={ColorCode.WHITE}
+							/>
+							<Button
+								text='팀 정보 수정하기'
+								handler={handleUpdateModalOpen}
+								backgroundColor={ColorCode.PRIMARY1}
+								fontColor={ColorCode.WHITE}
+							/>
+						</>
+					)}
+				</ButtonContainer>
 			</InputContainer>
 		</Container>
 	);

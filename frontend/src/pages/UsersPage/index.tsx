@@ -10,9 +10,33 @@ interface MatchParams {
 type Props = RouteComponentProps<MatchParams>;
 
 const UsersPage: React.FC<Props> = ({ match }) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const handleModalClose = () => setIsModalVisible(false);
-	const handleModalOpen = () => setIsModalVisible(true);
+	const [isExitModalVisible, setIsExitModalVisible] = useState(false);
+	const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+	const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+	const handleExitModalClose = () => setIsExitModalVisible(false);
+
+	const handleExitModalOpen = () => {
+		setIsExitModalVisible(true);
+		setIsUpdateModalVisible(false);
+		setIsDeleteModalVisible(false);
+	};
+
+	const handleUpdateModalClose = () => setIsUpdateModalVisible(false);
+
+	const handleUpdateModalOpen = () => {
+		setIsExitModalVisible(false);
+		setIsUpdateModalVisible(true);
+		setIsDeleteModalVisible(false);
+	};
+
+	const handleDeleteModalClose = () => setIsDeleteModalVisible(false);
+
+	const handleDeleteModalOpen = () => {
+		setIsExitModalVisible(false);
+		setIsUpdateModalVisible(false);
+		setIsDeleteModalVisible(true);
+	};
 
 	const socketRef = useContext(SocketContext);
 
@@ -32,9 +56,15 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 	return (
 		<UsersTemplate
 			teamId={Number(match.params.teamId)}
-			handleModalOpen={handleModalOpen}
-			handleModalClose={handleModalClose}
-			isModalVisible={isModalVisible}
+			handleExitModalOpen={handleExitModalOpen}
+			handleExitModalClose={handleExitModalClose}
+			handleUpdateModalOpen={handleUpdateModalOpen}
+			handleUpdateModalClose={handleUpdateModalClose}
+			handleDeleteModalOpen={handleDeleteModalOpen}
+			handleDeleteModalClose={handleDeleteModalClose}
+			isExitModalVisible={isExitModalVisible}
+			isUpdateModalVisible={isUpdateModalVisible}
+			isDeleteModalVisible={isDeleteModalVisible}
 		/>
 	);
 };

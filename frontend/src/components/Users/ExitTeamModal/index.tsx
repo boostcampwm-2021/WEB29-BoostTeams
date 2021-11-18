@@ -1,7 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { teamListLoadTrigger } from '@src/stores/team';
 import Modal from '@src/components/common/Modal';
 import { leaveTeam } from '@apis/team';
+import { readTeamUsers } from '@src/apis/users';
+import { handleDeleteBtn } from '@src/utils/team';
 import { Content } from './style';
 
 interface Props {
@@ -9,10 +13,13 @@ interface Props {
 	teamId: number;
 }
 
-const UserModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
 	const history = useHistory();
 	const handleSubmit = async () => {
-		const result = await leaveTeam(teamId);
+		const result = await readTeamUsers(teamId);
+		if (result.length === 1) handleDeleteBtn(setLoadTrigger, teamId);
+		else await leaveTeam(setLoadTrigger, teamId);
 		history.push('/');
 	};
 	return (
@@ -22,4 +29,4 @@ const UserModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	);
 };
 
-export default UserModal;
+export default ExitTeamModal;

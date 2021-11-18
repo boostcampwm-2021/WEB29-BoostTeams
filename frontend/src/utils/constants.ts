@@ -59,4 +59,13 @@ const TeamCard = {
 	HEIGHT: '15rem',
 };
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard };
+type RoleType = {
+	[key: number]: string;
+};
+
+const Role: RoleType = {
+	0: '관리자',
+	1: '구성원',
+};
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, Role };
