@@ -18,7 +18,7 @@ interface UserIdType {
 interface User {
 	id: number;
 	name: string;
-	state: number;
+	color: number;
 }
 
 type Props = RouteComponentProps<MatchParams>;
@@ -58,7 +58,7 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 				resultArr.push({
 					id: e.user.user_id,
 					name: e.user.user_name,
-					color: e.user.user_state,
+					color: e.user.user_color,
 					role: Role[e.role],
 					state: e.state,
 				});

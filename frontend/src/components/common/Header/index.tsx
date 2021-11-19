@@ -1,5 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import UserState from '@stores/user';
 
@@ -12,8 +11,6 @@ const Header: React.FC = () => {
 	const user = useRecoilValue(UserState);
 	const [showProfileSimple, setShowProfileSimple] = useState(false);
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
-	const location = useLocation();
-
 	const handleModalClose = () => {
 		setShowProfileSimple(false);
 		setShowUpdateModal(false);
@@ -34,7 +31,7 @@ const Header: React.FC = () => {
 	return (
 		<Container>
 			<LongLogo />
-			<ProfileIcon name={user.name} color={user.state} status='online' onClick={clickHandler} width={3} />
+			<ProfileIcon name={user.name} color={user.color} status='online' onClick={clickHandler} width={3} />
 			{showProfileSimple && (
 				<ProfileSimple
 					status='none'

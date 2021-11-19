@@ -12,14 +12,17 @@ const GITHUB_CONFIG = {
 const getUserRawData = (userJson) => {
 	const user_email = userJson.id;
 	const user_password = userJson.node_id;
-	const user_name = userJson.name;
-	return { user_email, user_password, user_name };
+	const github_name = userJson.name;
+	const github_id = userJson.login;
+	return { user_email, user_password, github_name, github_id };
 };
 
 const githubLoginCallback = async (accessToken, refreshToken, profile, callback) => {
-	const { user_email, user_password, user_name } = getUserRawData(profile._json);
+	const { user_email, user_password, github_name, github_id } = getUserRawData(profile._json);
 	let user = await UserService.getInstance().getUserByEmail(user_email);
-	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, user_name, user_name);
+	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, github_name, github_id);
+	if (user && (github_id !== user.github_id || github_name !== user.github_name))
+		UserService.getInstance().updateUserToGithub(user.user_id, github_id, github_name);
 	return callback(null, user);
 };
 
