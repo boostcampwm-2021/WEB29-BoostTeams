@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 
 import { Container } from './style';
 import { LongLogo } from '../Logo';
@@ -8,7 +8,7 @@ import ProfileIcon from '../Icons/ProfileIcon';
 import ProfileSimple from './ProfileSimple';
 
 const Header: React.FC = () => {
-	const user = useRecoilValue(UserState);
+	const user = useRecoilValue(userState);
 	const [showProfileSimple, setShowProfileSimple] = useState(false);
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
 	const handleModalClose = () => {

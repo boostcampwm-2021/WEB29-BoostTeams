@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { FaTelegramPlane } from 'react-icons/fa';
 
 import { createChatRoom } from '@apis/chat';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 import { messages, ChatModeType, UserType, ChatRoomType } from '../dataStructure';
 import Message from './Message';
 import { Container, MessagesContainer, NoticeContainer, InputContainer } from './style';
@@ -26,7 +26,7 @@ const ChatContent: React.FC<Props> = ({
 	initInviteUser,
 }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const user = useRecoilValue(UserState);
+	const user = useRecoilValue(userState);
 
 	const handleNewChatRoom = async () => {
 		if (!inputRef.current) return;
