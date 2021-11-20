@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { RouteComponentProps } from 'react-router';
 import { readTeamUsers } from '@apis/users';
 import { getChatRooms } from '@apis/chat';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 
 import ChatTemplate from '@templates/ChatTemplate';
 import { UserType, ChatModeType, ChatRoomType } from '@components/Chat/dataStructure';
@@ -44,7 +44,7 @@ type Props = RouteComponentProps<MatchParams>;
 
 const ChatPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
-	const userId = useRecoilValue(UserState).id;
+	const userId = useRecoilValue(userState).id;
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [teamUsers, setTeamUsers] = useState<UserType[]>([]);
 	const [chatRooms, dispatchChatRooms] = useReducer(ChatRoomsReducer, []);

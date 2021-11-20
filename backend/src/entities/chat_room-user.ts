@@ -6,17 +6,17 @@ import { User } from './user';
 export class ChatRoomUser {
 	@PrimaryGeneratedColumn()
 	chat_room_user_id!: number;
-​
+
 	@Column()
 	user_id: number;
-​
+
 	@Column()
 	chat_room_id: number;
-​
+
 	@ManyToOne(() => User, (user) => user.user_id)
 	@JoinColumn({ name: 'user_id' })
 	user: User;
-​
+
 	@ManyToOne(() => ChatRoom, (chatRoom) => chatRoom.chat_room_id)
 	@JoinColumn({ name: 'chat_room_id' })
 	chat_room: ChatRoom;

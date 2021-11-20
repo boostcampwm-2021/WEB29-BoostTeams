@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
-import UserState from '@stores/user';
+import userState from '@stores/user';
 import { logout } from '@apis/auth';
 
 import UserInfo from './UserInfo';
@@ -26,7 +26,7 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({
 	handleModalClose,
 }) => {
 	const history = useHistory();
-	const user = useRecoilValue(UserState);
+	const user = useRecoilValue(userState);
 
 	const logoutHandler = () => {
 		logout(() => {

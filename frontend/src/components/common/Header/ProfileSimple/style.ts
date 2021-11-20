@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
 	right: 1rem;
 	display: flex;
 	flex-direction: column;
-	width: 22rem;
+	width: 25rem;
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 	background-color: ${ColorCode.WHITE};
 	border-radius: 8px;
