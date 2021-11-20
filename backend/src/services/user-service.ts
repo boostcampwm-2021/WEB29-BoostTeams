@@ -30,17 +30,25 @@ class UserService {
 		return { user_id, user_email, user_name, user_color, github_id, github_name };
 	}
 
-	async createUser(user_email: string, encryptedPassword: string, user_name: string, github_name?: string) {
+	async createUser(
+		user_email: string,
+		encryptedPassword: string,
+		user_name: string,
+		github_name?: string,
+		github_id?: string
+	) {
 		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
 		const user_color = Math.floor(Math.random() * 12); // TODO : user_color로 바꾸기
-		const github = github_name ?? '';
+		const githubName = github_name ?? '';
+		const githubid = github_id ?? '';
 		const newUser = await this.userRepository.save({
 			user_email,
 			user_password,
 			user_name,
 			user_color,
-			github_name: github
+			github_name: githubName,
+			github_id: githubid
 		});
 		return newUser;
 	}
