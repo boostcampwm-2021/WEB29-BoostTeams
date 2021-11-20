@@ -34,21 +34,21 @@ class UserService {
 		user_email: string,
 		encryptedPassword: string,
 		user_name: string,
-		github_name?: string,
-		github_id?: string
+		github_id?: string,
+		github_name?: string
 	) {
 		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
-		const user_color = Math.floor(Math.random() * 12); // TODO : user_color로 바꾸기
+		const user_color = Math.floor(Math.random() * 12);
+		const githubId = github_id ?? '';
 		const githubName = github_name ?? '';
-		const githubid = github_id ?? '';
 		const newUser = await this.userRepository.save({
 			user_email,
 			user_password,
 			user_name,
 			user_color,
-			github_name: githubName,
-			github_id: githubid
+			github_id: githubId,
+			github_name: githubName
 		});
 		return newUser;
 	}
