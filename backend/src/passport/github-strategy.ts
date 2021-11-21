@@ -20,7 +20,8 @@ const getUserRawData = (userJson) => {
 const githubLoginCallback = async (accessToken, refreshToken, profile, callback) => {
 	const { user_email, user_password, github_name, github_id } = getUserRawData(profile._json);
 	let user = await UserService.getInstance().getUserByEmail(user_email);
-	if (!user) user = await UserService.getInstance().createUser(user_email, user_password, github_name, github_id);
+	if (!user)
+		user = await UserService.getInstance().createUser(user_email, user_password, github_name, github_id, github_name);
 	if (user && (github_id !== user.github_id || github_name !== user.github_name))
 		UserService.getInstance().updateUserToGithub(user.user_id, github_id, github_name);
 	return callback(null, user);
