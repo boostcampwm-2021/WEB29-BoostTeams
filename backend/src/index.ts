@@ -3,7 +3,7 @@ dotenv.config();
 
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import initRedis from './redis';
+import Redis from './redis';
 import express from 'express';
 import cors from 'cors';
 
@@ -40,7 +40,7 @@ class App {
 				console.log('DB Connected');
 			})
 			.catch((error) => console.error(error));
-		initRedis();
+		new Redis();
 	}
 
 	private middleware() {
