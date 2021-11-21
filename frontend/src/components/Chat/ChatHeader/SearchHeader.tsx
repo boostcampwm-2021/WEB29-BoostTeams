@@ -1,35 +1,44 @@
 import React, { useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+
+import { UserIdType, TeamUserType, TeamUsersType } from '@src/types/chat';
+import { teamUsersSelector } from '@stores/chat';
+import userState from '@stores/user';
+
 import { FaTimes } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { UserType } from '../dataStructure';
 import { SearchHeaderContainer, UserListContainer, InputWrapper, SearchContainer, UserContainer } from './style';
 
 interface Props {
-	teamUsers: UserType[];
-	inviteUsers: UserType[];
-	addInviteUser: (newUser: UserType) => void;
+	teamId: number;
+	inviteUsers: UserIdType[];
+	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 }
 
-const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const [userSearchResult, setUserSearchResult] = useState<UserType[]>([]);
+	const myId = useRecoilValue(userState).id;
+	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
-	const searchByKey = (searchKey: string, userList: UserType[]): UserType[] => {
-		return userList.filter((user) => {
+	const searchByKey = (searchKey: string): TeamUserType[] => {
+		return Object.values(teamUsers).filter((user: TeamUserType) => {
 			const regex = new RegExp(searchKey, 'gi');
-			return user.user_email.match(regex) || user.user_name.match(regex);
+			return (
+				user.userId !== myId && (teamUsers[user.userId].email.match(regex) || teamUsers[user.userId].name.match(regex))
+			);
 		});
 	};
 
 	const handleSearchByKey = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const searchKey = e.currentTarget.value;
-		const matches = !searchKey ? [] : searchByKey(searchKey, teamUsers);
+		const matches = !searchKey ? [] : searchByKey(searchKey);
 		setUserSearchResult(matches);
 	};
 
-	const handleUserClick = (userId: number) => {
-		const user = teamUsers.find((user) => user.user_id === userId);
+	const handleUserInvite = (userId: number) => {
+		const user = teamUsers[userId];
 		if (user) addToInvitationList(user);
 	};
 
@@ -39,9 +48,9 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 		addToInvitationList(userSearchResult[0]); // enter 눌렀을 때 첫번째 결과로 입력
 	};
 
-	const addToInvitationList = (user: UserType) => {
+	const addToInvitationList = (user: UserIdType) => {
 		if (!inputRef.current) return;
-		if (inviteUsers.find((invitedUser) => invitedUser.user_id === user.user_id)) return;
+		if (inviteUsers.find((invitedUser) => invitedUser.userId === user.userId)) return;
 		addInviteUser(user);
 		setUserSearchResult([]);
 		inputRef.current.value = '';
@@ -51,9 +60,9 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 		<SearchHeaderContainer>
 			<UserListContainer>
 				{inviteUsers.map((user) => (
-					<div key={user.user_id}>
-						<span>{user.user_name}</span>
-						<FaTimes onClick={() => deleteInviteUser(user.user_id)} />
+					<div key={user.userId}>
+						<span>{teamUsers[user.userId].name}</span>
+						<FaTimes onClick={() => deleteInviteUser(user.userId)} />
 					</div>
 				))}
 			</UserListContainer>
@@ -68,9 +77,9 @@ const SearchHeader: React.FC<Props> = ({ teamUsers, inviteUsers, addInviteUser, 
 			</InputWrapper>
 			<SearchContainer>
 				{userSearchResult.map((user) => (
-					<UserContainer key={user.user_id} onClick={() => handleUserClick(user.user_id)}>
-						<ProfileIcon name={user.user_name} color={0} status='none' width={2.4} isHover={false} />
-						<span>{`${user.user_name} (${user.user_email})`}</span>
+					<UserContainer key={user.userId} onClick={() => handleUserInvite(user.userId)}>
+						<ProfileIcon name={user.name} color={user.color} status='none' width={2.4} isHover={false} />
+						<span>{`${user.name} (${user.email})`}</span>
 					</UserContainer>
 				))}
 			</SearchContainer>
