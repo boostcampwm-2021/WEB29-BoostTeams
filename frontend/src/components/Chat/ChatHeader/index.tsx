@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserIdType } from '@src/types/chat';
-import { currentChatRoomState } from '@stores/chat';
+import { UserIdType, ChatRoomsType } from '@src/types/chat';
+import { currentChatRoomState, chatRoomsSelector } from '@stores/chat';
 
 import SearchHeader from './SearchHeader';
 import Header from './Header';
@@ -17,7 +17,10 @@ interface Props {
 }
 
 const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
+	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+
+	const checkRoomAndTeam = () => chatRooms[currChatRoomId] !== undefined;
 
 	return (
 		<Container>
@@ -29,7 +32,7 @@ const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteU
 					deleteInviteUser={deleteInviteUser}
 				/>
 			) : (
-				currChatRoomId !== -1 && <Header teamId={teamId} />
+				checkRoomAndTeam() && <Header teamId={teamId} />
 			)}
 		</Container>
 	);
