@@ -16,7 +16,6 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 						name: res.user_name,
 						email: res.user_email,
 						color: res.user_color,
-						team_id: 1,
 						github_id: res.github_id,
 						github_name: res.github_name,
 					});
