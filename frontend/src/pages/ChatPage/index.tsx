@@ -1,6 +1,6 @@
-import React, { useState, useReducer, useEffect, useContext } from 'react';
+import React, { useState, useReducer, useEffect, useContext, useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { UserIdType, ChatModeType, MessageType } from '@src/types/chat';
 import { chatRoomsSelector, currentChatRoomState, messageListState } from '@stores/chat';
@@ -33,9 +33,12 @@ type Props = RouteComponentProps<MatchParams>;
 const ChatPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
 	const socketRef = useContext(SocketContext);
+	const messagesEndRef = useRef<HTMLDivElement>(null);
+
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
-	const setMessageList = useSetRecoilState(messageListState);
+
+	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const currentChatRoom = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
@@ -54,8 +57,11 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const getInitialMessageList = async () => {
 		const messages = await getMessageList(currentChatRoom.currChatRoomId);
-		console.log(messages);
 		setMessageList(messages);
+	};
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	};
 
 	useEffect(() => {
@@ -69,6 +75,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			getInitialMessageList();
 		}
 	}, [currentChatRoom]);
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [messageList]);
 
 	useEffect(() => {
 		if (socketRef.current) {
@@ -86,6 +96,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			teamId={teamId}
 			chatMode={chatMode}
 			inviteUsers={inviteUsers}
+			messagesEndRef={messagesEndRef}
 			setChatModeToNone={setChatModeToNone}
 			setChatModeToCreate={setChatModeToCreate}
 			setChatModeToChat={setChatModeToChat}

@@ -15,11 +15,19 @@ interface Props {
 	teamId: number;
 	chatMode: ChatModeType;
 	inviteUsers: UserIdType[];
+	messagesEndRef: React.RefObject<HTMLDivElement>;
 	setChatModeToChat: () => void;
 	initInviteUser: () => void;
 }
 
-const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatModeToChat, initInviteUser }) => {
+const ChatContent: React.FC<Props> = ({
+	teamId,
+	chatMode,
+	inviteUsers,
+	messagesEndRef,
+	setChatModeToChat,
+	initInviteUser,
+}) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 	const myInfo = useRecoilValue(userState);
@@ -77,6 +85,7 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatMo
 					{messageList.map((message) => (
 						<Message key={message.messageId} message={message} teamId={teamId} />
 					))}
+					<div ref={messagesEndRef} />
 				</MessagesContainer>
 			) : (
 				<NoticeContainer>

@@ -10,6 +10,7 @@ interface Props {
 	teamId: number;
 	chatMode: ChatModeType;
 	inviteUsers: UserIdType[];
+	messagesEndRef: React.RefObject<HTMLDivElement>;
 	setChatModeToNone: () => void;
 	setChatModeToCreate: () => void;
 	setChatModeToChat: () => void;
@@ -22,6 +23,7 @@ const ChatTemplate: React.FC<Props> = ({
 	teamId,
 	chatMode,
 	inviteUsers,
+	messagesEndRef,
 	setChatModeToNone,
 	setChatModeToCreate,
 	setChatModeToChat,
@@ -55,6 +57,7 @@ const ChatTemplate: React.FC<Props> = ({
 							inviteUsers={inviteUsers}
 							setChatModeToChat={setChatModeToChat}
 							initInviteUser={initInviteUser}
+							messagesEndRef={messagesEndRef}
 						/>
 					</ChatContainer>
 				)}
