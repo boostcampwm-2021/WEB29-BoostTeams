@@ -13,7 +13,7 @@ interface Props {
 	handleModalClose: () => void;
 }
 
-const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
+const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const user = useRecoilValue(userState);
@@ -78,4 +78,4 @@ const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 	);
 };
 
-export default CreatePostItModal;
+export default CreatePostitModal;

@@ -2,7 +2,7 @@ import React from 'react';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Header, Navbar } from '@components/common';
 import Canvas from '@components/Board/Canvas';
-import CreatePostItModal from '@components/Board/Modal';
+import CreatePostitModal from '@components/Board/Modal';
 import CreateButton from '@components/Board/CreateButton';
 import { IPostit, ISocketApi } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
@@ -54,7 +54,7 @@ const BoardTemplate: React.FC<Props> = ({
 			</MainContainer>
 			<CreateButton setModalType={setModalType} handleModalOpen={handleModalOpen} />
 			{showModal && (
-				<CreatePostItModal
+				<CreatePostitModal
 					socketApi={socketApi}
 					modalType={modalType}
 					clickedPostit={clickedPostit}
