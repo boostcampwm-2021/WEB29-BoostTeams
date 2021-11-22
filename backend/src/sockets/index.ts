@@ -6,7 +6,7 @@ const socketInit = (namespace: Namespace): void => {
 	namespace.on('connect', (socket: Socket) => {
 		initTeam(socket);
 		initTeamBoard(socket);
-		initChat(socket);
+		initChat(socket, namespace);
 	});
 };
 

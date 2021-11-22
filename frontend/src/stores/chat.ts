@@ -1,5 +1,5 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { ChatRoomsLastMessageType } from '@src/types/chat';
+import { ChatRoomsLastMessageType, MessageListType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import { readTeamUsers } from '@apis/users';
 import userState from './user';
@@ -40,7 +40,7 @@ export const chatRoomUsersSelector = selector({
 
 export const messageListState = atom({
 	key: 'messageListState',
-	default: [],
+	default: [] as MessageListType,
 });
 
 export const teamUsersSelector = selectorFamily({

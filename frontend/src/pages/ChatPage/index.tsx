@@ -1,9 +1,9 @@
 import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { UserIdType, ChatModeType } from '@src/types/chat';
-import { chatRoomsSelector, currentChatRoomState } from '@stores/chat';
+import { UserIdType, ChatModeType, MessageType } from '@src/types/chat';
+import { chatRoomsSelector, currentChatRoomState, messageListState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
 
 import ChatTemplate from '@templates/ChatTemplate';
@@ -34,6 +34,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const socketRef = useContext(SocketContext);
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
+	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 
@@ -58,10 +59,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
+			socketRef.current.on('receive message', (message: MessageType) => setMessageList((prev) => [...prev, message]));
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.off('enter chat room');
 		};
 	}, [socketRef.current, teamId]);
 

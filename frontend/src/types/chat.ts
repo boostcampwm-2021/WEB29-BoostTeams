@@ -27,9 +27,10 @@ export interface MessageType {
 	content: string;
 	createdAt: Date;
 	userId: number;
+	chatRoomId: number;
 }
 
-export type MessageList = MessageType[];
+export type MessageListType = MessageType[];
 
 export interface TeamUserType {
 	userId: number;

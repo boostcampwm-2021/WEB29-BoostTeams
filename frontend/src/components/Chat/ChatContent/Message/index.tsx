@@ -24,16 +24,14 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 		<Container myChat={isMyChat()}>
 			{!isMyChat() && (
 				<ChatIconWrapper>
-					{/* teamUsers[chatRoom.lastMessage.userId].name */}
-					<ProfileIcon name='작성자' color={0} status='none' width={3.2} isHover={false} />
+					<ProfileIcon name={teamUsers[message.userId].name} color={0} status='none' width={3.2} isHover={false} />
 				</ChatIconWrapper>
 			)}
 			<MessageContainer myChat={isMyChat()}>
 				<InfoContainer>
 					<div>
-						{/* teamUsers[chatRoom.lastMessage.userId].name */}
-						{!isMyChat() && <b>작성자</b>}
-						<span>{timeToString(message.createdAt)}</span>
+						{!isMyChat() && <b>{teamUsers[message.userId].name}</b>}
+						<span>{timeToString(new Date(message.createdAt))}</span>
 					</div>
 					<ImojiWraper>👍😲</ImojiWraper>
 				</InfoContainer>

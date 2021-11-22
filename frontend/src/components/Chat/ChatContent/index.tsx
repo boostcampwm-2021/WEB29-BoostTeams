@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useRef, useContext } from 'react';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 import { createChatRoom } from '@apis/chat';
+import { SocketContext } from '@utils/socketContext';
 import userState from '@stores/user';
-import { chatRoomsTrigger, teamUsersSelector, currentChatRoomState } from '@stores/chat';
-import { messagesEx, ChatModeType, UserIdType, TeamUsersType } from '@src/types/chat';
+import { chatRoomsTrigger, teamUsersSelector, currentChatRoomState, messageListState } from '@stores/chat';
+import { ChatModeType, UserIdType, TeamUsersType } from '@src/types/chat';
 
 import { FaTelegramPlane } from 'react-icons/fa';
 import Message from './Message';
@@ -20,12 +21,14 @@ interface Props {
 
 const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatModeToChat, initInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
+	const socketRef = useContext(SocketContext);
 	const myInfo = useRecoilValue(userState);
-	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
-	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const [currentChatRoom, setCurrentChatRoom] = useRecoilState(currentChatRoomState);
+	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
+	const messageList = useRecoilValue(messageListState);
 
-	const handleNewChatRoom = async () => {
+	const handleNewChatRoomCreate = async () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
 		if (!inviteUsers.length) return;
@@ -47,11 +50,31 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatMo
 		setChatModeToChat();
 	};
 
+	const handleEnterCheck = (e: React.KeyboardEvent) => {
+		if (e.key !== 'Enter') return;
+		if (chatMode === 'create') {
+			handleNewChatRoomCreate();
+			return;
+		}
+		handleSendMessage();
+	};
+
+	const handleSendMessage = () => {
+		if (!inputRef.current) return;
+		if (inputRef.current.value === '') return;
+		socketRef.current.emit('send message', {
+			content: inputRef.current.value,
+			userId: myInfo.id,
+			chatRoomId: currentChatRoom.currChatRoomId,
+		});
+		inputRef.current.value = '';
+	};
+
 	return (
 		<Container>
 			{chatMode === 'chat' ? (
 				<MessagesContainer>
-					{messagesEx.map((message) => (
+					{messageList.map((message) => (
 						<Message key={message.messageId} message={message} teamId={teamId} />
 					))}
 				</MessagesContainer>
@@ -62,8 +85,8 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatMo
 				</NoticeContainer>
 			)}
 			<InputContainer>
-				<input type='text' placeholder='새 메시지 입력' ref={inputRef} />
-				<FaTelegramPlane onClick={handleNewChatRoom} />
+				<input type='text' placeholder='새 메시지 입력' ref={inputRef} onKeyPress={handleEnterCheck} />
+				<FaTelegramPlane onClick={chatMode === 'create' ? handleNewChatRoomCreate : handleSendMessage} />
 			</InputContainer>
 		</Container>
 	);

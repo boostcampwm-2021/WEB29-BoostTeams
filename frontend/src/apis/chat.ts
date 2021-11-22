@@ -5,8 +5,8 @@ import {
 	ChatRoomResType,
 	ChatRoomType,
 	ChatRoomUsersType,
-	MessageList,
 	ChatRoomsType,
+	MessageListType,
 } from '@src/types/chat';
 
 export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoomType | undefined> => {
@@ -61,7 +61,7 @@ export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUser
 	}
 };
 
-export const getMessageList = async (chatRoomId: number): Promise<MessageList> => {
+export const getMessageList = async (chatRoomId: number): Promise<MessageListType> => {
 	try {
 		const res = await fetchApi.get(`/api/chat/message?chatRoomId=${chatRoomId}`); // 스크롤 나중에
 		if (res.status === 409) throw new Error();
