@@ -12,20 +12,18 @@ const saveMessage = (chatRoomId, message: MessageType) => {
 const initChat = (socket: Socket, namespace: Namespace) => {
 	socket.on('enter chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
-			//console.log(`join chat-${chatRoomId}`);
 			socket.join(`chat-${chatRoomId}`);
 		});
 	});
 
 	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
-			//console.log(`leave chat-${chatRoomId}`);
 			socket.leave(`chat-${chatRoomId}`);
 		});
 	});
 
 	socket.on('send message', ({ content, userId, chatRoomId }) => {
-		const message = { messageId: (messageIdx += 1), content, createdAt: new Date(), userId, chatRoomId };
+		const message: MessageType = { messageId: (messageIdx += 1), content, createdAt: new Date(), userId, chatRoomId };
 		saveMessage(chatRoomId, message);
 		namespace.in(`chat-${chatRoomId}`).emit('receive message', message);
 	});
