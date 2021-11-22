@@ -87,19 +87,3 @@ export default class Redis {
 		});
 	}
 }
-/* 
-client = {
-	board : {
-		nextId:0
-		team#1 : [{postIt#0},{postIt#1},{postIt#2}],
-		team#2 : [{postIt#3},{postIt#4},{postIt#5}],
-		team#3 : [{postIt#6},{postIt#3-2},{postIt#3-3}],
-	},
-	chat : {
-		nextId:6,
-		room#1 : [{chat#1-1},{chat#1-2}],
-		room#2 : [{chat#2-1},{chat#2-2}],
-		room#3 : [{chat#3-1},{chat#3-2}],
-	},
-}
-*/
