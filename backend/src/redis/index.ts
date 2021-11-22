@@ -17,40 +17,86 @@ export default class Redis {
 		}
 		return Redis.instance;
 	}
-	// key === 'board' || 'chat'
-	// field === roomId || chatId
-	async get(key: string, field: string) {
-		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (err, obj) => {
-				if (err) reject(err);
-				else resolve(obj);
-			});
-		});
-	}
 
-	async set(key: string, field: string, value: any) {
+	get(key: string, field: string) {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (err, obj) => {
-				if (err) reject(err);
-				else {
-					const updatedValue = [...JSON.parse(obj), value];
-					Redis.client.hset(key, field, JSON.stringify(updatedValue), () => {
-						resolve(updatedValue);
-					});
+			Redis.client.hget(key, field, (err, searchResult) => {
+				if (err) return reject(err);
+				if (searchResult === null) {
+					Redis.client.hset(key, field, JSON.stringify([]));
+					Redis.client.hset(key, 'nextId', '0');
+					return resolve([]);
+				} else {
+					return resolve(JSON.parse(searchResult));
 				}
 			});
 		});
 	}
-}
 
+	set(key: string, field: string, value: any) {
+		return new Promise((resolve, reject) => {
+			Redis.client.hget(key, field, async (err, searchResult) => {
+				if (err) return reject(err);
+				if (searchResult === null) {
+					Redis.client.hset(key, field, JSON.stringify([value]));
+					return resolve(value);
+				}
+
+				const storedDataList = JSON.parse(searchResult);
+				const oldDataIdx = storedDataList.findIndex((data) => Number(data.id) === Number(value.id));
+				// update
+				if (oldDataIdx !== -1) {
+					const updatedData = { ...storedDataList[oldDataIdx], ...value };
+					storedDataList.splice(oldDataIdx, 1, updatedData);
+					Redis.client.hset(key, field, JSON.stringify(storedDataList));
+					return resolve(updatedData);
+				}
+				// create
+				else {
+					Redis.client.hset(key, field, JSON.stringify([...storedDataList, value]));
+					await Redis.setNextId(key);
+					return resolve(value);
+				}
+			});
+		});
+	}
+
+	delete(key: string, field: string, targetId: number) {
+		return new Promise((resolve, reject) => {
+			Redis.client.hget(key, field, (err, searchResult) => {
+				if (err) return reject(err);
+				const storedDataList = JSON.parse(searchResult);
+				const updatedDataList = storedDataList.filter((data) => data.id !== targetId);
+				Redis.client.hset(key, field, JSON.stringify(updatedDataList));
+				return resolve(updatedDataList);
+			});
+		});
+	}
+
+	static getNextId(key: string, field = 'nextId') {
+		return new Promise<number>((resolve) => {
+			Redis.client.hget(key, field, (err, nextId) => resolve(Number(nextId)));
+		});
+	}
+
+	static async setNextId(key: string, field = 'nextId') {
+		const presentId = await Redis.getNextId(key);
+		return new Promise((resolve) => {
+			Redis.client.hset(key, field, String(presentId + 1));
+			return resolve(null);
+		});
+	}
+}
 /* 
 client = {
 	board : {
-		team#1 : [{postIt#1-1},{postIt#1-2},{postIt#1-3}],
-		team#2 : [{postIt#2-1},{postIt#2-2},{postIt#2-3}],
-		team#3 : [{postIt#3-1},{postIt#3-2},{postIt#3-3}],
+		nextId:0
+		team#1 : [{postIt#0},{postIt#1},{postIt#2}],
+		team#2 : [{postIt#3},{postIt#4},{postIt#5}],
+		team#3 : [{postIt#6},{postIt#3-2},{postIt#3-3}],
 	},
 	chat : {
+		nextId:6,
 		room#1 : [{chat#1-1},{chat#1-2}],
 		room#2 : [{chat#2-1},{chat#2-2}],
 		room#3 : [{chat#3-1},{chat#3-2}],
