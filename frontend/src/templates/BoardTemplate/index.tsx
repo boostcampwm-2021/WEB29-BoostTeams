@@ -1,22 +1,26 @@
 import React from 'react';
+import { KonvaEventObject } from 'konva/lib/Node';
 import { Header, Navbar } from '@components/common';
-import { PostitType } from '@pages/BoardPage';
 import Canvas from '@components/Board/Canvas';
 import CreatePostItModal from '@components/Board/Modal';
 import CreateButton from '@components/Board/CreateButton';
+import { IPostit, ISocketApi } from '@src/types/board';
+import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import { Layout, MainContainer } from './style';
 
 interface Props {
-	postits: PostitType[];
-	socketApi: any;
+	postits: IPostit[];
+	socketApi: ISocketApi;
 	showModal: boolean;
 	modalType: string;
-	clickedPostit: any;
-	setPostits: any;
-	setClickedPostit: (postit: PostitType) => void;
-	setModalType: (type: string) => void;
+	clickedPostit: IPostit | undefined;
+	setClickedPostit: (postit: IPostit) => void;
+	setModalType: Dispatch<SetStateAction<string>>;
 	handleModalOpen: () => void;
 	handleModalClose: () => void;
+	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
+	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
+	handleDragEnd: (e: KonvaEventObject<DragEvent>) => void;
 }
 
 const BoardTemplate: React.FC<Props> = ({
@@ -25,11 +29,13 @@ const BoardTemplate: React.FC<Props> = ({
 	showModal,
 	modalType,
 	clickedPostit,
-	setPostits,
 	setModalType,
 	setClickedPostit,
 	handleModalOpen,
 	handleModalClose,
+	handleDrag,
+	handleDragStart,
+	handleDragEnd,
 }) => {
 	return (
 		<Layout>
@@ -38,11 +44,12 @@ const BoardTemplate: React.FC<Props> = ({
 				<Navbar />
 				<Canvas
 					postits={postits}
-					socketApi={socketApi}
-					setPostits={setPostits}
 					setModalType={setModalType}
 					setClickedPostit={setClickedPostit}
 					handleModalOpen={handleModalOpen}
+					handleDrag={handleDrag}
+					handleDragStart={handleDragStart}
+					handleDragEnd={handleDragEnd}
 				/>
 			</MainContainer>
 			<CreateButton setModalType={setModalType} handleModalOpen={handleModalOpen} />
