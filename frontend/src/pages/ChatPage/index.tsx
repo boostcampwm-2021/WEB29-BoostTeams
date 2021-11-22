@@ -77,7 +77,15 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (currentChatRoomId !== -1) {
 			getInitialMessageList();
+			socketRef.current.on('receive message', (message: MessageType) => {
+				if (message.chatRoomId === currentChatRoomId) {
+					setMessageList((prev) => [...prev, message]);
+				}
+			});
 		}
+		return () => {
+			socketRef.current.off('receive message');
+		};
 	}, [currentChatRoomId]);
 
 	useEffect(() => {
@@ -87,14 +95,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.on('receive message', (message: MessageType) => {
-				if (message.chatRoomId === currentChatRoomId) setMessageList((prev) => [...prev, message]);
-			});
 			socketRef.current.on('refresh chat rooms', () => setTeamUsersTrigger((trigger) => trigger + 1));
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.off('receive message');
 		};
 	}, [socketRef.current, teamId]);
 
