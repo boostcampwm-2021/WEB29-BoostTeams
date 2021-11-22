@@ -42,12 +42,11 @@ export interface TeamUsersType {
 export interface ChatRoomReqType {
 	team_id: number;
 	chat_room_name: string;
-	user_id_list: { user_id: number }[];
+	user_list: { user_id: number }[];
 }
 
 export interface ChatRoomResType {
 	chat_room_id: number;
-	team_id: number;
 	chat_room_name: string;
 }
 

@@ -36,7 +36,7 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatMo
 		const roomInfo = {
 			team_id: teamId,
 			chat_room_name: chatRoomName,
-			user_id_list: [...userIdList, { user_id: myInfo.id }],
+			user_list: [...userIdList, { user_id: myInfo.id }],
 		};
 		const newChatRoomInfo = await createChatRoom(roomInfo);
 		if (!newChatRoomInfo) return;
