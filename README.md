@@ -33,11 +33,13 @@ https://www.boostteams.kro.kr/
 - 채팅방 인원의 팀원 초대 기능 
 - 채팅방 관리자의 팀원 강퇴, 채팅방 이름 변경 기능 
 - 채팅 코멘트(이모지) 기능
+
 ### 팀 일정
 - 팀 공유 달력 기능 
-- 새로운 일청 추가 기능
+- 새로운 일정 추가 기능
 - 상세 일정 확인 기능
 - 일정 삭제 기능 
+
 ### 팀 보드
 - 팀이 공유하는 사무실의 화이트보드와 같은 기능
 - 포스트잇 생성 및 drag & drop으로 이동
@@ -58,5 +60,5 @@ https://www.boostteams.kro.kr/
 
 - [Backlog: Google Docs](https://docs.google.com/spreadsheets/d/1xsavcgsEpVtQNjWshUdCxH5Vqc1FIca0p2LQfSkZy4g)
 
-- [DB Schema: Notion](https://www.notion.so/DB-Schema-1dadf07949f4445c9102ed82acb19ab5)
+- [DB Schema: Github Wiki](https://github.com/boostcampwm-2021/WEB29-BoostTeams/wiki/DB-%EC%8A%A4%ED%82%A4%EB%A7%88)
 

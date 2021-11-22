@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Role } from '@utils/constants';
 import { readTeamInfo, readTeamUsers } from '@apis/users';
 import { SocketContext } from '@utils/socketContext';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 import UsersTemplate from '@templates/UsersTemplate';
 
 interface MatchParams {
@@ -18,7 +18,7 @@ interface UserIdType {
 interface User {
 	id: number;
 	name: string;
-	state: number;
+	color: number;
 }
 
 type Props = RouteComponentProps<MatchParams>;
@@ -40,7 +40,7 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 
 	const [users, setUsers] = useState<User[]>([]); // 팀의 전체 유저리스트
 	const [filteredUsers, setFilteredUsers] = useState(users); // 검색바로 검색한 유저 리스트
-	const user = useRecoilValue(UserState); // 본인 정보
+	const user = useRecoilValue(userState); // 본인 정보
 	const [isAdmin, setIsAdmin] = useState(false); // 본인이 팀의 admin인지
 
 	const deleteUserById = (id: number) => {
@@ -58,7 +58,7 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 				resultArr.push({
 					id: e.user.user_id,
 					name: e.user.user_name,
-					color: e.user.user_state,
+					color: e.user.user_color,
 					role: Role[e.role],
 					state: e.state,
 				});

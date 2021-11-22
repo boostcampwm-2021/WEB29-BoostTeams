@@ -24,7 +24,7 @@ const User: React.FC<Props> = ({ user, mode, isAdmin, isOnline, onBtnClick }) =>
 			<div>
 				<ProfileIcon
 					name={user.name}
-					color={user.state}
+					color={user.color}
 					status={isOnline(user.id) ? 'online' : 'offline'}
 					width={2.5}
 					isHover={false}

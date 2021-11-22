@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 import { useRecoilValue } from 'recoil';
 import { PostitType } from '@pages/BoardPage';
 import Modal from '@components/common/Modal';
@@ -16,7 +16,7 @@ interface Props {
 const CreatePostItModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
-	const user = useRecoilValue(UserState);
+	const user = useRecoilValue(userState);
 	const [color, setColor] = useState<number>(0);
 
 	const makePostitObj = (modalType: string, title: string, content: string) => {

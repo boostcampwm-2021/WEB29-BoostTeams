@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SocketContext } from '@utils/socketContext';
 import BoardTemplate from '@templates/BoardTemplate';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 import { useRecoilValue } from 'recoil';
 
 export interface PostitType {
@@ -18,7 +18,7 @@ export interface PostitType {
 }
 
 const BoardPage: React.FC = () => {
-	const user = useRecoilValue(UserState);
+	const user = useRecoilValue(userState);
 
 	const [postits, setPostits] = useState<PostitType[]>([]);
 	const [showModal, setShowModal] = useState(false);

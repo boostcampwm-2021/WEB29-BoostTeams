@@ -1,51 +1,49 @@
 import React, { useRef } from 'react';
-import { useRecoilValue } from 'recoil';
-import { FaTelegramPlane } from 'react-icons/fa';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { createChatRoom } from '@apis/chat';
-import UserState from '@stores/user';
-import { messages, ChatModeType, UserType, ChatRoomType } from '../dataStructure';
+import userState from '@stores/user';
+import { chatRoomsTrigger, teamUsersSelector, currentChatRoomState } from '@stores/chat';
+import { messagesEx, ChatModeType, UserIdType, TeamUsersType } from '@src/types/chat';
+
+import { FaTelegramPlane } from 'react-icons/fa';
 import Message from './Message';
 import { Container, MessagesContainer, NoticeContainer, InputContainer } from './style';
 
 interface Props {
 	teamId: number;
 	chatMode: ChatModeType;
-	inviteUsers: UserType[];
+	inviteUsers: UserIdType[];
 	setChatModeToChat: () => void;
-	addChatRoom: (newRoom: ChatRoomType) => void;
 	initInviteUser: () => void;
 }
 
-const ChatContent: React.FC<Props> = ({
-	teamId,
-	chatMode,
-	inviteUsers,
-	setChatModeToChat,
-	addChatRoom,
-	initInviteUser,
-}) => {
+const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatModeToChat, initInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const user = useRecoilValue(UserState);
+	const myInfo = useRecoilValue(userState);
+	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
+	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
+	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
 
 	const handleNewChatRoom = async () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
 		if (!inviteUsers.length) return;
 		const userIdList = inviteUsers.map((user) => {
-			return { user_id: user.user_id };
+			return { user_id: user.userId };
 		});
-		const chatRoomName = `${user.name}, ${inviteUsers[0].user_name} ..`;
+		const chatRoomName = `${myInfo.name}, ${teamUsers[inviteUsers[0].userId].name} ..`;
 		const roomInfo = {
 			team_id: teamId,
 			chat_room_name: chatRoomName,
-			user_id_list: [...userIdList, { user_id: user.id }],
+			user_id_list: [...userIdList, { user_id: myInfo.id }],
 		};
 		const newChatRoomInfo = await createChatRoom(roomInfo);
 		if (!newChatRoomInfo) return;
-		addChatRoom(newChatRoomInfo);
 		inputRef.current.value = '';
 		initInviteUser();
+		setTeamUsersTrigger((trigger) => trigger + 1);
+		setCurrentChatRoom({ currentChatRoom: newChatRoomInfo.chatRoomId });
 		setChatModeToChat();
 	};
 
@@ -53,8 +51,8 @@ const ChatContent: React.FC<Props> = ({
 		<Container>
 			{chatMode === 'chat' ? (
 				<MessagesContainer>
-					{messages.map((message) => (
-						<Message key={message.message_id} message={message} />
+					{messagesEx.map((message) => (
+						<Message key={message.messageId} message={message} teamId={teamId} />
 					))}
 				</MessagesContainer>
 			) : (

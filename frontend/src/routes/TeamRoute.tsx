@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useRecoilValue } from 'recoil';
 import { SocketContext } from '@utils/socketContext';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 
 import ChatPage from '@pages/ChatPage';
 import CalendarPage from '@pages/CalendarPage';
@@ -12,7 +12,7 @@ import PrivateRoute from './PrivateRoute';
 
 const TeamRoute = ({ computedMatch }: any) => {
 	const { teamId } = computedMatch.params;
-	const userId = useRecoilValue(UserState).id;
+	const userId = useRecoilValue(userState).id;
 	const socketRef = useRef<Socket>();
 
 	useEffect(() => {

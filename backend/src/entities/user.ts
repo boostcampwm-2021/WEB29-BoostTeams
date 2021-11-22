@@ -18,10 +18,13 @@ export class User {
 	user_name: string;
 
 	@Column()
+	github_id?: string;
+
+	@Column()
 	github_name?: string;
 
 	@Column()
-	user_state: number;
+	user_color: number;
 
 	@OneToMany(() => TeamUser, (teamUser) => teamUser.user)
 	team_users: TeamUser[];

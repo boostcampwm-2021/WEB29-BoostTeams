@@ -7,8 +7,9 @@ import { Container, NameContainer, TextContainer } from './style';
 type User = {
 	name: string;
 	email: string;
-	state: number;
-	github?: string;
+	color: number;
+	github_id?: string;
+	github_name?: string;
 };
 
 type ProfileProps = {
@@ -17,13 +18,13 @@ type ProfileProps = {
 };
 
 const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
-	const { name, email, github } = user;
+	const { name, email, github_id, github_name } = user;
 	return (
 		<TextContainer>
 			<NameContainer>
 				<span>{name} |</span>
-				{github && <GithubBadge github={github} />}
-				{!github && <EmailBox email={email} />}
+				{github_id && <GithubBadge github_id={github_id} github_name={github_name} />}
+				{!github_id && <EmailBox email={email} />}
 			</NameContainer>
 			{status === 'none' && <span>Online</span>}
 			{status !== 'none' && <span>대화 가능 | 상태 메시지 설정</span>}
@@ -32,8 +33,7 @@ const TextInfo: React.FC<ProfileProps> = ({ user, status }) => {
 };
 
 const UserInfo: React.FC<ProfileProps> = ({ user, status }) => {
-	const { name } = user;
-	const color = user.state;
+	const { name, color } = user;
 	return (
 		<Container>
 			<ProfileIcon name={name} color={color} status={status} width={5} isHover={false} />

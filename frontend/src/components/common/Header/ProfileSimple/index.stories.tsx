@@ -13,14 +13,15 @@ export default {
 const user = {
 	name: 'boostteams',
 	email: 'boostteams@boostcamp.com',
-	state: 0,
+	color: 0,
 };
 
 const githubUser = {
 	name: 'boostteams',
 	email: 'boostteams@boostcamp.com',
-	state: 0,
-	github: 'boostteams',
+	color: 0,
+	github_id: 'sccID',
+	github_name: 'sccName',
 };
 
 export const NotInTeam = () => {

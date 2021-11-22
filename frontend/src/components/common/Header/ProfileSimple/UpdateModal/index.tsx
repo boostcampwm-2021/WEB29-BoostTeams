@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
-import UserState from '@stores/user';
+import userState from '@stores/user';
 
 import { check } from '@apis/auth';
 import { updateName } from '@apis/user';
@@ -18,7 +18,7 @@ type Props = {
 
 const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 	const [name, setName] = useState('');
-	const [user, setUser] = useRecoilState(UserState);
+	const [user, setUser] = useRecoilState(userState);
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
 	};

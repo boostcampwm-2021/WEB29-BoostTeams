@@ -26,27 +26,39 @@ class UserService {
 			return undefined;
 		}
 
-		const { user_id, user_email, user_name, user_state, github_name } = user;
-		return { user_id, user_email, user_name, user_state, github_name };
+		const { user_id, user_email, user_name, user_color, github_id, github_name } = user;
+		return { user_id, user_email, user_name, user_color, github_id, github_name };
 	}
 
-	async createUser(user_email: string, encryptedPassword: string, user_name: string, github_name?: string) {
+	async createUser(
+		user_email: string,
+		encryptedPassword: string,
+		user_name: string,
+		github_id?: string,
+		github_name?: string
+	) {
 		const decryptedPassword = Crypto.AES.decrypt(encryptedPassword, process.env.AES_KEY).toString();
 		const user_password = bcrypt.hashSync(decryptedPassword, Number(process.env.SALT_OR_ROUNDS));
-		const user_state = Math.floor(Math.random() * 12); // TODO : user_color로 바꾸기
-		const github = github_name ?? '';
+		const user_color = Math.floor(Math.random() * 12);
+		const githubId = github_id ?? '';
+		const githubName = github_name ?? '';
 		const newUser = await this.userRepository.save({
 			user_email,
 			user_password,
 			user_name,
-			user_state,
-			github_name: github
+			user_color,
+			github_id: githubId,
+			github_name: githubName
 		});
 		return newUser;
 	}
 
 	async updateUserToName(user_id: number, newName: string) {
 		return await this.userRepository.update({ user_id }, { user_name: newName });
+	}
+
+	async updateUserToGithub(user_id: number, github_id: string, github_name: string) {
+		return await this.userRepository.update({ user_id }, { github_id, github_name });
 	}
 
 	async getUserByEmail(user_email: string) {
