@@ -1,9 +1,10 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { UserIdType, ChatModeType } from '@src/types/chat';
-import { currentChatRoomState } from '@stores/chat';
+import { chatRoomsSelector, currentChatRoomState } from '@stores/chat';
+import { SocketContext } from '@utils/socketContext';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -30,8 +31,10 @@ type Props = RouteComponentProps<MatchParams>;
 
 const ChatPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
+	const socketRef = useContext(SocketContext);
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
+	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 
 	const setChatModeToNone = () => setChatMode('none');
@@ -42,11 +45,25 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const deleteInviteUser = (id: number) => dispatchInviteUsers({ type: 'DELETE', id });
 	const initInviteUser = () => dispatchInviteUsers({ type: 'INIT' });
 
+	const chatRoomIdList = Object.keys(chatRooms).map((chatRoomId) => {
+		return { chatRoomId };
+	});
+
 	useEffect(() => {
 		resetCurrentChatRoom();
 		setChatModeToNone();
 		initInviteUser();
 	}, [teamId]);
+
+	useEffect(() => {
+		if (socketRef.current) {
+			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
+		}
+		return () => {
+			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
+			socketRef.current.off('enter chat room');
+		};
+	}, [socketRef.current, teamId]);
 
 	return (
 		<ChatTemplate
