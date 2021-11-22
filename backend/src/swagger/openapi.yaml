@@ -20,6 +20,7 @@ tags:
   - name: user
     description: User Manage
 paths:
+  # auth
   /api/auth/login:
     $ref: './paths/auth/login.yaml'
   /api/auth/github:
@@ -30,10 +31,12 @@ paths:
     $ref: './paths/auth/signup.yaml'
   /api/auth/info:
     $ref: './paths/auth/info.yaml'
+  # schdule
   /api/schedule/{team_id}:
     $ref: './paths/schedule/scheduleByTeamId.yaml'
   /api/schedule/{schedule_id}:
     $ref: './paths/schedule/scheduleByScheduleId.yaml'
+  # chat
   /api/chat/room:
     $ref: './paths/chat/chat.yaml'
   /api/chat/room/{chatRoomId}:
