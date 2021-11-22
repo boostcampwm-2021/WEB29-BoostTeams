@@ -1,10 +1,11 @@
 import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { UserIdType, ChatModeType, MessageType } from '@src/types/chat';
 import { chatRoomsSelector, currentChatRoomState, messageListState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
+import { getMessageList } from '@src/apis/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -34,8 +35,9 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const socketRef = useContext(SocketContext);
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
-	const [messageList, setMessageList] = useRecoilState(messageListState);
+	const setMessageList = useSetRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
+	const currentChatRoom = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 
 	const setChatModeToNone = () => setChatMode('none');
@@ -50,11 +52,23 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		return { chatRoomId };
 	});
 
+	const getInitialMessageList = async () => {
+		const messages = await getMessageList(currentChatRoom.currChatRoomId);
+		console.log(messages);
+		setMessageList(messages);
+	};
+
 	useEffect(() => {
 		resetCurrentChatRoom();
 		setChatModeToNone();
 		initInviteUser();
 	}, [teamId]);
+
+	useEffect(() => {
+		if (currentChatRoom.currChatRoomId !== -1) {
+			getInitialMessageList();
+		}
+	}, [currentChatRoom]);
 
 	useEffect(() => {
 		if (socketRef.current) {
@@ -63,6 +77,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
+			socketRef.current.off('receive message');
 		};
 	}, [socketRef.current, teamId]);
 

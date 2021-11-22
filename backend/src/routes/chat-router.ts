@@ -3,8 +3,10 @@ import ChatController from '@controllers/chat-controller';
 
 const router = express.Router();
 
-router.post('/room', ChatController.createChatRoom);
-router.get('/room', ChatController.getChatRooms);
-router.get('/room/:chatRoomId', ChatController.getChatRoomUsers);
+router.post('/rooms', ChatController.createChatRoom);
+router.get('/rooms', ChatController.getChatRooms);
+router.get('/rooms/:chatRoomId', ChatController.getChatRoomUsers);
+
+router.get('/messages', ChatController.getChatMessages);
 
 export default router;

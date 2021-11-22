@@ -11,7 +11,7 @@ import {
 
 export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoomType | undefined> => {
 	try {
-		const res = await fetchApi.post('/api/chat/room', { ...roomInfo });
+		const res = await fetchApi.post('/api/chat/rooms', { ...roomInfo });
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		return {
@@ -26,7 +26,7 @@ export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoo
 
 export const getChatRooms = async (teamId: number, userId: number): Promise<ChatRoomsType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/room?teamId=${teamId}&userId=${userId}`);
+		const res = await fetchApi.get(`/api/chat/rooms?teamId=${teamId}&userId=${userId}`);
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		const entries = data.chat_rooms.map((chatRoom: ChatRoomResType) => {
@@ -48,7 +48,7 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 
 export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUsersType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/room/${chatRoomId}`);
+		const res = await fetchApi.get(`/api/chat/rooms/${chatRoomId}`);
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		const userList = data.chat_room_users.map((user: { user_id: number }) => {
@@ -61,9 +61,10 @@ export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUser
 	}
 };
 
+// redis 로 변경해야 함
 export const getMessageList = async (chatRoomId: number): Promise<MessageListType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/message?chatRoomId=${chatRoomId}`); // 스크롤 나중에
+		const res = await fetchApi.get(`/api/chat/messages?chatRoomId=${chatRoomId}`); // 스크롤 나중에
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		return data.message_list;
