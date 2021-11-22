@@ -41,7 +41,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const currentChatRoom = useRecoilValue(currentChatRoomState);
+	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
 
@@ -58,7 +58,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	});
 
 	const getInitialMessageList = async () => {
-		const messages = await getMessageList(currentChatRoom.currChatRoomId);
+		const messages = await getMessageList(currentChatRoomId);
 		setMessageList(messages);
 	};
 
@@ -74,10 +74,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	}, [teamId]);
 
 	useEffect(() => {
-		if (currentChatRoom.currChatRoomId !== -1) {
+		if (currentChatRoomId !== -1) {
 			getInitialMessageList();
 		}
-	}, [currentChatRoom]);
+	}, [currentChatRoomId]);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -86,7 +86,9 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.on('receive message', (message: MessageType) => setMessageList((prev) => [...prev, message]));
+			socketRef.current.on('receive message', (message: MessageType) => {
+				if (message.chatRoomId === currentChatRoomId) setMessageList((prev) => [...prev, message]);
+			});
 			socketRef.current.on('refresh chat rooms', () => setTeamUsersTrigger((trigger) => trigger + 1));
 		}
 		return () => {
