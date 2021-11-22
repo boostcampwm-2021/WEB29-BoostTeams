@@ -41,3 +41,19 @@ paths:
     $ref: './paths/chat/chat.yaml'
   /api/chat/room/{chatRoomId}:
     $ref: './paths/chat/chatRoom.yaml'
+  # user
+  /api/user/name:
+    $ref: './paths/user/user.yaml'
+  # team
+  /api/team:
+    $ref: './paths/team/team.yaml'
+  /api/team/{id}:
+    $ref: './paths/team/user.yaml'
+  /api/team/create:
+    $ref: './paths/team/createTeam.yaml'
+  /api/team/users/{id}:
+    $ref: './paths/team/users.yaml'
+  /api/team/invite:
+    $ref: './paths/team/invite.yaml'
+  /api/team/invite/response:
+    $ref: './paths/team/response.yaml'

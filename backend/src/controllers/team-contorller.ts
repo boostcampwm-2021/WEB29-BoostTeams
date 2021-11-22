@@ -17,7 +17,7 @@ const TeamController = {
 	async readTeamInfo(req: any, res: Response) {
 		try {
 			const team = await TeamService.getInstance().read(req.params.id);
-			res.status(200).send(team);
+			res.status(200).send(team[0]);
 		} catch (err) {
 			res.status(404).send(err);
 		}

@@ -3,7 +3,7 @@ import fetchApi from '@utils/fetch';
 export const readTeamInfo = async (id: number) => {
 	const res = await fetchApi.get(`/api/team/${id}`);
 	const data = await res.json();
-	return data[0];
+	return data;
 };
 
 export const readTeamUsers = async (id: number) => {
