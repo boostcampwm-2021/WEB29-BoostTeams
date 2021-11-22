@@ -3,11 +3,14 @@ export type ChatModeType = 'none' | 'create' | 'chat';
 export interface ChatRoomType {
 	chatRoomId: number;
 	chatRoomName: string;
-	lastMessage: MessageType;
 }
 
 export interface ChatRoomsType {
 	[chatRoomId: number]: ChatRoomType;
+}
+
+export interface ChatRoomsLastMessageType {
+	[chatRoomId: number]: MessageType;
 }
 
 export interface UserIdType {

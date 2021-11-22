@@ -17,7 +17,6 @@ export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoo
 		return {
 			chatRoomId: data.chat_room_id,
 			chatRoomName: data.chat_room_name,
-			lastMessage: { messageId: 1, content: '메시지 내용', createdAt: new Date(), userId: 55 },
 		};
 	} catch (err) {
 		toast.error('😣 채팅방 생성에 실패하였습니다!');
@@ -36,7 +35,6 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 				{
 					chatRoomId: chatRoom.chat_room_id,
 					chatRoomName: chatRoom.chat_room_name,
-					lastMessage: { messageId: 1, content: '메시지 내용', createdAt: new Date(), userId: 55 },
 				},
 			];
 		});

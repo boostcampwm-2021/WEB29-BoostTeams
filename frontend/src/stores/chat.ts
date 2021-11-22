@@ -1,4 +1,5 @@
 import { atom, selector, selectorFamily } from 'recoil';
+import { ChatRoomsLastMessageType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import { readTeamUsers } from '@apis/users';
 import userState from './user';
@@ -22,6 +23,11 @@ export const chatRoomsSelector = selectorFamily({
 			const data = await getChatRooms(teamId, get(userState).id);
 			return data;
 		},
+});
+
+export const chatRoomsLastMessageState = atom({
+	key: 'chatRoomsLastMessageState',
+	default: {} as ChatRoomsLastMessageType,
 });
 
 export const chatRoomUsersSelector = selector({

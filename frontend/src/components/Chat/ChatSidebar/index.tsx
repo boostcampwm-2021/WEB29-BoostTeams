@@ -53,8 +53,8 @@ const ChatSidebar: React.FC<Props> = ({ teamId, setChatModeToNone, setChatModeTo
 								<h3>{chatRoom.chatRoomName}</h3>
 								<span>{timeSince(new Date())}</span>
 							</ChatRoomInfo>
-							{/* teamUsers[chatRoom.lastMessage.userId].name */}
-							<span>{`${'이름'}: ${chatRoom.lastMessage.content}`}</span>
+							{/* teamUsers[lastMessage.userId].name */}
+							<span>{`${'이름'}: ${'내용'}`}</span>
 						</ChatRoomInfoContainer>
 					</ChatRoom>
 				))}
