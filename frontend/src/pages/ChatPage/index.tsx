@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState } from 'recoil';
 
 import { UserIdType, ChatModeType } from '@src/types/chat';
 import { currentChatRoomState } from '@stores/chat';
@@ -32,7 +32,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
 	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
-	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
+	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 
 	const setChatModeToNone = () => setChatMode('none');
 	const setChatModeToCreate = () => setChatMode('create');
@@ -43,7 +43,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const initInviteUser = () => dispatchInviteUsers({ type: 'INIT' });
 
 	useEffect(() => {
-		setCurrentChatRoom({ currentChatRoom: -1 });
+		resetCurrentChatRoom();
 		setChatModeToNone();
 		initInviteUser();
 	}, [teamId]);

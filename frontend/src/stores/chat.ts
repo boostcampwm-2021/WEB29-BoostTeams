@@ -1,11 +1,11 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { getChatRoomInfo, getChatRooms } from '@apis/chat';
+import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import { readTeamUsers } from '@apis/users';
 import userState from './user';
 
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
-	default: { currentChatRoom: -1 },
+	default: { currChatRoomId: -1 },
 });
 
 export const chatRoomsTrigger = atom({
@@ -24,10 +24,10 @@ export const chatRoomsSelector = selectorFamily({
 		},
 });
 
-export const chatRoomInfoState = selector({
-	key: 'chatRoomInfoState',
+export const chatRoomUsersSelector = selector({
+	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
-		const data = await getChatRoomInfo(get(currentChatRoomState).currentChatRoom);
+		const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
 		return data;
 	},
 });

@@ -14,7 +14,7 @@ export interface UserIdType {
 	userId: number;
 }
 
-export interface ChatRoomInfoType {
+export interface ChatRoomUsersType {
 	chatRoomId: number;
 	userList: UserIdType[];
 }
@@ -33,6 +33,7 @@ export interface TeamUserType {
 	name: string;
 	email: string;
 	color: number;
+	chatRoomId: number;
 }
 
 export interface TeamUsersType {
@@ -51,10 +52,10 @@ export interface ChatRoomResType {
 }
 
 export const messagesEx = [
-	{ messageId: 1, userId: 1, content: 'hi', createdAt: new Date() },
-	{ messageId: 2, userId: 2, content: 'hi', createdAt: new Date() },
-	{ messageId: 3, userId: 3, content: 'hi', createdAt: new Date() },
-	{ messageId: 4, userId: 4, content: 'hi', createdAt: new Date() },
-	{ messageId: 5, userId: 1, content: 'hi', createdAt: new Date() },
-	{ messageId: 6, userId: 2, content: 'hi', createdAt: new Date() },
+	{ messageId: 1, userId: 1, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
+	{ messageId: 2, userId: 2, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
+	{ messageId: 3, userId: 3, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
+	{ messageId: 4, userId: 4, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
+	{ messageId: 5, userId: 1, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
+	{ messageId: 6, userId: 2, content: 'hi', createdAt: new Date(), chatRoomId: 1 },
 ];

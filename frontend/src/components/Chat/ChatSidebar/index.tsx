@@ -23,7 +23,7 @@ const ChatSidebar: React.FC<Props> = ({ teamId, setChatModeToNone, setChatModeTo
 
 	const handleEnterChatRoom = (chatRoomId: number) => {
 		setCurrentChatRoom(() => {
-			return { currentChatRoom: chatRoomId };
+			return { currChatRoomId: chatRoomId };
 		});
 		setChatModeToChat();
 	};

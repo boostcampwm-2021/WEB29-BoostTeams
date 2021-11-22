@@ -43,7 +43,7 @@ const ChatContent: React.FC<Props> = ({ teamId, chatMode, inviteUsers, setChatMo
 		inputRef.current.value = '';
 		initInviteUser();
 		setTeamUsersTrigger((trigger) => trigger + 1);
-		setCurrentChatRoom({ currentChatRoom: newChatRoomInfo.chatRoomId });
+		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
 		setChatModeToChat();
 	};
 

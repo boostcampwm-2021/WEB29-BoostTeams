@@ -4,7 +4,7 @@ import {
 	ChatRoomReqType,
 	ChatRoomResType,
 	ChatRoomType,
-	ChatRoomInfoType,
+	ChatRoomUsersType,
 	MessageList,
 	ChatRoomsType,
 } from '@src/types/chat';
@@ -48,7 +48,7 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 	}
 };
 
-export const getChatRoomInfo = async (chatRoomId: number): Promise<ChatRoomInfoType | undefined> => {
+export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUsersType> => {
 	try {
 		const res = await fetchApi.get(`/api/chat/room/${chatRoomId}`);
 		if (res.status === 409) throw new Error();
@@ -59,7 +59,7 @@ export const getChatRoomInfo = async (chatRoomId: number): Promise<ChatRoomInfoT
 		return { chatRoomId: data.chat_room_id, userList };
 	} catch (err) {
 		toast.error('😣 채팅방 정보 가져오기에 실패하였습니다!');
-		return undefined;
+		return { chatRoomId: -1, userList: [] };
 	}
 };
 

@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
-	const currChatRoom = useRecoilValue(currentChatRoomState).currentChatRoom;
+	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 
 	return (
 		<Container>
@@ -29,7 +29,7 @@ const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteU
 					deleteInviteUser={deleteInviteUser}
 				/>
 			) : (
-				currChatRoom !== -1 && <Header teamId={teamId} />
+				currChatRoomId !== -1 && <Header teamId={teamId} />
 			)}
 		</Container>
 	);

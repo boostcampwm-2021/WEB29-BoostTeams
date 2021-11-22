@@ -56,7 +56,7 @@ class ChatRoomService {
 		return { chat_rooms: chatRooms };
 	}
 
-	async getChatRoomInfo(chatRoomId) {
+	async getChatRoomUsers(chatRoomId) {
 		const chatRoomInfo = await this.chatRoomRepository
 			.createQueryBuilder('chat_room')
 			.select('chat_room.chat_room_id')
@@ -64,7 +64,7 @@ class ChatRoomService {
 			.innerJoin('chat_room.chat_room_users', 'chat_room_user')
 			.where('chat_room.chat_room_id = :chatRoomId', { chatRoomId })
 			.getOne();
-		if (!chatRoomInfo) throw new Error('채팅방 정보 불러오기 오류');
+		if (!chatRoomInfo) throw new Error('채팅방 유저 가져오기 오류');
 		return chatRoomInfo;
 	}
 }
