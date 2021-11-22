@@ -11,7 +11,7 @@ const setUserStatusToOnline = (teamId: number, userId: number, socketId: string)
 		const users = onlineUsersByTeam[teamId].filter((user: UserType) => user.userId !== userId);
 		onlineUsersByTeam[teamId] = [...users, { userId }];
 	}
-	onlineUsersInfo[socketId] = { teamId, userId };
+	onlineUsersInfo[socketId] = { teamId, userId, socketId };
 };
 
 const setUserStatusToOffline = (teamId: number, userId: number, socketId: string): void => {
@@ -44,6 +44,7 @@ const initTeam = (socket: Socket): void => {
 	});
 
 	socket.on('disconnect', () => {
+		if (!onlineUsersInfo[socket.id]) return;
 		const { teamId, userId } = onlineUsersInfo[socket.id];
 		setUserStatusToOffline(teamId, userId, socket.id);
 		sendOnlineUsersToRoom(socket, teamId);
