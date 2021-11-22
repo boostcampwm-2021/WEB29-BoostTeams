@@ -53,7 +53,10 @@ export const getChatRoomInfo = async (chatRoomId: number): Promise<ChatRoomInfoT
 		const res = await fetchApi.get(`/api/chat/room/${chatRoomId}`);
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
-		return { chatRoomId: data.chat_room_id, userList: data.user_list };
+		const userList = data.chat_room_users.map((user: { user_id: number }) => {
+			return { userId: user.user_id };
+		});
+		return { chatRoomId: data.chat_room_id, userList };
 	} catch (err) {
 		toast.error('😣 채팅방 정보 가져오기에 실패하였습니다!');
 		return undefined;

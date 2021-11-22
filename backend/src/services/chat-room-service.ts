@@ -44,7 +44,7 @@ class ChatRoomService {
 	}
 
 	async getChatRooms(teamId: number, userId: number) {
-		const chatRoomsResult = await this.chatRoomRepository
+		const chatRooms = await this.chatRoomRepository
 			.createQueryBuilder('chat_room')
 			.select('chat_room.chat_room_id')
 			.addSelect('chat_room.chat_room_name')
@@ -52,8 +52,20 @@ class ChatRoomService {
 			.where('chat_room.team_id = :teamId', { teamId })
 			.andWhere('chat_room_user.user_id =:userId', { userId })
 			.getMany();
-		if (!chatRoomsResult) throw new Error('채팅방 목록 불러오기 오류');
-		return { chat_rooms: chatRoomsResult };
+		if (!chatRooms) throw new Error('채팅방 목록 불러오기 오류');
+		return { chat_rooms: chatRooms };
+	}
+
+	async getChatRoomInfo(chatRoomId) {
+		const chatRoomInfo = await this.chatRoomRepository
+			.createQueryBuilder('chat_room')
+			.select('chat_room.chat_room_id')
+			.addSelect('chat_room_user.user_id')
+			.innerJoin('chat_room.chat_room_users', 'chat_room_user')
+			.where('chat_room.chat_room_id = :chatRoomId', { chatRoomId })
+			.getOne();
+		if (!chatRoomInfo) throw new Error('채팅방 정보 불러오기 오류');
+		return chatRoomInfo;
 	}
 }
 

@@ -21,6 +21,16 @@ const ChatController = {
 		} catch (err) {
 			res.sendStatus(409);
 		}
+	},
+
+	async getChatRoomInfo(req: Request, res: Response) {
+		try {
+			const { chatRoomId } = req.params;
+			const chatRoomInfo = await ChatRoomService.getInstance().getChatRoomInfo(chatRoomId);
+			res.status(200).json(chatRoomInfo);
+		} catch (err) {
+			res.sendStatus(409);
+		}
 	}
 };
 
