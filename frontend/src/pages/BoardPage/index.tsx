@@ -7,6 +7,7 @@ import { IPostit } from '@src/types/board';
 const BoardPage: React.FC = () => {
 	const [postits, setPostits] = useState<IPostit[]>([]);
 	const [showModal, setShowModal] = useState(false);
+	const [showDelete, setShowDelete] = useState(false);
 	const [modalType, setModalType] = useState('create');
 	const [clickedPostit, setClickedPostit] = useState<IPostit>();
 	const handleModalOpen = () => setShowModal(true);
@@ -16,6 +17,7 @@ const BoardPage: React.FC = () => {
 	const socketApi = {
 		createNewPostit: (newPostit: IPostit) => socket.current.emit('create new postit', newPostit),
 		updatePostit: (newPostit: IPostit) => socket.current.emit('update postit', newPostit),
+		deletePostit: (targetId: number) => socket.current.emit('delete postit', targetId),
 		dragPostit: (e: KonvaEventObject<DragEvent>) => {
 			const id = e.target.id();
 			const x = e.target.x();
@@ -31,6 +33,7 @@ const BoardPage: React.FC = () => {
 		const postit = { ...postitList.splice(postitIdx, 1)[0], isDragging: true };
 		postitList.push(postit);
 		setPostits(postitList);
+		setShowDelete(true);
 	};
 
 	const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
@@ -44,6 +47,10 @@ const BoardPage: React.FC = () => {
 			isDragging: false,
 		};
 		setPostits(postitList);
+		setShowDelete(false);
+		if (e.evt.offsetY > (window.innerHeight / 10) * 9 && e.evt.offsetY < window.innerHeight) {
+			socketApi.deletePostit(Number(e.target.id()));
+		}
 	};
 
 	const handleDrag = (e: KonvaEventObject<DragEvent>) => {
@@ -62,8 +69,9 @@ const BoardPage: React.FC = () => {
 	useEffect(() => {
 		if (socket.current) {
 			socket.current.emit('join board page');
-			socket.current.on('join board page', (postit: IPostit[]) => setPostits(postit));
-			socket.current.on('create new postit', (postit: IPostit[]) => setPostits(postit));
+			socket.current.on('join board page', (postits: IPostit[]) => setPostits(postits));
+			socket.current.on('create new postit', (postits: IPostit[]) => setPostits(postits));
+			socket.current.on('delete postit', (postits: IPostit[]) => setPostits(postits));
 			socket.current.on('update postit', (postit: IPostit) => updatePostits(postit));
 			socket.current.on('drag postit', (postit: IPostit) => updatePostits(postit));
 		}
@@ -71,6 +79,7 @@ const BoardPage: React.FC = () => {
 			socket.current.emit('leave board page');
 			socket.current.off('join board page');
 			socket.current.off('create new postit');
+			socket.current.off('delete postit');
 			socket.current.off('update postit');
 			socket.current.off('drag postit');
 		};
@@ -90,6 +99,7 @@ const BoardPage: React.FC = () => {
 			handleDragStart={handleDragStart}
 			handleDragEnd={handleDragEnd}
 			socketApi={socketApi}
+			showDelete={showDelete}
 		/>
 	);
 };
