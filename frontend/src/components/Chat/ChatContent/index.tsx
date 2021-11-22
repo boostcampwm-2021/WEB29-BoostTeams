@@ -37,6 +37,7 @@ const ChatContent: React.FC<Props> = ({
 	const messageList = useRecoilValue(messageListState);
 
 	const handleNewChatRoomCreate = async () => {
+		if (!socketRef.current) return;
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
 		if (!inviteUsers.length) return;
@@ -51,10 +52,11 @@ const ChatContent: React.FC<Props> = ({
 		};
 		const newChatRoomInfo = await createChatRoom(roomInfo);
 		if (!newChatRoomInfo) return;
-		inputRef.current.value = '';
-		initInviteUser();
 		setTeamUsersTrigger((trigger) => trigger + 1);
 		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
+		socketRef.current.emit('invite users', { chatRoomId: newChatRoomInfo.chatRoomId, userList: inviteUsers, teamId });
+		inputRef.current.value = '';
+		initInviteUser();
 		setChatModeToChat();
 	};
 

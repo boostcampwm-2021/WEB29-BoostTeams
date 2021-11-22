@@ -1,5 +1,5 @@
 import { Namespace, Socket } from 'socket.io';
-import { messages } from './store';
+import { messages, onlineUsersInfo } from './store';
 
 // eslint-disable-next-line prefer-const
 let messageIdx = 1;
@@ -32,6 +32,16 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 
 	socket.on('update chat room name', ({ chatRoomId }) => {
 		namespace.to(`chat-${chatRoomId}`).emit('refresh chat rooms');
+	});
+
+	socket.on('invite users', ({ chatRoomId, userList, teamId }) => {
+		userList.forEach((user: { userId: number }) => {
+			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
+				return JSON.stringify(onlineUsersInfo[socketId]) === JSON.stringify({ teamId: teamId, userId: user.userId });
+			});
+			socket.to(onlineInvitedUser).emit('refresh chat rooms');
+			socket.join(`chat-${chatRoomId}`);
+		});
 	});
 };
 

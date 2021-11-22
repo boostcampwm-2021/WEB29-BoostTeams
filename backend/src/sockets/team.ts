@@ -11,7 +11,7 @@ const setUserStatusToOnline = (teamId: number, userId: number, socketId: string)
 		const users = onlineUsersByTeam[teamId].filter((user: UserType) => user.userId !== userId);
 		onlineUsersByTeam[teamId] = [...users, { userId }];
 	}
-	onlineUsersInfo[socketId] = { teamId, userId, socketId };
+	onlineUsersInfo[socketId] = { teamId: Number(teamId), userId };
 };
 
 const setUserStatusToOffline = (teamId: number, userId: number, socketId: string): void => {
