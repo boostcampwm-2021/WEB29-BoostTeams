@@ -14,9 +14,17 @@ interface Props {
 	inviteUsers: UserIdType[];
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
+	handleModalOpen: () => void;
 }
 
-const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const ChatHeader: React.FC<Props> = ({
+	teamId,
+	chatMode,
+	inviteUsers,
+	addInviteUser,
+	deleteInviteUser,
+	handleModalOpen,
+}) => {
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 
@@ -32,7 +40,7 @@ const ChatHeader: React.FC<Props> = ({ teamId, chatMode, inviteUsers, addInviteU
 					deleteInviteUser={deleteInviteUser}
 				/>
 			) : (
-				checkRoomAndTeam() && <Header teamId={teamId} />
+				checkRoomAndTeam() && <Header teamId={teamId} handleModalOpen={handleModalOpen} />
 			)}
 		</Container>
 	);

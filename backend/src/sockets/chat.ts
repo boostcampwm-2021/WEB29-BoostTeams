@@ -29,6 +29,10 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		saveMessage(chatRoomId, message);
 		namespace.in(`chat-${chatRoomId}`).emit('receive message', message);
 	});
+
+	socket.on('update chat room name', ({ chatRoomId }) => {
+		namespace.to(`chat-${chatRoomId}`).emit('refresh chat rooms');
+	});
 };
 
 export interface MessageType {

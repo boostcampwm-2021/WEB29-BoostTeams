@@ -10,9 +10,10 @@ import { HeaderContainer, ChatRoomInfoContainer, InvitationBtn } from './style';
 
 interface Props {
 	teamId: number;
+	handleModalOpen: () => void;
 }
 
-const Header: React.FC<Props> = ({ teamId }) => {
+const Header: React.FC<Props> = ({ teamId, handleModalOpen }) => {
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const chatRoomUsers = useRecoilValue(chatRoomUsersSelector).userList;
@@ -28,7 +29,7 @@ const Header: React.FC<Props> = ({ teamId }) => {
 					isHover={false}
 				/>
 				<h2>{chatRooms[currChatRoomId].chatRoomName}</h2>
-				<FaPen />
+				<FaPen onClick={handleModalOpen} />
 			</ChatRoomInfoContainer>
 			<InvitationBtn>
 				<FaUserPlus />
