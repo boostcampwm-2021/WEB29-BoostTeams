@@ -34,6 +34,17 @@ const ChatController = {
 		}
 	},
 
+	async updateChatRoomName(req: Request, res: Response) {
+		try {
+			const { chatRoomId } = req.params;
+			const chatRoomName = req.body.chat_room_name;
+			await ChatRoomService.getInstance().updateChatRoomName(chatRoomId, chatRoomName);
+			res.sendStatus(201);
+		} catch (err) {
+			res.sendStatus(409);
+		}
+	},
+
 	// redis로 변경해야함, 스크롤 구현해야함
 	async getChatMessages(req: Request, res: Response) {
 		try {

@@ -67,6 +67,16 @@ class ChatRoomService {
 		if (!chatRoomInfo) throw new Error('채팅방 유저 가져오기 오류');
 		return chatRoomInfo;
 	}
+
+	async updateChatRoomName(chatRoomId, chatRoomName) {
+		const updatedChatRoom = await this.chatRoomRepository
+			.createQueryBuilder()
+			.update('chat_room')
+			.set({ chat_room_name: chatRoomName })
+			.where('chat_room_id = :chatRoomId', { chatRoomId })
+			.execute();
+		if (!updatedChatRoom) throw new Error('채팅방 이름 변경 오류');
+	}
 }
 
 interface UserIdType {
