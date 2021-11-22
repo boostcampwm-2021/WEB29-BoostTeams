@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { currentChatRoomState, chatRoomsSelector } from '@stores/chat';
+import { currentChatRoomState, chatRoomsSelector, chatRoomUsersSelector } from '@stores/chat';
 import { ChatRoomsType } from '@src/types/chat';
 
 import { FaUserPlus, FaPen } from 'react-icons/fa';
@@ -13,25 +13,26 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ teamId }) => {
-	const currChatRoom = useRecoilValue(currentChatRoomState).currentChatRoom;
+	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
+	const chatRoomUsers = useRecoilValue(chatRoomUsersSelector).userList;
 
 	return (
 		<HeaderContainer>
 			<ChatRoomInfoContainer>
 				<ProfileIcon
-					name={chatRooms[currChatRoom].chatRoomName}
-					color={chatRooms[currChatRoom].chatRoomId % 6}
+					name={chatRooms[currChatRoomId].chatRoomName}
+					color={chatRooms[currChatRoomId].chatRoomId % 6}
 					status='none'
 					width={3.2}
 					isHover={false}
 				/>
-				<h2>{chatRooms[currChatRoom].chatRoomName}</h2>
+				<h2>{chatRooms[currChatRoomId].chatRoomName}</h2>
 				<FaPen />
 			</ChatRoomInfoContainer>
 			<InvitationBtn>
 				<FaUserPlus />
-				<span>0</span>
+				<span>{chatRoomUsers.length}</span>
 			</InvitationBtn>
 		</HeaderContainer>
 	);
