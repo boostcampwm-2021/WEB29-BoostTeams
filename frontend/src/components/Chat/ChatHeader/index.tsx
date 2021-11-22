@@ -1,7 +1,8 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserIdType, ChatRoomsType } from '@src/types/chat';
+import { ChatRoomsType } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
 import { currentChatRoomState, chatRoomsSelector } from '@stores/chat';
 
 import SearchHeader from './SearchHeader';

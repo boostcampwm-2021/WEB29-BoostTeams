@@ -2,8 +2,9 @@ import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { timeSince } from '@utils/time';
-import { TeamUsersType } from '@src/types/chat';
-import { chatRoomsSelector, currentChatRoomState, teamUsersSelector } from '@src/stores/chat';
+import { TeamUsersType } from '@src/types/team';
+import { teamUsersSelector } from '@stores/team';
+import { chatRoomsSelector, currentChatRoomState } from '@stores/chat';
 
 import { BiListPlus } from 'react-icons/bi';
 import { Sidebar, ProfileIcon } from '@components/common';
@@ -19,7 +20,7 @@ interface Props {
 const ChatSidebar: React.FC<Props> = ({ teamId, setChatModeToNone, setChatModeToCreate, setChatModeToChat }) => {
 	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 
 	const handleEnterChatRoom = (chatRoomId: number) => {
 		setCurrentChatRoom(() => {

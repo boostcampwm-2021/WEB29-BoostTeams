@@ -3,9 +3,11 @@ import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 import { createChatRoom } from '@apis/chat';
 import { SocketContext } from '@utils/socketContext';
+import { ChatModeType } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
 import userState from '@stores/user';
-import { chatRoomsTrigger, teamUsersSelector, currentChatRoomState, messageListState } from '@stores/chat';
-import { ChatModeType, UserIdType, TeamUsersType } from '@src/types/chat';
+import { teamUsersSelector } from '@stores/team';
+import { chatRoomsTrigger, currentChatRoomState, messageListState } from '@stores/chat';
 
 import { FaTelegramPlane } from 'react-icons/fa';
 import Message from './Message';
@@ -31,7 +33,7 @@ const ChatContent: React.FC<Props> = ({
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 	const myInfo = useRecoilValue(userState);
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const [currentChatRoom, setCurrentChatRoom] = useRecoilState(currentChatRoomState);
 	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
 	const messageList = useRecoilValue(messageListState);

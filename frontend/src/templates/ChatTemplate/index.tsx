@@ -1,5 +1,6 @@
 import React from 'react';
-import { UserIdType, ChatModeType } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
+import { ChatModeType } from '@src/types/chat';
 
 import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';

@@ -2,7 +2,8 @@ import React, { useState, useReducer, useEffect, useContext, useRef } from 'reac
 import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { UserIdType, ChatModeType, MessageType } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
+import { ChatModeType, MessageType } from '@src/types/chat';
 import { chatRoomsSelector, currentChatRoomState, messageListState, chatRoomsTrigger } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
 import { getMessageList } from '@src/apis/chat';

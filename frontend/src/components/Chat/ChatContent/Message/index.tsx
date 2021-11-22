@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
+import { MessageType } from '@src/types/chat';
 import userState from '@stores/user';
-import { teamUsersSelector } from '@stores/chat';
+import { teamUsersSelector } from '@stores/team';
 import { timeToString } from '@utils/time';
-import { MessageType, TeamUsersType } from '@src/types/chat';
 
 import { ProfileIcon } from '@components/common';
 import { Container, ChatIconWrapper, MessageContainer, InfoContainer, ImojiWraper } from './style';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Message: React.FC<Props> = ({ teamId, message }) => {
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const myId = useRecoilValue(userState).id;
 
 	const isMyChat = () => message.userId === myId;

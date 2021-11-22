@@ -1,3 +1,5 @@
+import { UserIdType } from './team';
+
 export type ChatModeType = 'none' | 'create' | 'chat';
 
 export interface ChatRoomType {
@@ -11,10 +13,6 @@ export interface ChatRoomsType {
 
 export interface ChatRoomsLastMessageType {
 	[chatRoomId: number]: MessageType;
-}
-
-export interface UserIdType {
-	userId: number;
 }
 
 export interface ChatRoomUsersType {
@@ -31,18 +29,6 @@ export interface MessageType {
 }
 
 export type MessageListType = MessageType[];
-
-export interface TeamUserType {
-	userId: number;
-	name: string;
-	email: string;
-	color: number;
-	chatRoomId: number;
-}
-
-export interface TeamUsersType {
-	[userId: number]: TeamUserType;
-}
 
 export interface ChatRoomReqType {
 	team_id: number;

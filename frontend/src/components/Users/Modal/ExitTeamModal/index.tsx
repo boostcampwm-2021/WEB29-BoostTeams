@@ -18,7 +18,7 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	const history = useHistory();
 	const handleSubmit = async () => {
 		const result = await readTeamUsers(teamId);
-		if (result.length === 1) handleDeleteBtn(setLoadTrigger, teamId);
+		if (Object.keys(result).length === 1) handleDeleteBtn(setLoadTrigger, teamId);
 		else await leaveTeam(setLoadTrigger, teamId);
 		history.push('/');
 	};

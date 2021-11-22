@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserIdType, TeamUserType, TeamUsersType } from '@src/types/chat';
-import { teamUsersSelector } from '@stores/chat';
+import { TeamUserType, UserIdType } from '@src/types/team';
 import userState from '@stores/user';
+import { teamUsersSelector } from '@stores/team';
 
 import { FaTimes } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
@@ -19,7 +19,7 @@ interface Props {
 const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
 	const searchByKey = (searchKey: string): TeamUserType[] => {

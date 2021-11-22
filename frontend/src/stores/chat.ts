@@ -1,7 +1,6 @@
 import { atom, selector, selectorFamily } from 'recoil';
 import { ChatRoomsLastMessageType, MessageListType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
-import { readTeamUsers } from '@apis/users';
 import userState from './user';
 
 export const currentChatRoomState = atom({
@@ -41,19 +40,4 @@ export const chatRoomUsersSelector = selector({
 export const messageListState = atom({
 	key: 'messageListState',
 	default: [] as MessageListType,
-});
-
-export const teamUsersSelector = selectorFamily({
-	key: 'teamUsersSelector',
-	get: (teamId: number) => async () => {
-		const data = await readTeamUsers(teamId);
-		const entries = data.map(({ user }: any) => {
-			return [
-				user.user_id,
-				{ userId: user.user_id, name: user.user_name, email: user.user_email, color: user.user_color },
-			];
-		});
-		const teamUsers = Object.fromEntries(entries);
-		return teamUsers;
-	},
 });
