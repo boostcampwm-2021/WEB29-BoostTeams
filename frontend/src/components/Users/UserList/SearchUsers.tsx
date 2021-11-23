@@ -6,11 +6,11 @@ import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonC
 
 interface Props {
 	handleInput: (e: any) => void;
-	onBtnClick: (mode: string) => void;
+	openModal: (mode: string) => void;
 	isAdmin: boolean;
 }
 
-const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
+const SearchUsers: React.FC<Props> = ({ handleInput, openModal, isAdmin }) => {
 	return (
 		<SearchUsersContainer>
 			<h2>구성원</h2>
@@ -22,7 +22,7 @@ const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
 				<ButtonContainer>
 					<Button
 						text='팀 나가기'
-						handler={() => onBtnClick('EXIT')}
+						handler={() => openModal('EXIT')}
 						backgroundColor={ColorCode.PRIMARY1}
 						fontColor={ColorCode.WHITE}
 					/>
@@ -30,13 +30,13 @@ const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
 						<>
 							<Button
 								text='팀 삭제'
-								handler={() => onBtnClick('DELETE')}
+								handler={() => openModal('DELETE')}
 								backgroundColor={ColorCode.PRIMARY1}
 								fontColor={ColorCode.WHITE}
 							/>
 							<Button
 								text='팀 정보 수정하기'
-								handler={() => onBtnClick('UPDATE')}
+								handler={() => openModal('UPDATE')}
 								backgroundColor={ColorCode.PRIMARY1}
 								fontColor={ColorCode.WHITE}
 							/>

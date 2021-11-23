@@ -1,6 +1,8 @@
 import React from 'react';
 import SearchUsers from '@components/Users/UserList/SearchUsers';
 import UserList from '@components/Users/UserList/UserList';
+import { useSetRecoilState } from 'recoil';
+import { modalState } from '@src/stores/team';
 import { Layout } from './style';
 
 interface Props {
@@ -9,19 +11,20 @@ interface Props {
 	onlineUsers: { userId: number }[];
 	filteredUsers: any;
 	handleInput: (e: any) => void;
-	onBtnClick: (mode: string) => void;
 }
 
-const UserListIndex: React.FC<Props> = ({ teamId, isAdmin, onlineUsers, filteredUsers, handleInput, onBtnClick }) => {
+const UserListIndex: React.FC<Props> = ({ teamId, isAdmin, onlineUsers, filteredUsers, handleInput }) => {
+	const setModal = useSetRecoilState<any>(modalState);
+	const openModal = (mode: string) => setModal({ isOpen: true, mode });
 	return (
 		<Layout>
-			<SearchUsers handleInput={handleInput} onBtnClick={onBtnClick} isAdmin={isAdmin} />
+			<SearchUsers handleInput={handleInput} openModal={openModal} isAdmin={isAdmin} />
 			<UserList
 				users={filteredUsers}
 				isAdmin={isAdmin}
 				onlineUsers={onlineUsers}
 				teamId={teamId}
-				onBtnClick={onBtnClick}
+				openModal={openModal}
 			/>
 		</Layout>
 	);
