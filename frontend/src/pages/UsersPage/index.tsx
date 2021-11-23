@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SocketContext } from '@utils/socketContext';
-import { readTeamInfo } from '@apis/users';
+import { readTeamInfo } from '@apis/team';
 import userState from '@stores/user';
 import { teamUsersSelector, teamUsersTrigger } from '@stores/team';
 import { TeamUserType, UserIdType } from '@src/types/team';

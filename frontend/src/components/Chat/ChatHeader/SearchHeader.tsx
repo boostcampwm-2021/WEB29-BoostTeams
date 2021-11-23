@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { TeamUserType, UserIdType } from '@src/types/team';
+import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
 
@@ -19,11 +19,11 @@ interface Props {
 const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
-	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
 	const searchByKey = (searchKey: string): TeamUserType[] => {
-		return Object.values(teamUsers).filter((user: TeamUserType) => {
+		return Object.values(teamUsers).filter((user) => {
 			const regex = new RegExp(searchKey, 'gi');
 			return (
 				user.userId !== myId && (teamUsers[user.userId].email.match(regex) || teamUsers[user.userId].name.match(regex))
