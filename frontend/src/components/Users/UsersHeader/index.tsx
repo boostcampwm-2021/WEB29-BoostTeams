@@ -1,6 +1,6 @@
 import React from 'react';
 import Thumbnail from '@components/Team/Cards/Thumbnail';
-import { teamInfoSelector } from '@src/stores/team';
+import { teamInfoSelector } from '@stores/team';
 import { useRecoilValue } from 'recoil';
 import { UserHeaderContainer, TeamName } from './style';
 

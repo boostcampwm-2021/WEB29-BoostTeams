@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, Navbar } from '@components/common';
 import UsersHeader from '@components/Users/UsersHeader';
-import Users from '@src/components/Users/UserList';
+import UserList from '@components/Users/UserList';
 import {
 	ExitTeamModal,
 	UpdateTeamModal,
@@ -10,18 +10,15 @@ import {
 	InviteUserModal,
 } from '@components/Users/Modal';
 import { useRecoilState } from 'recoil';
-import { modalState } from '@src/stores/team';
+import { modalState } from '@stores/team';
 import { MainContainer, ContentContainer } from './style';
 
 interface Props {
 	teamId: number;
 	onlineUsers: { userId: number }[];
-	filteredUsers: any;
-	handleInput: (e: any) => void;
-	isAdmin: boolean;
 }
 
-const UsersTemplate: React.FC<Props> = ({ teamId, onlineUsers, filteredUsers, isAdmin, handleInput }) => {
+const UsersTemplate: React.FC<Props> = ({ teamId, onlineUsers }) => {
 	const [modal, setModal] = useRecoilState<any>(modalState);
 	const closeModal = () => setModal({ isOpen: false, mode: modal.mode });
 	return (
@@ -31,13 +28,7 @@ const UsersTemplate: React.FC<Props> = ({ teamId, onlineUsers, filteredUsers, is
 				<Navbar />
 				<ContentContainer>
 					<UsersHeader teamId={teamId} />
-					<Users
-						teamId={teamId}
-						onlineUsers={onlineUsers}
-						isAdmin={isAdmin}
-						filteredUsers={filteredUsers}
-						handleInput={handleInput}
-					/>
+					<UserList teamId={teamId} onlineUsers={onlineUsers} />
 				</ContentContainer>
 			</MainContainer>
 			{modal.mode === 'EXIT' && modal.isOpen && <ExitTeamModal handleModalClose={closeModal} teamId={teamId} />}

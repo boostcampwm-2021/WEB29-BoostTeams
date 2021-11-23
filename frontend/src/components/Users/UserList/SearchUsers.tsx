@@ -1,7 +1,7 @@
-import Button from '@src/components/common/Button';
-import { ColorCode } from '@src/utils/constants';
 import React from 'react';
+import DropDown from '@src/components/common/DropDown';
 import { FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonContainer } from './style';
 
 interface Props {
@@ -11,6 +11,21 @@ interface Props {
 }
 
 const SearchUsers: React.FC<Props> = ({ handleInput, openModal, isAdmin }) => {
+	const onSelect = (value: number) => {
+		switch (value) {
+			case 0:
+				openModal('EXIT');
+				break;
+			case 1:
+				openModal('DELETE');
+				break;
+			case 2:
+				openModal('UPDATE');
+				break;
+			default:
+				toast('올바르지 않은 접근입니다');
+		}
+	};
 	return (
 		<SearchUsersContainer>
 			<h2>구성원</h2>
@@ -20,28 +35,11 @@ const SearchUsers: React.FC<Props> = ({ handleInput, openModal, isAdmin }) => {
 					<FaSearch />
 				</IconWrapper>
 				<ButtonContainer>
-					<Button
-						text='팀 나가기'
-						handler={() => openModal('EXIT')}
-						backgroundColor={ColorCode.PRIMARY1}
-						fontColor={ColorCode.WHITE}
+					<DropDown
+						options={isAdmin ? ['팀 나가기', '팀 삭제하기', '팀 정보수정'] : ['팀 나가기']}
+						selectedOption='메뉴'
+						setSelectedOption={onSelect}
 					/>
-					{isAdmin && (
-						<>
-							<Button
-								text='팀 삭제'
-								handler={() => openModal('DELETE')}
-								backgroundColor={ColorCode.PRIMARY1}
-								fontColor={ColorCode.WHITE}
-							/>
-							<Button
-								text='팀 정보 수정하기'
-								handler={() => openModal('UPDATE')}
-								backgroundColor={ColorCode.PRIMARY1}
-								fontColor={ColorCode.WHITE}
-							/>
-						</>
-					)}
 				</ButtonContainer>
 			</InputContainer>
 		</SearchUsersContainer>

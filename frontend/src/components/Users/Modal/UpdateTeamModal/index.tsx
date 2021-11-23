@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { teamListLoadTrigger, teamInfoLoadTrigger, teamInfoSelector } from '@src/stores/team';
-import Modal from '@src/components/common/Modal';
-import { update } from '@src/apis/team';
+import { teamInfoLoadTrigger, teamInfoSelector } from '@stores/team';
+import Modal from '@components/common/Modal';
+import { update } from '@apis/team';
 import { UpdateModalContent, Input } from '../style';
 
 interface Props {

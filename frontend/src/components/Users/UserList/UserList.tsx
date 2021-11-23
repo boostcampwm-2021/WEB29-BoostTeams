@@ -29,15 +29,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, openM
 				<span>역할</span>
 			</LabelContainer>
 			{managerUsers.map((e) => (
-				<User
-					key={e.userId}
-					user={e}
-					mode='ADMIN'
-					isAdmin={isAdmin}
-					isOnline={isOnline}
-					openModal={openModal}
-					teamId={teamId}
-				/>
+				<User key={e.userId} user={e} isAdmin={isAdmin} isOnline={isOnline} openModal={openModal} teamId={teamId} />
 			))}
 			<h3>
 				<span>구성원</span>
@@ -48,15 +40,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, openM
 				<span>역할</span>
 			</LabelContainer>
 			{normalUsers.map((e) => (
-				<User
-					key={e.userId}
-					user={e}
-					mode='MEMBER'
-					isAdmin={isAdmin}
-					isOnline={isOnline}
-					openModal={openModal}
-					teamId={teamId}
-				/>
+				<User key={e.userId} user={e} isAdmin={isAdmin} isOnline={isOnline} openModal={openModal} teamId={teamId} />
 			))}
 		</UserListContainer>
 	);

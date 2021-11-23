@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@src/components/common/Modal';
+import Modal from '@components/common/Modal';
 import { useSetRecoilState } from 'recoil';
 import { selectedUser, teamUsersTrigger } from '@stores/team';
 import { kickOut } from '@apis/team';

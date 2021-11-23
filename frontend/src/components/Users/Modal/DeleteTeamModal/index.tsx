@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { teamListLoadTrigger } from '@stores/team';
 import { handleDeleteBtn } from '@utils/team';
-
 import Modal from '@components/common/Modal';
 import { Content } from '../style';
 
