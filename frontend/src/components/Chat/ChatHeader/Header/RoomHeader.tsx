@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { deleteChatRoomUser } from '@apis/chat';
+import { deleteChatRoomUser, socketApi } from '@apis/chat';
 import userState from '@stores/user';
 import {
 	currentChatRoomState,
@@ -10,6 +10,7 @@ import {
 	chatRoomsTrigger,
 	chatModeState,
 } from '@stores/chat';
+import { SocketContext } from '@utils/socketContext';
 import { ChatRoomsType } from '@src/types/chat';
 import { UserIdType } from '@src/types/team';
 
@@ -25,7 +26,6 @@ interface Props {
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
-	socketInviteUser: (chatRoomId: number, userList: UserIdType[]) => void;
 	handleModalOpen: () => void;
 }
 
@@ -35,9 +35,9 @@ const RoomHeader: React.FC<Props> = ({
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
-	socketInviteUser,
 	handleModalOpen,
 }) => {
+	const socketRef = useContext(SocketContext);
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const resetCurrChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatMode = useSetRecoilState(chatModeState);
@@ -58,6 +58,7 @@ const RoomHeader: React.FC<Props> = ({
 	const handleChatRoomLeave = async () => {
 		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
 		if (!deleteResult) return;
+		socketApi.exitChatRoom(socketRef.current, currChatRoomId);
 		setChatMode({ chatMode: 'none' });
 		resetCurrChatRoom();
 		setChatRoomsTrigger((trigger) => trigger + 1);
@@ -99,7 +100,6 @@ const RoomHeader: React.FC<Props> = ({
 					addInviteUser={addInviteUser}
 					deleteInviteUser={deleteInviteUser}
 					initInviteUser={initInviteUser}
-					socketInviteUser={socketInviteUser}
 					handleInviteDropDownClose={handleInviteDropDownClose}
 				/>
 			)}

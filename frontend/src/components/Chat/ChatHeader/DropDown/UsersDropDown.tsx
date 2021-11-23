@@ -14,7 +14,7 @@ interface Props {
 	handleInviteDropDownOpen: () => void;
 }
 
-const UserListDropDown: React.FC<Props> = ({ teamId, handleUsersDropDownClose, handleInviteDropDownOpen }) => {
+const UserstDropDown: React.FC<Props> = ({ teamId, handleUsersDropDownClose, handleInviteDropDownOpen }) => {
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 
@@ -25,7 +25,7 @@ const UserListDropDown: React.FC<Props> = ({ teamId, handleUsersDropDownClose, h
 	return (
 		<UsersDropDownContainer>
 			{chatRoomUserList.map((user) => (
-				<ProfileContainer>
+				<ProfileContainer key={user.userId}>
 					<ProfileIcon
 						name={teamUsers[user.userId].name}
 						color={teamUsers[user.userId].color}
@@ -44,4 +44,4 @@ const UserListDropDown: React.FC<Props> = ({ teamId, handleUsersDropDownClose, h
 	);
 };
 
-export default UserListDropDown;
+export default UserstDropDown;

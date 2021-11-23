@@ -9,6 +9,8 @@ import {
 	MessageListType,
 	UserListReqType,
 } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
+import { Socket } from 'socket.io-client';
 
 export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoomType | undefined> => {
 	try {
@@ -106,4 +108,13 @@ export const getMessageList = async (chatRoomId: number): Promise<MessageListTyp
 		toast.error('😣 메시지 가져오기에 실패하였습니다!');
 		return [];
 	}
+};
+
+export const socketApi = {
+	inviteUsers: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
+		socket.emit('invite users', { chatRoomId, userList, teamId });
+	},
+	exitChatRoom: (socket: Socket, chatRoomId: number) => {
+		socket.emit('exit chat room', { chatRoomId });
+	},
 };

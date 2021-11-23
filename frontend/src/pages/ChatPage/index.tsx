@@ -10,9 +10,10 @@ import {
 	messageListState,
 	chatRoomsTrigger,
 	chatModeState,
+	chatRoomUsersTrigger,
 } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { getMessageList } from '@src/apis/chat';
+import { getMessageList } from '@apis/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -47,9 +48,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
+	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
+	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
 	const setChatMode = useSetRecoilState(chatModeState);
 
 	const addInviteUser = (newUser: UserIdType) => dispatchInviteUsers({ type: 'ADD', newUser });
@@ -60,12 +62,8 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		return { chatRoomId };
 	});
 
-	const socketInviteUser = (chatRoomId: number, userList: UserIdType[]) => {
-		socketRef.current.emit('invite users', { chatRoomId, userList, teamId });
-	};
-
 	const getInitialMessageList = async () => {
-		const messages = await getMessageList(currentChatRoomId);
+		const messages = await getMessageList(currChatRoomId);
 		setMessageList(messages);
 	};
 
@@ -81,18 +79,22 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	}, [teamId]);
 
 	useEffect(() => {
-		if (currentChatRoomId !== -1) {
+		if (currChatRoomId !== -1) {
 			getInitialMessageList();
 			socketRef.current.on('receive message', (message: MessageType) => {
-				if (message.chatRoomId === currentChatRoomId) {
+				if (message.chatRoomId === currChatRoomId) {
 					setMessageList((prev) => [...prev, message]);
 				}
+			});
+			socketRef.current.on('refresh chat room users', ({ chatRoomId }: { chatRoomId: number }) => {
+				if (chatRoomId === currChatRoomId) setChatRoomUsersTrigger((trigger) => trigger + 1);
 			});
 		}
 		return () => {
 			socketRef.current.off('receive message');
+			socketRef.current.off('refresh chat room users');
 		};
-	}, [currentChatRoomId]);
+	}, [currChatRoomId]);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -105,6 +107,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
+			socketRef.current.off('refresh chat rooms');
 		};
 	}, [socketRef.current, teamId]);
 
@@ -117,7 +120,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}
-			socketInviteUser={socketInviteUser}
 			handleModalOpen={handleModalOpen}
 			handleModalClose={handleModalClose}
 		/>

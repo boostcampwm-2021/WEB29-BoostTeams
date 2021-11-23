@@ -1,7 +1,7 @@
 import React, { useRef, useContext } from 'react';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
-import { createChatRoom } from '@apis/chat';
+import { createChatRoom, socketApi } from '@apis/chat';
 import { SocketContext } from '@utils/socketContext';
 import { UserIdType } from '@src/types/team';
 import userState from '@stores/user';
@@ -17,10 +17,9 @@ interface Props {
 	inviteUsers: UserIdType[];
 	messagesEndRef: React.RefObject<HTMLDivElement>;
 	initInviteUser: () => void;
-	socketInviteUser: (chatRoomId: number, userList: UserIdType[]) => void;
 }
 
-const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, initInviteUser, socketInviteUser }) => {
+const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, initInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 
@@ -30,6 +29,15 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 	const messageList = useRecoilValue(messageListState);
 	const [chatMode, setChatMode] = useRecoilState(chatModeState);
 	const [currentChatRoom, setCurrentChatRoom] = useRecoilState(currentChatRoomState);
+
+	const handleEnterCheck = (e: React.KeyboardEvent) => {
+		if (e.key !== 'Enter') return;
+		if (chatMode.chatMode === 'create') {
+			handleNewChatRoomCreate();
+			return;
+		}
+		handleSendMessage();
+	};
 
 	const handleNewChatRoomCreate = async () => {
 		if (!socketRef.current) return;
@@ -49,19 +57,10 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		if (!newChatRoomInfo) return;
 		setChatRoomsTrigger((trigger) => trigger + 1);
 		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
-		socketInviteUser(newChatRoomInfo.chatRoomId, inviteUsers);
+		socketApi.inviteUsers(socketRef.current, newChatRoomInfo.chatRoomId, inviteUsers, teamId);
 		inputRef.current.value = '';
 		initInviteUser();
 		setChatMode({ chatMode: 'chat' });
-	};
-
-	const handleEnterCheck = (e: React.KeyboardEvent) => {
-		if (e.key !== 'Enter') return;
-		if (chatMode.chatMode === 'create') {
-			handleNewChatRoomCreate();
-			return;
-		}
-		handleSendMessage();
 	};
 
 	const handleSendMessage = () => {

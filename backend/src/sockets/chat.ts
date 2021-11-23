@@ -13,12 +13,14 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 	socket.on('enter chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.join(`chat-${chatRoomId}`);
+			console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
 	});
 
 	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.leave(`chat-${chatRoomId}`);
+			console.log(`leave chat-${chatRoomId} ${socket.id}`);
 		});
 	});
 
@@ -39,7 +41,14 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			});
 			socket.to(onlineInvitedUser).emit('refresh chat rooms');
 			socket.join(`chat-${chatRoomId}`);
+			console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
+	});
+
+	socket.on('exit chat room', ({ chatRoomId }) => {
+		namespace.to(`chat-${chatRoomId}`).emit('refresh chat room users', { chatRoomId });
+		socket.leave(`chat-${chatRoomId}`);
+		console.log(`leave chat-${chatRoomId} ${socket.id}`);
 	});
 };
 
