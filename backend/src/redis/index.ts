@@ -66,7 +66,7 @@ export default class Redis {
 			Redis.client.hget(key, field, (err, searchResult) => {
 				if (err) return reject(err);
 				const storedDataList = JSON.parse(searchResult);
-				const updatedDataList = storedDataList.filter((data) => data.id !== targetId);
+				const updatedDataList = storedDataList.filter((data) => Number(data.id) !== Number(targetId));
 				Redis.client.hset(key, field, JSON.stringify(updatedDataList));
 				return resolve(updatedDataList);
 			});
