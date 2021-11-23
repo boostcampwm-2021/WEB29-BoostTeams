@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { deleteChatRoomUser } from '@apis/chat';
@@ -8,7 +8,8 @@ import { ChatRoomsType } from '@src/types/chat';
 
 import { FaUserPlus, FaPen, FaSignOutAlt } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { HeaderContainer, ChatRoomInfoContainer, ButtonContainer, InvitationBtn, ExitBtn } from './style';
+import UsersDropDown from './UsersDropDown';
+import { HeaderContainer, ChatRoomInfoContainer, ButtonContainer, UserDropDownBtn, ExitBtn } from './style';
 
 interface Props {
 	teamId: number;
@@ -23,6 +24,10 @@ const Header: React.FC<Props> = ({ teamId, setChatModeToNone, handleModalOpen })
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const chatRoomUsers = useRecoilValue(chatRoomUsersSelector).userList;
 	const myId = useRecoilValue(userState).id;
+
+	const [isUsersDropDownVisible, setIsUsersDropDownVisible] = useState(false);
+
+	const toggleDropDownModal = () => setIsUsersDropDownVisible(!isUsersDropDownVisible);
 
 	const handleChatRoomLeave = async () => {
 		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
@@ -46,14 +51,15 @@ const Header: React.FC<Props> = ({ teamId, setChatModeToNone, handleModalOpen })
 				<FaPen onClick={handleModalOpen} />
 			</ChatRoomInfoContainer>
 			<ButtonContainer>
-				<InvitationBtn>
+				<UserDropDownBtn onClick={toggleDropDownModal}>
 					<FaUserPlus />
 					<span>{chatRoomUsers.length}</span>
-				</InvitationBtn>
+				</UserDropDownBtn>
 				<ExitBtn onClick={handleChatRoomLeave}>
 					<FaSignOutAlt />
 				</ExitBtn>
 			</ButtonContainer>
+			{isUsersDropDownVisible && <UsersDropDown teamId={teamId} toggleDropDownModal={toggleDropDownModal} />}
 		</HeaderContainer>
 	);
 };

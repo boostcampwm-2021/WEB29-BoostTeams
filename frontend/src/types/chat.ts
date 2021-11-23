@@ -16,7 +16,6 @@ export interface ChatRoomsLastMessageType {
 }
 
 export interface ChatRoomUsersType {
-	chatRoomId: number;
 	userList: UserIdType[];
 }
 

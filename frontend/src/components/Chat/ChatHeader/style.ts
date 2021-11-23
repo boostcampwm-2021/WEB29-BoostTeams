@@ -15,13 +15,14 @@ export const HeaderContainer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 1rem;
+	position: relative;
 `;
 
 export const ButtonContainer = styled.div`
 	display: flex;
 `;
 
-export const InvitationBtn = styled.button`
+export const UserDropDownBtn = styled.button`
 	width: 2.5rem;
 	height: 2.5rem;
 	cursor: pointer;
@@ -43,6 +44,47 @@ export const InvitationBtn = styled.button`
 	}
 	:hover {
 		color: ${ColorCode.PRIMARY1};
+	}
+`;
+
+export const DropDownContainer = styled.div`
+	position: absolute;
+	top: calc(100% + 0.2rem);
+	right: 1rem;
+	height: fit-content;
+	background-color: ${ColorCode.WHITE};
+	border-radius: 8px;
+	font-size: ${Font.SMALL};
+`;
+
+export const ProfileContainer = styled.div`
+	display: flex;
+	align-items: center;
+	height: 3rem;
+	padding: 0 1.2rem 0 0.5rem;
+	:hover {
+		border-radius: 8px;
+		background-color: ${ColorCode.LINE1};
+	}
+`;
+
+export const InvititationBtn = styled.div`
+	padding: 0 1.2rem;
+	height: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border-top: solid 1px ${ColorCode.LINE1};
+	svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		padding-right: 0.4rem;
+		color: ${ColorCode.FONT1};
+	}
+	:hover {
+		border-radius: 8px;
+		background-color: ${ColorCode.LINE1};
 	}
 `;
 
