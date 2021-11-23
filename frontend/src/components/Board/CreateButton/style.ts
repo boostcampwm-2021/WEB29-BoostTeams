@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
 	width: 17rem;
 	max-height: calc(4.8rem + 4px);
 	overflow: hidden;
+	cursor: grab;
 `;
 
 export const Container = styled.div`
