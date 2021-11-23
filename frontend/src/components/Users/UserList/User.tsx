@@ -3,10 +3,11 @@ import { ProfileIcon, Button } from '@components/common';
 import { ColorCode } from '@utils/constants';
 import { useSetRecoilState } from 'recoil';
 import { selectedUser } from '@src/stores/team';
+import { TeamUserType } from '@src/types/team';
 import { UserWrapper } from './style';
 
 interface Props {
-	user: any;
+	user: TeamUserType;
 	mode: string;
 	isAdmin: boolean;
 	isOnline: (userId: number) => boolean;
