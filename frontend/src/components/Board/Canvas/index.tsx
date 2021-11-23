@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { REM } from '@utils/constants';
+import { CANVAS } from '@utils/constants';
 import { IPostit } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import Postit from '../Postit';
@@ -26,7 +26,7 @@ const Canvas: React.FC<Props> = ({
 	handleModalOpen,
 }) => {
 	return (
-		<Stage width={window.innerWidth - 4.2 * REM} height={window.innerHeight - 3 * REM}>
+		<Stage width={CANVAS.WIDTH} height={CANVAS.HEIGHT}>
 			<Layer>
 				{postits &&
 					postits.map((postit) => (
