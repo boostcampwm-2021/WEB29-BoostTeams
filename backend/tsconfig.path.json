@@ -10,7 +10,8 @@
 			"@repositories/*": ["src/repositories/*"],
 			"@routes/*": ["src/routes/*"],
 			"@services/*": ["src/services/*"],
-			"@sockets/*": ["src/sockets/*"]
+			"@sockets/*": ["src/sockets/*"],
+			"@redis/*": ["src/redis/*"]
 		}
 	}
 }

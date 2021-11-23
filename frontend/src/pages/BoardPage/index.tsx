@@ -2,10 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { SocketContext } from '@utils/socketContext';
 import BoardTemplate from '@templates/BoardTemplate';
+import { toast } from 'react-toastify';
 import { IPostit } from '@src/types/board';
 
 const BoardPage: React.FC = () => {
 	const [postits, setPostits] = useState<IPostit[]>([]);
+
 	const [showModal, setShowModal] = useState(false);
 	const [showDelete, setShowDelete] = useState(false);
 	const [modalType, setModalType] = useState('create');
@@ -15,6 +17,7 @@ const BoardPage: React.FC = () => {
 
 	const socket = useContext(SocketContext);
 	const socketApi = {
+		initPostitState: (initPoistList: IPostit[]) => setPostits(initPoistList),
 		createNewPostit: (newPostit: IPostit) => socket.current.emit('create new postit', newPostit),
 		updatePostit: (newPostit: IPostit) => socket.current.emit('update postit', newPostit),
 		deletePostit: (targetId: number) => socket.current.emit('delete postit', targetId),
@@ -23,6 +26,13 @@ const BoardPage: React.FC = () => {
 			const x = e.target.x();
 			const y = e.target.y();
 			socket.current.emit('drag postit', { id, x, y });
+		},
+		setPostitState: (newPostit: PostitType) => {
+			setPostits((previousPostitList: PostitType[]) => {
+				const postitIdx = previousPostitList.findIndex((elem) => Number(newPostit.id) === Number(elem.id));
+				if (postitIdx !== -1) previousPostitList.splice(postitIdx, 1);
+				return [...previousPostitList, newPostit];
+			});
 		},
 	};
 
@@ -69,6 +79,12 @@ const BoardPage: React.FC = () => {
 	useEffect(() => {
 		if (socket.current) {
 			socket.current.emit('join board page');
+			// socket.current.on('join board page', (postit: PostitType[]) => socketApi.initPostitState(postit));
+			// socket.current.on('create new postit', (postit: PostitType) => socketApi.setPostitState(postit));
+			// socket.current.on('update postit', (postit: PostitType) => socketApi.setPostitState(postit));
+			// socket.current.on('drag postit', (postit: PostitType) => socketApi.setPostitState(postit));
+			// socket.current.on('team board error', (message?: string) => toast.error(message));
+  
 			socket.current.on('join board page', (postits: IPostit[]) => setPostits(postits));
 			socket.current.on('create new postit', (postits: IPostit[]) => setPostits(postits));
 			socket.current.on('delete postit', (postits: IPostit[]) => setPostits(postits));
@@ -82,6 +98,7 @@ const BoardPage: React.FC = () => {
 			socket.current.off('delete postit');
 			socket.current.off('update postit');
 			socket.current.off('drag postit');
+			socket.current.off('team board error');
 		};
 	}, [socket]);
 
