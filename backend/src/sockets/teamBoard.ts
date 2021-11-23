@@ -54,6 +54,7 @@ const initTeamBoard = (socket: Socket) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostitList = await redisClient.delete('board', teamId, postitId);
+			socket.emit('delete postit', updatedPostitList);
 			socket.broadcast.to('board').emit('delete postit', updatedPostitList);
 		} catch (err) {
 			socket.emit('team board error', '포스트잇 삭제 실패!');
