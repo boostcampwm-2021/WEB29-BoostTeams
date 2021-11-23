@@ -27,17 +27,9 @@ interface Props {
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
-	handleModalOpen: () => void;
 }
 
-const RoomHeader: React.FC<Props> = ({
-	teamId,
-	inviteUsers,
-	addInviteUser,
-	deleteInviteUser,
-	initInviteUser,
-	handleModalOpen,
-}) => {
+const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser, initInviteUser }) => {
 	const socketRef = useContext(SocketContext);
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const resetCurrChatRoom = useResetRecoilState(currentChatRoomState);

@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useContext, useRef } from 'react';
+import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
@@ -43,7 +43,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const socketRef = useContext(SocketContext);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
@@ -68,8 +67,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	};
 
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-	const handleModalOpen = () => setIsModalVisible(true);
 
 	useEffect(() => {
 		resetCurrentChatRoom();
@@ -116,7 +113,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}
-			handleModalOpen={handleModalOpen}
 		/>
 	);
 };

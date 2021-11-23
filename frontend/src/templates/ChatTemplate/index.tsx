@@ -17,7 +17,6 @@ interface Props {
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
-	handleModalOpen: () => void;
 }
 
 const ChatTemplate: React.FC<Props> = ({
@@ -27,7 +26,6 @@ const ChatTemplate: React.FC<Props> = ({
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
-	handleModalOpen,
 }) => {
 	const { chatMode } = useRecoilValue(chatModeState);
 
@@ -45,7 +43,6 @@ const ChatTemplate: React.FC<Props> = ({
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
 							initInviteUser={initInviteUser}
-							handleModalOpen={handleModalOpen}
 						/>
 						<ChatContent
 							teamId={teamId}
