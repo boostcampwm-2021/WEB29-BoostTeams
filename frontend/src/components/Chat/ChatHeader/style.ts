@@ -17,18 +17,48 @@ export const HeaderContainer = styled.div`
 	padding: 0 1rem;
 `;
 
+export const ButtonContainer = styled.div`
+	display: flex;
+`;
+
 export const InvitationBtn = styled.button`
 	width: 2.5rem;
 	height: 2.5rem;
 	cursor: pointer;
-	border-radius: 50%;
 	border: none;
 	background-color: transparent;
 	color: ${ColorCode.FONT1};
 	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	position: relative;
 	svg {
 		width: 1.2rem;
 		height: 1.2rem;
+	}
+	span {
+		position: absolute;
+		right: 0.5rem;
+		bottom: 0.4rem;
+	}
+	:hover {
+		color: ${ColorCode.PRIMARY1};
+	}
+`;
+
+export const ExitBtn = styled.button`
+	width: 2.5rem;
+	height: 2.5rem;
+	cursor: pointer;
+	border: none;
+	background-color: transparent;
+	color: ${ColorCode.FONT1};
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	svg {
+		width: 1.4rem;
+		height: 1.4rem;
 	}
 	:hover {
 		color: ${ColorCode.PRIMARY1};

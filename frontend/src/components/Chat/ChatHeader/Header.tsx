@@ -4,9 +4,9 @@ import { useRecoilValue } from 'recoil';
 import { currentChatRoomState, chatRoomsSelector, chatRoomUsersSelector } from '@stores/chat';
 import { ChatRoomsType } from '@src/types/chat';
 
-import { FaUserPlus, FaPen } from 'react-icons/fa';
+import { FaUserPlus, FaPen, FaSignOutAlt } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { HeaderContainer, ChatRoomInfoContainer, InvitationBtn } from './style';
+import { HeaderContainer, ChatRoomInfoContainer, ButtonContainer, InvitationBtn, ExitBtn } from './style';
 
 interface Props {
 	teamId: number;
@@ -31,10 +31,15 @@ const Header: React.FC<Props> = ({ teamId, handleModalOpen }) => {
 				<h2>{chatRooms[currChatRoomId].chatRoomName}</h2>
 				<FaPen onClick={handleModalOpen} />
 			</ChatRoomInfoContainer>
-			<InvitationBtn>
-				<FaUserPlus />
-				<span>{chatRoomUsers.length}</span>
-			</InvitationBtn>
+			<ButtonContainer>
+				<InvitationBtn>
+					<FaUserPlus />
+					<span>{chatRoomUsers.length}</span>
+				</InvitationBtn>
+				<ExitBtn>
+					<FaSignOutAlt />
+				</ExitBtn>
+			</ButtonContainer>
 		</HeaderContainer>
 	);
 };
