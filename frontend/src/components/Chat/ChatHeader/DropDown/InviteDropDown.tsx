@@ -37,7 +37,7 @@ const InviteDropdown: React.FC<Props> = ({
 		});
 		const inviteResult = addChatRoomUsers(currChatRoomId, userList);
 		if (!inviteResult) return;
-		socketApi.inviteUsers(socketRef.current, currChatRoomId, inviteUsers, teamId);
+		socketApi.inviteUsers(socketRef.current, inviteUsers, teamId);
 		initInviteUser();
 		setChatRoomUsersTrigger((trigger) => trigger + 1);
 		handleDropdownModeToNone();

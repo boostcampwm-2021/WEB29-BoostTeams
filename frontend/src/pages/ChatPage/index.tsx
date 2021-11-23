@@ -106,7 +106,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
 			socketRef.current.off('refresh chat rooms');
 		};
-	}, [socketRef.current, teamId]);
+	}, [socketRef.current, teamId, chatRooms]);
 
 	return (
 		<ChatTemplate

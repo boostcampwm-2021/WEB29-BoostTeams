@@ -34,14 +34,12 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		namespace.to(`chat-${chatRoomId}`).emit('refresh chat rooms');
 	});
 
-	socket.on('invite users', ({ chatRoomId, userList, teamId }) => {
+	socket.on('invite users', ({ userList, teamId }) => {
 		userList.forEach((user: { userId: number }) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
 				return JSON.stringify(onlineUsersInfo[socketId]) === JSON.stringify({ teamId: teamId, userId: user.userId });
 			});
 			socket.to(onlineInvitedUser).emit('refresh chat rooms');
-			socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
 	});
 

@@ -111,13 +111,16 @@ export const getMessageList = async (chatRoomId: number): Promise<MessageListTyp
 };
 
 export const socketApi = {
-	inviteUsers: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
-		socket.emit('invite users', { chatRoomId, userList, teamId });
+	inviteUsers: (socket: Socket, userList: UserIdType[], teamId: number) => {
+		socket.emit('invite users', { userList, teamId });
 	},
 	exitChatRoom: (socket: Socket, chatRoomId: number) => {
 		socket.emit('exit chat room', { chatRoomId });
 	},
 	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
 		socket.emit('send message', { content, userId, chatRoomId });
+	},
+	updateChatRoomName: (socket: Socket, chatRoomId: number) => {
+		socket.emit('update chat room name', { chatRoomId });
 	},
 };

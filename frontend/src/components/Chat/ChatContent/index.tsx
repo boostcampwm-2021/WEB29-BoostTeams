@@ -55,7 +55,7 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		};
 		const newChatRoomInfo = await createChatRoom(roomInfo);
 		if (!newChatRoomInfo) return;
-		socketApi.inviteUsers(socketRef.current, newChatRoomInfo.chatRoomId, inviteUsers, teamId);
+		socketApi.inviteUsers(socketRef.current, inviteUsers, teamId);
 		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, newChatRoomInfo.chatRoomId);
 		inputRef.current.value = '';
 		initInviteUser();

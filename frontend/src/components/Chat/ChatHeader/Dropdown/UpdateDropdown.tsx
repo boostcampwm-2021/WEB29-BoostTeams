@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { chatRoomsSelector, chatRoomsTrigger, currentChatRoomState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { updateChatRoomName } from '@apis/chat';
+import { socketApi, updateChatRoomName } from '@apis/chat';
 import { ColorCode } from '@utils/constants';
 
 import { Button } from '@components/common';
@@ -26,7 +26,7 @@ const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToNone }) =
 		if (inputRef.current.value === '') return;
 		const updatedResult = updateChatRoomName(currentChatRoomId, inputRef.current.value);
 		if (!updatedResult) return;
-		socketRef.current.emit('update chat room name', { chatRoomId: currentChatRoomId });
+		socketApi.updateChatRoomName(socketRef.current, currentChatRoomId);
 		setChatRoomsTrigger((trigger) => trigger + 1);
 		handleDropdownModeToNone();
 	};
