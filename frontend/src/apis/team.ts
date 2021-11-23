@@ -56,3 +56,15 @@ export const inviteUser = async (team_id: number, user_name: string) => {
 		toast.error('😣 해당 유저가 존재하지 않습니다!');
 	}
 };
+
+export const readTeamInfo = async (id: number) => {
+	const res = await fetchApi.get(`/api/team/${id}`);
+	const data = await res.json();
+	return data;
+};
+
+export const readTeamUsers = async (id: number) => {
+	const res = await fetchApi.get(`/api/team/users/${id}`);
+	const data = await res.json();
+	return data;
+};

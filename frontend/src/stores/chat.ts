@@ -1,6 +1,6 @@
 import { atom, selector, selectorFamily } from 'recoil';
 import { getChatRoomInfo, getChatRooms } from '@apis/chat';
-import { readTeamUsers } from '@apis/users';
+import { readTeamUsers } from '@apis/team';
 import userState from './user';
 
 export const currentChatRoomState = atom({

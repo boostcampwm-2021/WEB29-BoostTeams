@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { Role } from '@utils/constants';
-import { readTeamInfo, readTeamUsers } from '@apis/users';
+import { readTeamInfo, readTeamUsers } from '@apis/team';
 import { SocketContext } from '@utils/socketContext';
 import userState from '@stores/user';
 import UsersTemplate from '@templates/UsersTemplate';
