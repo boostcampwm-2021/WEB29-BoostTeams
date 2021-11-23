@@ -1,6 +1,5 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { readMyTeam } from '@apis/team';
-import { readTeamUsers } from '@apis/users';
+import { readMyTeam, readTeamUsers } from '@apis/team';
 import { TeamUsersResType, TeamUsersType } from '@src/types/team';
 import { Role } from '@utils/constants';
 
