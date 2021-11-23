@@ -13,6 +13,7 @@ const FONT_SIZE = {
 
 type Props = {
 	postit: IPostit;
+	getUserNameById: (userId: number) => string;
 	onDrag: (e: KonvaEventObject<DragEvent>) => void;
 	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
 	onDragEnd: (e: KonvaEventObject<DragEvent>) => void;
@@ -94,6 +95,7 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 
 const Postit: React.FC<Props> = ({
 	postit,
+	getUserNameById,
 	onDrag,
 	onDragStart,
 	onDragEnd,
@@ -128,9 +130,9 @@ const Postit: React.FC<Props> = ({
 			<Title text={postit.title} />
 			<Content text={postit.content} />
 			<Footer
-				createdBy={postit.createdBy.toString()}
+				createdBy={getUserNameById(postit.createdBy)}
 				createdAt={postit.createdAt}
-				updatedBy={postit.updatedBy.toString()}
+				updatedBy={getUserNameById(postit.updatedBy)}
 				updatedAt={postit.updatedAt}
 			/>
 			<Menu handleUpdateModalOpen={handleUpdateModalOpen} />

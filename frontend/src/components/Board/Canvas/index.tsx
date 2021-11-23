@@ -8,6 +8,7 @@ import Postit from '../Postit';
 
 interface Props {
 	postits: IPostit[];
+	getUserNameById: (userId: number) => string;
 	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragEnd: (e: KonvaEventObject<DragEvent>) => void;
@@ -18,6 +19,7 @@ interface Props {
 
 const Canvas: React.FC<Props> = ({
 	postits,
+	getUserNameById,
 	handleDrag,
 	handleDragStart,
 	handleDragEnd,
@@ -39,6 +41,7 @@ const Canvas: React.FC<Props> = ({
 							setModalType={setModalType}
 							setClickedPostit={setClickedPostit}
 							handleModalOpen={handleModalOpen}
+							getUserNameById={getUserNameById}
 						/>
 					))}
 			</Layer>

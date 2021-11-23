@@ -16,6 +16,7 @@ interface Props {
 	showDelete: boolean;
 	modalType: string;
 	clickedPostit: IPostit | undefined;
+	getUserNameById: (userId: number) => string;
 	setClickedPostit: (postit: IPostit) => void;
 	setModalType: Dispatch<SetStateAction<string>>;
 	handleModalOpen: () => void;
@@ -32,6 +33,7 @@ const BoardTemplate: React.FC<Props> = ({
 	showDelete,
 	modalType,
 	clickedPostit,
+	getUserNameById,
 	setModalType,
 	setClickedPostit,
 	handleModalOpen,
@@ -53,6 +55,7 @@ const BoardTemplate: React.FC<Props> = ({
 					handleDrag={handleDrag}
 					handleDragStart={handleDragStart}
 					handleDragEnd={handleDragEnd}
+					getUserNameById={getUserNameById}
 				/>
 			</MainContainer>
 			<CreateButton setModalType={setModalType} handleModalOpen={handleModalOpen} />
