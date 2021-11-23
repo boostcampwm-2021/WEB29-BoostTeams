@@ -24,16 +24,26 @@ interface Props {
 	inviteUsers: UserIdType[];
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
+	initInviteUser: () => void;
+	socketInviteUser: (chatRoomId: number, userList: UserIdType[]) => void;
 	handleModalOpen: () => void;
 }
 
-const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser, handleModalOpen }) => {
+const RoomHeader: React.FC<Props> = ({
+	teamId,
+	inviteUsers,
+	addInviteUser,
+	deleteInviteUser,
+	initInviteUser,
+	socketInviteUser,
+	handleModalOpen,
+}) => {
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const resetCurrChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatMode = useSetRecoilState(chatModeState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
-	const chatRoomUsers = useRecoilValue(chatRoomUsersSelector).userList;
+	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 	const myId = useRecoilValue(userState).id;
 
 	const [isUsersDropDownVisible, setIsUsersDropDownVisible] = useState(false);
@@ -69,7 +79,7 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 			<ButtonContainer>
 				<UserDropDownBtn onClick={handleUsersDropDownToggle}>
 					<FaUserPlus />
-					<span>{chatRoomUsers.length}</span>
+					<span>{chatRoomUserList.length}</span>
 				</UserDropDownBtn>
 				<ExitBtn onClick={handleChatRoomLeave}>
 					<FaSignOutAlt />
@@ -88,6 +98,8 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 					inviteUsers={inviteUsers}
 					addInviteUser={addInviteUser}
 					deleteInviteUser={deleteInviteUser}
+					initInviteUser={initInviteUser}
+					socketInviteUser={socketInviteUser}
 					handleInviteDropDownClose={handleInviteDropDownClose}
 				/>
 			)}

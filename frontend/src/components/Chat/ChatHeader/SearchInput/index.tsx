@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
+import { chatModeState, chatRoomUsersSelector } from '@stores/chat';
 import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 
 import { FaTimes } from 'react-icons/fa';
@@ -19,11 +20,22 @@ interface Props {
 const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
+	const { chatMode } = useRecoilValue(chatModeState);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
+	const getTeamUserList = (): TeamUserType[] => {
+		if (chatMode === 'chat') {
+			return Object.values(teamUsers).filter(
+				(user) => !chatRoomUserList.find((chatRoomUser) => chatRoomUser.userId === user.userId),
+			);
+		}
+		return Object.values(teamUsers);
+	};
+
 	const searchByKey = (searchKey: string): TeamUserType[] => {
-		return Object.values(teamUsers).filter((user) => {
+		return getTeamUserList().filter((user) => {
 			const regex = new RegExp(searchKey, 'gi');
 			return (
 				user.userId !== myId && (teamUsers[user.userId].email.match(regex) || teamUsers[user.userId].name.match(regex))

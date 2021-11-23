@@ -61,6 +61,10 @@ export const InviteDropDownContainer = styled.div`
 	}
 `;
 
+export const SearchInputWrapper = styled.div`
+	position: relative;
+`;
+
 export const ButttonContainer = styled.div`
 	padding-top: 0.5rem;
 	display: flex;

@@ -55,12 +55,13 @@ export const SearchContainer = styled.div`
 	right: 3rem;
 	background-color: ${ColorCode.WHITE};
 	border-radius: 0 0 8px 8px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
 
 export const UserContainer = styled.div`
 	display: flex;
 	align-items: center;
-	padding-left: 0.8rem;
+	padding: 0 0.8rem;
 	height: 3rem;
 	cursor: pointer;
 	border-radius: 8px;

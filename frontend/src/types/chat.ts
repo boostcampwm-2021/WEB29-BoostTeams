@@ -31,10 +31,12 @@ export interface MessageType {
 
 export type MessageListType = MessageType[];
 
+export type UserListReqType = { user_id: number }[];
+
 export interface ChatRoomReqType {
 	team_id: number;
 	chat_room_name: string;
-	user_list: { user_id: number }[];
+	user_list: UserListReqType;
 }
 
 export interface ChatRoomResType {

@@ -60,6 +60,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		return { chatRoomId };
 	});
 
+	const socketInviteUser = (chatRoomId: number, userList: UserIdType[]) => {
+		socketRef.current.emit('invite users', { chatRoomId, userList, teamId });
+	};
+
 	const getInitialMessageList = async () => {
 		const messages = await getMessageList(currentChatRoomId);
 		setMessageList(messages);
@@ -113,6 +117,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}
+			socketInviteUser={socketInviteUser}
 			handleModalOpen={handleModalOpen}
 			handleModalClose={handleModalClose}
 		/>

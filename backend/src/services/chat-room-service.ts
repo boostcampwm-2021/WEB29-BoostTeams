@@ -78,14 +78,17 @@ class ChatRoomService {
 		return chatRoomInfo;
 	}
 
-	async addChatRoomUser(chatRoomId: number, userId: number) {
-		const addedUser = await this.chatRoomUserRepository
+	async addChatRoomUsers(chatRoomId: number, userList: UserIdType[]) {
+		const chatUsers = userList.map((user) => {
+			return { user_id: user.user_id, chat_room_id: chatRoomId };
+		});
+		const addedUsers = await this.chatRoomUserRepository
 			.createQueryBuilder()
 			.insert()
 			.into('chat_room_user')
-			.values({ chat_room_id: chatRoomId, user_id: userId })
+			.values(chatUsers)
 			.execute();
-		if (!addedUser) throw new Error('채팅방 유저 추가 오류');
+		if (!addedUsers) throw new Error('채팅방 유저 추가 오류');
 	}
 
 	async deleteChatRoomUser(chatRoomId: number, userId: number) {

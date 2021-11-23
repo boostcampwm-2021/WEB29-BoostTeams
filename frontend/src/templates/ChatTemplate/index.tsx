@@ -19,6 +19,7 @@ interface Props {
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
+	socketInviteUser: (chatRoomId: number, userList: UserIdType[]) => void;
 	handleModalOpen: () => void;
 	handleModalClose: () => void;
 }
@@ -31,6 +32,7 @@ const ChatTemplate: React.FC<Props> = ({
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
+	socketInviteUser,
 	handleModalOpen,
 	handleModalClose,
 }) => {
@@ -49,12 +51,15 @@ const ChatTemplate: React.FC<Props> = ({
 							inviteUsers={inviteUsers}
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
+							initInviteUser={initInviteUser}
+							socketInviteUser={socketInviteUser}
 							handleModalOpen={handleModalOpen}
 						/>
 						<ChatContent
 							teamId={teamId}
 							inviteUsers={inviteUsers}
 							initInviteUser={initInviteUser}
+							socketInviteUser={socketInviteUser}
 							messagesEndRef={messagesEndRef}
 						/>
 					</ChatContainer>

@@ -34,9 +34,15 @@ export const chatRoomsLastMessageState = atom({
 	default: {} as ChatRoomsLastMessageType,
 });
 
+export const chatRoomUsersTrigger = atom({
+	key: 'chatRoomUsersTrigger',
+	default: 0,
+});
+
 export const chatRoomUsersSelector = selector({
 	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
+		get(chatRoomUsersTrigger);
 		const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
 		return data;
 	},

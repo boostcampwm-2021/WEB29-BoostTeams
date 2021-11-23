@@ -45,11 +45,11 @@ const ChatController = {
 		}
 	},
 
-	async addChatRoomUser(req: Request, res: Response) {
+	async addChatRoomUsers(req: Request, res: Response) {
 		try {
 			const { chatRoomId } = req.params;
-			const { user_id } = req.body;
-			await ChatRoomService.getInstance().addChatRoomUser(Number(chatRoomId), Number(user_id));
+			const { user_list } = req.body;
+			await ChatRoomService.getInstance().addChatRoomUsers(Number(chatRoomId), user_list);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
