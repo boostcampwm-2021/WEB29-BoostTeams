@@ -56,7 +56,17 @@ class ChatRoomService {
 		return { chat_rooms: chatRooms };
 	}
 
-	async getChatRoomUsers(chatRoomId) {
+	async updateChatRoomName(chatRoomId: number, chatRoomName: string) {
+		const updatedChatRoom = await this.chatRoomRepository
+			.createQueryBuilder()
+			.update('chat_room')
+			.set({ chat_room_name: chatRoomName })
+			.where('chat_room_id = :chatRoomId', { chatRoomId })
+			.execute();
+		if (!updatedChatRoom) throw new Error('채팅방 이름 변경 오류');
+	}
+
+	async getChatRoomUsers(chatRoomId: number) {
 		const chatRoomInfo = await this.chatRoomRepository
 			.createQueryBuilder('chat_room')
 			.select('chat_room.chat_room_id')
@@ -68,14 +78,25 @@ class ChatRoomService {
 		return chatRoomInfo;
 	}
 
-	async updateChatRoomName(chatRoomId, chatRoomName) {
-		const updatedChatRoom = await this.chatRoomRepository
+	async addChatRoomUser(chatRoomId: number, userId: number) {
+		const addedUser = await this.chatRoomUserRepository
 			.createQueryBuilder()
-			.update('chat_room')
-			.set({ chat_room_name: chatRoomName })
-			.where('chat_room_id = :chatRoomId', { chatRoomId })
+			.insert()
+			.into('chat_room_user')
+			.values({ chat_room_id: chatRoomId, user_id: userId })
 			.execute();
-		if (!updatedChatRoom) throw new Error('채팅방 이름 변경 오류');
+		if (!addedUser) throw new Error('채팅방 유저 추가 오류');
+	}
+
+	async deleteChatRoomUser(chatRoomId: number, userId: number) {
+		const deletedUser = await this.chatRoomUserRepository
+			.createQueryBuilder()
+			.delete()
+			.from('chat_room_user')
+			.where('chat_room_id = :chatRoomId', { chatRoomId })
+			.andWhere('user_id = :userId', { userId })
+			.execute();
+		if (!deletedUser) throw new Error('채팅방 유저 삭제 오류');
 	}
 }
 

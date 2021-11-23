@@ -48,7 +48,7 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 
 export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUsersType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/rooms/${chatRoomId}`);
+		const res = await fetchApi.get(`/api/chat/rooms/${chatRoomId}/users`);
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		const userList = data.chat_room_users.map((user: { user_id: number }) => {

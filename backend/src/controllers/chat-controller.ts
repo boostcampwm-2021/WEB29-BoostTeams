@@ -24,22 +24,43 @@ const ChatController = {
 		}
 	},
 
+	async updateChatRoomName(req: Request, res: Response) {
+		try {
+			const { chatRoomId } = req.params;
+			const chatRoomName = req.body.chat_room_name;
+			await ChatRoomService.getInstance().updateChatRoomName(Number(chatRoomId), chatRoomName);
+			res.sendStatus(201);
+		} catch (err) {
+			res.sendStatus(409);
+		}
+	},
+
 	async getChatRoomUsers(req: Request, res: Response) {
 		try {
 			const { chatRoomId } = req.params;
-			const chatRoomInfo = await ChatRoomService.getInstance().getChatRoomUsers(chatRoomId);
+			const chatRoomInfo = await ChatRoomService.getInstance().getChatRoomUsers(Number(chatRoomId));
 			res.status(200).json(chatRoomInfo);
 		} catch (err) {
 			res.sendStatus(409);
 		}
 	},
 
-	async updateChatRoomName(req: Request, res: Response) {
+	async addChatRoomUser(req: Request, res: Response) {
 		try {
 			const { chatRoomId } = req.params;
-			const chatRoomName = req.body.chat_room_name;
-			await ChatRoomService.getInstance().updateChatRoomName(chatRoomId, chatRoomName);
+			const { user_id } = req.body;
+			await ChatRoomService.getInstance().addChatRoomUser(Number(chatRoomId), Number(user_id));
 			res.sendStatus(201);
+		} catch (err) {
+			res.sendStatus(409);
+		}
+	},
+
+	async deleteChatRoomUser(req: Request, res: Response) {
+		try {
+			const { chatRoomId, userId } = req.params;
+			await ChatRoomService.getInstance().deleteChatRoomUser(Number(chatRoomId), Number(userId));
+			res.sendStatus(204);
 		} catch (err) {
 			res.sendStatus(409);
 		}
