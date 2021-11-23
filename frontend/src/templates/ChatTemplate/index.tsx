@@ -1,6 +1,8 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+
+import { chatModeState } from '@stores/chat';
 import { UserIdType } from '@src/types/team';
-import { ChatModeType } from '@src/types/chat';
 
 import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';
@@ -11,13 +13,9 @@ import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
 	teamId: number;
-	chatMode: ChatModeType;
 	inviteUsers: UserIdType[];
 	messagesEndRef: React.RefObject<HTMLDivElement>;
 	isModalVisible: boolean;
-	setChatModeToNone: () => void;
-	setChatModeToCreate: () => void;
-	setChatModeToChat: () => void;
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
@@ -27,46 +25,35 @@ interface Props {
 
 const ChatTemplate: React.FC<Props> = ({
 	teamId,
-	chatMode,
 	inviteUsers,
 	messagesEndRef,
 	isModalVisible,
-	setChatModeToNone,
-	setChatModeToCreate,
-	setChatModeToChat,
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
 	handleModalOpen,
 	handleModalClose,
 }) => {
+	const { chatMode } = useRecoilValue(chatModeState);
+
 	return (
 		<Layout>
 			<Header />
 			<MainContainer>
 				<Navbar />
-				<ChatSidebar
-					teamId={teamId}
-					setChatModeToNone={setChatModeToNone}
-					setChatModeToCreate={setChatModeToCreate}
-					setChatModeToChat={setChatModeToChat}
-				/>
+				<ChatSidebar teamId={teamId} />
 				{chatMode !== 'none' && (
 					<ChatContainer>
 						<ChatHeader
 							teamId={teamId}
-							chatMode={chatMode}
 							inviteUsers={inviteUsers}
-							setChatModeToNone={setChatModeToNone}
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
 							handleModalOpen={handleModalOpen}
 						/>
 						<ChatContent
 							teamId={teamId}
-							chatMode={chatMode}
 							inviteUsers={inviteUsers}
-							setChatModeToChat={setChatModeToChat}
 							initInviteUser={initInviteUser}
 							messagesEndRef={messagesEndRef}
 						/>

@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
+import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 
 import { FaTimes } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { SearchHeaderContainer, UserListContainer, InputWrapper, SearchContainer, UserContainer } from './style';
+import { Container, UserListContainer, InputWrapper, SearchContainer, UserContainer } from './style';
 
 interface Props {
 	teamId: number;
@@ -16,7 +16,7 @@ interface Props {
 	deleteInviteUser: (id: number) => void;
 }
 
-const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
@@ -57,7 +57,7 @@ const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, del
 	};
 
 	return (
-		<SearchHeaderContainer>
+		<Container>
 			<UserListContainer>
 				{inviteUsers.map((user) => (
 					<div key={user.userId}>
@@ -83,8 +83,8 @@ const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, del
 					</UserContainer>
 				))}
 			</SearchContainer>
-		</SearchHeaderContainer>
+		</Container>
 	);
 };
 
-export default SearchHeader;
+export default SearchInput;

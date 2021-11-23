@@ -6,19 +6,24 @@ import { chatRoomUsersSelector } from '@stores/chat';
 
 import { FaUserPlus } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { DropDownContainer, ProfileContainer, InvititationBtn } from './style';
+import { UsersDropDownContainer, ProfileContainer, InvititationBtn } from './style';
 
 interface Props {
 	teamId: number;
-	toggleDropDownModal: () => void;
+	handleUsersDropDownClose: () => void;
+	handleInviteDropDownOpen: () => void;
 }
 
-const UserListDropDown: React.FC<Props> = ({ teamId, toggleDropDownModal }) => {
+const UserListDropDown: React.FC<Props> = ({ teamId, handleUsersDropDownClose, handleInviteDropDownOpen }) => {
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 
+	const handleDropDown = () => {
+		handleUsersDropDownClose();
+		handleInviteDropDownOpen();
+	};
 	return (
-		<DropDownContainer>
+		<UsersDropDownContainer>
 			{chatRoomUserList.map((user) => (
 				<ProfileContainer>
 					<ProfileIcon
@@ -31,11 +36,11 @@ const UserListDropDown: React.FC<Props> = ({ teamId, toggleDropDownModal }) => {
 					<span>{teamUsers[user.userId].name}</span>
 				</ProfileContainer>
 			))}
-			<InvititationBtn>
+			<InvititationBtn onClick={handleDropDown}>
 				<FaUserPlus />
 				<span>유저 추가하기</span>
 			</InvititationBtn>
-		</DropDownContainer>
+		</UsersDropDownContainer>
 	);
 };
 

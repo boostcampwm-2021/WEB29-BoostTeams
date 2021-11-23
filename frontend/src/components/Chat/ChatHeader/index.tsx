@@ -3,33 +3,24 @@ import { useRecoilValue } from 'recoil';
 
 import { ChatRoomsType } from '@src/types/chat';
 import { UserIdType } from '@src/types/team';
-import { currentChatRoomState, chatRoomsSelector } from '@stores/chat';
+import { currentChatRoomState, chatRoomsSelector, chatModeState } from '@stores/chat';
 
-import SearchHeader from './SearchHeader';
-import Header from './Header';
+import SearchHeader from './Header/SearchHeader';
+import RoomHeader from './Header/RoomHeader';
 import { Container } from './style';
 
 interface Props {
 	teamId: number;
-	chatMode: string;
 	inviteUsers: UserIdType[];
-	setChatModeToNone: () => void;
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	handleModalOpen: () => void;
 }
 
-const ChatHeader: React.FC<Props> = ({
-	teamId,
-	chatMode,
-	inviteUsers,
-	setChatModeToNone,
-	addInviteUser,
-	deleteInviteUser,
-	handleModalOpen,
-}) => {
+const ChatHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser, handleModalOpen }) => {
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const { chatMode } = useRecoilValue(chatModeState);
 
 	const checkRoomAndTeam = () => chatRooms[currChatRoomId] !== undefined;
 
@@ -44,7 +35,13 @@ const ChatHeader: React.FC<Props> = ({
 				/>
 			) : (
 				checkRoomAndTeam() && (
-					<Header teamId={teamId} setChatModeToNone={setChatModeToNone} handleModalOpen={handleModalOpen} />
+					<RoomHeader
+						teamId={teamId}
+						inviteUsers={inviteUsers}
+						addInviteUser={addInviteUser}
+						deleteInviteUser={deleteInviteUser}
+						handleModalOpen={handleModalOpen}
+					/>
 				)
 			)}
 		</Container>

@@ -3,8 +3,14 @@ import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { UserIdType } from '@src/types/team';
-import { ChatModeType, MessageType } from '@src/types/chat';
-import { chatRoomsSelector, currentChatRoomState, messageListState, chatRoomsTrigger } from '@stores/chat';
+import { MessageType } from '@src/types/chat';
+import {
+	chatRoomsSelector,
+	currentChatRoomState,
+	messageListState,
+	chatRoomsTrigger,
+	chatModeState,
+} from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
 import { getMessageList } from '@src/apis/chat';
 
@@ -36,7 +42,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const socketRef = useContext(SocketContext);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	const [chatMode, setChatMode] = useState<ChatModeType>('none');
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
@@ -45,10 +50,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
-
-	const setChatModeToNone = () => setChatMode('none');
-	const setChatModeToCreate = () => setChatMode('create');
-	const setChatModeToChat = () => setChatMode('chat');
+	const setChatMode = useSetRecoilState(chatModeState);
 
 	const addInviteUser = (newUser: UserIdType) => dispatchInviteUsers({ type: 'ADD', newUser });
 	const deleteInviteUser = (id: number) => dispatchInviteUsers({ type: 'DELETE', id });
@@ -70,7 +72,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	useEffect(() => {
 		resetCurrentChatRoom();
-		setChatModeToNone();
+		setChatMode({ chatMode: 'none' });
 		initInviteUser();
 	}, [teamId]);
 
@@ -105,13 +107,9 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	return (
 		<ChatTemplate
 			teamId={teamId}
-			chatMode={chatMode}
 			inviteUsers={inviteUsers}
 			messagesEndRef={messagesEndRef}
 			isModalVisible={isModalVisible}
-			setChatModeToNone={setChatModeToNone}
-			setChatModeToCreate={setChatModeToCreate}
-			setChatModeToChat={setChatModeToChat}
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}

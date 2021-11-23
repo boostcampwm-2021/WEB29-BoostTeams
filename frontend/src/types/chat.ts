@@ -1,6 +1,8 @@
 import { UserIdType } from './team';
 
-export type ChatModeType = 'none' | 'create' | 'chat';
+export interface ChatModeType {
+	chatMode: 'none' | 'create' | 'chat';
+}
 
 export interface ChatRoomType {
 	chatRoomId: number;

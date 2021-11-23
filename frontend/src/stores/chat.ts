@@ -3,6 +3,11 @@ import { ChatRoomsLastMessageType, MessageListType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import userState from './user';
 
+export const chatModeState = atom({
+	key: 'chatModeState',
+	default: { chatMode: 'none' },
+});
+
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
 	default: { currChatRoomId: -1 },
