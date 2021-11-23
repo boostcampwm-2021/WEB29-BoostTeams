@@ -69,7 +69,7 @@ const ChatController = {
 	// redis로 변경해야함, 스크롤 구현해야함
 	async getChatMessages(req: Request, res: Response) {
 		try {
-			const { chatRoomId } = req.query;
+			const { chatRoomId } = req.params;
 			const message_list = messages[Number(chatRoomId)] ? messages[Number(chatRoomId)] : [];
 			res.status(200).json({ message_list });
 		} catch (err) {

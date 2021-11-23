@@ -46,6 +46,17 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 	}
 };
 
+export const updateChatRoomName = async (chatRoomId: number, chatRoomName: string): Promise<boolean> => {
+	try {
+		const res = await fetchApi.patch(`/api/chat/rooms/${chatRoomId}`, { chat_room_name: chatRoomName });
+		if (res.status === 409) throw new Error();
+		return true;
+	} catch (err) {
+		toast.error('😣 채팅방 이름 변경에 실패하였습니다!');
+		return false;
+	}
+};
+
 export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUsersType> => {
 	try {
 		const res = await fetchApi.get(`/api/chat/rooms/${chatRoomId}/users`);
@@ -61,21 +72,10 @@ export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUser
 	}
 };
 
-export const updateChatRoomName = async (chatRoomId: number, chatRoomName: string): Promise<boolean> => {
-	try {
-		const res = await fetchApi.patch(`/api/chat/rooms/${chatRoomId}`, { chat_room_name: chatRoomName });
-		if (res.status === 409) throw new Error();
-		return true;
-	} catch (err) {
-		toast.error('😣 채팅방 이름 변경에 실패하였습니다!');
-		return false;
-	}
-};
-
 // redis 로 변경해야 함
 export const getMessageList = async (chatRoomId: number): Promise<MessageListType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/messages?chatRoomId=${chatRoomId}`); // 스크롤 나중에
+		const res = await fetchApi.get(`/api/chat/rooms/${chatRoomId}/messages`); // 스크롤 나중에
 		if (res.status === 409) throw new Error();
 		const data = await res.json();
 		return data.message_list;
