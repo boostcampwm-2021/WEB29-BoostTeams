@@ -15,7 +15,7 @@ const InviteUserModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 	const handleSubmit = async () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') {
-			toast.warn('😣 이메일을 입력해주세요!');
+			toast.warn('😣 유저 닉네임을 입력해주세요!');
 			return;
 		}
 		await inviteUser(teamId, inputRef.current.value);
@@ -24,7 +24,7 @@ const InviteUserModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 
 	return (
 		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<Input type='text' placeholder='초대할 유저 이메일 입력' ref={inputRef} />
+			<Input type='text' placeholder='초대할 유저 닉네임 입력' ref={inputRef} />
 		</Modal>
 	);
 };

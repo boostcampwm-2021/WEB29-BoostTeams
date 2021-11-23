@@ -16,16 +16,16 @@ interface Props {
 const User: React.FC<Props> = ({ user, mode, isAdmin, isOnline, onBtnClick }) => {
 	const setUser = useSetRecoilState(selectedUser);
 	const openKickoutModal = () => {
-		setUser({ id: user.id });
+		setUser({ id: user.userId });
 		onBtnClick('KICKOUT');
 	};
 	return (
-		<UserWrapper key={user.id}>
+		<UserWrapper key={user.userId}>
 			<div>
 				<ProfileIcon
 					name={user.name}
 					color={user.color}
-					status={isOnline(user.id) ? 'online' : 'offline'}
+					status={isOnline(user.userId) ? 'online' : 'offline'}
 					width={2.5}
 					isHover={false}
 				/>

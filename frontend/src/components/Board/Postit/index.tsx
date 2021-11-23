@@ -1,18 +1,20 @@
 import React from 'react';
-import { ColorCode, PrimaryPalette, REM } from '@src/utils/constants';
+import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Text } from 'react-konva';
-import { PostitType } from '@pages/BoardPage';
+import { ColorCode, PrimaryPalette, REM } from '@src/utils/constants';
+import { IPostit } from '@src/types/board';
+import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 
 const POSTIT_WIDTH = 16 * REM;
 const PADDING = 1 * REM;
 
 type Props = {
-	postit: PostitType;
-	onDrag: (e: any) => void;
-	onDragStart: (e: any) => void;
-	onDragEnd: (e: any) => void;
-	setModalType: any;
-	setClickedPostit: (postit: PostitType) => void;
+	postit: IPostit;
+	onDrag: (e: KonvaEventObject<DragEvent>) => void;
+	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
+	onDragEnd: (e: KonvaEventObject<DragEvent>) => void;
+	setModalType: Dispatch<SetStateAction<string>>;
+	setClickedPostit: (postit: IPostit) => void;
 	handleModalOpen: () => void;
 };
 
@@ -21,7 +23,7 @@ const onlyDate = (date: string) => {
 	return `${DateObj.getFullYear()}. ${DateObj.getMonth() + 1}. ${DateObj.getDate()}`;
 };
 
-const Title = ({ text }: any) => {
+const Title = ({ text }: { text: string }) => {
 	return (
 		<Text
 			fontSize={1 * REM}
@@ -35,7 +37,7 @@ const Title = ({ text }: any) => {
 	);
 };
 
-const Content = ({ text }: any) => {
+const Content = ({ text }: { text: string }) => {
 	return (
 		<Text
 			fontSize={1 * REM}
@@ -48,7 +50,7 @@ const Content = ({ text }: any) => {
 	);
 };
 
-const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: any) => {
+const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: { [key: string]: string }) => {
 	return (
 		<Group y={POSTIT_WIDTH - 2 * 0.8 * REM - 0.5 * PADDING}>
 			<Text
@@ -74,7 +76,7 @@ const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: any) => {
 	);
 };
 
-const Menu = ({ handleUpdateModalOpen }: any) => {
+const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) => {
 	return (
 		<Text
 			text='...'
@@ -123,9 +125,9 @@ const Postit: React.FC<Props> = ({
 			<Title text={postit.title} />
 			<Content text={postit.content} />
 			<Footer
-				createdBy={postit.createdBy}
+				createdBy={postit.createdBy.toString()}
 				createdAt={postit.createdAt}
-				updatedBy={postit.updatedBy}
+				updatedBy={postit.updatedBy.toString()}
 				updatedAt={postit.updatedAt}
 			/>
 			<Menu handleUpdateModalOpen={handleUpdateModalOpen} />

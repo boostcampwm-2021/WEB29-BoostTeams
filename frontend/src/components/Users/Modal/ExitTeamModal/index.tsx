@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { teamListLoadTrigger } from '@src/stores/team';
 import Modal from '@src/components/common/Modal';
 import { leaveTeam } from '@apis/team';
-import { readTeamUsers } from '@src/apis/users';
+import { readTeamUsers } from '@src/apis/team';
 import { handleDeleteBtn } from '@src/utils/team';
 import { Content } from '../style';
 
@@ -18,7 +18,7 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	const history = useHistory();
 	const handleSubmit = async () => {
 		const result = await readTeamUsers(teamId);
-		if (result.length === 1) handleDeleteBtn(setLoadTrigger, teamId);
+		if (Object.keys(result).length === 1) handleDeleteBtn(setLoadTrigger, teamId);
 		else await leaveTeam(setLoadTrigger, teamId);
 		history.push('/');
 	};

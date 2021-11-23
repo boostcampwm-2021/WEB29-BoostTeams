@@ -17,7 +17,7 @@ const TeamController = {
 	async readTeamInfo(req: any, res: Response) {
 		try {
 			const team = await TeamService.getInstance().read(req.params.id);
-			res.status(200).send(team);
+			res.status(200).send(team[0]);
 		} catch (err) {
 			res.status(404).send(err);
 		}
@@ -64,8 +64,8 @@ const TeamController = {
 
 	async invite(req: any, res: Response) {
 		try {
-			const { user_email, team_id } = req.body;
-			const userInfo = await UserService.getInstance().getUserByEmail(user_email);
+			const { user_name, team_id } = req.body;
+			const userInfo = await UserService.getInstance().getUserByUserName(user_name);
 			const userId = userInfo.user_id;
 			await TeamUserService.getInstance().invite(userId, team_id);
 			res.sendStatus(201);

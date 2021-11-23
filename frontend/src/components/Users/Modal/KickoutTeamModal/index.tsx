@@ -13,7 +13,7 @@ interface Props {
 	deleteUserById: (id: number) => void;
 }
 
-const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId, deleteUserById }) => {
+const KickoutTeamModal: React.FC<Props> = ({ handleModalClose, teamId, deleteUserById }) => {
 	const { id } = useRecoilValue(selectedUser);
 	const setLoadTrigger = useResetRecoilState(teamListLoadTrigger);
 	const handleSubmit = async () => {
@@ -28,4 +28,4 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId, deleteUserBy
 	);
 };
 
-export default ExitTeamModal;
+export default KickoutTeamModal;

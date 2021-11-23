@@ -1,24 +1,17 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useRecoilValue } from 'recoil';
-import { Role } from '@utils/constants';
-import { readTeamInfo, readTeamUsers } from '@apis/users';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+
 import { SocketContext } from '@utils/socketContext';
+import { readTeamInfo } from '@apis/users';
 import userState from '@stores/user';
+import { teamUsersSelector, teamUsersTrigger } from '@stores/team';
+import { TeamUserType, UserIdType } from '@src/types/team';
+
 import UsersTemplate from '@templates/UsersTemplate';
 
 interface MatchParams {
 	teamId: string;
-}
-
-interface UserIdType {
-	userId: number;
-}
-
-interface User {
-	id: number;
-	name: string;
-	color: number;
 }
 
 type Props = RouteComponentProps<MatchParams>;
@@ -38,35 +31,15 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 	const [teamInfo, setTeamInfo] = useState({});
 	const teamId = Number(match.params.teamId);
 
-	const [users, setUsers] = useState<User[]>([]); // 팀의 전체 유저리스트
-	const [filteredUsers, setFilteredUsers] = useState(users); // 검색바로 검색한 유저 리스트
-	const user = useRecoilValue(userState); // 본인 정보
+	const [filteredUsers, setFilteredUsers] = useState<TeamUserType[]>([]); // 검색바로 검색한 유저 리스트
+	const myInfo = useRecoilValue(userState); // 본인 정보
 	const [isAdmin, setIsAdmin] = useState(false); // 본인이 팀의 admin인지
 
-	const deleteUserById = (id: number) => {
-		const newUsers = [...users.filter((elem) => elem.id !== id)];
-		setUsers(newUsers);
-		setFilteredUsers(newUsers);
-	};
+	const setTeamUsersTrigger = useSetRecoilState(teamUsersTrigger);
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
+	const teamUserList: TeamUserType[] = Object.values(teamUsers);
 
-	// 팀의 유저 전체 가져와서 users, filteredUsers, isAdmin 세팅
-	const getUsers = async () => {
-		const result = await readTeamUsers(teamId);
-		const resultArr: any = [];
-		result.forEach((e: any) => {
-			if (e.state)
-				resultArr.push({
-					id: e.user.user_id,
-					name: e.user.user_name,
-					color: e.user.user_color,
-					role: Role[e.role],
-					state: e.state,
-				});
-		});
-		setUsers(resultArr);
-		setFilteredUsers(resultArr);
-		setIsAdmin(checkAdmin(resultArr));
-	};
+	const deleteUserById = () => setTeamUsersTrigger((trigger) => trigger + 1);
 
 	// 팀 id로 팀정보 get
 	const getTeam = async () => {
@@ -75,12 +48,11 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 	};
 
 	// admin인지
-	const checkAdmin = (resultArr: any[]) =>
-		resultArr.filter((e: any) => e.name === user.name)[0]?.role === '관리자' || false;
+	const checkAdmin = () => teamUserList.find((user) => user.userId === myInfo.id)?.role === '관리자' || false;
 
 	// 검색바에 입력하면 전체 유저에서 filtering
 	const search = (e: any) =>
-		users.filter((elem: User) => elem.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1);
+		teamUserList.filter((user) => user.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1);
 
 	// 검색바 입력 시 이벤트
 	const handleInput = (e: any) => {
@@ -95,11 +67,15 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 	};
 
 	useEffect(() => {
-		if (user.id !== -1) {
-			getUsers();
+		if (myInfo.id !== -1) {
+			setIsAdmin(checkAdmin());
 			getTeam();
 		}
-	}, [teamId, user]);
+	}, [teamId, myInfo]);
+
+	useEffect(() => {
+		setFilteredUsers(teamUserList);
+	}, [teamUsers]);
 
 	useEffect(() => {
 		if (socketRef.current) {

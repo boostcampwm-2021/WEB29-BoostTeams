@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserIdType, TeamUserType, TeamUsersType } from '@src/types/chat';
-import { teamUsersSelector } from '@stores/chat';
+import { TeamUserType, UserIdType } from '@src/types/team';
 import userState from '@stores/user';
+import { teamUsersSelector } from '@stores/team';
 
 import { FaTimes } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
@@ -19,7 +19,7 @@ interface Props {
 const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
 	const searchByKey = (searchKey: string): TeamUserType[] => {
@@ -39,19 +39,19 @@ const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, del
 
 	const handleUserInvite = (userId: number) => {
 		const user = teamUsers[userId];
-		if (user) addToInvitationList(user);
+		if (user) addToInvitationList(user.userId);
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
-		addToInvitationList(userSearchResult[0]); // enter 눌렀을 때 첫번째 결과로 입력
+		addToInvitationList(userSearchResult[0].userId); // enter 눌렀을 때 첫번째 결과로 입력
 	};
 
-	const addToInvitationList = (user: UserIdType) => {
+	const addToInvitationList = (userId: number) => {
 		if (!inputRef.current) return;
-		if (inviteUsers.find((invitedUser) => invitedUser.userId === user.userId)) return;
-		addInviteUser(user);
+		if (inviteUsers.find((invitedUser) => invitedUser.userId === userId)) return;
+		addInviteUser({ userId });
 		setUserSearchResult([]);
 		inputRef.current.value = '';
 	};

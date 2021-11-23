@@ -1,0 +1,29 @@
+delete:
+  summary: 일정 삭제하기
+  tags: [schedule]
+  parameters:
+    $ref: '../../components/schedule.yaml#/components/parameters/ScheduleId'
+  responses:
+    204:
+      description: 성공
+    409:
+      description: error
+put:
+  summary: 일정 수정하기
+  tags: [schedule]
+  parameters:
+    $ref: '../../components/schedule.yaml#/components/parameters/ScheduleId'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schedule.yaml#/components/schemas/UpdateScheduleBody'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schedule.yaml#/components/schemas/UpdateScheduleRes'
+    409:
+      description: error

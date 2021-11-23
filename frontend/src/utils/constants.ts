@@ -26,6 +26,7 @@ enum ColorCode {
 	BABYGREEN = '#C5E89B',
 	DEEPGREEN = '#2B4D00',
 	GREEN = '#008000',
+	ERROR = '#b8283c',
 }
 
 enum Font {
