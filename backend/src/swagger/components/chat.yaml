@@ -1,0 +1,72 @@
+components:
+  parameters:
+    GetChatRooms:
+      - name: teamId
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: userId
+        in: query
+        required: true
+        schema:
+          type: integer
+    ChatRoomInfo:
+      - name: chatRoomId
+        in: path
+        required: true
+        schema:
+          type: integer
+  schemas:
+    CreateChatRoomBody:
+      type: object
+      properties:
+        team_id:
+          type: integer
+        chat_room_name:
+          type: string
+        user_id_list:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: integer
+    CreateChatRoomRes:
+      type: object
+      properties:
+        chat_room_id:
+          type: integer
+        chat_room_name:
+          type: string
+        user_list:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: integer
+    GetChatRooms:
+      type: object
+      properties:
+        chat_rooms:
+          type: array
+          items:
+            type: object
+            properties:
+              chat_room_id:
+                type: integer
+              chat_room_name:
+                type: string
+    ChatRoomInfo:
+      type: object
+      properties:
+        chat_room_id:
+          type: integer
+        user_list:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: integer

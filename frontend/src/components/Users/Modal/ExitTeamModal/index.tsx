@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { teamListLoadTrigger } from '@src/stores/team';
 import Modal from '@src/components/common/Modal';
 import { leaveTeam } from '@apis/team';
-import { readTeamUsers } from '@src/apis/users';
+import { readTeamUsers } from '@src/apis/team';
 import { handleDeleteBtn } from '@src/utils/team';
 import { Content } from '../style';
 

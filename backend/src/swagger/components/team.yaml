@@ -1,0 +1,83 @@
+components:
+  parameters:
+    UserId:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+    TeamId:
+      - name: teamId
+        in: path
+        required: true
+        schema:
+          type: integer
+  schemas:
+    TeamList:
+      type: array
+      items:
+        type: object
+        properties:
+          team_user_id:
+            type: integer
+          state:
+            type: boolean
+          role:
+            type: integer
+          team:
+            type: object
+            properties:
+              team_id:
+                type: integer
+              team_name:
+                type: string
+              team_desc:
+                type: string
+    TeamInfo:
+      type: object
+      properties:
+        team_id:
+          type: integer
+        team_name:
+          type: string
+        team_desc:
+          type: string
+    TeamId:
+      type: object
+      properties:
+        team_id:
+          type: integer
+    Invite:
+      type: object
+      properties:
+        user_email:
+          type: string
+        team_id:
+          type: integer
+    CreateTeam:
+      type: object
+      properties:
+        team_name:
+          type: string
+        team_desc:
+          type: string
+    TeamUsers:
+      type: array
+      items:
+        type: object
+        properties:
+          team_user_id:
+            type: integer
+          state:
+            type: boolean
+          role:
+            type: integer
+          user:
+            type: object
+            properties:
+              user_id:
+                type: integer
+              user_name:
+                type: string
+              user_color:
+                type: integer

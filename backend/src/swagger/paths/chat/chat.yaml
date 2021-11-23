@@ -1,0 +1,31 @@
+get:
+  summary: 채팅방 목록 가져오기
+  tags: [chat]
+  parameters:
+    $ref: '../../components/chat.yaml#/components/parameters/GetChatRooms'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/chat.yaml#/components/schemas/GetChatRooms'
+    404:
+      description: error
+post:
+  summary: 채팅방 생성하기
+  tags: [chat]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/chat.yaml#/components/schemas/CreateChatRoomBody'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/chat.yaml#/components/schemas/CreateChatRoomRes'
+    409:
+      description: error

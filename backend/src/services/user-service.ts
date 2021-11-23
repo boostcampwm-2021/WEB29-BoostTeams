@@ -68,6 +68,13 @@ class UserService {
 		return user;
 	}
 
+	async getUserByUserName(user_name: string) {
+		const user = await this.userRepository.findOne({
+			where: { user_name }
+		});
+		return user;
+	}
+
 	async getUserByName(user_name: string) {
 		const users = await this.userRepository.find({
 			where: {

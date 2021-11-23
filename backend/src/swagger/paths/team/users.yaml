@@ -1,0 +1,14 @@
+get:
+  summary: 팀의 모든 유저 리스트 가져오기
+  tags: [team]
+  parameters:
+    $ref: '../../components/team.yaml#/components/parameters/TeamId'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/team.yaml#/components/schemas/TeamUsers'
+    404:
+      description: error
