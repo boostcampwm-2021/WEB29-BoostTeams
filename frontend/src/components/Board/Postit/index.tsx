@@ -116,6 +116,8 @@ const Postit: React.FC<Props> = ({
 			onDragMove={onDrag}
 			onDragStart={onDragStart}
 			onDragEnd={onDragEnd}
+			scaleX={postit.isDragging ? 1.05 : 1}
+			scaleY={postit.isDragging ? 1.05 : 1}
 			draggable
 		>
 			<Rect

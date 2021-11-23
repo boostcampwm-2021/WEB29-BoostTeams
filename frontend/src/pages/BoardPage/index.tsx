@@ -40,6 +40,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			const y = e.target.y() / window.innerHeight;
 			socket.current.emit('drag postit', { id, x, y });
 		},
+		dragEndPostit: (targetId: number) => socket.current.emit('drag end postit', { id: targetId, isDragging: false }),
 		setUpdatedPostit: (newPostit: IPostit) => {
 			setPostits((previousPostitList: IPostit[]) => {
 				const postitIdx = previousPostitList.findIndex((elem) => Number(newPostit.id) === Number(elem.id));
@@ -61,6 +62,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 
 	const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
 		const id = Number(e.target.id());
+		socketApi.dragEndPostit(id);
 		const postitList = [...postits];
 		const postitIdx = postitList.findIndex((postit) => postit.id === id);
 		postitList[postitIdx] = {
@@ -87,6 +89,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			socket.current.on('create new postit', (postits: IPostit) => socketApi.setUpdatedPostit(postits));
 			socket.current.on('update postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('drag postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
+			socket.current.on('drag end postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('team board error', (errorMessage: string) => toast.error(errorMessage));
 		}
 		return () => {
@@ -96,6 +99,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			socket.current.off('delete postit');
 			socket.current.off('update postit');
 			socket.current.off('drag postit');
+			socket.current.off('drag end postit');
 			socket.current.off('team board error');
 		};
 	}, [socket]);
