@@ -5,13 +5,13 @@ interface UserType {
 	userId: number;
 }
 
-const setUserStatusToOnline = (teamId: number, userId: number, socketId: string): void => {
+const setUserStatusToOnline = (teamId: number, userId: number, socket: Socket): void => {
 	if (!onlineUsersByTeam[teamId]) onlineUsersByTeam[teamId] = [{ userId }];
 	else {
 		const users = onlineUsersByTeam[teamId].filter((user: UserType) => user.userId !== userId);
 		onlineUsersByTeam[teamId] = [...users, { userId }];
 	}
-	onlineUsersInfo[socketId] = { teamId: Number(teamId), userId };
+	onlineUsersInfo[socket.id] = { teamId: Number(teamId), userId, socket };
 };
 
 const setUserStatusToOffline = (teamId: number, userId: number, socketId: string): void => {
@@ -39,7 +39,7 @@ const initTeam = (socket: Socket): void => {
 	});
 
 	socket.on('change status to online', ({ teamId, userId }: { teamId: number; userId: number }) => {
-		setUserStatusToOnline(teamId, userId, socket.id);
+		setUserStatusToOnline(teamId, userId, socket);
 		sendOnlineUsersToRoom(socket, teamId);
 	});
 

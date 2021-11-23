@@ -34,11 +34,25 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		namespace.to(`chat-${chatRoomId}`).emit('refresh chat rooms');
 	});
 
-	socket.on('invite users', ({ userList, teamId }) => {
+	socket.on('create chat room', ({ chatRoomId, userList, teamId }) => {
+		socket.join(`chat-${chatRoomId}`);
 		userList.forEach((user: { userId: number }) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
-				return JSON.stringify(onlineUsersInfo[socketId]) === JSON.stringify({ teamId: teamId, userId: user.userId });
+				return onlineUsersInfo[socketId].userId === user.userId && onlineUsersInfo[socketId].teamId === teamId;
 			});
+			onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
+			// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
+			socket.to(onlineInvitedUser).emit('refresh chat rooms');
+		});
+	});
+
+	socket.on('invite users', ({ chatRoomId, userList, teamId }) => {
+		userList.forEach((user: { userId: number }) => {
+			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
+				return onlineUsersInfo[socketId].userId === user.userId && onlineUsersInfo[socketId].teamId === teamId;
+			});
+			onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
+			// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
 			socket.to(onlineInvitedUser).emit('refresh chat rooms');
 		});
 	});
