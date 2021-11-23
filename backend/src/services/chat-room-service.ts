@@ -20,7 +20,7 @@ class ChatRoomService {
 	}
 
 	async createChatRoom(chatRoomInfo: ChatRoomInfoType) {
-		const { team_id, chat_room_name, user_id_list } = chatRoomInfo;
+		const { team_id, chat_room_name, user_list } = chatRoomInfo;
 		const newChatRoom = await this.chatRoomRepository
 			.createQueryBuilder()
 			.insert()
@@ -30,7 +30,7 @@ class ChatRoomService {
 		if (!newChatRoom) throw new Error('채팅방 생성 오류');
 
 		const chat_room_id = newChatRoom.raw.insertId;
-		const chatUsers = user_id_list.map((user) => {
+		const chatUsers = user_list.map((user) => {
 			return { user_id: user.user_id, chat_room_id };
 		});
 		const addUserResult = await this.chatRoomUserRepository
@@ -40,18 +40,42 @@ class ChatRoomService {
 			.values(chatUsers)
 			.execute();
 		if (!addUserResult) throw new Error('채팅방 유저 초대 오류');
-		return { chat_room_id, chat_room_name, user_id_list };
+		return { chat_room_id, chat_room_name, user_list };
 	}
 
 	async getChatRooms(teamId: number, userId: number) {
-		const chatRoomsResult = await this.chatRoomRepository
+		const chatRooms = await this.chatRoomRepository
 			.createQueryBuilder('chat_room')
+			.select('chat_room.chat_room_id')
+			.addSelect('chat_room.chat_room_name')
 			.innerJoin('chat_room.chat_room_users', 'chat_room_user')
 			.where('chat_room.team_id = :teamId', { teamId })
 			.andWhere('chat_room_user.user_id =:userId', { userId })
 			.getMany();
-		if (!chatRoomsResult) throw new Error('채팅방 목록 불러오기 오류');
-		return { chat_rooms: chatRoomsResult };
+		if (!chatRooms) throw new Error('채팅방 목록 불러오기 오류');
+		return { chat_rooms: chatRooms };
+	}
+
+	async getChatRoomUsers(chatRoomId) {
+		const chatRoomInfo = await this.chatRoomRepository
+			.createQueryBuilder('chat_room')
+			.select('chat_room.chat_room_id')
+			.addSelect('chat_room_user.user_id')
+			.innerJoin('chat_room.chat_room_users', 'chat_room_user')
+			.where('chat_room.chat_room_id = :chatRoomId', { chatRoomId })
+			.getOne();
+		if (!chatRoomInfo) throw new Error('채팅방 유저 가져오기 오류');
+		return chatRoomInfo;
+	}
+
+	async updateChatRoomName(chatRoomId, chatRoomName) {
+		const updatedChatRoom = await this.chatRoomRepository
+			.createQueryBuilder()
+			.update('chat_room')
+			.set({ chat_room_name: chatRoomName })
+			.where('chat_room_id = :chatRoomId', { chatRoomId })
+			.execute();
+		if (!updatedChatRoom) throw new Error('채팅방 이름 변경 오류');
 	}
 }
 
@@ -62,7 +86,7 @@ interface UserIdType {
 interface ChatRoomInfoType {
 	team_id: number;
 	chat_room_name: string;
-	user_id_list: UserIdType[];
+	user_list: UserIdType[];
 }
 
 export default ChatRoomService;

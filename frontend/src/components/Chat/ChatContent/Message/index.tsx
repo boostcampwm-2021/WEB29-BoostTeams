@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
+import { MessageType } from '@src/types/chat';
 import userState from '@stores/user';
-import { teamUsersSelector } from '@stores/chat';
+import { teamUsersSelector } from '@stores/team';
 import { timeToString } from '@utils/time';
-import { MessageType, TeamUsersType } from '@src/types/chat';
 
 import { ProfileIcon } from '@components/common';
 import { Container, ChatIconWrapper, MessageContainer, InfoContainer, ImojiWraper } from './style';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Message: React.FC<Props> = ({ teamId, message }) => {
-	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const myId = useRecoilValue(userState).id;
 
 	const isMyChat = () => message.userId === myId;
@@ -24,16 +24,14 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 		<Container myChat={isMyChat()}>
 			{!isMyChat() && (
 				<ChatIconWrapper>
-					{/* teamUsers[chatRoom.lastMessage.userId].name */}
-					<ProfileIcon name='작성자' color={0} status='none' width={3.2} isHover={false} />
+					<ProfileIcon name={teamUsers[message.userId].name} color={0} status='none' width={3.2} isHover={false} />
 				</ChatIconWrapper>
 			)}
 			<MessageContainer myChat={isMyChat()}>
 				<InfoContainer>
 					<div>
-						{/* teamUsers[chatRoom.lastMessage.userId].name */}
-						{!isMyChat() && <b>작성자</b>}
-						<span>{timeToString(message.createdAt)}</span>
+						{!isMyChat() && <b>{teamUsers[message.userId].name}</b>}
+						<span>{timeToString(new Date(message.createdAt))}</span>
 					</div>
 					<ImojiWraper>👍😲</ImojiWraper>
 				</InfoContainer>
