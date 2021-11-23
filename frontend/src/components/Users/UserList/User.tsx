@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProfileIcon, Button } from '@components/common';
 import { ColorCode } from '@utils/constants';
 import { useSetRecoilState } from 'recoil';
-import { selectedUser } from '@src/stores/team';
+import { selectedUser, teamUsersTrigger } from '@src/stores/team';
 import { TeamUserType } from '@src/types/team';
+import DropDown from '@src/components/common/DropDown';
+import { patchRole } from '@src/apis/team';
 import { UserWrapper } from './style';
 
 interface Props {
@@ -11,14 +13,22 @@ interface Props {
 	mode: string;
 	isAdmin: boolean;
 	isOnline: (userId: number) => boolean;
-	onBtnClick: (mode: string) => void;
+	openModal: (mode: string) => void;
+	teamId: number;
 }
 
-const User: React.FC<Props> = ({ user, mode, isAdmin, isOnline, onBtnClick }) => {
+const User: React.FC<Props> = ({ user, mode, isAdmin, isOnline, openModal, teamId }) => {
+	const [selectedRepeat, setSelectedRepeat] = useState(user.role === '관리자' ? 0 : 1);
+	const repeatOptions = ['관리자', '구성원'];
 	const setUser = useSetRecoilState(selectedUser);
+	const setTeamUsersTrigger = useSetRecoilState(teamUsersTrigger);
 	const openKickoutModal = () => {
 		setUser({ id: user.userId });
-		onBtnClick('KICKOUT');
+		openModal('KICKOUT');
+	};
+	const onSelect = async (value: number) => {
+		setSelectedRepeat(value);
+		await patchRole(setTeamUsersTrigger, user.userId, teamId, value);
 	};
 	return (
 		<UserWrapper key={user.userId}>
@@ -32,7 +42,11 @@ const User: React.FC<Props> = ({ user, mode, isAdmin, isOnline, onBtnClick }) =>
 				/>
 				<span>{user.name}</span>
 			</div>
-			<span>{user.role}</span>
+			{isAdmin ? (
+				<DropDown options={repeatOptions} selectedOption={repeatOptions[selectedRepeat]} setSelectedOption={onSelect} />
+			) : (
+				<span>{user.role}</span>
+			)}
 			{isAdmin && mode !== 'ADMIN' ? (
 				<Button text='강퇴' backgroundColor={ColorCode.RED} fontColor={ColorCode.WHITE} handler={openKickoutModal} />
 			) : null}

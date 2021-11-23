@@ -85,4 +85,14 @@ export default class TeamUserService {
 			.andWhere('user = :userId', { userId })
 			.execute();
 	}
+
+	async changeRole(userId: number, teamId: number, role: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder()
+			.update()
+			.set({ role })
+			.where('team = :teamId', { teamId })
+			.andWhere('user = :userId', { userId })
+			.execute();
+	}
 }
