@@ -56,6 +56,14 @@ export default class TeamUserService {
 		return await this.teamUserRepository
 			.createQueryBuilder('team_user')
 			.leftJoinAndSelect('team_user.user', 'user')
+			.select([
+				'team_user.team_user_id',
+				'team_user.state',
+				'team_user.role',
+				'user.user_id',
+				'user.user_name',
+				'user.user_color'
+			])
 			.where('team_user.team = :teamId', { teamId })
 			.getMany();
 	}

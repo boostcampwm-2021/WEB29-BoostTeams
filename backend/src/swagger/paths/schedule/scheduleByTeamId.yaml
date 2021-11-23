@@ -1,0 +1,38 @@
+get:
+  summary: 일정 가져오기
+  tags: [schedule]
+  parameters:
+    $ref: '../../components/schedule.yaml#/components/parameters/GetScheduleParam'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schedule.yaml#/components/schemas/GetSchedule'
+    404:
+      description: error
+post:
+  summary: 일정 추가하기
+  tags: [schedule]
+  parameters:
+    - name: team_id
+      in: path
+      required: true
+      description: 대상 팀 id
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schedule.yaml#/components/schemas/CreateScheduleBody'
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schedule.yaml#/components/schemas/CreateScheduleRes'
+    409:
+      description: error

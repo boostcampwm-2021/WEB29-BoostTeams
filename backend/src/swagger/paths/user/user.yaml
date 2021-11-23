@@ -1,0 +1,15 @@
+patch:
+  summary: 유저 닉네임 변경하기
+  tags: [user]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/user.yaml#/components/schemas/NewnameBody'
+  responses:
+    204:
+      description: 성공
+    401:
+      description: 유저 정보 없음
+    409:
+      description: 이미 존재하는 닉네임

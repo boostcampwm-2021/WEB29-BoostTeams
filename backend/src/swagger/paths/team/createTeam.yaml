@@ -1,0 +1,13 @@
+post:
+  summary: 팀 생성, [team, team-user]
+  tags: [team]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/team.yaml#/components/schemas/CreateTeam'
+  responses:
+    204:
+      description: 성공
+    409:
+      description: error

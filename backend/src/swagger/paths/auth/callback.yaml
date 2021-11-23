@@ -1,0 +1,8 @@
+get:
+  summary: github/callback
+  tags: [auth]
+  responses:
+    200:
+      description: 성공
+    404:
+      description: error

@@ -1,0 +1,27 @@
+get:
+  summary: 팀 정보 가져오기
+  tags: [team]
+  responses:
+    200:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/team.yaml#/components/schemas/TeamInfo'
+    404:
+      description: error
+delete:
+  summary: 유저 강퇴하기
+  tags: [team]
+  parameters:
+    $ref: '../../components/team.yaml#/components/parameters/UserId'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/team.yaml#/components/schemas/TeamId'
+  responses:
+    204:
+      description: 성공
+    409:
+      description: error
