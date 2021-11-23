@@ -43,8 +43,11 @@ export const chatRoomUsersSelector = selector({
 	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
 		get(chatRoomUsersTrigger);
-		const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
-		return data;
+		if (get(currentChatRoomState).currChatRoomId !== -1) {
+			const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
+			return data;
+		}
+		return { userList: [] };
 	},
 });
 
