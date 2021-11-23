@@ -55,22 +55,19 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		};
 		const newChatRoomInfo = await createChatRoom(roomInfo);
 		if (!newChatRoomInfo) return;
-		setChatRoomsTrigger((trigger) => trigger + 1);
-		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
 		socketApi.inviteUsers(socketRef.current, newChatRoomInfo.chatRoomId, inviteUsers, teamId);
+		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, newChatRoomInfo.chatRoomId);
 		inputRef.current.value = '';
 		initInviteUser();
 		setChatMode({ chatMode: 'chat' });
+		setChatRoomsTrigger((trigger) => trigger + 1);
+		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
 	};
 
 	const handleSendMessage = () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
-		socketRef.current.emit('send message', {
-			content: inputRef.current.value,
-			userId: myInfo.id,
-			chatRoomId: currentChatRoom.currChatRoomId,
-		});
+		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, currentChatRoom.currChatRoomId);
 		inputRef.current.value = '';
 	};
 

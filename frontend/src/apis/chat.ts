@@ -117,4 +117,7 @@ export const socketApi = {
 	exitChatRoom: (socket: Socket, chatRoomId: number) => {
 		socket.emit('exit chat room', { chatRoomId });
 	},
+	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
+		socket.emit('send message', { content, userId, chatRoomId });
+	},
 };

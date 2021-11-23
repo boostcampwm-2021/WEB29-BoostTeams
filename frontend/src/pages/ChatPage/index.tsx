@@ -79,12 +79,14 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	}, [teamId]);
 
 	useEffect(() => {
+		scrollToBottom();
+	}, [messageList]);
+
+	useEffect(() => {
 		if (currChatRoomId !== -1) {
 			getInitialMessageList();
 			socketRef.current.on('receive message', (message: MessageType) => {
-				if (message.chatRoomId === currChatRoomId) {
-					setMessageList((prev) => [...prev, message]);
-				}
+				if (message.chatRoomId === currChatRoomId) setMessageList((prev) => [...prev, message]);
 			});
 			socketRef.current.on('refresh chat room users', ({ chatRoomId }: { chatRoomId: number }) => {
 				if (chatRoomId === currChatRoomId) setChatRoomUsersTrigger((trigger) => trigger + 1);
@@ -95,10 +97,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			socketRef.current.off('refresh chat room users');
 		};
 	}, [currChatRoomId]);
-
-	useEffect(() => {
-		scrollToBottom();
-	}, [messageList]);
 
 	useEffect(() => {
 		if (socketRef.current) {
