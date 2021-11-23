@@ -57,6 +57,7 @@ const ChatTemplate: React.FC<Props> = ({
 							teamId={teamId}
 							chatMode={chatMode}
 							inviteUsers={inviteUsers}
+							setChatModeToNone={setChatModeToNone}
 							addInviteUser={addInviteUser}
 							deleteInviteUser={deleteInviteUser}
 							handleModalOpen={handleModalOpen}

@@ -72,6 +72,17 @@ export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUser
 	}
 };
 
+export const deleteChatRoomUser = async (chatRoomId: number, userId: number): Promise<boolean> => {
+	try {
+		const res = await fetchApi.delete(`/api/chat/rooms/${chatRoomId}/users/${userId}`);
+		if (res.status === 409) throw new Error();
+		return true;
+	} catch (err) {
+		toast.error('😣 채팅방 나가기에 실패하였습니다!');
+		return false;
+	}
+};
+
 // redis 로 변경해야 함
 export const getMessageList = async (chatRoomId: number): Promise<MessageListType> => {
 	try {

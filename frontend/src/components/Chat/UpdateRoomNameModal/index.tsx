@@ -18,7 +18,7 @@ const UpdateRoomNameModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 	const socketRef = useContext(SocketContext);
 	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
+	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 
 	const handleChatRoomNameUpdate = () => {
 		if (!inputRef.current) return;
@@ -26,7 +26,7 @@ const UpdateRoomNameModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 		const updatedResult = updateChatRoomName(currentChatRoomId, inputRef.current.value);
 		if (!updatedResult) return;
 		socketRef.current.emit('update chat room name', { chatRoomId: currentChatRoomId });
-		setTeamUsersTrigger((trigger) => trigger + 1);
+		setChatRoomsTrigger((trigger) => trigger + 1);
 		handleModalClose();
 	};
 

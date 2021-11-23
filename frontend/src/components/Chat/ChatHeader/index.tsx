@@ -13,6 +13,7 @@ interface Props {
 	teamId: number;
 	chatMode: string;
 	inviteUsers: UserIdType[];
+	setChatModeToNone: () => void;
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	handleModalOpen: () => void;
@@ -22,6 +23,7 @@ const ChatHeader: React.FC<Props> = ({
 	teamId,
 	chatMode,
 	inviteUsers,
+	setChatModeToNone,
 	addInviteUser,
 	deleteInviteUser,
 	handleModalOpen,
@@ -41,7 +43,9 @@ const ChatHeader: React.FC<Props> = ({
 					deleteInviteUser={deleteInviteUser}
 				/>
 			) : (
-				checkRoomAndTeam() && <Header teamId={teamId} handleModalOpen={handleModalOpen} />
+				checkRoomAndTeam() && (
+					<Header teamId={teamId} setChatModeToNone={setChatModeToNone} handleModalOpen={handleModalOpen} />
+				)
 			)}
 		</Container>
 	);

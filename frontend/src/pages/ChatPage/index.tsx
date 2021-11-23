@@ -44,7 +44,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
-	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
+	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 
 	const setChatModeToNone = () => setChatMode('none');
 	const setChatModeToCreate = () => setChatMode('create');
@@ -95,7 +95,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.on('refresh chat rooms', () => setTeamUsersTrigger((trigger) => trigger + 1));
+			socketRef.current.on('refresh chat rooms', () => setChatRoomsTrigger((trigger) => trigger + 1));
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });

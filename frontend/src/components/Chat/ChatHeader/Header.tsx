@@ -1,7 +1,9 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { currentChatRoomState, chatRoomsSelector, chatRoomUsersSelector } from '@stores/chat';
+import { deleteChatRoomUser } from '@apis/chat';
+import userState from '@stores/user';
+import { currentChatRoomState, chatRoomsSelector, chatRoomUsersSelector, chatRoomsTrigger } from '@stores/chat';
 import { ChatRoomsType } from '@src/types/chat';
 
 import { FaUserPlus, FaPen, FaSignOutAlt } from 'react-icons/fa';
@@ -10,13 +12,25 @@ import { HeaderContainer, ChatRoomInfoContainer, ButtonContainer, InvitationBtn,
 
 interface Props {
 	teamId: number;
+	setChatModeToNone: () => void;
 	handleModalOpen: () => void;
 }
 
-const Header: React.FC<Props> = ({ teamId, handleModalOpen }) => {
+const Header: React.FC<Props> = ({ teamId, setChatModeToNone, handleModalOpen }) => {
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const resetCurrChatRoom = useResetRecoilState(currentChatRoomState);
+	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
 	const chatRoomUsers = useRecoilValue(chatRoomUsersSelector).userList;
+	const myId = useRecoilValue(userState).id;
+
+	const handleChatRoomLeave = async () => {
+		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
+		if (!deleteResult) return;
+		setChatModeToNone();
+		resetCurrChatRoom();
+		setChatRoomsTrigger((trigger) => trigger + 1);
+	};
 
 	return (
 		<HeaderContainer>
@@ -36,7 +50,7 @@ const Header: React.FC<Props> = ({ teamId, handleModalOpen }) => {
 					<FaUserPlus />
 					<span>{chatRoomUsers.length}</span>
 				</InvitationBtn>
-				<ExitBtn>
+				<ExitBtn onClick={handleChatRoomLeave}>
 					<FaSignOutAlt />
 				</ExitBtn>
 			</ButtonContainer>
