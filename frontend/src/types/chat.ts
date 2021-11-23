@@ -4,6 +4,8 @@ export interface ChatModeType {
 	chatMode: 'none' | 'create' | 'chat';
 }
 
+export type DropdownModeType = 'none' | 'invite' | 'update' | 'users';
+
 export interface ChatRoomType {
 	chatRoomId: number;
 	chatRoomName: string;

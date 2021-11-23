@@ -1,4 +1,4 @@
-import { ColorCode, Font } from '@utils/constants';
+import { ColorCode } from '@utils/constants';
 import styled from 'styled-components';
 
 export const RoomHeaderContainer = styled.div`
@@ -14,7 +14,7 @@ export const ButtonContainer = styled.div`
 	display: flex;
 `;
 
-export const UserDropDownBtn = styled.button`
+export const UsersDropdownBtn = styled.button`
 	width: 2.5rem;
 	height: 2.5rem;
 	cursor: pointer;

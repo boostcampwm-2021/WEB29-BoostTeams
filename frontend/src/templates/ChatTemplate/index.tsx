@@ -8,31 +8,26 @@ import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';
 import ChatHeader from '@components/Chat/ChatHeader';
 import ChatContent from '@components/Chat/ChatContent';
-import UpdateRoomNameModal from '@components/Chat/UpdateRoomNameModal';
 import { Layout, MainContainer, ChatContainer } from './style';
 
 interface Props {
 	teamId: number;
 	inviteUsers: UserIdType[];
 	messagesEndRef: React.RefObject<HTMLDivElement>;
-	isModalVisible: boolean;
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
 	handleModalOpen: () => void;
-	handleModalClose: () => void;
 }
 
 const ChatTemplate: React.FC<Props> = ({
 	teamId,
 	inviteUsers,
 	messagesEndRef,
-	isModalVisible,
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
 	handleModalOpen,
-	handleModalClose,
 }) => {
 	const { chatMode } = useRecoilValue(chatModeState);
 
@@ -60,7 +55,6 @@ const ChatTemplate: React.FC<Props> = ({
 						/>
 					</ChatContainer>
 				)}
-				{isModalVisible && <UpdateRoomNameModal teamId={teamId} handleModalClose={handleModalClose} />}
 			</MainContainer>
 		</Layout>
 	);

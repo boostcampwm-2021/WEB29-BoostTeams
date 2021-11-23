@@ -4,16 +4,17 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { chatRoomsSelector, chatRoomsTrigger, currentChatRoomState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
 import { updateChatRoomName } from '@apis/chat';
+import { ColorCode } from '@utils/constants';
 
-import Modal from '@components/common/Modal';
-import { Title, Input } from './style';
+import { Button } from '@components/common';
+import { ButttonContainer, UpdateDropdownContainer } from './style';
 
 interface Props {
 	teamId: number;
-	handleModalClose: () => void;
+	handleDropdownModeToNone: () => void;
 }
 
-const UpdateRoomNameModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
+const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToNone }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
@@ -27,15 +28,28 @@ const UpdateRoomNameModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 		if (!updatedResult) return;
 		socketRef.current.emit('update chat room name', { chatRoomId: currentChatRoomId });
 		setChatRoomsTrigger((trigger) => trigger + 1);
-		handleModalClose();
+		handleDropdownModeToNone();
 	};
-
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleChatRoomNameUpdate} removeSubmitButton={false}>
-			<Title>채팅방 이름 변경</Title>
-			<Input type='text' defaultValue={chatRooms[currentChatRoomId].chatRoomName} ref={inputRef} />
-		</Modal>
+		<UpdateDropdownContainer>
+			<h3>채팅방 이름 변경</h3>
+			<input type='text' defaultValue={chatRooms[currentChatRoomId].chatRoomName} ref={inputRef} />
+			<ButttonContainer>
+				<Button
+					text='변경'
+					backgroundColor={ColorCode.PRIMARY1}
+					fontColor={ColorCode.WHITE}
+					handler={handleChatRoomNameUpdate}
+				/>
+				<Button
+					text='닫기'
+					backgroundColor={ColorCode.WHITE}
+					fontColor={ColorCode.BLACK}
+					handler={handleDropdownModeToNone}
+				/>
+			</ButttonContainer>
+		</UpdateDropdownContainer>
 	);
 };
 
-export default UpdateRoomNameModal;
+export default UpdateDropdown;

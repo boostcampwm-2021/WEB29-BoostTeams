@@ -11,14 +11,15 @@ import {
 	chatModeState,
 } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { ChatRoomsType } from '@src/types/chat';
+import { ChatRoomsType, DropdownModeType } from '@src/types/chat';
 import { UserIdType } from '@src/types/team';
 
 import { FaUserPlus, FaPen, FaSignOutAlt } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import UsersDropDown from '../DropDown/UsersDropDown';
-import InviteDropDown from '../DropDown/InviteDropDown';
-import { RoomHeaderContainer, ChatRoomInfoContainer, ButtonContainer, UserDropDownBtn, ExitBtn } from './style';
+import UsersDropdown from '../Dropdown/UsersDropdown';
+import InviteDropdown from '../Dropdown/InviteDropdown';
+import UpdateDropdown from '../Dropdown/UpdateDropdown';
+import { RoomHeaderContainer, ChatRoomInfoContainer, ButtonContainer, UsersDropdownBtn, ExitBtn } from './style';
 
 interface Props {
 	teamId: number;
@@ -46,14 +47,12 @@ const RoomHeader: React.FC<Props> = ({
 	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 	const myId = useRecoilValue(userState).id;
 
-	const [isUsersDropDownVisible, setIsUsersDropDownVisible] = useState(false);
-	const [isInviteDropDownVisible, setIsInviteDropDownVisible] = useState(false);
+	const [dropdownMode, setDropdownMode] = useState<DropdownModeType>('none');
 
-	const handleUsersDropDownToggle = () => setIsUsersDropDownVisible(!isUsersDropDownVisible);
-	const handleUsersDropDownClose = () => setIsUsersDropDownVisible(false);
-
-	const handleInviteDropDownOpen = () => setIsInviteDropDownVisible(true);
-	const handleInviteDropDownClose = () => setIsInviteDropDownVisible(false);
+	const handleDropdownModeToNone = () => setDropdownMode('none');
+	const handleDropdownModeToUpdate = () => setDropdownMode('update');
+	const handleDropdownModeToUsers = () => setDropdownMode('users');
+	const handleDropdownModeToInvite = () => setDropdownMode('invite');
 
 	const handleChatRoomLeave = async () => {
 		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
@@ -62,6 +61,16 @@ const RoomHeader: React.FC<Props> = ({
 		setChatMode({ chatMode: 'none' });
 		resetCurrChatRoom();
 		setChatRoomsTrigger((trigger) => trigger + 1);
+	};
+
+	const handleUpdateDropdown = () => {
+		if (dropdownMode === 'update') handleDropdownModeToNone();
+		else handleDropdownModeToUpdate();
+	};
+
+	const handleUsersDropdown = () => {
+		if (dropdownMode === 'invite' || dropdownMode === 'users') handleDropdownModeToNone();
+		else handleDropdownModeToUsers();
 	};
 
 	return (
@@ -75,32 +84,31 @@ const RoomHeader: React.FC<Props> = ({
 					isHover={false}
 				/>
 				<h2>{chatRooms[currChatRoomId].chatRoomName}</h2>
-				<FaPen onClick={handleModalOpen} />
+				<FaPen onClick={handleUpdateDropdown} />
 			</ChatRoomInfoContainer>
 			<ButtonContainer>
-				<UserDropDownBtn onClick={handleUsersDropDownToggle}>
+				<UsersDropdownBtn onClick={handleUsersDropdown}>
 					<FaUserPlus />
 					<span>{chatRoomUserList.length}</span>
-				</UserDropDownBtn>
+				</UsersDropdownBtn>
 				<ExitBtn onClick={handleChatRoomLeave}>
 					<FaSignOutAlt />
 				</ExitBtn>
 			</ButtonContainer>
-			{isUsersDropDownVisible && (
-				<UsersDropDown
-					teamId={teamId}
-					handleUsersDropDownClose={handleUsersDropDownClose}
-					handleInviteDropDownOpen={handleInviteDropDownOpen}
-				/>
+			{dropdownMode === 'update' && (
+				<UpdateDropdown teamId={teamId} handleDropdownModeToNone={handleDropdownModeToNone} />
 			)}
-			{isInviteDropDownVisible && (
-				<InviteDropDown
+			{dropdownMode === 'users' && (
+				<UsersDropdown teamId={teamId} handleDropdownModeToInvite={handleDropdownModeToInvite} />
+			)}
+			{dropdownMode === 'invite' && (
+				<InviteDropdown
 					teamId={teamId}
 					inviteUsers={inviteUsers}
 					addInviteUser={addInviteUser}
 					deleteInviteUser={deleteInviteUser}
 					initInviteUser={initInviteUser}
-					handleInviteDropDownClose={handleInviteDropDownClose}
+					handleDropdownModeToNone={handleDropdownModeToNone}
 				/>
 			)}
 		</RoomHeaderContainer>

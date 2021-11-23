@@ -70,7 +70,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
 	const handleModalOpen = () => setIsModalVisible(true);
-	const handleModalClose = () => setIsModalVisible(false);
 
 	useEffect(() => {
 		resetCurrentChatRoom();
@@ -114,12 +113,10 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			teamId={teamId}
 			inviteUsers={inviteUsers}
 			messagesEndRef={messagesEndRef}
-			isModalVisible={isModalVisible}
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}
 			handleModalOpen={handleModalOpen}
-			handleModalClose={handleModalClose}
 		/>
 	);
 };
