@@ -86,6 +86,7 @@ const makePostitObj = async (newData) => {
 		updatedAt: new Date(),
 		updatedBy: newData.updatedBy,
 		createdAt: new Date(),
-		createdBy: newData.createdBy
+		createdBy: newData.createdBy,
+		whoIsDragging: -1
 	};
 };

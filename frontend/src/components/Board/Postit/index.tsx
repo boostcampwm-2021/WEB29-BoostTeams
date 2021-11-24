@@ -13,6 +13,7 @@ const FONT_SIZE = {
 
 type Props = {
 	postit: IPostit;
+	isMine: boolean;
 	getUserNameById: (userId: number) => string;
 	onDrag: (e: KonvaEventObject<DragEvent>) => void;
 	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
@@ -95,6 +96,7 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 
 const Postit: React.FC<Props> = ({
 	postit,
+	isMine,
 	getUserNameById,
 	onDrag,
 	onDragStart,
@@ -116,9 +118,9 @@ const Postit: React.FC<Props> = ({
 			onDragMove={onDrag}
 			onDragStart={onDragStart}
 			onDragEnd={onDragEnd}
-			scaleX={postit.isDragging ? 1.05 : 1}
-			scaleY={postit.isDragging ? 1.05 : 1}
-			draggable
+			scaleX={postit.whoIsDragging !== -1 ? 1.05 : 1}
+			scaleY={postit.whoIsDragging !== -1 ? 1.05 : 1}
+			draggable={postit.whoIsDragging === -1 || isMine}
 		>
 			<Rect
 				width={POSTIT.WIDTH}

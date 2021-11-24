@@ -11,7 +11,7 @@ export interface IPostit {
 	createdAt: string;
 	updatedBy: number;
 	updatedAt: string;
-	isDragging: boolean;
+	whoIsDragging: number;
 }
 
 export interface ISocketApi {

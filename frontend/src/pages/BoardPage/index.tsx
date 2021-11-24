@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { toast } from 'react-toastify';
 import { KonvaEventObject } from 'konva/lib/Node';
+import userState from '@src/stores/user';
 import { teamUsersSelector } from '@stores/team';
 import BoardTemplate from '@templates/BoardTemplate';
 import { HEADER } from '@utils/constants';
@@ -16,11 +17,11 @@ type Props = RouteComponentProps<MatchParams>;
 
 const BoardPage: React.FC<Props> = ({ match }) => {
 	const [postits, setPostits] = useState<IPostit[]>([]);
-
 	const [showModal, setShowModal] = useState(false);
 	const [showDelete, setShowDelete] = useState(false);
 	const [modalType, setModalType] = useState('create');
 	const [clickedPostit, setClickedPostit] = useState<IPostit>();
+	const user = useRecoilValue(userState);
 	const handleModalOpen = () => setShowModal(true);
 	const handleModalClose = () => setShowModal(false);
 
@@ -38,9 +39,10 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			const id = e.target.id();
 			const x = e.target.x() / window.innerWidth;
 			const y = e.target.y() / window.innerHeight;
-			socket.current.emit('drag postit', { id, x, y });
+			const whoIsDragging = user.id;
+			socket.current.emit('drag postit', { id, x, y, whoIsDragging });
 		},
-		dragEndPostit: (targetId: number) => socket.current.emit('drag end postit', { id: targetId, isDragging: false }),
+		dragEndPostit: (targetId: number) => socket.current.emit('drag end postit', { id: targetId, whoIsDragging: -1 }),
 		setUpdatedPostit: (newPostit: IPostit) => {
 			setPostits((previousPostitList: IPostit[]) => {
 				const postitIdx = previousPostitList.findIndex((elem) => Number(newPostit.id) === Number(elem.id));
@@ -54,7 +56,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 		const id = Number(e.target.id());
 		const postitList = [...postits];
 		const postitIdx = postitList.findIndex((postit) => postit.id === id);
-		const postit = { ...postitList.splice(postitIdx, 1)[0], isDragging: true };
+		const postit = { ...postitList.splice(postitIdx, 1)[0], whoIsDragging: user.id };
 		postitList.push(postit);
 		setPostits(postitList);
 		setShowDelete(true);
@@ -69,7 +71,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			...postitList[postitIdx],
 			x: e.target.x() / window.innerWidth,
 			y: e.target.y() / window.innerHeight,
-			isDragging: false,
+			whoIsDragging: -1,
 		};
 		setPostits(postitList);
 		setShowDelete(false);
