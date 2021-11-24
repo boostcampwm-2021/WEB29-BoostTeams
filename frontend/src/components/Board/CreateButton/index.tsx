@@ -1,4 +1,5 @@
 import React from 'react';
+import { BiMessageAltAdd } from 'react-icons/bi';
 import { Wrapper, Container } from './style';
 
 interface Props {
@@ -13,11 +14,12 @@ const CreateButton: React.FC<Props> = ({ setModalType, handleModalOpen }) => {
 	};
 
 	return (
-		<Wrapper>
-			<Container onClick={handleClick}>
+		<Container>
+			<BiMessageAltAdd />
+			<Wrapper onClick={handleClick}>
 				<span>새 포스트잇 생성</span>
-			</Container>
-		</Wrapper>
+			</Wrapper>
+		</Container>
 	);
 };
 

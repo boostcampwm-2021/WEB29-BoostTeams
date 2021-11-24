@@ -1,15 +1,19 @@
 import React from 'react';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Text } from 'react-konva';
-import { ColorCode, PrimaryPalette, REM } from '@src/utils/constants';
+import { ColorCode, POSTIT, PrimaryPalette, REM } from '@src/utils/constants';
 import { IPostit } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 
-const POSTIT_WIDTH = 16 * REM;
 const PADDING = 1 * REM;
+const FONT_SIZE = {
+	small: 0.8 * REM,
+	medium: 1 * REM,
+};
 
 type Props = {
 	postit: IPostit;
+	getUserNameById: (userId: number) => string;
 	onDrag: (e: KonvaEventObject<DragEvent>) => void;
 	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
 	onDragEnd: (e: KonvaEventObject<DragEvent>) => void;
@@ -26,11 +30,11 @@ const onlyDate = (date: string) => {
 const Title = ({ text }: { text: string }) => {
 	return (
 		<Text
-			fontSize={1 * REM}
+			fontSize={FONT_SIZE.medium}
 			fontStyle='bold'
 			x={PADDING}
 			y={PADDING}
-			width={POSTIT_WIDTH - 2 * PADDING}
+			width={POSTIT.WIDTH - 2 * PADDING}
 			height={2 * REM}
 			text={text}
 		/>
@@ -40,11 +44,11 @@ const Title = ({ text }: { text: string }) => {
 const Content = ({ text }: { text: string }) => {
 	return (
 		<Text
-			fontSize={1 * REM}
+			fontSize={FONT_SIZE.medium}
 			x={PADDING}
 			y={PADDING + 2 * REM}
-			width={POSTIT_WIDTH - 2 * PADDING}
-			height={POSTIT_WIDTH - 2 * PADDING}
+			width={POSTIT.WIDTH - 2 * PADDING}
+			height={POSTIT.HEIGHT - 2 * PADDING}
 			text={text}
 		/>
 	);
@@ -52,21 +56,21 @@ const Content = ({ text }: { text: string }) => {
 
 const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: { [key: string]: string }) => {
 	return (
-		<Group y={POSTIT_WIDTH - 2 * 0.8 * REM - 0.5 * PADDING}>
+		<Group y={POSTIT.WIDTH - 2 * FONT_SIZE.small - 0.5 * PADDING}>
 			<Text
-				fontSize={0.8 * REM}
-				width={POSTIT_WIDTH - 0.5 * PADDING}
-				height={0.8 * REM}
+				fontSize={FONT_SIZE.small}
+				width={POSTIT.WIDTH - 0.5 * PADDING}
+				height={FONT_SIZE.small}
 				fill={ColorCode.GRAY}
 				wrap='none'
 				align='right'
 				text={`작성자 ${createdBy} | ${onlyDate(createdAt)}`}
 			/>
 			<Text
-				fontSize={0.8 * REM}
-				width={POSTIT_WIDTH - 0.5 * PADDING}
-				height={0.8 * REM}
-				y={0.8 * REM}
+				fontSize={FONT_SIZE.small}
+				width={POSTIT.WIDTH - 0.5 * PADDING}
+				height={FONT_SIZE.small}
+				y={FONT_SIZE.small}
 				fill={ColorCode.GRAY}
 				wrap='none'
 				align='right'
@@ -82,7 +86,7 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 			text='...'
 			fontSize={1.5 * REM}
 			x={PADDING}
-			width={POSTIT_WIDTH - 2 * PADDING}
+			width={POSTIT.WIDTH - 2 * PADDING}
 			align='right'
 			onClick={handleUpdateModalOpen}
 		/>
@@ -91,6 +95,7 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 
 const Postit: React.FC<Props> = ({
 	postit,
+	getUserNameById,
 	onDrag,
 	onDragStart,
 	onDragEnd,
@@ -106,16 +111,18 @@ const Postit: React.FC<Props> = ({
 	return (
 		<Group
 			id={`${postit.id}`}
-			x={postit.x}
-			y={postit.y}
+			x={postit.x * window.innerWidth}
+			y={postit.y * window.innerHeight}
 			onDragMove={onDrag}
 			onDragStart={onDragStart}
 			onDragEnd={onDragEnd}
+			scaleX={postit.isDragging ? 1.05 : 1}
+			scaleY={postit.isDragging ? 1.05 : 1}
 			draggable
 		>
 			<Rect
-				width={POSTIT_WIDTH}
-				height={POSTIT_WIDTH}
+				width={POSTIT.WIDTH}
+				height={POSTIT.WIDTH}
 				fill={PrimaryPalette[postit.color]}
 				shadowOffsetX={4}
 				shadowOffsetY={4}
@@ -125,9 +132,9 @@ const Postit: React.FC<Props> = ({
 			<Title text={postit.title} />
 			<Content text={postit.content} />
 			<Footer
-				createdBy={postit.createdBy.toString()}
+				createdBy={getUserNameById(postit.createdBy)}
 				createdAt={postit.createdAt}
-				updatedBy={postit.updatedBy.toString()}
+				updatedBy={getUserNameById(postit.updatedBy)}
 				updatedAt={postit.updatedAt}
 			/>
 			<Menu handleUpdateModalOpen={handleUpdateModalOpen} />

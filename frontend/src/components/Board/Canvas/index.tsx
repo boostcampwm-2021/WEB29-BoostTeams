@@ -1,13 +1,14 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { REM } from '@utils/constants';
+import { CANVAS } from '@utils/constants';
 import { IPostit } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import Postit from '../Postit';
 
 interface Props {
 	postits: IPostit[];
+	getUserNameById: (userId: number) => string;
 	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragEnd: (e: KonvaEventObject<DragEvent>) => void;
@@ -18,6 +19,7 @@ interface Props {
 
 const Canvas: React.FC<Props> = ({
 	postits,
+	getUserNameById,
 	handleDrag,
 	handleDragStart,
 	handleDragEnd,
@@ -26,7 +28,7 @@ const Canvas: React.FC<Props> = ({
 	handleModalOpen,
 }) => {
 	return (
-		<Stage width={window.innerWidth - 4.2 * REM} height={window.innerHeight - 3 * REM}>
+		<Stage width={CANVAS.WIDTH} height={CANVAS.HEIGHT}>
 			<Layer>
 				{postits &&
 					postits.map((postit) => (
@@ -39,6 +41,7 @@ const Canvas: React.FC<Props> = ({
 							setModalType={setModalType}
 							setClickedPostit={setClickedPostit}
 							handleModalOpen={handleModalOpen}
+							getUserNameById={getUserNameById}
 						/>
 					))}
 			</Layer>

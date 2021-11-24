@@ -6,7 +6,7 @@ export const Container = styled.nav`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: ${NAVBAR.WIDTH}rem;
+	width: ${NAVBAR.WIDTH}px;
 	background-color: ${ColorCode.LINE1};
 	overflow-y: hidden;
 `;

@@ -30,7 +30,7 @@ const TeamRoute = ({ computedMatch }: any) => {
 			<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
 			<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
 			<PrivateRoute exact path='/team/:teamId/users' component={UsersPage} teamId={teamId} />
-			<PrivateRoute exact path='/team/:teamId/board' component={BoardPage} />
+			<PrivateRoute exact path='/team/:teamId/board' component={BoardPage} teamId={teamId} />
 		</SocketContext.Provider>
 	);
 };

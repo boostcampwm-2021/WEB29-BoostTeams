@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { KonvaEventObject } from 'konva/lib/Node';
-import { SocketContext } from '@utils/socketContext';
-import BoardTemplate from '@templates/BoardTemplate';
+import { RouteComponentProps } from 'react-router';
+import { useRecoilValue } from 'recoil';
 import { toast } from 'react-toastify';
+import { KonvaEventObject } from 'konva/lib/Node';
+import { teamUsersSelector } from '@stores/team';
+import BoardTemplate from '@templates/BoardTemplate';
+import { HEADER } from '@utils/constants';
+import { SocketContext } from '@utils/socketContext';
 import { IPostit } from '@src/types/board';
 
-const BoardPage: React.FC = () => {
+interface MatchParams {
+	teamId: string;
+}
+type Props = RouteComponentProps<MatchParams>;
+
+const BoardPage: React.FC<Props> = ({ match }) => {
 	const [postits, setPostits] = useState<IPostit[]>([]);
 
 	const [showModal, setShowModal] = useState(false);
@@ -15,6 +24,10 @@ const BoardPage: React.FC = () => {
 	const handleModalOpen = () => setShowModal(true);
 	const handleModalClose = () => setShowModal(false);
 
+	const teamId = Number(match.params.teamId);
+	const teamUserList = useRecoilValue(teamUsersSelector(teamId));
+	const getUserNameById = (userId: number) =>
+		Object.values(teamUserList).find((user) => Number(user.userId) === Number(userId)).name;
 	const socket = useContext(SocketContext);
 	const socketApi = {
 		setUpdatedPostitList: (initPoistList: IPostit[]) => setPostits(initPoistList),
@@ -23,10 +36,11 @@ const BoardPage: React.FC = () => {
 		deletePostit: (targetId: number) => socket.current.emit('delete postit', targetId),
 		dragPostit: (e: KonvaEventObject<DragEvent>) => {
 			const id = e.target.id();
-			const x = e.target.x();
-			const y = e.target.y();
+			const x = e.target.x() / window.innerWidth;
+			const y = e.target.y() / window.innerHeight;
 			socket.current.emit('drag postit', { id, x, y });
 		},
+		dragEndPostit: (targetId: number) => socket.current.emit('drag end postit', { id: targetId, isDragging: false }),
 		setUpdatedPostit: (newPostit: IPostit) => {
 			setPostits((previousPostitList: IPostit[]) => {
 				const postitIdx = previousPostitList.findIndex((elem) => Number(newPostit.id) === Number(elem.id));
@@ -48,17 +62,19 @@ const BoardPage: React.FC = () => {
 
 	const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
 		const id = Number(e.target.id());
+		socketApi.dragEndPostit(id);
 		const postitList = [...postits];
 		const postitIdx = postitList.findIndex((postit) => postit.id === id);
 		postitList[postitIdx] = {
 			...postitList[postitIdx],
-			x: e.target.x(),
-			y: e.target.y(),
+			x: e.target.x() / window.innerWidth,
+			y: e.target.y() / window.innerHeight,
 			isDragging: false,
 		};
 		setPostits(postitList);
 		setShowDelete(false);
-		if (e.evt.offsetY > (window.innerHeight / 10) * 9 && e.evt.offsetY < window.innerHeight) {
+		const mouseY = (e.target.parent?.getRelativePointerPosition().y ?? 0) + HEADER.HEIGHT;
+		if (mouseY > (window.innerHeight / 10) * 9 && mouseY < window.innerHeight) {
 			socketApi.deletePostit(Number(e.target.id()));
 		}
 	};
@@ -73,6 +89,8 @@ const BoardPage: React.FC = () => {
 			socket.current.on('create new postit', (postits: IPostit) => socketApi.setUpdatedPostit(postits));
 			socket.current.on('update postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('drag postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
+			socket.current.on('drag end postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
+			socket.current.on('team board error', (errorMessage: string) => toast.error(errorMessage));
 		}
 		return () => {
 			socket.current.emit('leave board page');
@@ -81,6 +99,7 @@ const BoardPage: React.FC = () => {
 			socket.current.off('delete postit');
 			socket.current.off('update postit');
 			socket.current.off('drag postit');
+			socket.current.off('drag end postit');
 			socket.current.off('team board error');
 		};
 	}, [socket]);
@@ -91,6 +110,7 @@ const BoardPage: React.FC = () => {
 			showModal={showModal}
 			modalType={modalType}
 			clickedPostit={clickedPostit}
+			getUserNameById={getUserNameById}
 			setModalType={setModalType}
 			setClickedPostit={setClickedPostit}
 			handleModalOpen={handleModalOpen}

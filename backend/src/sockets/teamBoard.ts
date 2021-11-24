@@ -50,6 +50,16 @@ const initTeamBoard = (socket: Socket) => {
 		}
 	});
 
+	socket.on('drag end postit', async (newPostit) => {
+		try {
+			const teamId = onlineUsersInfo[socket.id].teamId;
+			const draggedPostit = await redisClient.set('board', teamId, newPostit);
+			socket.broadcast.to('board').emit('drag end postit', draggedPostit);
+		} catch (err) {
+			socket.emit('team board error');
+		}
+	});
+
 	socket.on('delete postit', async (postitId) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
