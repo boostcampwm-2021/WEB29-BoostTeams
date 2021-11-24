@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import { teamUsersSelector } from '@stores/team';
 import { chatRoomUsersSelector } from '@stores/chat';
+import { DropdownModeType } from '@src/types/chat';
 
 import { FaUserPlus } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
@@ -10,10 +11,10 @@ import { UsersDropdownContainer, ProfileContainer, InvititationBtn } from './sty
 
 interface Props {
 	teamId: number;
-	handleDropdownModeToInvite: () => void;
+	handleDropdownMode: (mode: DropdownModeType) => void;
 }
 
-const UsersDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToInvite }) => {
+const UsersDropdown: React.FC<Props> = ({ teamId, handleDropdownMode }) => {
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 
@@ -31,7 +32,7 @@ const UsersDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToInvite }) 
 					<span>{teamUsers[user.userId].name}</span>
 				</ProfileContainer>
 			))}
-			<InvititationBtn onClick={handleDropdownModeToInvite}>
+			<InvititationBtn onClick={() => handleDropdownMode('invite')}>
 				<FaUserPlus />
 				<span>유저 추가하기</span>
 			</InvititationBtn>

@@ -41,10 +41,7 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 
 	const [dropdownMode, setDropdownMode] = useState<DropdownModeType>('none');
 
-	const handleDropdownModeToNone = () => setDropdownMode('none');
-	const handleDropdownModeToUpdate = () => setDropdownMode('update');
-	const handleDropdownModeToUsers = () => setDropdownMode('users');
-	const handleDropdownModeToInvite = () => setDropdownMode('invite');
+	const handleDropdownMode = (mode: DropdownModeType) => setDropdownMode(mode);
 
 	const handleChatRoomLeave = async () => {
 		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
@@ -56,13 +53,13 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 	};
 
 	const handleUpdateDropdown = () => {
-		if (dropdownMode === 'update') handleDropdownModeToNone();
-		else handleDropdownModeToUpdate();
+		if (dropdownMode === 'update') handleDropdownMode('none');
+		else handleDropdownMode('update');
 	};
 
 	const handleUsersDropdown = () => {
-		if (dropdownMode === 'invite' || dropdownMode === 'users') handleDropdownModeToNone();
-		else handleDropdownModeToUsers();
+		if (dropdownMode === 'invite' || dropdownMode === 'users') handleDropdownMode('none');
+		else handleDropdownMode('users');
 	};
 
 	return (
@@ -87,12 +84,8 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 					<FaSignOutAlt />
 				</ExitBtn>
 			</ButtonContainer>
-			{dropdownMode === 'update' && (
-				<UpdateDropdown teamId={teamId} handleDropdownModeToNone={handleDropdownModeToNone} />
-			)}
-			{dropdownMode === 'users' && (
-				<UsersDropdown teamId={teamId} handleDropdownModeToInvite={handleDropdownModeToInvite} />
-			)}
+			{dropdownMode === 'update' && <UpdateDropdown teamId={teamId} handleDropdownMode={handleDropdownMode} />}
+			{dropdownMode === 'users' && <UsersDropdown teamId={teamId} handleDropdownMode={handleDropdownMode} />}
 			{dropdownMode === 'invite' && (
 				<InviteDropdown
 					teamId={teamId}
@@ -100,7 +93,7 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 					addInviteUser={addInviteUser}
 					deleteInviteUser={deleteInviteUser}
 					initInviteUser={initInviteUser}
-					handleDropdownModeToNone={handleDropdownModeToNone}
+					handleDropdownMode={handleDropdownMode}
 				/>
 			)}
 		</RoomHeaderContainer>

@@ -5,16 +5,17 @@ import { chatRoomsSelector, chatRoomsTrigger, currentChatRoomState } from '@stor
 import { SocketContext } from '@utils/socketContext';
 import { socketApi, updateChatRoomName } from '@apis/chat';
 import { ColorCode } from '@utils/constants';
+import { DropdownModeType } from '@src/types/chat';
 
 import { Button } from '@components/common';
 import { ButttonContainer, UpdateDropdownContainer } from './style';
 
 interface Props {
 	teamId: number;
-	handleDropdownModeToNone: () => void;
+	handleDropdownMode: (mode: DropdownModeType) => void;
 }
 
-const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToNone }) => {
+const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownMode }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
@@ -28,7 +29,7 @@ const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToNone }) =
 		if (!updatedResult) return;
 		socketApi.updateChatRoomName(socketRef.current, currentChatRoomId);
 		setChatRoomsTrigger((trigger) => trigger + 1);
-		handleDropdownModeToNone();
+		handleDropdownMode('none');
 	};
 	return (
 		<UpdateDropdownContainer>
@@ -45,7 +46,7 @@ const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownModeToNone }) =
 					text='닫기'
 					backgroundColor={ColorCode.WHITE}
 					fontColor={ColorCode.BLACK}
-					handler={handleDropdownModeToNone}
+					handler={() => handleDropdownMode('none')}
 				/>
 			</ButttonContainer>
 		</UpdateDropdownContainer>

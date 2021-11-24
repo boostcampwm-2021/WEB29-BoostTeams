@@ -3,9 +3,10 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { addChatRoomUsers, socketApi } from '@apis/chat';
 import { chatRoomUsersTrigger, currentChatRoomState } from '@stores/chat';
-import { UserIdType } from '@src/types/team';
 import { ColorCode } from '@utils/constants';
 import { SocketContext } from '@utils/socketContext';
+import { UserIdType } from '@src/types/team';
+import { DropdownModeType } from '@src/types/chat';
 
 import { Button } from '@components/common';
 import SearchInput from '../SearchInput';
@@ -17,7 +18,7 @@ interface Props {
 	addInviteUser: (newUser: UserIdType) => void;
 	deleteInviteUser: (id: number) => void;
 	initInviteUser: () => void;
-	handleDropdownModeToNone: () => void;
+	handleDropdownMode: (node: DropdownModeType) => void;
 }
 const InviteDropdown: React.FC<Props> = ({
 	teamId,
@@ -25,7 +26,7 @@ const InviteDropdown: React.FC<Props> = ({
 	addInviteUser,
 	deleteInviteUser,
 	initInviteUser,
-	handleDropdownModeToNone,
+	handleDropdownMode,
 }) => {
 	const socketRef = useContext(SocketContext);
 	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
@@ -40,7 +41,7 @@ const InviteDropdown: React.FC<Props> = ({
 		socketApi.inviteUsers(socketRef.current, currChatRoomId, inviteUsers, teamId);
 		initInviteUser();
 		setChatRoomUsersTrigger((trigger) => trigger + 1);
-		handleDropdownModeToNone();
+		handleDropdownMode('none');
 	};
 
 	return (
@@ -65,7 +66,7 @@ const InviteDropdown: React.FC<Props> = ({
 					text='닫기'
 					backgroundColor={ColorCode.WHITE}
 					fontColor={ColorCode.BLACK}
-					handler={handleDropdownModeToNone}
+					handler={() => handleDropdownMode('none')}
 				/>
 			</ButttonContainer>
 		</InviteDropdownContainer>
