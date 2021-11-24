@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { teamListLoadTrigger } from '@src/stores/team';
-import Modal from '@src/components/common/Modal';
-import { update } from '@src/apis/team';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { teamInfoLoadTrigger, teamInfoSelector } from '@stores/team';
+import Modal from '@components/common/Modal';
+import { update } from '@apis/team';
 import { UpdateModalContent, Input } from '../style';
 
 interface Props {
 	handleModalClose: () => void;
-	teamInfo: any;
 	teamId: number;
-	getTeam: () => void;
 }
 
-const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamInfo, teamId, getTeam }) => {
-	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
+const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+	const teamInfo = useRecoilValue(teamInfoSelector(teamId));
+	const setLoadTrigger = useSetRecoilState(teamInfoLoadTrigger);
 	const [updateTitle, setUpdateTitle] = useState(teamInfo.team_name);
 	const [updateDesc, setUpdateDesc] = useState(teamInfo.team_desc);
 	const handleSubmit = async () => {
@@ -22,7 +21,6 @@ const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamInfo, teamId, 
 			team_name: updateTitle,
 			team_desc: updateDesc,
 		});
-		getTeam();
 		handleModalClose();
 	};
 

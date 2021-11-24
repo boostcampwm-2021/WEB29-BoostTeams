@@ -1,16 +1,32 @@
-import Button from '@src/components/common/Button';
-import { ColorCode } from '@src/utils/constants';
 import React from 'react';
+import DropDown from '@src/components/common/DropDown';
 import { FaSearch } from 'react-icons/fa';
+import { IoSettingsSharp } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonContainer } from './style';
 
 interface Props {
 	handleInput: (e: any) => void;
-	onBtnClick: (mode: string) => void;
+	openModal: (mode: string) => void;
 	isAdmin: boolean;
 }
 
-const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
+const SearchUsers: React.FC<Props> = ({ handleInput, openModal, isAdmin }) => {
+	const onSelect = (value: number) => {
+		switch (value) {
+			case 0:
+				openModal('EXIT');
+				break;
+			case 1:
+				openModal('DELETE');
+				break;
+			case 2:
+				openModal('UPDATE');
+				break;
+			default:
+				toast('올바르지 않은 접근입니다');
+		}
+	};
 	return (
 		<SearchUsersContainer>
 			<h2>구성원</h2>
@@ -20,28 +36,11 @@ const SearchUsers: React.FC<Props> = ({ handleInput, onBtnClick, isAdmin }) => {
 					<FaSearch />
 				</IconWrapper>
 				<ButtonContainer>
-					<Button
-						text='팀 나가기'
-						handler={() => onBtnClick('EXIT')}
-						backgroundColor={ColorCode.PRIMARY1}
-						fontColor={ColorCode.WHITE}
+					<DropDown
+						options={isAdmin ? ['팀 나가기', '팀 삭제하기', '팀 정보수정'] : ['팀 나가기']}
+						selectedOption={<IoSettingsSharp size='20' />}
+						setSelectedOption={onSelect}
 					/>
-					{isAdmin && (
-						<>
-							<Button
-								text='팀 삭제'
-								handler={() => onBtnClick('DELETE')}
-								backgroundColor={ColorCode.PRIMARY1}
-								fontColor={ColorCode.WHITE}
-							/>
-							<Button
-								text='팀 정보 수정하기'
-								handler={() => onBtnClick('UPDATE')}
-								backgroundColor={ColorCode.PRIMARY1}
-								fontColor={ColorCode.WHITE}
-							/>
-						</>
-					)}
 				</ButtonContainer>
 			</InputContainer>
 		</SearchUsersContainer>
