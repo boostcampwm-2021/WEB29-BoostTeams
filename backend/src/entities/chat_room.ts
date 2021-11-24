@@ -18,7 +18,7 @@ export class ChatRoom {
 	@Column()
 	chat_room_name: string;
 
-	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room)
+	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room, { cascade: true })
 	chat_room_users: ChatRoomUser[];
 
 	@OneToMany(() => Message, (message) => message.chat_room)

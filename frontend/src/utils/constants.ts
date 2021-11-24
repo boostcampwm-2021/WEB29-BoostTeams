@@ -107,5 +107,7 @@ const Role: RoleType = {
 	1: '구성원',
 };
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role };
+const RoleArr = ['관리자', '구성원'];
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role, RoleArr };
 export { REM, NAVBAR, HEADER, CANVAS, POSTIT };

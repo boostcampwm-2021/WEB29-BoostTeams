@@ -105,6 +105,18 @@ const TeamController = {
 		} catch (err) {
 			res.sendStatus(409);
 		}
+	},
+
+	async changeRole(req: any, res: Response) {
+		try {
+			const teamId = Number(req.params.id);
+			const userId = req.body.user_id;
+			const role = req.body.role;
+			const newuser = await TeamUserService.getInstance().changeRole(userId, teamId, role);
+			res.sendStatus(200);
+		} catch (err) {
+			res.sendStatus(404);
+		}
 	}
 };
 

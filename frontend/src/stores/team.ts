@@ -1,7 +1,5 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { readMyTeam, readTeamUsers } from '@apis/team';
-import { TeamUsersResType, TeamUsersType } from '@src/types/team';
-import { Role } from '@utils/constants';
+import { readMyTeam, readTeamInfo, readTeamUsers } from '@apis/team';
 
 export const teamListLoadTrigger = atom({
 	key: 'loadTrigger',
@@ -15,6 +13,22 @@ export const userTeamList = selector({
 		const teamList = await readMyTeam();
 		return teamList;
 	},
+});
+
+export const teamInfoLoadTrigger = atom({
+	key: 'loadTrigger',
+	default: 0,
+});
+
+export const teamInfoSelector = selectorFamily({
+	key: 'teamInfoSelector',
+	get:
+		(teamId: number) =>
+		async ({ get }) => {
+			get(teamInfoLoadTrigger);
+			const team = await readTeamInfo(teamId);
+			return team;
+		},
 });
 
 export const selectedUser = atom({
@@ -38,4 +52,12 @@ export const teamUsersSelector = selectorFamily({
 			const data = await readTeamUsers(teamId);
 			return data;
 		},
+});
+
+export const modalState = atom({
+	key: 'modalState',
+	default: {
+		isOpen: false,
+		mode: '',
+	},
 });

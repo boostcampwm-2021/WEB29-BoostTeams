@@ -83,3 +83,14 @@ export const readTeamUsers = async (id: number) => {
 	const teamUsers: TeamUsersType = Object.fromEntries(entries);
 	return teamUsers;
 };
+
+export const patchRole = async (
+	setLoadTrigger: (param: any) => void,
+	userId: number,
+	teamId: number,
+	newRole: number,
+) => {
+	const res = await fetchApi.patch(`/api/team/${teamId}`, { user_id: userId, role: newRole });
+	if (res.status === 404) throw new Error();
+	setLoadTrigger((prev: number) => prev + 1);
+};
