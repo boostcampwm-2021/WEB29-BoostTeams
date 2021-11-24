@@ -13,7 +13,7 @@ import {
 	chatRoomUsersTrigger,
 } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { getMessageList } from '@apis/chat';
+import { socketApi } from '@src/apis/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -61,11 +61,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 		return { chatRoomId };
 	});
 
-	const getInitialMessageList = async () => {
-		const messages = await getMessageList(currChatRoomId);
-		setMessageList(messages);
-	};
-
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
 	useEffect(() => {
@@ -80,7 +75,13 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	useEffect(() => {
 		if (currChatRoomId !== -1) {
-			getInitialMessageList();
+			socketApi.getMessageList(socketRef.current, currChatRoomId);
+			socketRef.current.on(
+				'receive message list',
+				({ chatRoomId, messageList }: { chatRoomId: number; messageList: MessageType[] }) => {
+					if (chatRoomId === currChatRoomId) setMessageList([...messageList]);
+				},
+			);
 			socketRef.current.on('receive message', (message: MessageType) => {
 				if (message.chatRoomId === currChatRoomId) setMessageList((prev) => [...prev, message]);
 			});
@@ -89,6 +90,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			});
 		}
 		return () => {
+			socketRef.current.off('receive message list');
 			socketRef.current.off('receive message');
 			socketRef.current.off('refresh chat room users');
 		};

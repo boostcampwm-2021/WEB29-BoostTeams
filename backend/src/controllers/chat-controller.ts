@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import ChatRoomService from '@services/chat-room-service';
-import { messages } from '@sockets/store';
 
 const ChatController = {
 	async createChatRoom(req: Request, res: Response) {
@@ -61,17 +60,6 @@ const ChatController = {
 			const { chatRoomId, userId } = req.params;
 			await ChatRoomService.getInstance().deleteChatRoomUser(Number(chatRoomId), Number(userId));
 			res.sendStatus(204);
-		} catch (err) {
-			res.sendStatus(409);
-		}
-	},
-
-	// redis로 변경해야함, 스크롤 구현해야함
-	async getChatMessages(req: Request, res: Response) {
-		try {
-			const { chatRoomId } = req.params;
-			const message_list = messages[Number(chatRoomId)] ? messages[Number(chatRoomId)] : [];
-			res.status(200).json({ message_list });
 		} catch (err) {
 			res.sendStatus(409);
 		}
