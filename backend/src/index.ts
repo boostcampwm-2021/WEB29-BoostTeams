@@ -60,10 +60,10 @@ class App {
 	}
 
 	private route() {
-		this.app.use('/api/user', userRouter);
+		this.app.use('/api/users', userRouter);
 		this.app.use('/api/auth', authRouter);
 		this.app.use('/api/schedule', scheduleRouter);
-		this.app.use('/api/team', teamRouter);
+		this.app.use('/api/teams', teamRouter);
 		this.app.use('/api/chat', chatRouter);
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec))
 	}
