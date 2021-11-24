@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { timeSince } from '@utils/time';
 import { TeamUsersType } from '@src/types/team';
 import { teamUsersSelector } from '@stores/team';
-import { chatRoomsSelector, currentChatRoomState } from '@stores/chat';
+import { chatModeState, chatRoomsSelector, currentChatRoomState } from '@stores/chat';
 
 import { BiListPlus } from 'react-icons/bi';
 import { Sidebar, ProfileIcon } from '@components/common';
@@ -12,13 +12,11 @@ import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, Cha
 
 interface Props {
 	teamId: number;
-	setChatModeToNone: () => void;
-	setChatModeToCreate: () => void;
-	setChatModeToChat: () => void;
 }
 
-const ChatSidebar: React.FC<Props> = ({ teamId, setChatModeToNone, setChatModeToCreate, setChatModeToChat }) => {
+const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
+	const setChatMode = useSetRecoilState(chatModeState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
 
@@ -26,16 +24,16 @@ const ChatSidebar: React.FC<Props> = ({ teamId, setChatModeToNone, setChatModeTo
 		setCurrentChatRoom(() => {
 			return { currChatRoomId: chatRoomId };
 		});
-		setChatModeToChat();
+		setChatMode({ chatMode: 'chat' });
 	};
 
 	return (
 		<Sidebar>
 			<SidebarHeader>
-				<button type='button' onClick={setChatModeToNone}>
+				<button type='button' onClick={() => setChatMode({ chatMode: 'none' })}>
 					채팅
 				</button>
-				<NewChatBtn onClick={setChatModeToCreate}>
+				<NewChatBtn onClick={() => setChatMode({ chatMode: 'create' })}>
 					<BiListPlus />
 				</NewChatBtn>
 			</SidebarHeader>

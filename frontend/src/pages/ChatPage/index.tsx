@@ -1,12 +1,19 @@
-import React, { useState, useReducer, useEffect, useContext, useRef } from 'react';
+import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { UserIdType } from '@src/types/team';
-import { ChatModeType, MessageType } from '@src/types/chat';
-import { chatRoomsSelector, currentChatRoomState, messageListState, chatRoomsTrigger } from '@stores/chat';
+import { MessageType } from '@src/types/chat';
+import {
+	chatRoomsSelector,
+	currentChatRoomState,
+	messageListState,
+	chatRoomsTrigger,
+	chatModeState,
+	chatRoomUsersTrigger,
+} from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { getMessageList } from '@src/apis/chat';
+import { getMessageList } from '@apis/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -36,19 +43,15 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const socketRef = useContext(SocketContext);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	const [chatMode, setChatMode] = useState<ChatModeType>('none');
-	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
+	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
-	const setTeamUsersTrigger = useSetRecoilState(chatRoomsTrigger);
-
-	const setChatModeToNone = () => setChatMode('none');
-	const setChatModeToCreate = () => setChatMode('create');
-	const setChatModeToChat = () => setChatMode('chat');
+	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
+	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
+	const setChatMode = useSetRecoilState(chatModeState);
 
 	const addInviteUser = (newUser: UserIdType) => dispatchInviteUsers({ type: 'ADD', newUser });
 	const deleteInviteUser = (id: number) => dispatchInviteUsers({ type: 'DELETE', id });
@@ -59,64 +62,57 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	});
 
 	const getInitialMessageList = async () => {
-		const messages = await getMessageList(currentChatRoomId);
+		const messages = await getMessageList(currChatRoomId);
 		setMessageList(messages);
 	};
 
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
-	const handleModalOpen = () => setIsModalVisible(true);
-	const handleModalClose = () => setIsModalVisible(false);
-
 	useEffect(() => {
 		resetCurrentChatRoom();
-		setChatModeToNone();
+		setChatMode({ chatMode: 'none' });
 		initInviteUser();
 	}, [teamId]);
-
-	useEffect(() => {
-		if (currentChatRoomId !== -1) {
-			getInitialMessageList();
-			socketRef.current.on('receive message', (message: MessageType) => {
-				if (message.chatRoomId === currentChatRoomId) {
-					setMessageList((prev) => [...prev, message]);
-				}
-			});
-		}
-		return () => {
-			socketRef.current.off('receive message');
-		};
-	}, [currentChatRoomId]);
 
 	useEffect(() => {
 		scrollToBottom();
 	}, [messageList]);
 
 	useEffect(() => {
+		if (currChatRoomId !== -1) {
+			getInitialMessageList();
+			socketRef.current.on('receive message', (message: MessageType) => {
+				if (message.chatRoomId === currChatRoomId) setMessageList((prev) => [...prev, message]);
+			});
+			socketRef.current.on('refresh chat room users', ({ chatRoomId }: { chatRoomId: number }) => {
+				if (chatRoomId === currChatRoomId) setChatRoomUsersTrigger((trigger) => trigger + 1);
+			});
+		}
+		return () => {
+			socketRef.current.off('receive message');
+			socketRef.current.off('refresh chat room users');
+		};
+	}, [currChatRoomId]);
+
+	useEffect(() => {
 		if (socketRef.current) {
 			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
-			socketRef.current.on('refresh chat rooms', () => setTeamUsersTrigger((trigger) => trigger + 1));
+			socketRef.current.on('refresh chat rooms', () => setChatRoomsTrigger((trigger) => trigger + 1));
 		}
 		return () => {
 			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
+			socketRef.current.off('refresh chat rooms');
 		};
 	}, [socketRef.current, teamId]);
 
 	return (
 		<ChatTemplate
 			teamId={teamId}
-			chatMode={chatMode}
 			inviteUsers={inviteUsers}
 			messagesEndRef={messagesEndRef}
-			isModalVisible={isModalVisible}
-			setChatModeToNone={setChatModeToNone}
-			setChatModeToCreate={setChatModeToCreate}
-			setChatModeToChat={setChatModeToChat}
 			addInviteUser={addInviteUser}
 			deleteInviteUser={deleteInviteUser}
 			initInviteUser={initInviteUser}
-			handleModalOpen={handleModalOpen}
-			handleModalClose={handleModalClose}
 		/>
 	);
 };

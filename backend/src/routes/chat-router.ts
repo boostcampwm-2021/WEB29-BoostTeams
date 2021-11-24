@@ -5,9 +5,12 @@ const router = express.Router();
 
 router.post('/rooms', ChatController.createChatRoom);
 router.get('/rooms', ChatController.getChatRooms);
-router.get('/rooms/:chatRoomId', ChatController.getChatRoomUsers);
 router.patch('/rooms/:chatRoomId', ChatController.updateChatRoomName);
 
-router.get('/messages', ChatController.getChatMessages);
+router.get('/rooms/:chatRoomId/users', ChatController.getChatRoomUsers);
+router.post('/rooms/:chatRoomId/users', ChatController.addChatRoomUsers);
+router.delete('/rooms/:chatRoomId/users/:userId', ChatController.deleteChatRoomUser);
+
+router.get('/rooms/:chatRoomId/messages', ChatController.getChatMessages);
 
 export default router;

@@ -3,6 +3,11 @@ import { ChatRoomsLastMessageType, MessageListType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import userState from './user';
 
+export const chatModeState = atom({
+	key: 'chatModeState',
+	default: { chatMode: 'none' },
+});
+
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
 	default: { currChatRoomId: -1 },
@@ -29,11 +34,20 @@ export const chatRoomsLastMessageState = atom({
 	default: {} as ChatRoomsLastMessageType,
 });
 
+export const chatRoomUsersTrigger = atom({
+	key: 'chatRoomUsersTrigger',
+	default: 0,
+});
+
 export const chatRoomUsersSelector = selector({
 	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
-		const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
-		return data;
+		get(chatRoomUsersTrigger);
+		if (get(currentChatRoomState).currChatRoomId !== -1) {
+			const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
+			return data;
+		}
+		return { userList: [] };
 	},
 });
 
