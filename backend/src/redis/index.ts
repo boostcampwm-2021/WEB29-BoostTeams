@@ -20,11 +20,12 @@ export default class Redis {
 
 	get(key: string, field: string) {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (err, searchResult) => {
+			Redis.client.hget(key, field, async (err, searchResult) => {
 				if (err) return reject(err);
 				if (searchResult === null) {
 					Redis.client.hset(key, field, JSON.stringify([]));
-					Redis.client.hset(key, 'nextId', '0');
+					const previousIndex = await Redis.getNextId(key);
+					if (!previousIndex) Redis.client.hset(key, 'nextId', '0');
 					return resolve([]);
 				} else {
 					return resolve(JSON.parse(searchResult));
