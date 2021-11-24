@@ -98,6 +98,12 @@ export const deleteChatRoomUser = async (chatRoomId: number, userId: number): Pr
 };
 
 export const socketApi = {
+	enterChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('enter chat rooms', { chatRooms: chatRoomList });
+	},
+	leaveChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('refresh chat rooms', { chatRooms: chatRoomList });
+	},
 	createChatRoom: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
 		socket.emit('create chat room', { chatRoomId, userList, teamId });
 	},
@@ -109,6 +115,9 @@ export const socketApi = {
 	},
 	getMessageList: (socket: Socket, chatRoomId: number) => {
 		socket.emit('get message list', { chatRoomId });
+	},
+	getLastMessage: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('get last messages', { chatRoomList });
 	},
 	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
 		socket.emit('send message', { content, userId, chatRoomId });

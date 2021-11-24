@@ -25,6 +25,20 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		socket.emit('receive message list', { chatRoomId, messageList });
 	});
 
+	socket.on('get last messages', async ({ chatRoomList }: { chatRoomList: { chatRoomId: number }[] }) => {
+		const chatRoomMessages = await Promise.all(
+			chatRoomList.map(async ({ chatRoomId }) => redisClient.get('message', chatRoomId.toString()))
+		);
+		const lastMessages = {};
+		chatRoomMessages.forEach((messages: MessageType[]) => {
+			if (messages.length !== 0) {
+				const lastMessage = messages[messages.length - 1];
+				lastMessages[lastMessage.chatRoomId] = lastMessage;
+			}
+		});
+		socket.emit('receive last messages', lastMessages);
+	});
+
 	socket.on('send message', async (messageData: MessageReqType) => {
 		const chatRoomId = messageData.chatRoomId.toString();
 		const newMessage = await makeMessageObj(messageData);

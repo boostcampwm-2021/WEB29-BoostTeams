@@ -15,7 +15,7 @@ export interface ChatRoomsType {
 	[chatRoomId: number]: ChatRoomType;
 }
 
-export interface ChatRoomsLastMessageType {
+export interface LastMessagesType {
 	[chatRoomId: number]: MessageType;
 }
 
