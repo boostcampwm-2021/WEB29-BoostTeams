@@ -6,7 +6,7 @@ import { Container, OptionsWrapper } from './style';
 
 interface Props {
 	options: string[];
-	selectedOption: string;
+	selectedOption: string | any;
 	setSelectedOption: (value: number) => void;
 }
 
