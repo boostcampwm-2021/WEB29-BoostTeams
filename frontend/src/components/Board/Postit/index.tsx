@@ -2,7 +2,7 @@ import React from 'react';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Text } from 'react-konva';
 import { ColorCode, POSTIT, PrimaryPalette, REM } from '@src/utils/constants';
-import { IPostit } from '@src/types/board';
+import { IPostit, ISocketApi } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 
 const PADDING = 1 * REM;
@@ -14,6 +14,7 @@ const FONT_SIZE = {
 type Props = {
 	postit: IPostit;
 	isMine: boolean;
+	socketApi: ISocketApi;
 	getUserNameById: (userId: number) => string;
 	onDrag: (e: KonvaEventObject<DragEvent>) => void;
 	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
@@ -28,7 +29,7 @@ const onlyDate = (date: string) => {
 	return `${DateObj.getFullYear()}. ${DateObj.getMonth() + 1}. ${DateObj.getDate()}`;
 };
 
-const Title = ({ text }: { text: string }) => {
+const Title = ({ text, isUpdating }: { text: string; isUpdating: boolean }) => {
 	return (
 		<Text
 			fontSize={FONT_SIZE.medium}
@@ -37,12 +38,12 @@ const Title = ({ text }: { text: string }) => {
 			y={PADDING}
 			width={POSTIT.WIDTH - 2 * PADDING}
 			height={2 * REM}
-			text={text}
+			text={isUpdating ? '수정중...' : text}
 		/>
 	);
 };
 
-const Content = ({ text }: { text: string }) => {
+const Content = ({ text, isUpdating, userName }: { text: string; isUpdating: boolean; userName: string }) => {
 	return (
 		<Text
 			fontSize={FONT_SIZE.medium}
@@ -50,7 +51,7 @@ const Content = ({ text }: { text: string }) => {
 			y={PADDING + 2 * REM}
 			width={POSTIT.WIDTH - 2 * PADDING}
 			height={POSTIT.HEIGHT - 2 * PADDING}
-			text={text}
+			text={isUpdating ? `${userName}님이 수정중입니다.` : text}
 		/>
 	);
 };
@@ -97,6 +98,7 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 const Postit: React.FC<Props> = ({
 	postit,
 	isMine,
+	socketApi,
 	getUserNameById,
 	onDrag,
 	onDragStart,
@@ -106,9 +108,12 @@ const Postit: React.FC<Props> = ({
 	handleModalOpen,
 }) => {
 	const handleUpdateModalOpen = () => {
-		setModalType('update');
-		setClickedPostit(postit);
-		handleModalOpen();
+		if (postit.whoIsUpdating === -1 && postit.whoIsDragging === -1) {
+			setModalType('update');
+			socketApi.updateStartPostit(postit.id);
+			setClickedPostit(postit);
+			handleModalOpen();
+		}
 	};
 	return (
 		<Group
@@ -120,19 +125,26 @@ const Postit: React.FC<Props> = ({
 			onDragEnd={onDragEnd}
 			scaleX={postit.whoIsDragging !== -1 ? 1.05 : 1}
 			scaleY={postit.whoIsDragging !== -1 ? 1.05 : 1}
-			draggable={postit.whoIsDragging === -1 || isMine}
+			draggable={(postit.whoIsDragging === -1 || isMine) && postit.whoIsUpdating === -1}
+			opacity={postit.whoIsUpdating !== -1 ? 0.2 : 1}
 		>
 			<Rect
 				width={POSTIT.WIDTH}
 				height={POSTIT.WIDTH}
 				fill={PrimaryPalette[postit.color]}
+				stroke={ColorCode.PRIMARY1}
+				strokeWidth={isMine ? 1 : 0}
 				shadowOffsetX={4}
 				shadowOffsetY={4}
-				shadowOpacity={0.25}
+				shadowOpacity={postit.whoIsUpdating !== -1 ? 0 : 0.25}
 				shadowBlur={4}
 			/>
-			<Title text={postit.title} />
-			<Content text={postit.content} />
+			<Title text={postit.title} isUpdating={postit.whoIsUpdating !== -1} />
+			<Content
+				text={postit.content}
+				isUpdating={postit.whoIsUpdating !== -1}
+				userName={postit.whoIsUpdating !== -1 ? getUserNameById(postit.whoIsUpdating) : ''}
+			/>
 			<Footer
 				createdBy={getUserNameById(postit.createdBy)}
 				createdAt={postit.createdAt}

@@ -33,7 +33,10 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 	const socketApi = {
 		setUpdatedPostitList: (initPoistList: IPostit[]) => setPostits(initPoistList),
 		createNewPostit: (newPostit: IPostit) => socket.current.emit('create new postit', newPostit),
-		updatePostit: (newPostit: IPostit) => socket.current.emit('update postit', newPostit),
+		updateStartPostit: (targetId: number) =>
+			socket.current.emit('update start postit', { id: targetId, whoIsUpdating: user.id }),
+		updateEndPostit: (newPostit: IPostit) =>
+			socket.current.emit('update end postit', { ...newPostit, whoIsUpdating: -1 }),
 		deletePostit: (targetId: number) => socket.current.emit('delete postit', targetId),
 		dragPostit: (e: KonvaEventObject<DragEvent>) => {
 			const id = e.target.id();
@@ -89,7 +92,8 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			socket.current.on('join board page', (postits: IPostit[]) => socketApi.setUpdatedPostitList(postits));
 			socket.current.on('delete postit', (postits: IPostit[]) => socketApi.setUpdatedPostitList(postits));
 			socket.current.on('create new postit', (postits: IPostit) => socketApi.setUpdatedPostit(postits));
-			socket.current.on('update postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
+			socket.current.on('update start postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
+			socket.current.on('update end postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('drag postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('drag end postit', (postit: IPostit) => socketApi.setUpdatedPostit(postit));
 			socket.current.on('team board error', (errorMessage: string) => toast.error(errorMessage));
@@ -99,7 +103,8 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			socket.current.off('join board page');
 			socket.current.off('create new postit');
 			socket.current.off('delete postit');
-			socket.current.off('update postit');
+			socket.current.off('update start postit');
+			socket.current.off('update end postit');
 			socket.current.off('drag postit');
 			socket.current.off('drag end postit');
 			socket.current.off('team board error');

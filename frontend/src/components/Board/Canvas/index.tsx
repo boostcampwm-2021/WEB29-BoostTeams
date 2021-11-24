@@ -4,12 +4,13 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { useRecoilValue } from 'recoil';
 import userState from '@src/stores/user';
 import { CANVAS } from '@utils/constants';
-import { IPostit } from '@src/types/board';
+import { IPostit, ISocketApi } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import Postit from '../Postit';
 
 interface Props {
 	postits: IPostit[];
+	socketApi: ISocketApi;
 	getUserNameById: (userId: number) => string;
 	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
@@ -21,6 +22,7 @@ interface Props {
 
 const Canvas: React.FC<Props> = ({
 	postits,
+	socketApi,
 	getUserNameById,
 	handleDrag,
 	handleDragStart,
@@ -38,6 +40,7 @@ const Canvas: React.FC<Props> = ({
 						<Postit
 							key={postit.id}
 							postit={postit}
+							socketApi={socketApi}
 							isMine={userId === postit.whoIsDragging}
 							onDrag={handleDrag}
 							onDragStart={handleDragStart}

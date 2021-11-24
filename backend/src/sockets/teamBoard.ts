@@ -30,11 +30,21 @@ const initTeamBoard = (socket: Socket) => {
 		}
 	});
 
-	socket.on('update postit', async (newPostit) => {
+	socket.on('update start postit', async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostit = await redisClient.set('board', teamId, newPostit);
-			socket.broadcast.to('board').emit('drag postit', updatedPostit);
+			socket.broadcast.to('board').emit('update start postit', updatedPostit);
+		} catch (err) {
+			socket.emit('team board error', '포스트잇을 업데이트 할 수 없습니다!');
+		}
+	});
+
+	socket.on('update end postit', async (newPostit) => {
+		try {
+			const teamId = onlineUsersInfo[socket.id].teamId;
+			const updatedPostit = await redisClient.set('board', teamId, newPostit);
+			socket.broadcast.to('board').emit('update end postit', updatedPostit);
 		} catch (err) {
 			socket.emit('team board error', '포스트잇 업데이트 실패!');
 		}
@@ -87,6 +97,7 @@ const makePostitObj = async (newData) => {
 		updatedBy: newData.updatedBy,
 		createdAt: new Date(),
 		createdBy: newData.createdBy,
-		whoIsDragging: -1
+		whoIsDragging: -1,
+		whoIsUpdating: -1
 	};
 };

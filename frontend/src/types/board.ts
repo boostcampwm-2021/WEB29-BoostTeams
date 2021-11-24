@@ -12,10 +12,16 @@ export interface IPostit {
 	updatedBy: number;
 	updatedAt: string;
 	whoIsDragging: number;
+	whoIsUpdating: number;
 }
 
 export interface ISocketApi {
 	createNewPostit: (newPostit: any) => void;
-	updatePostit: (newPostit: any) => void;
+	updateStartPostit: (targetId: number) => void;
+	updateEndPostit: (newPostit: any) => void;
 	dragPostit: (e: KonvaEventObject<DragEvent>) => void;
+	setUpdatedPostitList: (initPoistList: IPostit[]) => void;
+	deletePostit: (targetId: number) => void;
+	dragEndPostit: (targetId: number) => void;
+	setUpdatedPostit: (newPostit: IPostit) => void;
 }
