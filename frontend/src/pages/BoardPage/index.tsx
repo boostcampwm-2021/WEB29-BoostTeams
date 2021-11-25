@@ -28,7 +28,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
 	const teamUserList = useRecoilValue(teamUsersSelector(teamId));
 	const getUserNameById = (userId: number) =>
-		Object.values(teamUserList).find((user) => Number(user.userId) === Number(userId)).name;
+		Object.values(teamUserList).find((user) => Number(user.userId) === Number(userId))?.name ?? '';
 	const socket = useContext(SocketContext);
 	const socketApi = {
 		setUpdatedPostitList: (initPoistList: IPostit[]) => setPostits(initPoistList),
@@ -109,7 +109,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			socket.current.off('drag end postit');
 			socket.current.off('team board error');
 		};
-	}, [socket]);
+	}, [socket.current, teamId]);
 
 	return (
 		<BoardTemplate
