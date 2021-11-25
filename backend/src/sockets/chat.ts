@@ -53,9 +53,11 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
 				return onlineUsersInfo[socketId].userId === user.userId && onlineUsersInfo[socketId].teamId === teamId;
 			});
-			onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
-			socket.to(onlineInvitedUser).emit('refresh chat rooms');
+			if (onlineUsersInfo[onlineInvitedUser] && onlineUsersInfo[onlineInvitedUser].socket) {
+				onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
+				socket.to(onlineInvitedUser).emit('refresh chat rooms');
+				// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
+			}
 		});
 	});
 
