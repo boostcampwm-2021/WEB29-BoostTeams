@@ -30,6 +30,14 @@ export default class TeamUserService {
 			.execute();
 	}
 
+	async checkTeamUser(teamId: number, userId: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder('team_user')
+			.where('team_user.user = :userId', { userId })
+			.where('team_user.team = :teamId', { teamId })
+			.getOne();
+	}
+
 	async create(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder()

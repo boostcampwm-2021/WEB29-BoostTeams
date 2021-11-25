@@ -28,7 +28,7 @@ const TeamController = {
 
 	async update(req: any, res: Response) {
 		try {
-			const teamId = req.params.id;
+			const teamId = req.params.teamId;
 			await TeamService.getInstance().update(teamId, req.body);
 			res.sendStatus(201);
 		} catch (err) {
@@ -38,7 +38,7 @@ const TeamController = {
 
 	async delete(req: any, res: Response) {
 		try {
-			const teamId = req.params.id;
+			const teamId = req.params.teamId;
 			await TeamService.getInstance().delete(teamId);
 			res.sendStatus(204);
 		} catch (err) {
@@ -48,10 +48,7 @@ const TeamController = {
 
 	async readTeamInfo(req: any, res: Response) {
 		try {
-			const userId = req.user_id;
-			const exist = await TeamUserService.getInstance().read(userId);
-			if(!exist) res.sendStatus(403);
-			const team = await TeamService.getInstance().read(req.params.id);
+			const team = await TeamService.getInstance().read(req.params.teamId);
 			res.status(200).send(team[0]);
 		} catch (err) {
 			res.sendStatus(409)
@@ -60,8 +57,7 @@ const TeamController = {
 
 	async readTeamUsers(req: any, res: Response) {
 		try {
-			const teamId = req.params.id;
-			// 유저가 팀에 소속되어 있는지부터 확인 아니면 403
+			const teamId = req.params.teamId;
 			const teams = await TeamUserService.getInstance().readAllUsers(teamId);
 			res.status(200).send(teams);
 		} catch (err) {
@@ -71,13 +67,11 @@ const TeamController = {
 
 	async invite(req: any, res: Response) {
 		try {
-			const teamId = req.params.id;
+			const teamId = req.params.teamId;
 			const userName = req.body.userName;
 			const userInfo = await UserService.getInstance().getUserByUserName(userName);
 			if(!userInfo) res.sendStatus(404);
 			const userId = userInfo.user_id;
-			// 유저가 팀에 소속 되었는지 확인. 이미 소속이면 404
-			// 본인이 팀에 있고, 관리자인지 확인, 아니면 403
 			await TeamUserService.getInstance().invite(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
@@ -88,7 +82,7 @@ const TeamController = {
 	async acceptInvitation(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
-			const teamId = req.params.id;
+			const teamId = req.params.teamId;
 			await TeamUserService.getInstance().update(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
@@ -99,7 +93,7 @@ const TeamController = {
 	async declineInvitation(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
-			const teamId = req.params.id;
+			const teamId = req.params.teamId;
 			await TeamUserService.getInstance().delete(userId, teamId);
 			res.sendStatus(204);
 		} catch (err) {
