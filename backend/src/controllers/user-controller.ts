@@ -39,8 +39,8 @@ const UserController = {
 			const existUser = await UserService.getInstance().getUserByName(req.body.newName);
 			if (existUser) return res.sendStatus(409);
 			const newUser = await UserService.getInstance().updateUserToName(req.user_id, req.body.newName);
-			if (!newUser) return res.sendStatus(401);
-			res.sendStatus(204);
+			if (!newUser) return res.sendStatus(409);
+			res.status(201).send(newUser);
 		} catch (err) {
 			res.sendStatus(409);
 		}

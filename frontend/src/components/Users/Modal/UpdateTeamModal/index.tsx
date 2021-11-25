@@ -16,8 +16,7 @@ const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	const [updateTitle, setUpdateTitle] = useState(teamInfo.team_name);
 	const [updateDesc, setUpdateDesc] = useState(teamInfo.team_desc);
 	const handleSubmit = async () => {
-		await update(setLoadTrigger, {
-			team_id: teamId,
+		await update(setLoadTrigger, teamId, {
 			team_name: updateTitle,
 			team_desc: updateDesc,
 		});
