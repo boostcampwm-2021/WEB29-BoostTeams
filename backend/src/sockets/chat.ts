@@ -8,7 +8,6 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 	socket.on('enter chat rooms', async ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.join(`chat-${chatRoomId}`);
-			console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
 		const chatRoomMessages = await Promise.all(
 			chatRooms.map(async ({ chatRoomId }) => redisClient.get('message', chatRoomId.toString()))
@@ -26,12 +25,10 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.leave(`chat-${chatRoomId}`);
-			console.log(`leave chat-${chatRoomId} ${socket.id}`);
 		});
 	});
 
 	socket.on('get message list', async ({ chatRoomId }) => {
-		// console.log('get message list', chatRoomId);
 		const messageList = await redisClient.get('message', chatRoomId);
 		socket.emit('receive message list', { chatRoomId, messageList });
 	});
@@ -56,7 +53,6 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			if (onlineUsersInfo[onlineInvitedUser] && onlineUsersInfo[onlineInvitedUser].socket) {
 				onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
 				socket.to(onlineInvitedUser).emit('refresh chat rooms');
-				// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
 			}
 		});
 	});
@@ -66,16 +62,16 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
 				return onlineUsersInfo[socketId].userId === user.userId && onlineUsersInfo[socketId].teamId === teamId;
 			});
-			onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
-			socket.to(onlineInvitedUser).emit('refresh chat rooms');
+			if (onlineUsersInfo[onlineInvitedUser] && onlineUsersInfo[onlineInvitedUser].socket) {
+				onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
+				socket.to(onlineInvitedUser).emit('refresh chat rooms');
+			}
 		});
 	});
 
 	socket.on('exit chat room', ({ chatRoomId }) => {
 		namespace.to(`chat-${chatRoomId}`).emit('refresh chat room users', { chatRoomId });
 		socket.leave(`chat-${chatRoomId}`);
-		// console.log(`leave chat-${chatRoomId} ${socket.id}`);
 	});
 };
 
