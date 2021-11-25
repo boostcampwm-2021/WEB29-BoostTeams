@@ -1,0 +1,8 @@
+components:
+  parameters:
+  schemas:
+    NewnameBody:
+      type: object
+      properties:
+        newName:
+          type: string

@@ -26,6 +26,7 @@ enum ColorCode {
 	BABYGREEN = '#C5E89B',
 	DEEPGREEN = '#2B4D00',
 	GREEN = '#008000',
+	ERROR = '#b8283c',
 }
 
 enum Font {
@@ -75,21 +76,27 @@ const PostIt = {
 	},
 };
 
+const REM = 16; // TODO: 반응형 (style과 별도로 적용)
+
+// const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
 const NAVBAR = {
-	WIDTH: 4.2,
+	WIDTH: 4.2 * REM,
 };
 
 const HEADER = {
-	HEIGHT: 3,
+	HEIGHT: 3 * REM,
 };
 
-const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 const CANVAS = {
-	WITDH: window.innerWidth - converRemToPx(NAVBAR.WIDTH),
-	HEIGHT: window.innerHeight - converRemToPx(HEADER.HEIGHT),
+	WIDTH: window.innerWidth - NAVBAR.WIDTH,
+	HEIGHT: window.innerHeight - HEADER.HEIGHT,
 };
 
-const REM = 16; // TODO: 반응형 (style과 별도로 적용)
+const POSTIT = {
+	WIDTH: 16 * REM,
+	HEIGHT: 16 * REM,
+};
 
 type RoleType = {
 	[key: number]: string;
@@ -100,5 +107,7 @@ const Role: RoleType = {
 	1: '구성원',
 };
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role };
-export { CANVAS, NAVBAR, HEADER, REM };
+const RoleArr = ['관리자', '구성원'];
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role, RoleArr };
+export { REM, NAVBAR, HEADER, CANVAS, POSTIT };

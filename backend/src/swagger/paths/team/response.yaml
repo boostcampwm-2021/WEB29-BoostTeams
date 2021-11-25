@@ -1,0 +1,26 @@
+post:
+  summary: 초대 수락 [team-user]
+  tags: [team]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/team.yaml#/components/schemas/TeamId'
+  responses:
+    204:
+      description: 성공
+    409:
+      description: error
+delete:
+  summary: 초대 거절 [team-user]
+  tags: [team]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/team.yaml#/components/schemas/TeamId'
+  responses:
+    204:
+      description: 성공
+    409:
+      description: error

@@ -8,10 +8,10 @@ interface Props {
 	isAdmin: boolean;
 	onlineUsers: { userId: number }[];
 	teamId: number;
-	onBtnClick: (mode: string) => void;
+	openModal: (mode: string) => void;
 }
 
-const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, onBtnClick }) => {
+const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, openModal }) => {
 	const managerUsers: any[] = [];
 	const normalUsers: any[] = [];
 	users.forEach((e) => {
@@ -29,18 +29,18 @@ const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, onBtn
 				<span>역할</span>
 			</LabelContainer>
 			{managerUsers.map((e) => (
-				<User key={e.id} user={e} mode='ADMIN' isAdmin={isAdmin} isOnline={isOnline} onBtnClick={onBtnClick} />
+				<User key={e.userId} user={e} isAdmin={isAdmin} isOnline={isOnline} openModal={openModal} teamId={teamId} />
 			))}
 			<h3>
 				<span>구성원</span>
-				<BsPlusCircle onClick={() => onBtnClick('INVITE')} />
+				<BsPlusCircle onClick={() => openModal('INVITE')} />
 			</h3>
 			<LabelContainer>
 				<span>이름</span>
 				<span>역할</span>
 			</LabelContainer>
 			{normalUsers.map((e) => (
-				<User key={e.id} user={e} mode='MEMBER' isAdmin={isAdmin} isOnline={isOnline} onBtnClick={onBtnClick} />
+				<User key={e.userId} user={e} isAdmin={isAdmin} isOnline={isOnline} openModal={openModal} teamId={teamId} />
 			))}
 		</UserListContainer>
 	);

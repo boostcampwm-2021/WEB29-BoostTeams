@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, OneToMany } from 'typeorm';
 import { ChatRoomUser } from './chat_room-user';
-import { Message } from './message';
 import { Team } from './team';
 
 @Entity({ name: 'chat_room' })
@@ -18,9 +17,6 @@ export class ChatRoom {
 	@Column()
 	chat_room_name: string;
 
-	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room)
+	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.chat_room, { cascade: true })
 	chat_room_users: ChatRoomUser[];
-
-	@OneToMany(() => Message, (message) => message.chat_room)
-	messages: Message[];
 }

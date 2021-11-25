@@ -1,66 +1,54 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
-import { PostitType } from '@pages/BoardPage';
-import { REM } from '@utils/constants';
+import { KonvaEventObject } from 'konva/lib/Node';
+import { useRecoilValue } from 'recoil';
+import userState from '@src/stores/user';
+import { CANVAS } from '@utils/constants';
+import { IPostit, ISocketApi } from '@src/types/board';
+import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import Postit from '../Postit';
 
 interface Props {
-	postits: any[];
-	socketApi: any;
-	setPostits: (postit: PostitType[]) => void;
-	setModalType: (type: string) => void;
-	setClickedPostit: (postit: PostitType) => void;
+	postits: IPostit[];
+	socketApi: ISocketApi;
+	getUserNameById: (userId: number) => string;
+	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
+	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
+	handleDragEnd: (e: KonvaEventObject<DragEvent>) => void;
+	setModalType: Dispatch<SetStateAction<string>>;
+	setClickedPostit: (postit: IPostit) => void;
 	handleModalOpen: () => void;
 }
 
 const Canvas: React.FC<Props> = ({
 	postits,
 	socketApi,
-	setPostits,
+	getUserNameById,
+	handleDrag,
+	handleDragStart,
+	handleDragEnd,
 	setModalType,
 	setClickedPostit,
 	handleModalOpen,
 }) => {
-	const handleDragStart = (e: any) => {
-		const id = Number(e.target.id());
-		const postitList = [...postits];
-		const postitIdx = postitList.findIndex((postit) => postit.id === id);
-		const postit = { ...postitList.splice(postitIdx, 1)[0], isDragging: true };
-		postitList.push(postit);
-		setPostits(postitList);
-	};
-
-	const handleDragEnd = (e: any) => {
-		const id = Number(e.target.id());
-		const postitList = [...postits];
-		const postitIdx = postitList.findIndex((postit) => postit.id === id);
-		postitList[postitIdx] = {
-			...postitList[postitIdx],
-			x: e.target.x(),
-			y: e.target.y(),
-			isDragging: false,
-		};
-		setPostits(postitList);
-	};
-
-	const handleDrag = (event: any) => {
-		socketApi.dragPostit(event);
-	};
-
+	const userId = useRecoilValue(userState).id;
 	return (
-		<Stage width={window.innerWidth - 4.2 * REM} height={window.innerHeight - 3 * REM}>
+		<Stage width={CANVAS.WIDTH} height={CANVAS.HEIGHT}>
 			<Layer>
 				{postits &&
 					postits.map((postit) => (
 						<Postit
 							key={postit.id}
 							postit={postit}
+							socketApi={socketApi}
+							isMine={userId === postit.whoIsDragging}
 							onDrag={handleDrag}
 							onDragStart={handleDragStart}
 							onDragEnd={handleDragEnd}
 							setModalType={setModalType}
 							setClickedPostit={setClickedPostit}
 							handleModalOpen={handleModalOpen}
+							getUserNameById={getUserNameById}
 						/>
 					))}
 			</Layer>
@@ -69,40 +57,3 @@ const Canvas: React.FC<Props> = ({
 };
 
 export default Canvas;
-
-/*
-const Canvas: React.FC<Props> = ({ postits, setModalType, setClickedPostit, handleModalOpen }) => {
-	const socket = useContext(SocketContext);
-	const dragPostit = (id: number, x: number, y: number) => socket.current.emit('drag postit', { id, x, y });
-
-	return (
-		<Stage width={CANVAS.WITDH} height={CANVAS.HEIGHT}>
-			<Layer>
-				<Text
-					onClick={() => {
-						setModalType('create');
-						handleModalOpen();
-					}}
-					text='새 포스트잇 작성'
-				/>
-				{postits.map((postit) => (
-					<Postit
-						onDrag={dragPostit}
-						key={postit.key}
-						id={postit.key}
-						x={postit.x}
-						y={postit.y}
-						color={postit.color}
-						title={postit.title}
-						content={postit.content}
-						updatedDate={postit.updatedDate}
-						setModalType={setModalType}
-						setClickedPostit={setClickedPostit}
-					/>
-				))}
-			</Layer>
-		</Stage>
-	);
-};
-export default Canvas;
-*/

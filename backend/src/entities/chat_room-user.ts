@@ -17,7 +17,7 @@ export class ChatRoomUser {
 	@JoinColumn({ name: 'user_id' })
 	user: User;
 
-	@ManyToOne(() => ChatRoom, (chatRoom) => chatRoom.chat_room_id)
+	@ManyToOne(() => ChatRoom, (chatRoom) => chatRoom.chat_room_id, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'chat_room_id' })
 	chat_room: ChatRoom;
 }

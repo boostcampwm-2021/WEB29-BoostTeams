@@ -1,11 +1,16 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { getChatRoomInfo, getChatRooms } from '@apis/chat';
-import { readTeamUsers } from '@apis/users';
+import { LastMessagesType, MessageListType } from '@src/types/chat';
+import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import userState from './user';
+
+export const chatModeState = atom({
+	key: 'chatModeState',
+	default: 'none',
+});
 
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
-	default: { currentChatRoom: -1 },
+	default: -1,
 });
 
 export const chatRoomsTrigger = atom({
@@ -24,30 +29,29 @@ export const chatRoomsSelector = selectorFamily({
 		},
 });
 
-export const chatRoomInfoState = selector({
-	key: 'chatRoomInfoState',
+export const LastMessagesState = atom({
+	key: 'LastMessagesState',
+	default: {} as LastMessagesType,
+});
+
+export const chatRoomUsersTrigger = atom({
+	key: 'chatRoomUsersTrigger',
+	default: 0,
+});
+
+export const chatRoomUsersSelector = selector({
+	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
-		const data = await getChatRoomInfo(get(currentChatRoomState).currentChatRoom);
-		return data;
+		get(chatRoomUsersTrigger);
+		if (get(currentChatRoomState) !== -1) {
+			const data = await getChatRoomUsers(get(currentChatRoomState));
+			return data;
+		}
+		return { userList: [] };
 	},
 });
 
 export const messageListState = atom({
 	key: 'messageListState',
-	default: [],
-});
-
-export const teamUsersSelector = selectorFamily({
-	key: 'teamUsersSelector',
-	get: (teamId: number) => async () => {
-		const data = await readTeamUsers(teamId);
-		const entries = data.map(({ user }: any) => {
-			return [
-				user.user_id,
-				{ userId: user.user_id, name: user.user_name, email: user.user_email, color: user.user_color },
-			];
-		});
-		const teamUsers = Object.fromEntries(entries);
-		return teamUsers;
-	},
+	default: [] as MessageListType,
 });

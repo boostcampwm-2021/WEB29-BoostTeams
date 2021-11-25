@@ -4,6 +4,6 @@ import { authenticateToken } from '@middlewares/token';
 
 const router = express.Router();
 
-router.patch('/name', authenticateToken, UserController.updateUser);
+router.patch('/', authenticateToken, UserController.updateUser);
 
 export default router;

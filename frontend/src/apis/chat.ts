@@ -4,20 +4,22 @@ import {
 	ChatRoomReqType,
 	ChatRoomResType,
 	ChatRoomType,
-	ChatRoomInfoType,
-	MessageList,
+	ChatRoomUsersType,
 	ChatRoomsType,
+	MessageListType,
+	UserListReqType,
 } from '@src/types/chat';
+import { UserIdType } from '@src/types/team';
+import { Socket } from 'socket.io-client';
 
 export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoomType | undefined> => {
 	try {
-		const res = await fetchApi.post('/api/chat/room', { ...roomInfo });
-		if (res.status === 409) throw new Error();
+		const res = await fetchApi.post('/api/chats/rooms', { ...roomInfo });
+		if (res.status !== 201) throw new Error();
 		const data = await res.json();
 		return {
 			chatRoomId: data.chat_room_id,
 			chatRoomName: data.chat_room_name,
-			lastMessage: { messageId: 1, content: '메시지 내용', createdAt: new Date(), userId: 55 },
 		};
 	} catch (err) {
 		toast.error('😣 채팅방 생성에 실패하였습니다!');
@@ -27,8 +29,8 @@ export const createChatRoom = async (roomInfo: ChatRoomReqType): Promise<ChatRoo
 
 export const getChatRooms = async (teamId: number, userId: number): Promise<ChatRoomsType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/room?teamId=${teamId}&userId=${userId}`);
-		if (res.status === 409) throw new Error();
+		const res = await fetchApi.get(`/api/chats/rooms?teamId=${teamId}&userId=${userId}`);
+		if (res.status !== 200) throw new Error();
 		const data = await res.json();
 		const entries = data.chat_rooms.map((chatRoom: ChatRoomResType) => {
 			return [
@@ -36,7 +38,6 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 				{
 					chatRoomId: chatRoom.chat_room_id,
 					chatRoomName: chatRoom.chat_room_name,
-					lastMessage: { messageId: 1, content: '메시지 내용', createdAt: new Date(), userId: 55 },
 				},
 			];
 		});
@@ -48,26 +49,77 @@ export const getChatRooms = async (teamId: number, userId: number): Promise<Chat
 	}
 };
 
-export const getChatRoomInfo = async (chatRoomId: number): Promise<ChatRoomInfoType | undefined> => {
+export const updateChatRoomName = async (chatRoomId: number, chatRoomName: string): Promise<boolean> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/room/${chatRoomId}`);
-		if (res.status === 409) throw new Error();
-		const data = await res.json();
-		return { chatRoomId: data.chat_room_id, userList: data.user_list };
+		const res = await fetchApi.patch(`/api/chats/rooms/${chatRoomId}`, { chat_room_name: chatRoomName });
+		if (res.status !== 201) throw new Error();
+		return true;
 	} catch (err) {
-		toast.error('😣 채팅방 정보 가져오기에 실패하였습니다!');
-		return undefined;
+		toast.error('😣 채팅방 이름 변경에 실패하였습니다!');
+		return false;
 	}
 };
 
-export const getMessageList = async (chatRoomId: number): Promise<MessageList> => {
+export const getChatRoomUsers = async (chatRoomId: number): Promise<ChatRoomUsersType> => {
 	try {
-		const res = await fetchApi.get(`/api/chat/message?chatRoomId=${chatRoomId}`); // 스크롤 나중에
-		if (res.status === 409) throw new Error();
+		const res = await fetchApi.get(`/api/chats/rooms/${chatRoomId}/users`);
+		if (res.status !== 200) throw new Error();
 		const data = await res.json();
-		return data.message_list;
+		const userList = data.chat_room_users.map((user: { user_id: number }) => {
+			return { userId: user.user_id };
+		});
+		return { userList };
 	} catch (err) {
-		toast.error('😣 메시지 가져오기에 실패하였습니다!');
-		return [];
+		toast.error('😣 채팅방 유저 목록 가져오기에 실패하였습니다!');
+		return { userList: [] };
 	}
+};
+
+export const addChatRoomUsers = async (chatRoomId: number, userList: UserListReqType): Promise<boolean> => {
+	try {
+		const res = await fetchApi.post(`/api/chats/rooms/${chatRoomId}/users`, { user_list: userList });
+		if (res.status !== 201) throw new Error();
+		return true;
+	} catch (err) {
+		toast.error('😣 유저 초대하기에 실패하였습니다!');
+		return false;
+	}
+};
+
+export const deleteChatRoomUser = async (chatRoomId: number, userId: number): Promise<boolean> => {
+	try {
+		const res = await fetchApi.delete(`/api/chats/rooms/${chatRoomId}/users/${userId}`);
+		if (res.status !== 204) throw new Error();
+		return true;
+	} catch (err) {
+		toast.error('😣 채팅방 나가기에 실패하였습니다!');
+		return false;
+	}
+};
+
+export const socketApi = {
+	enterChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('enter chat rooms', { chatRooms: chatRoomList });
+	},
+	leaveChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('refresh chat rooms', { chatRooms: chatRoomList });
+	},
+	createChatRoom: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
+		socket.emit('create chat room', { chatRoomId, userList, teamId });
+	},
+	inviteUsers: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
+		socket.emit('invite users', { chatRoomId, userList, teamId });
+	},
+	exitChatRoom: (socket: Socket, chatRoomId: number) => {
+		socket.emit('exit chat room', { chatRoomId });
+	},
+	getMessageList: (socket: Socket, chatRoomId: number) => {
+		socket.emit('get message list', { chatRoomId });
+	},
+	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
+		socket.emit('send message', { content, userId, chatRoomId });
+	},
+	updateChatRoomName: (socket: Socket, chatRoomId: number) => {
+		socket.emit('update chat room name', { chatRoomId });
+	},
 };

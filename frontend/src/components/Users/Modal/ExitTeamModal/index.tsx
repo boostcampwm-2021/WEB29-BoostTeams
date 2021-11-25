@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { teamListLoadTrigger } from '@src/stores/team';
-import Modal from '@src/components/common/Modal';
+import { teamListLoadTrigger } from '@stores/team';
+import Modal from '@components/common/Modal';
 import { leaveTeam } from '@apis/team';
-import { readTeamUsers } from '@src/apis/users';
-import { handleDeleteBtn } from '@src/utils/team';
+import { readTeamUsers } from '@apis/team';
+import { handleDeleteBtn } from '@utils/team';
 import { Content } from '../style';
 
 interface Props {
@@ -18,7 +18,7 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	const history = useHistory();
 	const handleSubmit = async () => {
 		const result = await readTeamUsers(teamId);
-		if (result.length === 1) handleDeleteBtn(setLoadTrigger, teamId);
+		if (Object.keys(result).length === 1) handleDeleteBtn(setLoadTrigger, teamId);
 		else await leaveTeam(setLoadTrigger, teamId);
 		history.push('/');
 	};

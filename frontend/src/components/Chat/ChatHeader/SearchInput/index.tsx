@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserIdType, TeamUserType, TeamUsersType } from '@src/types/chat';
-import { teamUsersSelector } from '@stores/chat';
 import userState from '@stores/user';
+import { teamUsersSelector } from '@stores/team';
+import { chatModeState, chatRoomUsersSelector } from '@stores/chat';
+import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 
 import { FaTimes } from 'react-icons/fa';
 import { ProfileIcon } from '@components/common';
-import { SearchHeaderContainer, UserListContainer, InputWrapper, SearchContainer, UserContainer } from './style';
+import { Container, UserListContainer, InputWrapper, SearchContainer, UserContainer } from './style';
 
 interface Props {
 	teamId: number;
@@ -16,14 +17,25 @@ interface Props {
 	deleteInviteUser: (id: number) => void;
 }
 
-const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
+const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
+	const chatMode = useRecoilValue(chatModeState);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
+	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
+	const getTeamUserList = (): TeamUserType[] => {
+		if (chatMode === 'chat') {
+			return Object.values(teamUsers).filter(
+				(user) => !chatRoomUserList.find((chatRoomUser) => chatRoomUser.userId === user.userId),
+			);
+		}
+		return Object.values(teamUsers);
+	};
+
 	const searchByKey = (searchKey: string): TeamUserType[] => {
-		return Object.values(teamUsers).filter((user: TeamUserType) => {
+		return getTeamUserList().filter((user) => {
 			const regex = new RegExp(searchKey, 'gi');
 			return (
 				user.userId !== myId && (teamUsers[user.userId].email.match(regex) || teamUsers[user.userId].name.match(regex))
@@ -39,25 +51,25 @@ const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, del
 
 	const handleUserInvite = (userId: number) => {
 		const user = teamUsers[userId];
-		if (user) addToInvitationList(user);
+		if (user) addToInvitationList(user.userId);
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
-		addToInvitationList(userSearchResult[0]); // enter 눌렀을 때 첫번째 결과로 입력
+		addToInvitationList(userSearchResult[0].userId); // enter 눌렀을 때 첫번째 결과로 입력
 	};
 
-	const addToInvitationList = (user: UserIdType) => {
+	const addToInvitationList = (userId: number) => {
 		if (!inputRef.current) return;
-		if (inviteUsers.find((invitedUser) => invitedUser.userId === user.userId)) return;
-		addInviteUser(user);
+		if (inviteUsers.find((invitedUser) => invitedUser.userId === userId)) return;
+		addInviteUser({ userId });
 		setUserSearchResult([]);
 		inputRef.current.value = '';
 	};
 
 	return (
-		<SearchHeaderContainer>
+		<Container>
 			<UserListContainer>
 				{inviteUsers.map((user) => (
 					<div key={user.userId}>
@@ -83,8 +95,8 @@ const SearchHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, del
 					</UserContainer>
 				))}
 			</SearchContainer>
-		</SearchHeaderContainer>
+		</Container>
 	);
 };
 
-export default SearchHeader;
+export default SearchInput;

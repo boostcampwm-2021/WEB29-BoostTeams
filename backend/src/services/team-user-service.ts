@@ -30,6 +30,14 @@ export default class TeamUserService {
 			.execute();
 	}
 
+	async checkTeamUser(teamId: number, userId: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder('team_user')
+			.where('team_user.user = :userId', { userId })
+			.where('team_user.team = :teamId', { teamId })
+			.getOne();
+	}
+
 	async create(userId: number, teamId: number) {
 		await this.teamUserRepository
 			.createQueryBuilder()
@@ -55,8 +63,14 @@ export default class TeamUserService {
 	async readAllUsers(teamId: number) {
 		return await this.teamUserRepository
 			.createQueryBuilder('team_user')
-			.leftJoinAndSelect('team_user.user', 'user')
+			.select('team_user.role')
+			.addSelect('user.user_id')
+			.addSelect('user.user_name')
+			.addSelect('user.user_color')
+			.addSelect('user.user_email')
+			.innerJoin('team_user.user', 'user')
 			.where('team_user.team = :teamId', { teamId })
+			.andWhere('team_user.state =:state', { state: true })
 			.getMany();
 	}
 
@@ -75,6 +89,16 @@ export default class TeamUserService {
 			.createQueryBuilder()
 			.delete()
 			.from('team_user')
+			.where('team = :teamId', { teamId })
+			.andWhere('user = :userId', { userId })
+			.execute();
+	}
+
+	async changeRole(userId: number, teamId: number, role: number) {
+		return await this.teamUserRepository
+			.createQueryBuilder()
+			.update()
+			.set({ role })
 			.where('team = :teamId', { teamId })
 			.andWhere('user = :userId', { userId })
 			.execute();

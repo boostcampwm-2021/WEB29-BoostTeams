@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ChatRoom } from './chat_room';
-import { Postit } from './postit';
 import { Schedule } from './schedule';
 import { TeamUser } from './team-user';
 
@@ -23,7 +22,4 @@ export class Team {
 
 	@OneToMany(() => ChatRoom, (chatRoom) => chatRoom.team, { cascade: true })
 	chat_rooms: ChatRoom[];
-
-	@OneToMany(() => Postit, (postit) => postit.team, { cascade: true })
-	postits: Postit[];
 }

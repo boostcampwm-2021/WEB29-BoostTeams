@@ -6,8 +6,8 @@ import { Container, OptionsWrapper } from './style';
 
 interface Props {
 	options: string[];
-	selectedOption: string;
-	setSelectedOption: React.Dispatch<React.SetStateAction<number>>;
+	selectedOption: string | any;
+	setSelectedOption: (value: number) => void;
 }
 
 const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {

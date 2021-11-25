@@ -1,0 +1,8 @@
+get:
+  summary: 유저 정보 가져오기
+  tags: [auth]
+  responses:
+    200:
+      description: 성공
+    404:
+      description: error

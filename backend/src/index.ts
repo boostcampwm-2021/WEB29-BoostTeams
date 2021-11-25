@@ -13,20 +13,26 @@ import { initStrategy } from './passport';
 import { Namespace, Server } from 'socket.io';
 import socketInit from './sockets';
 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+
 import userRouter from '@routes/user-router';
 import authRouter from '@routes/auth-router';
 import scheduleRouter from '@routes/schedule-router';
 import teamRouter from '@routes/team-router';
 import chatRouter from '@routes/chat-router';
+import path from 'path';
 
 class App {
 	app: express.Application;
 	server: any; // Server from http? https?
 	port: string;
+	swaggerSpec: any;
 
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT || '4000';
+		this.swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
 		this.config();
 		this.middleware();
 		this.route();
@@ -54,11 +60,12 @@ class App {
 	}
 
 	private route() {
-		this.app.use('/api/user', userRouter);
+		this.app.use('/api/users', userRouter);
 		this.app.use('/api/auth', authRouter);
-		this.app.use('/api/schedule', scheduleRouter);
-		this.app.use('/api/team', teamRouter);
-		this.app.use('/api/chat', chatRouter);
+		this.app.use('/api/schedules', scheduleRouter);
+		this.app.use('/api/teams', teamRouter);
+		this.app.use('/api/chats', chatRouter);
+		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec))
 	}
 
 	listen() {
