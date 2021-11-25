@@ -3,14 +3,18 @@
 ### .env
 
 ```
-PORT=[SERVER PORT]
-FRONT_URL=[CLIENT URL]
+PORT=[Server Port]
+FRONT_URL=[Client URL]
 
-DB_HOST=[DB HOST]
-DB_PORT=[DB PORT]
+DB_HOST=[DB Host]
+DB_PORT=[DB Port]
 DB_USERNAME=[DB Username]
 DB_PASSWORD=[DB UserPW]
 DB_DATABASENAME=[DB Name]
+
+REDIS_HOST=[Redis Host]
+REDIS_PORT=[Redis Port]
+REDIS_PASSWORD=[Redis Password]
 
 GITHUB_CLIENT_ID=[Github Client ID]
 GITHUB_CLIENT_SECRET=[Github Client Secret]

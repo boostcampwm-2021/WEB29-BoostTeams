@@ -52,7 +52,11 @@ https://www.boostteams.kro.kr/
 
 ## 기술 스택 👨‍💻 👩‍💻
 
-![](https://i.imgur.com/U9dEC0D.png)
+![](https://user-images.githubusercontent.com/42960217/143479846-593e0ab6-c9b7-4721-96fd-e45ea9e0377a.png)
+
+## 시스템 구성도 ⚙️
+
+![](https://user-images.githubusercontent.com/42960217/143481445-f5f9a568-2526-46c7-8ed4-e3fd0d7c5ae3.png)
 
 ## 설계 🎨
 
@@ -61,4 +65,3 @@ https://www.boostteams.kro.kr/
 - [Backlog: Google Docs](https://docs.google.com/spreadsheets/d/1xsavcgsEpVtQNjWshUdCxH5Vqc1FIca0p2LQfSkZy4g)
 
 - [DB Schema: Github Wiki](https://github.com/boostcampwm-2021/WEB29-BoostTeams/wiki/DB-%EC%8A%A4%ED%82%A4%EB%A7%88)
-
