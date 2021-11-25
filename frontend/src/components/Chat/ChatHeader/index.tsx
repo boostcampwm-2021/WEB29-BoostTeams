@@ -19,8 +19,8 @@ interface Props {
 
 const ChatHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser, initInviteUser }) => {
 	const chatRooms = useRecoilValue<ChatRoomsType>(chatRoomsSelector(teamId));
-	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
-	const { chatMode } = useRecoilValue(chatModeState);
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
+	const chatMode = useRecoilValue(chatModeState);
 
 	const checkRoomAndTeam = () => chatRooms[currChatRoomId] !== undefined;
 

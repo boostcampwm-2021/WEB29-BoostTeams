@@ -27,7 +27,7 @@ const ChatTemplate: React.FC<Props> = ({
 	deleteInviteUser,
 	initInviteUser,
 }) => {
-	const { chatMode } = useRecoilValue(chatModeState);
+	const chatMode = useRecoilValue(chatModeState);
 
 	return (
 		<Layout>

@@ -97,20 +97,13 @@ export const deleteChatRoomUser = async (chatRoomId: number, userId: number): Pr
 	}
 };
 
-// redis 로 변경해야 함
-export const getMessageList = async (chatRoomId: number): Promise<MessageListType> => {
-	try {
-		const res = await fetchApi.get(`/api/chats/rooms/${chatRoomId}/messages`); // 스크롤 나중에
-		if (res.status === 409) throw new Error();
-		const data = await res.json();
-		return data.message_list;
-	} catch (err) {
-		toast.error('😣 메시지 가져오기에 실패하였습니다!');
-		return [];
-	}
-};
-
 export const socketApi = {
+	enterChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('enter chat rooms', { chatRooms: chatRoomList });
+	},
+	leaveChatRooms: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
+		socket.emit('refresh chat rooms', { chatRooms: chatRoomList });
+	},
 	createChatRoom: (socket: Socket, chatRoomId: number, userList: UserIdType[], teamId: number) => {
 		socket.emit('create chat room', { chatRoomId, userList, teamId });
 	},
@@ -119,6 +112,9 @@ export const socketApi = {
 	},
 	exitChatRoom: (socket: Socket, chatRoomId: number) => {
 		socket.emit('exit chat room', { chatRoomId });
+	},
+	getMessageList: (socket: Socket, chatRoomId: number) => {
+		socket.emit('get message list', { chatRoomId });
 	},
 	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
 		socket.emit('send message', { content, userId, chatRoomId });

@@ -18,23 +18,23 @@ interface Props {
 const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownMode }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
-	const currentChatRoomId = useRecoilValue(currentChatRoomState).currChatRoomId;
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 
 	const handleChatRoomNameUpdate = () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
-		const updatedResult = updateChatRoomName(currentChatRoomId, inputRef.current.value);
+		const updatedResult = updateChatRoomName(currChatRoomId, inputRef.current.value);
 		if (!updatedResult) return;
-		socketApi.updateChatRoomName(socketRef.current, currentChatRoomId);
+		socketApi.updateChatRoomName(socketRef.current, currChatRoomId);
 		setChatRoomsTrigger((trigger) => trigger + 1);
 		handleDropdownMode('none');
 	};
 	return (
 		<UpdateDropdownContainer>
 			<h3>채팅방 이름 변경</h3>
-			<input type='text' defaultValue={chatRooms[currentChatRoomId].chatRoomName} ref={inputRef} />
+			<input type='text' defaultValue={chatRooms[currChatRoomId].chatRoomName} ref={inputRef} />
 			<ButttonContainer>
 				<Button
 					text='변경'

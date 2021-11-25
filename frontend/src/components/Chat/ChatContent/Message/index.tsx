@@ -7,7 +7,7 @@ import { teamUsersSelector } from '@stores/team';
 import { timeToString } from '@utils/time';
 
 import { ProfileIcon } from '@components/common';
-import { Container, ChatIconWrapper, MessageContainer, InfoContainer, ImojiWraper } from './style';
+import { Container, ChatIconWrapper, MessageContainer, InfoContainer } from './style';
 
 interface Props {
 	teamId: number;
@@ -33,7 +33,6 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 						{!isMyChat() && <b>{teamUsers[message.userId].name}</b>}
 						<span>{timeToString(new Date(message.createdAt))}</span>
 					</div>
-					<ImojiWraper>👍😲</ImojiWraper>
 				</InfoContainer>
 				<span>{message.content}</span>
 			</MessageContainer>

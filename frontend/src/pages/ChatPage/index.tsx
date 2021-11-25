@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { UserIdType } from '@src/types/team';
-import { MessageType } from '@src/types/chat';
+import { LastMessagesType, MessageType } from '@src/types/chat';
 import {
 	chatRoomsSelector,
 	currentChatRoomState,
@@ -11,9 +11,10 @@ import {
 	chatRoomsTrigger,
 	chatModeState,
 	chatRoomUsersTrigger,
+	LastMessagesState,
 } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { getMessageList } from '@apis/chat';
+import { socketApi } from '@src/apis/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -47,30 +48,26 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
 	const setChatMode = useSetRecoilState(chatModeState);
+	const setLastMessages = useSetRecoilState(LastMessagesState);
 
 	const addInviteUser = (newUser: UserIdType) => dispatchInviteUsers({ type: 'ADD', newUser });
 	const deleteInviteUser = (id: number) => dispatchInviteUsers({ type: 'DELETE', id });
 	const initInviteUser = () => dispatchInviteUsers({ type: 'INIT' });
 
 	const chatRoomIdList = Object.keys(chatRooms).map((chatRoomId) => {
-		return { chatRoomId };
+		return { chatRoomId: Number(chatRoomId) };
 	});
-
-	const getInitialMessageList = async () => {
-		const messages = await getMessageList(currChatRoomId);
-		setMessageList(messages);
-	};
 
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
 	useEffect(() => {
 		resetCurrentChatRoom();
-		setChatMode({ chatMode: 'none' });
+		setChatMode('none');
 		initInviteUser();
 	}, [teamId]);
 
@@ -79,28 +76,43 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	}, [messageList]);
 
 	useEffect(() => {
-		if (currChatRoomId !== -1) {
-			getInitialMessageList();
-			socketRef.current.on('receive message', (message: MessageType) => {
-				if (message.chatRoomId === currChatRoomId) setMessageList((prev) => [...prev, message]);
-			});
+		if (socketRef.current && currChatRoomId !== -1) {
+			socketApi.getMessageList(socketRef.current, currChatRoomId);
+			socketRef.current.on(
+				'receive message list',
+				({ chatRoomId, messageList }: { chatRoomId: number; messageList: MessageType[] }) => {
+					if (chatRoomId === currChatRoomId) setMessageList([...messageList]);
+				},
+			);
 			socketRef.current.on('refresh chat room users', ({ chatRoomId }: { chatRoomId: number }) => {
 				if (chatRoomId === currChatRoomId) setChatRoomUsersTrigger((trigger) => trigger + 1);
 			});
 		}
+		if (socketRef.current) {
+			socketRef.current.on('receive message', (message: MessageType) => {
+				setLastMessages((prev) => {
+					const { chatRoomId } = message;
+					return { ...prev, [chatRoomId]: message };
+				});
+				if (message.chatRoomId === currChatRoomId) setMessageList((prev) => [...prev, message]);
+			});
+		}
 		return () => {
+			socketRef.current.off('receive message list');
 			socketRef.current.off('receive message');
 			socketRef.current.off('refresh chat room users');
 		};
-	}, [currChatRoomId]);
+	}, [socketRef.current, currChatRoomId]);
 
 	useEffect(() => {
 		if (socketRef.current) {
-			socketRef.current.emit('enter chat rooms', { chatRooms: chatRoomIdList });
+			socketApi.enterChatRooms(socketRef.current, chatRoomIdList);
+			socketRef.current.on('receive last messages', (lastMessages: LastMessagesType) => setLastMessages(lastMessages));
 			socketRef.current.on('refresh chat rooms', () => setChatRoomsTrigger((trigger) => trigger + 1));
 		}
 		return () => {
-			socketRef.current.emit('leave chat rooms', { chatRooms: chatRoomIdList });
+			socketApi.leaveChatRooms(socketRef.current, chatRoomIdList);
+			socketRef.current.off('receive last messages');
 			socketRef.current.off('refresh chat rooms');
 		};
 	}, [socketRef.current, teamId]);

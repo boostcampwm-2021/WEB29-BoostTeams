@@ -29,7 +29,7 @@ const InviteDropdown: React.FC<Props> = ({
 	handleDropdownMode,
 }) => {
 	const socketRef = useContext(SocketContext);
-	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
 	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
 
 	const handleInviteUsers = () => {

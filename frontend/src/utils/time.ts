@@ -5,28 +5,19 @@ const TimeToSec = {
 	MonthToSec: 2678400,
 };
 
-export const timeSince = (timestamp: Date) => {
+export const timeSince = (date: Date) => {
 	const curr = new Date().getTime();
-	const prev = timestamp.getTime();
+	const prev = date.getTime();
 	const pastSec = (curr - prev) / 1000;
 
-	if (pastSec < TimeToSec.MinuteToSec) {
-		return `${pastSec.toFixed(0)}초 전`;
-	}
-	if (pastSec < TimeToSec.HourToSec) {
-		return `${(pastSec / TimeToSec.MinuteToSec).toFixed(0)}분 전`;
-	}
 	if (pastSec < TimeToSec.DayToSec) {
-		return `${(pastSec / TimeToSec.HourToSec).toFixed(0)}시간 전`;
+		return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
 	}
-	if (pastSec < TimeToSec.MonthToSec) {
-		return `${(pastSec / TimeToSec.DayToSec).toFixed(0)}일 전`;
-	}
-	return `${timestamp.getMonth() + 1}. ${timestamp.getDate()}.`;
+	return `${date.getMonth() + 1}. ${date.getDate()}.`;
 };
 
-export const timeToString = (timestamp: Date) => {
-	return `${timestamp.getMonth() + 1}. ${timestamp.getDate()}. ${timestamp.getHours()}:${timestamp
+export const timeToString = (date: Date) => {
+	return `${date.getMonth() + 1}. ${date.getDate()}. ${date.getHours()}:${date
 		.getMinutes()
 		.toString()
 		.padStart(2, '0')}`;

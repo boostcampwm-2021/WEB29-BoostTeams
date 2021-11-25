@@ -31,7 +31,7 @@ interface Props {
 
 const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser, initInviteUser }) => {
 	const socketRef = useContext(SocketContext);
-	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
 	const resetCurrChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatMode = useSetRecoilState(chatModeState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
@@ -47,7 +47,7 @@ const RoomHeader: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, delet
 		const deleteResult = await deleteChatRoomUser(currChatRoomId, myId);
 		if (!deleteResult) return;
 		socketApi.exitChatRoom(socketRef.current, currChatRoomId);
-		setChatMode({ chatMode: 'none' });
+		setChatMode('none');
 		resetCurrChatRoom();
 		setChatRoomsTrigger((trigger) => trigger + 1);
 	};

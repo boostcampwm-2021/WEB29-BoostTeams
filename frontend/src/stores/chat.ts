@@ -1,16 +1,16 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { ChatRoomsLastMessageType, MessageListType } from '@src/types/chat';
+import { LastMessagesType, MessageListType } from '@src/types/chat';
 import { getChatRooms, getChatRoomUsers } from '@apis/chat';
 import userState from './user';
 
 export const chatModeState = atom({
 	key: 'chatModeState',
-	default: { chatMode: 'none' },
+	default: 'none',
 });
 
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
-	default: { currChatRoomId: -1 },
+	default: -1,
 });
 
 export const chatRoomsTrigger = atom({
@@ -29,9 +29,9 @@ export const chatRoomsSelector = selectorFamily({
 		},
 });
 
-export const chatRoomsLastMessageState = atom({
-	key: 'chatRoomsLastMessageState',
-	default: {} as ChatRoomsLastMessageType,
+export const LastMessagesState = atom({
+	key: 'LastMessagesState',
+	default: {} as LastMessagesType,
 });
 
 export const chatRoomUsersTrigger = atom({
@@ -43,8 +43,8 @@ export const chatRoomUsersSelector = selector({
 	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
 		get(chatRoomUsersTrigger);
-		if (get(currentChatRoomState).currChatRoomId !== -1) {
-			const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
+		if (get(currentChatRoomState) !== -1) {
+			const data = await getChatRoomUsers(get(currentChatRoomState));
 			return data;
 		}
 		return { userList: [] };

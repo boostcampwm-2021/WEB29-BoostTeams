@@ -1,33 +1,46 @@
 import { Namespace, Socket } from 'socket.io';
-import { messages, onlineUsersInfo } from './store';
-
-// eslint-disable-next-line prefer-const
-let messageIdx = 1;
-
-const saveMessage = (chatRoomId, message: MessageType) => {
-	if (!messages[chatRoomId]) messages[chatRoomId] = [message];
-	else messages[chatRoomId].push(message);
-};
+import { onlineUsersInfo } from './store';
+import Redis from '@redis/index';
 
 const initChat = (socket: Socket, namespace: Namespace) => {
-	socket.on('enter chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
+	const redisClient = new Redis();
+
+	socket.on('enter chat rooms', async ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${socket.id}`);
+			console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
+		const chatRoomMessages = await Promise.all(
+			chatRooms.map(async ({ chatRoomId }) => redisClient.get('message', chatRoomId.toString()))
+		);
+		const lastMessages = {};
+		chatRoomMessages.forEach((messages: MessageType[]) => {
+			if (messages.length !== 0) {
+				const lastMessage = messages[messages.length - 1];
+				lastMessages[lastMessage.chatRoomId] = lastMessage;
+			}
+		});
+		socket.emit('receive last messages', lastMessages);
 	});
 
 	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.leave(`chat-${chatRoomId}`);
-			// console.log(`leave chat-${chatRoomId} ${socket.id}`);
+			console.log(`leave chat-${chatRoomId} ${socket.id}`);
 		});
 	});
 
-	socket.on('send message', ({ content, userId, chatRoomId }) => {
-		const message: MessageType = { messageId: (messageIdx += 1), content, createdAt: new Date(), userId, chatRoomId };
-		saveMessage(chatRoomId, message);
-		namespace.in(`chat-${chatRoomId}`).emit('receive message', message);
+	socket.on('get message list', async ({ chatRoomId }) => {
+		// console.log('get message list', chatRoomId);
+		const messageList = await redisClient.get('message', chatRoomId);
+		socket.emit('receive message list', { chatRoomId, messageList });
+	});
+
+	socket.on('send message', async (messageData: MessageReqType) => {
+		const chatRoomId = messageData.chatRoomId.toString();
+		const newMessage = await makeMessageObj(messageData);
+		await redisClient.set('message', chatRoomId, newMessage);
+		namespace.in(`chat-${messageData.chatRoomId}`).emit('receive message', newMessage);
 	});
 
 	socket.on('update chat room name', ({ chatRoomId }) => {
@@ -40,9 +53,11 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
 				return onlineUsersInfo[socketId].userId === user.userId && onlineUsersInfo[socketId].teamId === teamId;
 			});
-			onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
-			socket.to(onlineInvitedUser).emit('refresh chat rooms');
+			if (onlineUsersInfo[onlineInvitedUser] && onlineUsersInfo[onlineInvitedUser].socket) {
+				onlineUsersInfo[onlineInvitedUser].socket.join(`chat-${chatRoomId}`);
+				socket.to(onlineInvitedUser).emit('refresh chat rooms');
+				// console.log(`join chat-${chatRoomId} ${onlineInvitedUser}`);
+			}
 		});
 	});
 
@@ -63,6 +78,23 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		// console.log(`leave chat-${chatRoomId} ${socket.id}`);
 	});
 };
+
+const makeMessageObj = async (messageData: MessageReqType) => {
+	const id = await Redis.getNextId('message');
+	return {
+		messageId: id,
+		content: messageData.content,
+		createdAt: new Date(),
+		userId: messageData.userId,
+		chatRoomId: messageData.chatRoomId
+	};
+};
+
+export interface MessageReqType {
+	content: string;
+	userId: number;
+	chatRoomId: number;
+}
 
 export interface MessageType {
 	messageId: number;
