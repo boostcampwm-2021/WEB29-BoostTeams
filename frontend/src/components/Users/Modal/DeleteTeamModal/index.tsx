@@ -17,6 +17,7 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 
 	const handleSubmit = () => {
 		handleDeleteBtn(setLoadTrigger, teamId);
+		handleModalClose();
 		history.push('/');
 	};
 
