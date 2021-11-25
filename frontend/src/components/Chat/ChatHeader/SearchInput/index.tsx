@@ -20,7 +20,7 @@ interface Props {
 const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, deleteInviteUser }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const myId = useRecoilValue(userState).id;
-	const { chatMode } = useRecoilValue(chatModeState);
+	const chatMode = useRecoilValue(chatModeState);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
 	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);

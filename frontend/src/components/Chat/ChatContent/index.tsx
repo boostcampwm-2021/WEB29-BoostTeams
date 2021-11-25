@@ -28,11 +28,11 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 	const messageList = useRecoilValue(messageListState);
 	const [chatMode, setChatMode] = useRecoilState(chatModeState);
-	const [currentChatRoom, setCurrentChatRoom] = useRecoilState(currentChatRoomState);
+	const [currChatRoomId, setCurrChatRoomId] = useRecoilState(currentChatRoomState);
 
 	const handleEnterCheck = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
-		if (chatMode.chatMode === 'create') {
+		if (chatMode === 'create') {
 			handleNewChatRoomCreate();
 			return;
 		}
@@ -59,21 +59,21 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, newChatRoomInfo.chatRoomId);
 		inputRef.current.value = '';
 		initInviteUser();
-		setChatMode({ chatMode: 'chat' });
+		setChatMode('chat');
 		setChatRoomsTrigger((trigger) => trigger + 1);
-		setCurrentChatRoom({ currChatRoomId: newChatRoomInfo.chatRoomId });
+		setCurrChatRoomId(newChatRoomInfo.chatRoomId);
 	};
 
 	const handleSendMessage = () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
-		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, currentChatRoom.currChatRoomId);
+		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, currChatRoomId);
 		inputRef.current.value = '';
 	};
 
 	return (
 		<Container>
-			{chatMode.chatMode === 'chat' ? (
+			{chatMode === 'chat' ? (
 				<MessagesContainer>
 					{messageList.map((message) => (
 						<Message key={message.messageId} message={message} teamId={teamId} />
@@ -88,7 +88,7 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 			)}
 			<InputContainer>
 				<input type='text' placeholder='새 메시지 입력' ref={inputRef} onKeyPress={handleEnterCheck} />
-				<FaTelegramPlane onClick={chatMode.chatMode === 'create' ? handleNewChatRoomCreate : handleSendMessage} />
+				<FaTelegramPlane onClick={chatMode === 'create' ? handleNewChatRoomCreate : handleSendMessage} />
 			</InputContainer>
 		</Container>
 	);

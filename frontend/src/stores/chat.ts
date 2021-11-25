@@ -5,12 +5,12 @@ import userState from './user';
 
 export const chatModeState = atom({
 	key: 'chatModeState',
-	default: { chatMode: 'none' },
+	default: 'none',
 });
 
 export const currentChatRoomState = atom({
 	key: 'currentChatRoomState',
-	default: { currChatRoomId: -1 },
+	default: -1,
 });
 
 export const chatRoomsTrigger = atom({
@@ -43,8 +43,8 @@ export const chatRoomUsersSelector = selector({
 	key: 'chatRoomUsersSelector',
 	get: async ({ get }) => {
 		get(chatRoomUsersTrigger);
-		if (get(currentChatRoomState).currChatRoomId !== -1) {
-			const data = await getChatRoomUsers(get(currentChatRoomState).currChatRoomId);
+		if (get(currentChatRoomState) !== -1) {
+			const data = await getChatRoomUsers(get(currentChatRoomState));
 			return data;
 		}
 		return { userList: [] };

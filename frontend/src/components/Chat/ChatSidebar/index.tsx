@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 import { timeSince } from '@utils/time';
 import { MessageType } from '@src/types/chat';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ChatSidebar: React.FC<Props> = ({ teamId }) => {
-	const setCurrentChatRoom = useSetRecoilState(currentChatRoomState);
+	const [currChatRoomId, setCurrChatRoomId] = useRecoilState(currentChatRoomState);
 	const setChatMode = useSetRecoilState(chatModeState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
@@ -23,8 +23,8 @@ const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 	const [sortedMessageList, setSortedMessageList] = useState<MessageType[]>([]);
 
 	const handleEnterChatRoom = (chatRoomId: number) => {
-		setCurrentChatRoom({ currChatRoomId: chatRoomId });
-		setChatMode({ chatMode: 'chat' });
+		setCurrChatRoomId(chatRoomId);
+		setChatMode('chat');
 	};
 
 	useEffect(() => {
@@ -37,10 +37,10 @@ const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 	return (
 		<Sidebar>
 			<SidebarHeader>
-				<button type='button' onClick={() => setChatMode({ chatMode: 'none' })}>
+				<button type='button' onClick={() => setChatMode('none')}>
 					채팅
 				</button>
-				<NewChatBtn onClick={() => setChatMode({ chatMode: 'create' })}>
+				<NewChatBtn onClick={() => setChatMode('create')}>
 					<BiListPlus />
 				</NewChatBtn>
 			</SidebarHeader>
@@ -48,7 +48,11 @@ const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 				{sortedMessageList.map((message) => (
 					<>
 						{chatRooms[message.chatRoomId] && (
-							<ChatRoom key={message.chatRoomId} focus={false} onClick={() => handleEnterChatRoom(message.chatRoomId)}>
+							<ChatRoom
+								key={message.chatRoomId}
+								focus={message.chatRoomId === currChatRoomId}
+								onClick={() => handleEnterChatRoom(message.chatRoomId)}
+							>
 								<ProfileIcon
 									name={
 										chatRooms[message.chatRoomId] && chatRooms[message.chatRoomId].chatRoomName

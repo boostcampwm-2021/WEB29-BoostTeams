@@ -48,7 +48,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	const [messageList, setMessageList] = useRecoilState(messageListState);
 	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const { currChatRoomId } = useRecoilValue(currentChatRoomState);
+	const currChatRoomId = useRecoilValue(currentChatRoomState);
 	const resetCurrentChatRoom = useResetRecoilState(currentChatRoomState);
 	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
 	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
@@ -67,7 +67,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 
 	useEffect(() => {
 		resetCurrentChatRoom();
-		setChatMode({ chatMode: 'none' });
+		setChatMode('none');
 		initInviteUser();
 	}, [teamId]);
 
