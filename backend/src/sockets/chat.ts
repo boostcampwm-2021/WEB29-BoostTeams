@@ -57,6 +57,7 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		});
 	});
 
+	// 초대받은 사람들 chat room users refresh
 	socket.on('invite users', ({ chatRoomId, userList, teamId }) => {
 		userList.forEach((user: { userId: number }) => {
 			const onlineInvitedUser = Object.keys(onlineUsersInfo).find((socketId) => {
@@ -67,6 +68,7 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 				socket.to(onlineInvitedUser).emit('refresh chat rooms');
 			}
 		});
+		namespace.to(`chat-${chatRoomId}`).emit('refresh chat room users', { chatRoomId });
 	});
 
 	socket.on('exit chat room', ({ chatRoomId }) => {

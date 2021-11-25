@@ -24,7 +24,13 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 		<Container myChat={isMyChat()}>
 			{!isMyChat() && (
 				<ChatIconWrapper>
-					<ProfileIcon name={teamUsers[message.userId].name} color={0} status='none' width={3.2} isHover={false} />
+					<ProfileIcon
+						name={teamUsers[message.userId].name}
+						color={teamUsers[message.userId].color}
+						status='none'
+						width={3.2}
+						isHover={false}
+					/>
 				</ChatIconWrapper>
 			)}
 			<MessageContainer myChat={isMyChat()}>

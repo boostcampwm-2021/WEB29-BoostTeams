@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/:teamId', checkTeamUser, ScheduleController.createSchedule);
 router.get('/:teamId', checkTeamUser, ScheduleController.getSchedule);
-router.put('/:scheduleId', checkTeamUser, ScheduleController.updateRepeatSchedule);
-router.delete('/:scheduleId', checkTeamUser, ScheduleController.deleteSchedule);
+router.put('/:scheduleId', ScheduleController.updateRepeatSchedule);
+router.delete('/:scheduleId', ScheduleController.deleteSchedule);
 
 export default router;
