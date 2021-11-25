@@ -27,6 +27,7 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 			updatedPostit.color = color;
 			updatedPostit.content = content;
 			updatedPostit.updatedBy = user.id;
+			updatedPostit.whoIsUpdating = -1;
 			return updatedPostit;
 		}
 		// if (modalType === 'create')
@@ -46,9 +47,14 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 			const postit = makePostitObj(modalType, title, content);
 			// 포스트잇 객체, 요청 유저 정보, 팀 아이디
 			if (modalType === 'create') socketApi.createNewPostit(postit);
-			else if (modalType === 'update') socketApi.updatePostit(postit);
+			else if (modalType === 'update') socketApi.updateEndPostit(postit);
 			handleModalClose();
 		}
+	};
+
+	const handleClose = () => {
+		if (modalType === 'update' && clickedPostit) socketApi.updateEndPostit({ id: clickedPostit.id });
+		handleModalClose();
 	};
 
 	useEffect(() => {
@@ -58,7 +64,7 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 	}, []);
 
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
+		<Modal handleModalClose={handleClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
 			<Container>
 				<TitleContainer>
 					<ColorPicker selectedColor={color} setSelectedColor={setColor} />

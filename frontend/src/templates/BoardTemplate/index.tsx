@@ -49,6 +49,7 @@ const BoardTemplate: React.FC<Props> = ({
 				<Navbar />
 				<Canvas
 					postits={postits}
+					socketApi={socketApi}
 					setModalType={setModalType}
 					setClickedPostit={setClickedPostit}
 					handleModalOpen={handleModalOpen}
