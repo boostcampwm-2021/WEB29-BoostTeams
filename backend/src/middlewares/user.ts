@@ -14,7 +14,7 @@ export const checkTeamUser = async (req: any, res: Response, next: NextFunction)
 	const userId = req.user_id;
 	const teamId = req.params.teamId;
 	const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
-	if(!teamUser) res.status(403).send({ msg: 'you are not member!' });
+	if(!teamUser) return res.status(403).send({ msg: 'you are not member!' });
 	next();
 };
 
@@ -22,6 +22,6 @@ export const checkIsManager = async (req: any, res: Response, next: NextFunction
 	const userId = req.user_id;
 	const teamId = req.params.teamId;
 	const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
-	if(!teamUser || teamUser.role !== 0) res.status(403).send({ msg: 'you are not manager!' });
+	if(!teamUser || teamUser.role !== 0) return res.status(403).send({ msg: 'you are not manager!' });
 	next();
 };
