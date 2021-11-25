@@ -31,17 +31,22 @@ export default class TeamService {
 		return result;
 	}
 
-	async update(teamData: TeamData) {
+	async update(teamId: number, teamData: TeamData) {
 		await this.teamRepository
 			.createQueryBuilder()
 			.update('team')
 			.set(teamData)
-			.where('team_id=:id', { id: teamData.team_id })
+			.where('team_id=:id', { id: teamId })
 			.execute();
 	}
 
 	async delete(teamId: number) {
-		await this.teamRepository.createQueryBuilder().delete().from('team').where('team_id=:id', { id: teamId }).execute();
+		await this.teamRepository
+			.createQueryBuilder()
+			.delete()
+			.from('team')
+			.where('team_id=:id', { id: teamId })
+			.execute();
 	}
 }
 

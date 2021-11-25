@@ -35,13 +35,8 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({
 		});
 	};
 
-	const handleUpdateModalClose = () => {
-		setShowUpdateModal(false);
-	};
-
-	const handleUpdateModalOpen = () => {
-		setShowUpdateModal(true);
-	};
+	const handleUpdateModalClose = () => setShowUpdateModal(false);
+	const handleUpdateModalOpen = () => setShowUpdateModal(true);
 
 	const clickHandler = () => {
 		if (showUpdateModal) {
