@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Postit } from './postit';
 import { TeamUser } from './team-user';
 import { ChatRoomUser } from './chat_room-user';
 
@@ -31,10 +30,4 @@ export class User {
 
 	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.user)
 	chat_room_users: ChatRoomUser[];
-
-	@OneToMany(() => Postit, (postit) => postit.user)
-	postits: Postit[];
-
-	@OneToMany(() => Postit, (postit) => postit.user2)
-	postit2: Postit[];
 }
