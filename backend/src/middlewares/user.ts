@@ -22,6 +22,7 @@ export const checkIsManager = async (req: any, res: Response, next: NextFunction
 	const userId = req.user_id;
 	const teamId = req.params.teamId;
 	const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
+	console.log(teamUser);
 	if(!teamUser || teamUser.role !== 0) return res.status(403).send({ msg: 'you are not manager!' });
 	next();
 };
