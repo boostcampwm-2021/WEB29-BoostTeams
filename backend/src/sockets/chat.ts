@@ -5,29 +5,13 @@ import Redis from '@redis/index';
 const initChat = (socket: Socket, namespace: Namespace) => {
 	const redisClient = new Redis();
 
-	socket.on('enter chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
+	socket.on('enter chat rooms', async ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.join(`chat-${chatRoomId}`);
-			// console.log(`join chat-${chatRoomId} ${socket.id}`);
+			console.log(`join chat-${chatRoomId} ${socket.id}`);
 		});
-	});
-
-	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
-		chatRooms.forEach(({ chatRoomId }) => {
-			socket.leave(`chat-${chatRoomId}`);
-			// console.log(`leave chat-${chatRoomId} ${socket.id}`);
-		});
-	});
-
-	socket.on('get message list', async ({ chatRoomId }) => {
-		// console.log('get message list', chatRoomId);
-		const messageList = await redisClient.get('message', chatRoomId);
-		socket.emit('receive message list', { chatRoomId, messageList });
-	});
-
-	socket.on('get last messages', async ({ chatRoomList }: { chatRoomList: { chatRoomId: number }[] }) => {
 		const chatRoomMessages = await Promise.all(
-			chatRoomList.map(async ({ chatRoomId }) => redisClient.get('message', chatRoomId.toString()))
+			chatRooms.map(async ({ chatRoomId }) => redisClient.get('message', chatRoomId.toString()))
 		);
 		const lastMessages = {};
 		chatRoomMessages.forEach((messages: MessageType[]) => {
@@ -37,6 +21,19 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 			}
 		});
 		socket.emit('receive last messages', lastMessages);
+	});
+
+	socket.on('leave chat rooms', ({ chatRooms }: { chatRooms: { chatRoomId: number }[] }) => {
+		chatRooms.forEach(({ chatRoomId }) => {
+			socket.leave(`chat-${chatRoomId}`);
+			console.log(`leave chat-${chatRoomId} ${socket.id}`);
+		});
+	});
+
+	socket.on('get message list', async ({ chatRoomId }) => {
+		// console.log('get message list', chatRoomId);
+		const messageList = await redisClient.get('message', chatRoomId);
+		socket.emit('receive message list', { chatRoomId, messageList });
 	});
 
 	socket.on('send message', async (messageData: MessageReqType) => {

@@ -116,9 +116,6 @@ export const socketApi = {
 	getMessageList: (socket: Socket, chatRoomId: number) => {
 		socket.emit('get message list', { chatRoomId });
 	},
-	getLastMessage: (socket: Socket, chatRoomList: { chatRoomId: number }[]) => {
-		socket.emit('get last messages', { chatRoomList });
-	},
 	sendMessage: (socket: Socket, content: string, userId: number, chatRoomId: number) => {
 		socket.emit('send message', { content, userId, chatRoomId });
 	},

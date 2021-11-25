@@ -66,8 +66,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
 	useEffect(() => {
-		console.log('chatRooms', chatRooms);
-		setLastMessages({});
 		resetCurrentChatRoom();
 		setChatMode({ chatMode: 'none' });
 		initInviteUser();
@@ -109,16 +107,12 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketApi.enterChatRooms(socketRef.current, chatRoomIdList);
-			socketApi.getLastMessage(socketRef.current, chatRoomIdList);
-			socketRef.current.on('receive last messages', (lastMessages: LastMessagesType) => {
-				setLastMessages(lastMessages);
-				console.log(lastMessages);
-			});
+			socketRef.current.on('receive last messages', (lastMessages: LastMessagesType) => setLastMessages(lastMessages));
 			socketRef.current.on('refresh chat rooms', () => setChatRoomsTrigger((trigger) => trigger + 1));
 		}
 		return () => {
 			socketApi.leaveChatRooms(socketRef.current, chatRoomIdList);
-			socketRef.current.off('receive last message list');
+			socketRef.current.off('receive last messages');
 			socketRef.current.off('refresh chat rooms');
 		};
 	}, [socketRef.current, teamId]);
