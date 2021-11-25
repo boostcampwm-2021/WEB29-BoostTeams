@@ -1,6 +1,7 @@
 import React from 'react';
+import useImage from 'use-image';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { Group, Rect, Text } from 'react-konva';
+import { Group, Rect, Image, Text } from 'react-konva';
 import { ColorCode, POSTIT, PrimaryPalette, REM } from '@src/utils/constants';
 import { IPostit, ISocketApi } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
@@ -83,13 +84,15 @@ const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: { [key: string]:
 };
 
 const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) => {
+	const [pencilIcon] = useImage('/images/pencil-square.svg');
 	return (
-		<Text
-			text='...'
-			fontSize={1.5 * REM}
-			x={PADDING}
-			width={POSTIT.WIDTH - 2 * PADDING}
-			align='right'
+		<Image
+			image={pencilIcon}
+			x={POSTIT.WIDTH - 2 * PADDING}
+			y={PADDING}
+			width={1.3 * REM}
+			height={1.3 * REM}
+			opacity={0.5}
 			onClick={handleUpdateModalOpen}
 		/>
 	);
@@ -151,7 +154,7 @@ const Postit: React.FC<Props> = ({
 				updatedBy={getUserNameById(postit.updatedBy)}
 				updatedAt={postit.updatedAt}
 			/>
-			<Menu handleUpdateModalOpen={handleUpdateModalOpen} />
+			{postit.whoIsUpdating === -1 && <Menu handleUpdateModalOpen={handleUpdateModalOpen} />}
 		</Group>
 	);
 };
