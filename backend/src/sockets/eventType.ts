@@ -26,18 +26,6 @@ const teamEvents = {
 	DISCONNECT: 'disconnect'
 };
 
-const chatEvents = {
-	ENTER_CHAT_ROOMS: 'enter chat rooms',
-	RECEIVE_LAST_MESSAGES: 'receive last messages',
-	LEAVE_CHAT_ROOMS: 'leave chat rooms',
-	GET_MESSAGE_LIST: 'get message list',
-	RECEIVE_MESSAGE_LIST: 'receive message list',
-	SEND_MESSAGE: 'send message',
-	RECEIVE_MESSAGE: 'receive message',
-	UPDATE_CHAT_ROOM_NAME: 'update chat room name',
-	CREATE_CHAT_ROOM: 'create chat room',
-	REFRESH_CHAT_ROOMS: 'refresh chat rooms',
-	REFRESH_CHAT_ROOM_USERS: 'refresh chat room users'
-};
+const chatEvents = {};
 
 export { boardEvents, teamEvents, chatEvents };
