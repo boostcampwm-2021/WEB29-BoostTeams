@@ -98,7 +98,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			socketApi.enterChatPage(socketRef.current, teamId, myId);
-			socketRef.current.on('send chat rooms', ({ chatRooms }: { chatRooms: ChatRoomListType }) =>
+			socketRef.current.on('receive chat rooms info', ({ chatRooms }: { chatRooms: ChatRoomListType }) =>
 				setChatRooms(chatRooms),
 			);
 			socketRef.current.on(

@@ -2,11 +2,12 @@ import { Namespace, Socket } from 'socket.io';
 import { onlineUsersInfo } from './store';
 import Redis from '@redis/index';
 import ChatRoomService from '@services/chat-room-service';
+import { chatEvents } from './eventType';
 
 const initChat = (socket: Socket, namespace: Namespace) => {
 	const redisClient = new Redis();
 
-	socket.on('enter chat page', async ({ teamId, userId }) => {
+	socket.on(chatEvents.ENTER_CHAT_PAGE, async ({ teamId, userId }) => {
 		const { chat_rooms } = await ChatRoomService.getInstance().getChatRooms(teamId, userId);
 		const chatRoomMessages = await Promise.all(
 			chat_rooms.map(async ({ chat_room_id }) => getLastMessage(chat_room_id))
@@ -21,22 +22,22 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		chatRooms.forEach(({ chatRoomId }) => {
 			socket.join(`chat-${chatRoomId}`);
 		});
-		socket.emit('send chat rooms', { chatRooms });
+		socket.emit(chatEvents.RECEIVE_CHAT_ROOMS_INFO, { chatRooms });
 	});
 
-	socket.on('enter chat room', async ({ chatRoomId }) => {
+	socket.on(chatEvents.ENTER_CHAT_ROOM, async ({ chatRoomId }) => {
 		const { chat_room_users } = await ChatRoomService.getInstance().getChatRoomUsers(chatRoomId);
 		const userList = userListSnakeToCamel(chat_room_users);
 		const messageList = await redisClient.get('message', chatRoomId);
-		socket.emit('receive chat room info', { chatRoomId, userList, messageList });
+		socket.emit(chatEvents.RECEIVE_CHAT_ROOM_INFO, { chatRoomId, userList, messageList });
 	});
 
-	socket.on('send message', async (messageData: MessageReqType) => {
+	socket.on(chatEvents.SEND_MESSAGE, async (messageData: MessageReqType) => {
 		const newMessage = await saveMessage(messageData, messageData.chatRoomId);
-		namespace.to(`chat-${messageData.chatRoomId}`).emit('receive message', newMessage);
+		namespace.to(`chat-${messageData.chatRoomId}`).emit(chatEvents.RECEIVE_MESSAGE, newMessage);
 	});
 
-	socket.on('create chat room', async ({ teamId, chatRoomName, userList, messageData }) => {
+	socket.on(chatEvents.CREATE_CHAT_ROOM, async ({ teamId, chatRoomName, userList, messageData }) => {
 		const users = userListCamelToSnake(userList);
 		const { chat_room_id, chat_room_name } = await ChatRoomService.getInstance().createChatRoom({
 			team_id: teamId,
@@ -51,25 +52,25 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 		});
 	});
 
-	socket.on('invite users', async ({ teamId, chatRoomId, userList }) => {
+	socket.on(chatEvents.INVITE_USERS, async ({ teamId, chatRoomId, userList }) => {
 		const users = userListCamelToSnake(userList);
 		await ChatRoomService.getInstance().addChatRoomUsers(chatRoomId, users);
-		namespace.to(`chat-${chatRoomId}`).emit('join chat room', { chatRoomId, userList });
+		namespace.to(`chat-${chatRoomId}`).emit(chatEvents.JOIN_CHAT_ROOM, { chatRoomId, userList });
 
 		const { chat_room } = await ChatRoomService.getInstance().getChatRoom(chatRoomId);
 		const lastMessage = await getLastMessage(chatRoomId);
 		joinSocketToChatRoom(userList, teamId, { chatRoomId, chatRoomName: chat_room.chat_room_name, lastMessage });
 	});
 
-	socket.on('exit chat room', async ({ chatRoomId, userId }) => {
+	socket.on(chatEvents.EXIT_CHAT_ROOM, async ({ chatRoomId, userId }) => {
 		await ChatRoomService.getInstance().deleteChatRoomUser(chatRoomId, userId);
-		socket.broadcast.to(`chat-${chatRoomId}`).emit('left chat room', { chatRoomId, userId });
+		socket.broadcast.to(`chat-${chatRoomId}`).emit(chatEvents.LEFT_CHAT_ROOM, { chatRoomId, userId });
 		socket.leave(`chat-${chatRoomId}`);
 	});
 
-	socket.on('update chat room name', async ({ chatRoomId, chatRoomName }) => {
+	socket.on(chatEvents.UPDATE_CHAT_ROOM_NAME, async ({ chatRoomId, chatRoomName }) => {
 		await ChatRoomService.getInstance().updateChatRoomName(chatRoomId, chatRoomName);
-		namespace.to(`chat-${chatRoomId}`).emit('updated chat room name', { chatRoomId, chatRoomName });
+		namespace.to(`chat-${chatRoomId}`).emit(chatEvents.UPDATED_CHAT_ROOM_NAME, { chatRoomId, chatRoomName });
 	});
 
 	const saveMessage = async (messageData: MessageReqType, chatRoomId: number) => {
@@ -104,7 +105,7 @@ const joinSocketToChatRoom = (
 		});
 		if (onlineUserSocketId && onlineUsersInfo[onlineUserSocketId].socket) {
 			onlineUsersInfo[onlineUserSocketId].socket.join(`chat-${chatRoom.chatRoomId}`);
-			onlineUsersInfo[onlineUserSocketId].socket.emit('invited to chat room', chatRoom);
+			onlineUsersInfo[onlineUserSocketId].socket.emit(chatEvents.INVITED_TO_CHAT_ROOM, chatRoom);
 		}
 	});
 };
