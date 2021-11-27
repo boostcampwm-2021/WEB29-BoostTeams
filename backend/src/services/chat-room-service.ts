@@ -56,6 +56,18 @@ class ChatRoomService {
 		return { chat_rooms: chatRooms };
 	}
 
+	async getChatRoom(chatRoomId: number) {
+		const chatRoom = await this.chatRoomRepository
+			.createQueryBuilder('chat_room')
+			.select('chat_room.chat_room_id')
+			.addSelect('chat_room.chat_room_name')
+			.innerJoin('chat_room.chat_room_users', 'chat_room_user')
+			.where('chat_room.chat_room_id = :chatRoomId', { chatRoomId })
+			.getOne();
+		if (!chatRoom) throw new Error('채팅방 불러오기 오류');
+		return { chat_room: chatRoom };
+	}
+
 	async updateChatRoomName(chatRoomId: number, chatRoomName: string) {
 		const updatedChatRoom = await this.chatRoomRepository
 			.createQueryBuilder()

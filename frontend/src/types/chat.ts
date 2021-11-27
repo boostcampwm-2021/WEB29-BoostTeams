@@ -9,19 +9,10 @@ export type DropdownModeType = 'none' | 'invite' | 'update' | 'users';
 export interface ChatRoomType {
 	chatRoomId: number;
 	chatRoomName: string;
+	lastMessage: MessageType;
 }
 
-export interface ChatRoomsType {
-	[chatRoomId: number]: ChatRoomType;
-}
-
-export interface LastMessagesType {
-	[chatRoomId: number]: MessageType;
-}
-
-export interface ChatRoomUsersType {
-	userList: UserIdType[];
-}
+export type ChatRoomListType = ChatRoomType[];
 
 export interface MessageType {
 	messageId: number;
@@ -32,16 +23,3 @@ export interface MessageType {
 }
 
 export type MessageListType = MessageType[];
-
-export type UserListReqType = { user_id: number }[];
-
-export interface ChatRoomReqType {
-	team_id: number;
-	chat_room_name: string;
-	user_list: UserListReqType;
-}
-
-export interface ChatRoomResType {
-	chat_room_id: number;
-	chat_room_name: string;
-}

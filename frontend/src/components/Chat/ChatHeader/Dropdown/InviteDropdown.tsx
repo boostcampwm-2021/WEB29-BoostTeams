@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { addChatRoomUsers, socketApi } from '@apis/chat';
-import { chatRoomUsersTrigger, currentChatRoomState } from '@stores/chat';
+import { socketApi } from '@apis/chat';
+import { currChatRoomIdState } from '@stores/chat';
 import { ColorCode } from '@utils/constants';
 import { SocketContext } from '@utils/socketContext';
 import { UserIdType } from '@src/types/team';
@@ -29,18 +29,11 @@ const InviteDropdown: React.FC<Props> = ({
 	handleDropdownMode,
 }) => {
 	const socketRef = useContext(SocketContext);
-	const currChatRoomId = useRecoilValue(currentChatRoomState);
-	const setChatRoomUsersTrigger = useSetRecoilState(chatRoomUsersTrigger);
+	const currChatRoomId = useRecoilValue(currChatRoomIdState);
 
 	const handleInviteUsers = () => {
-		const userList = inviteUsers.map((user) => {
-			return { user_id: user.userId };
-		});
-		const inviteResult = addChatRoomUsers(currChatRoomId, userList);
-		if (!inviteResult) return;
-		socketApi.inviteUsers(socketRef.current, currChatRoomId, inviteUsers, teamId);
+		socketApi.inviteUsers(socketRef.current, teamId, currChatRoomId, inviteUsers);
 		initInviteUser();
-		setChatRoomUsersTrigger((trigger) => trigger + 1);
 		handleDropdownMode('none');
 	};
 

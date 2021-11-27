@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { teamUsersSelector } from '@stores/team';
-import { chatRoomUsersSelector } from '@stores/chat';
+import { chatRoomUsersState } from '@stores/chat';
 import { DropdownModeType } from '@src/types/chat';
 import { UserIdType } from '@src/types/team';
 
@@ -17,11 +17,11 @@ interface Props {
 
 const UsersDropdown: React.FC<Props> = ({ teamId, handleDropdownMode }) => {
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
-	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
+	const chatRoomUsers = useRecoilValue(chatRoomUsersState);
 
 	return (
 		<UsersDropdownContainer>
-			{chatRoomUserList.map((user: UserIdType) => (
+			{chatRoomUsers.map((user: UserIdType) => (
 				<ProfileContainer key={user.userId}>
 					<ProfileIcon
 						name={teamUsers[user.userId].name}

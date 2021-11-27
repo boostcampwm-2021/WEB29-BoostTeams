@@ -25,8 +25,8 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 			{!isMyChat() && (
 				<ChatIconWrapper>
 					<ProfileIcon
-						name={teamUsers[message.userId].name}
-						color={teamUsers[message.userId].color}
+						name={teamUsers[message.userId] ? teamUsers[message.userId].name : '알 수 없음'}
+						color={teamUsers[message.userId] ? teamUsers[message.userId].color : 0}
 						status='none'
 						width={3.2}
 						isHover={false}
@@ -36,7 +36,7 @@ const Message: React.FC<Props> = ({ teamId, message }) => {
 			<MessageContainer myChat={isMyChat()}>
 				<InfoContainer>
 					<div>
-						{!isMyChat() && <b>{teamUsers[message.userId].name}</b>}
+						{!isMyChat() && <b>{teamUsers[message.userId] ? teamUsers[message.userId].name : '알 수 없음'}</b>}
 						<span>{timeToString(new Date(message.createdAt))}</span>
 					</div>
 				</InfoContainer>

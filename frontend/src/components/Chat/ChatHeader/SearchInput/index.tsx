@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
-import { chatModeState, chatRoomUsersSelector } from '@stores/chat';
+import { chatModeState, chatRoomUsersState } from '@stores/chat';
 import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 
 import { FaTimes } from 'react-icons/fa';
@@ -22,13 +22,13 @@ const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, dele
 	const myId = useRecoilValue(userState).id;
 	const chatMode = useRecoilValue(chatModeState);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
-	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
+	const chatRoomUsers = useRecoilValue(chatRoomUsersState);
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
 	const getTeamUserList = (): TeamUserType[] => {
 		if (chatMode === 'chat') {
 			return Object.values(teamUsers).filter(
-				(user) => !chatRoomUserList.find((chatRoomUser) => chatRoomUser.userId === user.userId),
+				(user) => !chatRoomUsers.find((chatRoomUser) => chatRoomUser.userId === user.userId),
 			);
 		}
 		return Object.values(teamUsers);
