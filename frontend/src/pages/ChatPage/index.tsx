@@ -36,7 +36,6 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
 	const socketRef = useContext(SocketContext);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-
 	const [inviteUsers, dispatchInviteUsers] = useReducer(inviteUsersReducer, []);
 
 	const myId = useRecoilValue(userState).id;
@@ -123,7 +122,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			);
 		}
 		return () => {
-			socketRef.current.off('send chat rooms');
+			socketRef.current.off('receive chat rooms info');
 			socketRef.current.off('receive chat room info');
 			socketRef.current.off('invited to chat room');
 			socketRef.current.off('updated chat room name');

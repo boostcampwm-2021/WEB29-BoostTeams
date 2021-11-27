@@ -33,7 +33,6 @@ const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, dele
 		}
 		return Object.values(teamUsers);
 	};
-
 	const searchByKey = (searchKey: string): TeamUserType[] => {
 		return getTeamUserList().filter((user) => {
 			const regex = new RegExp(searchKey, 'gi');
@@ -42,18 +41,15 @@ const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, dele
 			);
 		});
 	};
-
 	const handleSearchByKey = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const searchKey = e.currentTarget.value;
 		const matches = !searchKey ? [] : searchByKey(searchKey);
 		setUserSearchResult(matches);
 	};
-
 	const handleUserInvite = (userId: number) => {
 		const user = teamUsers[userId];
 		if (user) addToInvitationList(user.userId);
 	};
-
 	const handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();

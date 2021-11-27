@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { UserIdType } from '@src/types/team';
-import { chatModeState, chatRoomsState, currChatRoomIdState } from '@stores/chat';
+import { chatModeState, currChatRoomIdState } from '@stores/chat';
 
 import SearchHeader from './Header/SearchHeader';
 import RoomHeader from './Header/RoomHeader';
