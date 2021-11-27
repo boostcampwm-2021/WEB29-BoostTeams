@@ -1,83 +1,84 @@
 import { Socket } from 'socket.io';
 import { onlineUsersInfo } from '@sockets/store';
+import { boardEvents } from './eventType';
 import Redis from '@redis/index';
 
 const initTeamBoard = (socket: Socket) => {
 	const redisClient = new Redis();
 
-	socket.on('join board page', async () => {
+	socket.on(boardEvents.ENTER_PAGE, async () => {
 		try {
 			socket.join('board');
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const postitList = await redisClient.get('board', teamId);
-			socket.emit('join board page', postitList);
+			socket.emit(boardEvents.ENTER_PAGE, postitList);
 		} catch (err) {
-			socket.emit('team board error', '포스트잇을 불러오는데 실패했습니다!');
+			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.LOAD);
 		}
 	});
 
-	socket.on('leave board page', () => socket.leave('board'));
+	socket.on(boardEvents.LEAVE_PAGE, () => socket.leave('board'));
 
-	socket.on('create new postit', async (postit) => {
+	socket.on(boardEvents.CREATE_POSTIT, async (postit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const newPostit = await makePostitObj(postit);
 			await redisClient.set('board', teamId, newPostit);
-			socket.emit('create new postit', newPostit);
-			socket.broadcast.to('board').emit('create new postit', newPostit);
+			socket.emit(boardEvents.CREATE_POSTIT, newPostit);
+			socket.broadcast.to('board').emit(boardEvents.CREATE_POSTIT, newPostit);
 		} catch (err) {
-			socket.emit('team board error', '새로운 포스트잇 생성 실패!');
+			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.CREATE);
 		}
 	});
 
-	socket.on('update start postit', async (newPostit) => {
+	socket.on(boardEvents.UPDATE_START, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostit = await redisClient.set('board', teamId, newPostit);
-			socket.broadcast.to('board').emit('update start postit', updatedPostit);
+			socket.broadcast.to('board').emit(boardEvents.UPDATE_START, updatedPostit);
 		} catch (err) {
-			socket.emit('team board error', '포스트잇을 업데이트 할 수 없습니다!');
+			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.UPDATE);
 		}
 	});
 
-	socket.on('update end postit', async (newPostit) => {
+	socket.on(boardEvents.UPDATE_END, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostit = await redisClient.set('board', teamId, newPostit);
-			socket.broadcast.to('board').emit('update end postit', updatedPostit);
+			socket.broadcast.to('board').emit(boardEvents.UPDATE_END, updatedPostit);
 		} catch (err) {
-			socket.emit('team board error', '포스트잇 업데이트 실패!');
+			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.UPDATE);
 		}
 	});
 
-	socket.on('drag postit', async (newPostit) => {
+	socket.on(boardEvents.DRAG_START, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const draggedPostit = await redisClient.set('board', teamId, newPostit);
-			socket.broadcast.to('board').emit('drag postit', draggedPostit);
+			socket.broadcast.to('board').emit(boardEvents.DRAG_START, draggedPostit);
 		} catch (err) {
-			socket.emit('team board error');
+			socket.emit(boardEvents.ERROR.TYPE);
 		}
 	});
 
-	socket.on('drag end postit', async (newPostit) => {
+	socket.on(boardEvents.DRAG_END, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const draggedPostit = await redisClient.set('board', teamId, newPostit);
-			socket.broadcast.to('board').emit('drag end postit', draggedPostit);
+			socket.broadcast.to('board').emit(boardEvents.DRAG_END, draggedPostit);
 		} catch (err) {
-			socket.emit('team board error');
+			socket.emit(boardEvents.ERROR.TYPE);
 		}
 	});
 
-	socket.on('delete postit', async (postitId) => {
+	socket.on(boardEvents.DELETE, async (postitId) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostitList = await redisClient.delete('board', teamId, postitId);
-			socket.emit('delete postit', updatedPostitList);
-			socket.broadcast.to('board').emit('delete postit', updatedPostitList);
+			socket.emit(boardEvents.DELETE, updatedPostitList);
+			socket.broadcast.to('board').emit(boardEvents.DELETE, updatedPostitList);
 		} catch (err) {
-			socket.emit('team board error', '포스트잇 삭제 실패!');
+			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.DELETE);
 		}
 	});
 };

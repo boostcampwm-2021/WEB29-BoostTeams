@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io';
 import { onlineUsersByTeam, onlineUsersInfo } from './store';
+import { teamEvents } from './eventType';
 
 interface UserType {
 	userId: number;
@@ -21,29 +22,29 @@ const setUserStatusToOffline = (teamId: number, userId: number, socketId: string
 
 const initTeam = (socket: Socket): void => {
 	const sendOnlineUsers = (socket: Socket, teamId: number): void => {
-		socket.emit('online users', { onlineUsers: onlineUsersByTeam[teamId] });
+		socket.emit(teamEvents.ONLINE_USER, { onlineUsers: onlineUsersByTeam[teamId] });
 	};
 
 	const sendOnlineUsersToRoom = (socket: Socket, teamId: number): void => {
-		socket.to('users').emit('online users', { onlineUsers: onlineUsersByTeam[teamId] });
+		socket.to('users').emit(teamEvents.ONLINE_USER, { onlineUsers: onlineUsersByTeam[teamId] });
 	};
 
-	socket.on('enter users room', () => {
+	socket.on(teamEvents.ENTER_USERS_ROOM, () => {
 		const { teamId } = onlineUsersInfo[socket.id];
 		socket.join('users');
 		sendOnlineUsers(socket, teamId);
 	});
 
-	socket.on('leave users room', () => {
+	socket.on(teamEvents.LEAVE_USERS_ROOM, () => {
 		socket.leave('users');
 	});
 
-	socket.on('change status to online', ({ teamId, userId }: { teamId: number; userId: number }) => {
+	socket.on(teamEvents.CHANGE_STATUS_TO_ONLINE, ({ teamId, userId }: { teamId: number; userId: number }) => {
 		setUserStatusToOnline(teamId, userId, socket);
 		sendOnlineUsersToRoom(socket, teamId);
 	});
 
-	socket.on('disconnect', () => {
+	socket.on(teamEvents.DISCONNECT, () => {
 		if (!onlineUsersInfo[socket.id]) return;
 		const { teamId, userId } = onlineUsersInfo[socket.id];
 		setUserStatusToOffline(teamId, userId, socket.id);
