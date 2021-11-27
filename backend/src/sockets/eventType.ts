@@ -18,7 +18,13 @@ const boardEvents = {
 	}
 };
 
-const teamEvents = {};
+const teamEvents = {
+	ONLINE_USER: 'online users',
+	ENTER_USERS_ROOM: 'enter users room',
+	LEAVE_USERS_ROOM: 'leave users room',
+	CHANGE_STATUS_TO_ONLINE: 'change status to online',
+	DISCONNECT: 'disconnect'
+};
 
 const chatEvents = {
 	ENTER_CHAT_ROOMS: 'enter chat rooms',
