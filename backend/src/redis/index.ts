@@ -17,8 +17,90 @@ export default class Redis {
 		}
 		return Redis.instance;
 	}
+	read(key: string, arrayId: number, dataId = undefined) {
+		return new Promise((resolve, reject) => {
+			Redis.client.lrange(`${key}-${arrayId}`, 0, -1, (error, array) => {
+				if (error) return reject(error);
+				else {
+					const parsedArray = array.map((data) => JSON.parse(data));
+					if (dataId) return resolve(parsedArray.find((data) => Number(data.id) === Number(dataId)));
+					else return resolve(parsedArray);
+				}
+			});
+		});
+	}
 
-	get(key: string, field: string) {
+	readLast(key: string, arrayId: number) {
+		return new Promise((resolve, reject) => {
+			Redis.client.rpop(`${key}-${arrayId}`, (error, data) => {
+				if (error) return reject(error);
+				else {
+					Redis.client.rpush(`${key}-${arrayId}`, data, () => {
+						return resolve(JSON.parse(data));
+					});
+				}
+			});
+		});
+	}
+
+	create(key: string, arrayId: number, data: any) {
+		return new Promise(async (resolve, reject) => {
+			await Redis.increaseIndex();
+			Redis.client.rpush(`${key}-${arrayId}`, JSON.stringify(data), (error) => {
+				if (error) return reject(error);
+				else return resolve(true);
+			});
+		});
+	}
+
+	update(key: string, arrayId: number, newData: any) {
+		return new Promise(async (resolve, reject) => {
+			const dataArray = await this.read(key, arrayId);
+			if (!dataArray || !Array.isArray(dataArray)) return reject(dataArray);
+			const targetData = dataArray.find((data) => Number(data.id) === Number(newData.id));
+			const updatedData = { ...targetData, ...newData };
+			await this.remove(key, arrayId, newData.id);
+			await this.create(key, arrayId, updatedData);
+			console.log(1, updatedData);
+			return resolve(updatedData);
+		});
+	}
+
+	remove(key: string, arrayId: number, dataId = undefined) {
+		return new Promise(async (resolve, reject) => {
+			const targetData = await this.read(key, arrayId, dataId);
+			Redis.client.lrem(`${key}-${arrayId}`, 1, JSON.stringify(targetData), (error, reply) => {
+				if (error) return reject(error);
+				else return resolve(reply);
+			});
+		});
+	}
+
+	static getIndex() {
+		return new Promise((resolve, reject) => {
+			Redis.client.get('index', (error, index) => {
+				if (error) return reject(error);
+				else return resolve(index);
+			});
+		});
+	}
+
+	static increaseIndex() {
+		return new Promise((resolve, reject) => {
+			Redis.client.get('index', (error, index) => {
+				if (error) return reject(error);
+				else {
+					Redis.client.set('index', String(Number(index) + 1), (error) => {
+						if (error) return reject(error);
+						else return resolve(true);
+					});
+				}
+			});
+		});
+	}
+}
+/* 
+get(key: string, field: string) {
 		return new Promise((resolve, reject) => {
 			Redis.client.hget(key, field, async (err, searchResult) => {
 				if (err) return reject(err);
@@ -87,4 +169,4 @@ export default class Redis {
 			return resolve(null);
 		});
 	}
-}
+*/
