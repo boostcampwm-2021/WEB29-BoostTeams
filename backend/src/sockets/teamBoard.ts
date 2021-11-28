@@ -35,7 +35,6 @@ const initTeamBoard = (socket: Socket) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const updatedPostit = await redisClient.update('board', teamId, newPostit);
-			console.log(2, updatedPostit);
 			socket.broadcast.to('board').emit(boardEvents.UPDATE_START, updatedPostit);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.UPDATE);
