@@ -10,13 +10,13 @@ export const ModalMode = atom({
 export const ModalSchedule = atom({
 	key: 'calendarModalSchedule',
 	default: {
-		schedule_id: -1,
+		scheduleId: -1,
 		color: 0,
 		title: '',
-		start_date: new Date().toString(),
-		end_date: new Date().toString(),
-		repeat_id: '',
-		repeat_option: 0,
+		startDate: new Date().toString(),
+		endDate: new Date().toString(),
+		repeatId: '',
+		repeatOption: 0,
 		content: '',
 	},
 });

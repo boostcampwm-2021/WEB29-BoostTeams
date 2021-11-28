@@ -13,8 +13,7 @@ interface Props {
 }
 
 const Day: React.FC<Props> = ({ day, idx, schedules, handleModalOpen }) => {
-	const getScheduleByDay = (day: number) => schedules.filter((obj) => new Date(obj.start_date).getDate() === day);
-
+	const getScheduleByDay = (day: number) => schedules.filter((obj) => new Date(obj.startDate).getDate() === day);
 	const setModalMode = useSetRecoilState(ModalMode);
 	const setModalSchedule = useSetRecoilState(ModalSchedule);
 	const handleScheduleClick = (schedule: ScheduleType) => {
@@ -22,13 +21,18 @@ const Day: React.FC<Props> = ({ day, idx, schedules, handleModalOpen }) => {
 		setModalSchedule(schedule);
 		handleModalOpen();
 	};
+
 	return (
 		<DayWrapper className={idx === 0 ? 'sunday' : ''}>
 			{day !== 0 ? <DayNum>{day}</DayNum> : null}
-			{getScheduleByDay(day).map((e) => {
+			{getScheduleByDay(day).map((schedule) => {
 				return (
-					<Schedule key={e.schedule_id} onClick={() => handleScheduleClick(e)} color={PrimaryPalette[e.color]}>
-						{e.title}
+					<Schedule
+						key={schedule.scheduleId}
+						onClick={() => handleScheduleClick(schedule)}
+						color={PrimaryPalette[schedule.color]}
+					>
+						{schedule.title}
 					</Schedule>
 				);
 			})}

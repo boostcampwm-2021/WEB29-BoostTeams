@@ -73,13 +73,13 @@ const Schedule: React.FC<Props> = ({ dateInfo, schedules = [], handleModalOpen }
 							<TimeBlock key={uuidv4()} />
 						))}
 						{schedules
-							.filter((schedule) => isSameDate(dateInfo.weeklyStartDate, i, new Date(schedule.start_date)))
+							.filter((schedule) => isSameDate(dateInfo.weeklyStartDate, i, new Date(schedule.startDate)))
 							.map((schedule) => (
 								<ScheduleItem
-									key={schedule.schedule_id}
+									key={schedule.scheduleId}
 									schedule={schedule}
-									start={getStartY(new Date(schedule.start_date))}
-									len={getLenY(new Date(schedule.start_date), new Date(schedule.end_date))}
+									start={getStartY(new Date(schedule.startDate))}
+									len={getLenY(new Date(schedule.startDate), new Date(schedule.endDate))}
 									handleModalOpen={handleModalOpen}
 								/>
 							))}

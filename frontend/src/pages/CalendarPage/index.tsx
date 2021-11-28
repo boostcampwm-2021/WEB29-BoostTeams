@@ -20,9 +20,9 @@ const schedulesReducer = (schedules: ScheduleType[], action: SchedulesAction): S
 		case 'ADD':
 			return [...schedules, ...action.newSchedules];
 		case 'DELETE':
-			return [...schedules.filter((schedule) => schedule.schedule_id !== action.id)];
+			return [...schedules.filter((schedule) => schedule.scheduleId !== action.id)];
 		case 'UPDATE':
-			return [...schedules.filter((schedule) => schedule.schedule_id !== action.id), action.newSchedule];
+			return [...schedules.filter((schedule) => schedule.scheduleId !== action.id), action.newSchedule];
 		default:
 			throw new Error();
 	}

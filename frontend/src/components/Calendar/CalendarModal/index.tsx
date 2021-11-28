@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-import { ScheduleType, ScheduleReqType } from '@src/types/calendar';
+import { ScheduleType, ScheduleReqType, ScheduleModalType } from '@src/types/calendar';
 import { ModalMode, ModalSchedule } from '@stores/calendar';
 import { createNewSchedule, deleteSchedule, updateSchedule } from '@apis/schedule';
 import { PrimaryPalette } from '@utils/constants';
@@ -33,7 +33,7 @@ const CalendarModal: React.FC<Props> = ({
 }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
-	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
+	const { scheduleId } = useRecoilValue(ModalSchedule);
 	const modalSchedule = useRecoilValue(ModalSchedule);
 	const [modalMode, setModalMode] = useRecoilState(ModalMode);
 
@@ -122,33 +122,19 @@ const CalendarModal: React.FC<Props> = ({
 		}
 	};
 
-	const setScheduleState = ({
-		title,
-		color,
-		repeat_option,
-		start_date,
-		end_date,
-		content,
-	}: {
-		title: string;
-		color: number;
-		repeat_option: number;
-		start_date: string;
-		end_date: string;
-		content: string;
-	}) => {
+	const setScheduleState = ({ title, color, repeatOption, startDate, endDate, content }: ScheduleModalType) => {
 		setSelectedColor(color);
-		setSelectedRepeat(repeat_option);
-		setSelectedDate(new Date(start_date));
-		setSelectedStartTime(new Date(start_date));
-		setSelectedEndTime(new Date(end_date));
+		setSelectedRepeat(repeatOption);
+		setSelectedDate(new Date(startDate));
+		setSelectedStartTime(new Date(startDate));
+		setSelectedEndTime(new Date(endDate));
 		setDefaultTitle(title);
 		setDefaultContent(content);
 	};
 
 	useEffect(() => {
-		const { title, color, repeat_option, start_date, end_date, content } = modalSchedule;
-		setScheduleState({ title, color, repeat_option, start_date, end_date, content });
+		const { title, color, repeatOption, startDate, endDate, content } = modalSchedule;
+		setScheduleState({ title, color, repeatOption, startDate, endDate, content });
 	}, [modalMode, modalSchedule]);
 
 	return (
