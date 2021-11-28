@@ -56,22 +56,29 @@ export default class Redis {
 	update(key: string, arrayId: number, newData: any) {
 		return new Promise(async (resolve, reject) => {
 			const dataArray = await this.read(key, arrayId);
-			if (!dataArray || !Array.isArray(dataArray)) return reject(dataArray);
+			if (!dataArray || !Array.isArray(dataArray)) return reject(new Error());
 			const targetData = dataArray.find((data) => Number(data.id) === Number(newData.id));
 			const updatedData = { ...targetData, ...newData };
-			await this.remove(key, arrayId, newData.id);
-			await this.create(key, arrayId, updatedData);
-			console.log(1, updatedData);
-			return resolve(updatedData);
+			try {
+				await this.create(key, arrayId, updatedData);
+				await this.remove(key, arrayId, newData.id);
+				return resolve(updatedData);
+			} catch (err) {
+				return reject(err);
+			}
 		});
 	}
 
 	remove(key: string, arrayId: number, dataId = undefined) {
 		return new Promise(async (resolve, reject) => {
 			const targetData = await this.read(key, arrayId, dataId);
-			Redis.client.lrem(`${key}-${arrayId}`, 1, JSON.stringify(targetData), (error, reply) => {
-				if (error) return reject(error);
-				else return resolve(reply);
+			Redis.client.lrem(`${key}-${arrayId}`, 1, JSON.stringify(targetData), async (removeError) => {
+				if (removeError) return reject(removeError);
+				else {
+					const updatedList = await this.read(key, arrayId);
+					if (updatedList) return resolve(updatedList);
+					else return reject(removeError);
+				}
 			});
 		});
 	}
