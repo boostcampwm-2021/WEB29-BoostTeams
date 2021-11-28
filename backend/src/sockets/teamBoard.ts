@@ -10,7 +10,7 @@ const initTeamBoard = (socket: Socket) => {
 		try {
 			socket.join('board');
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const postitList = await redisClient.get('board', teamId);
+			const postitList = await redisClient.read('board', teamId);
 			socket.emit(boardEvents.ENTER_PAGE, postitList);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.LOAD);
@@ -23,7 +23,7 @@ const initTeamBoard = (socket: Socket) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
 			const newPostit = await makePostitObj(postit);
-			await redisClient.set('board', teamId, newPostit);
+			await redisClient.create('board', teamId, newPostit);
 			socket.emit(boardEvents.CREATE_POSTIT, newPostit);
 			socket.broadcast.to('board').emit(boardEvents.CREATE_POSTIT, newPostit);
 		} catch (err) {
@@ -34,7 +34,8 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on(boardEvents.UPDATE_START, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const updatedPostit = await redisClient.set('board', teamId, newPostit);
+			const updatedPostit = await redisClient.update('board', teamId, newPostit);
+			console.log(2, updatedPostit);
 			socket.broadcast.to('board').emit(boardEvents.UPDATE_START, updatedPostit);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.UPDATE);
@@ -44,7 +45,7 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on(boardEvents.UPDATE_END, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const updatedPostit = await redisClient.set('board', teamId, newPostit);
+			const updatedPostit = await redisClient.update('board', teamId, newPostit);
 			socket.broadcast.to('board').emit(boardEvents.UPDATE_END, updatedPostit);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE, boardEvents.ERROR.MESSAGES.UPDATE);
@@ -54,7 +55,7 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on(boardEvents.DRAG_START, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const draggedPostit = await redisClient.set('board', teamId, newPostit);
+			const draggedPostit = await redisClient.update('board', teamId, newPostit);
 			socket.broadcast.to('board').emit(boardEvents.DRAG_START, draggedPostit);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE);
@@ -64,7 +65,7 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on(boardEvents.DRAG_END, async (newPostit) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const draggedPostit = await redisClient.set('board', teamId, newPostit);
+			const draggedPostit = await redisClient.update('board', teamId, newPostit);
 			socket.broadcast.to('board').emit(boardEvents.DRAG_END, draggedPostit);
 		} catch (err) {
 			socket.emit(boardEvents.ERROR.TYPE);
@@ -74,7 +75,7 @@ const initTeamBoard = (socket: Socket) => {
 	socket.on(boardEvents.DELETE, async (postitId) => {
 		try {
 			const teamId = onlineUsersInfo[socket.id].teamId;
-			const updatedPostitList = await redisClient.delete('board', teamId, postitId);
+			const updatedPostitList = await redisClient.remove('board', teamId, postitId);
 			socket.emit(boardEvents.DELETE, updatedPostitList);
 			socket.broadcast.to('board').emit(boardEvents.DELETE, updatedPostitList);
 		} catch (err) {
@@ -86,7 +87,7 @@ const initTeamBoard = (socket: Socket) => {
 export default initTeamBoard;
 
 const makePostitObj = async (newData) => {
-	const id = await Redis.getNextId('board');
+	const id = Number(await Redis.getIndex());
 	return {
 		id: id,
 		title: newData.title,
