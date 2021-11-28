@@ -17,6 +17,7 @@ export const Container = styled.header`
 `;
 
 export const InfoContainer = styled.div`
+	flex-shrink: 0;
 	display: flex;
 	align-items: center;
 	font-size: 0.9rem;
@@ -32,6 +33,7 @@ export const InfoContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+	flex-shrink: 0;
 	display: flex;
 	align-items: center;
 	& > * {
@@ -79,6 +81,8 @@ interface btnProps {
 }
 
 export const ConvertBtnContainer = styled.div`
+	display: flex;
+	width: max-content;
 	border-radius: 8px;
 	border: 1px solid ${ColorCode.LINE2};
 `;

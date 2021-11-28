@@ -56,8 +56,8 @@ const CalendarHeader: React.FC<Props> = ({
 				<div>
 					{!isMonthly && dateInfo.isDoubleMonth ? (
 						<span>
-							{dateInfo.weeklyStartDate.getFullYear()}년 {dateInfo.weeklyStartDate.getMonth() + 1}월 -{' '}
-							{nextDateInfo().year}년 {nextDateInfo().month + 1}월
+							{`${dateInfo.weeklyStartDate.getFullYear()}년 ${dateInfo.weeklyStartDate.getMonth() + 1}월 - 
+							${nextDateInfo().year}년 ${nextDateInfo().month + 1}월`}
 						</span>
 					) : (
 						<span>
