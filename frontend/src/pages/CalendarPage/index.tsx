@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 
 import { getSchedules } from '@apis/schedule';
 import { getFirstDate, getLastDate, getCurrDateInfo, getPrevDateInfo, getNextDateInfo } from '@utils/calendar';
-import { ScheduleType, DateInfoType } from '@components/Calendar/dataStructure';
+import { ScheduleType, DateInfoType } from '@src/types/calendar';
 
 import CalendarTemplate from '@templates/CalendarTemplate';
 

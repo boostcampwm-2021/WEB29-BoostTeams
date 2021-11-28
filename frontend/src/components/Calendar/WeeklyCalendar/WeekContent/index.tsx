@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '@components/Calendar/dataStructure';
+import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '@src/types/calendar';
 import { isTodayDate, isSameDate } from '@utils/calendar';
 import ScheduleItem from '../ScheduleItem';
 import { Container, TimeContainer, DaysContainer, DayContainer, TimeBlock, CurrTimeLine } from './style';

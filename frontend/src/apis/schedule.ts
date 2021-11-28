@@ -1,17 +1,6 @@
 import { toast } from 'react-toastify';
-import { ScheduleType } from '@components/Calendar/dataStructure';
+import { ScheduleType, ScheduleReqType } from '@src/types/calendar';
 import fetchApi from '@utils/fetch';
-
-export interface ScheduleReqType {
-	schedule_id?: number;
-	title?: string;
-	start_date: string;
-	end_date: string;
-	repeat_option: number;
-	repeat_count: number;
-	content?: string;
-	color: number;
-}
 
 export const getSchedules = async (teamId: number, firstDate: string, lastDate: string): Promise<ScheduleType[]> => {
 	try {

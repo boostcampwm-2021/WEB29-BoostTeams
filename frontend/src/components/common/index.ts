@@ -4,3 +4,6 @@ export { default as TeamIcon } from './Icons/TeamIcon';
 export { default as Navbar } from './Navbar';
 export { default as Sidebar } from './Sidebar';
 export { default as Button } from './Button';
+export { default as DropDown } from './DropDown';
+export { default as ColorPicker } from './ColorPicker';
+export { default as Modal } from './Modal';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DateInfoType, ScheduleType } from '@components/Calendar/dataStructure';
+import { DateInfoType, ScheduleType } from '@src/types/calendar';
 
 import { Header, Navbar } from '@components/common';
 import CalendarHeader from '@components/Calendar/CalendarHeader';

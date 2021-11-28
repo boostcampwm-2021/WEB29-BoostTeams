@@ -16,6 +16,17 @@ export interface ScheduleType {
 	color: number;
 }
 
+export interface ScheduleReqType {
+	schedule_id?: number;
+	title?: string;
+	start_date: string;
+	end_date: string;
+	repeat_option: number;
+	repeat_count: number;
+	content?: string;
+	color: number;
+}
+
 export interface TimeType {
 	hour: number;
 	text: string;

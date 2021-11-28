@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
+import { ScheduleType, ScheduleReqType } from '@src/types/calendar';
 import { ModalMode, ModalSchedule } from '@stores/calendar';
-
-import ColorPicker from '@components/common/ColorPicker';
-import DropDown from '@components/common/DropDown';
-import Modal from '@components/common/Modal';
-
-import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '@apis/schedule';
-import { dateToFormatString, isNum } from '@utils/calendar';
+import { createNewSchedule, deleteSchedule, updateSchedule } from '@apis/schedule';
 import { PrimaryPalette } from '@utils/constants';
-import { ColorCircle } from '@components/common/ColorPicker/style';
+import { dateToFormatString, isNum } from '@utils/calendar';
 
+import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
+import { ColorCircle } from '@components/common/ColorPicker/style';
+import { ColorPicker, DropDown, Modal } from '@components/common';
 import TimeInput from './TimeInput';
-import { ScheduleType } from '../dataStructure';
 import { FormContainer, TitleContainer, ButtonContainer } from './style';
 import 'react-datepicker/dist/react-datepicker.css';
 

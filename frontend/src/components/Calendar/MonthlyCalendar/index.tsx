@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container } from './style';
-import { DateInfoType, ScheduleType } from '../dataStructure';
+import { DateInfoType, ScheduleType } from '@src/types/calendar';
 import MonthHeader from './MonthHeader';
 import MonthContent from './MonthContent';
+import { Container } from './style';
 
 interface MonthlyCalendarProps {
 	dateInfo: DateInfoType;
