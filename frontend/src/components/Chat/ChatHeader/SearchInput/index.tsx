@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
-import { chatModeState, chatRoomUsersSelector } from '@stores/chat';
+import { chatModeState, chatRoomUsersState } from '@stores/chat';
 import { TeamUsersType, TeamUserType, UserIdType } from '@src/types/team';
 
 import { FaTimes } from 'react-icons/fa';
@@ -22,18 +22,17 @@ const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, dele
 	const myId = useRecoilValue(userState).id;
 	const chatMode = useRecoilValue(chatModeState);
 	const teamUsers = useRecoilValue<TeamUsersType>(teamUsersSelector(teamId));
-	const chatRoomUserList = useRecoilValue(chatRoomUsersSelector).userList;
+	const chatRoomUsers = useRecoilValue(chatRoomUsersState);
 	const [userSearchResult, setUserSearchResult] = useState<TeamUserType[]>([]);
 
 	const getTeamUserList = (): TeamUserType[] => {
 		if (chatMode === 'chat') {
 			return Object.values(teamUsers).filter(
-				(user) => !chatRoomUserList.find((chatRoomUser) => chatRoomUser.userId === user.userId),
+				(user) => !chatRoomUsers.find((chatRoomUser) => chatRoomUser.userId === user.userId),
 			);
 		}
 		return Object.values(teamUsers);
 	};
-
 	const searchByKey = (searchKey: string): TeamUserType[] => {
 		return getTeamUserList().filter((user) => {
 			const regex = new RegExp(searchKey, 'gi');
@@ -42,18 +41,15 @@ const SearchInput: React.FC<Props> = ({ teamId, inviteUsers, addInviteUser, dele
 			);
 		});
 	};
-
 	const handleSearchByKey = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const searchKey = e.currentTarget.value;
 		const matches = !searchKey ? [] : searchByKey(searchKey);
 		setUserSearchResult(matches);
 	};
-
 	const handleUserInvite = (userId: number) => {
 		const user = teamUsers[userId];
 		if (user) addToInvitationList(user.userId);
 	};
-
 	const handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();

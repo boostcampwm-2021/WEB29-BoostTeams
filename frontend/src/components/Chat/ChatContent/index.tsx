@@ -1,12 +1,12 @@
 import React, { useRef, useContext } from 'react';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 
-import { createChatRoom, socketApi } from '@apis/chat';
+import { socketApi } from '@apis/chat';
 import { SocketContext } from '@utils/socketContext';
 import { UserIdType } from '@src/types/team';
 import userState from '@stores/user';
 import { teamUsersSelector } from '@stores/team';
-import { chatModeState, chatRoomsTrigger, currentChatRoomState, messageListState } from '@stores/chat';
+import { chatModeState, currChatRoomIdState, messagesState } from '@stores/chat';
 
 import { FaTelegramPlane } from 'react-icons/fa';
 import Message from './Message';
@@ -16,19 +16,17 @@ interface Props {
 	teamId: number;
 	inviteUsers: UserIdType[];
 	messagesEndRef: React.RefObject<HTMLDivElement>;
-	initInviteUser: () => void;
 }
 
-const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, initInviteUser }) => {
+const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
 
 	const myInfo = useRecoilValue(userState);
+	const currChatRoomId = useRecoilValue(currChatRoomIdState);
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
-	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
-	const messageList = useRecoilValue(messageListState);
+	const messages = useRecoilValue(messagesState);
 	const [chatMode, setChatMode] = useRecoilState(chatModeState);
-	const [currChatRoomId, setCurrChatRoomId] = useRecoilState(currentChatRoomState);
 
 	const handleEnterCheck = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
@@ -39,29 +37,18 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		handleSendMessage();
 	};
 
-	const handleNewChatRoomCreate = async () => {
+	const handleNewChatRoomCreate = () => {
 		if (!socketRef.current) return;
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
 		if (!inviteUsers.length) return;
-		const userIdList = inviteUsers.map((user) => {
-			return { user_id: user.userId };
-		});
 		const chatRoomName = `${myInfo.name}, ${teamUsers[inviteUsers[0].userId].name} ..`;
-		const roomInfo = {
-			team_id: teamId,
-			chat_room_name: chatRoomName,
-			user_list: [...userIdList, { user_id: myInfo.id }],
-		};
-		const newChatRoomInfo = await createChatRoom(roomInfo);
-		if (!newChatRoomInfo) return;
-		socketApi.createChatRoom(socketRef.current, newChatRoomInfo.chatRoomId, inviteUsers, teamId);
-		socketApi.sendMessage(socketRef.current, inputRef.current.value, myInfo.id, newChatRoomInfo.chatRoomId);
+		socketApi.createChatRoom(socketRef.current, teamId, chatRoomName, [...inviteUsers, { userId: myInfo.id }], {
+			content: inputRef.current.value,
+			userId: myInfo.id,
+		});
 		inputRef.current.value = '';
-		initInviteUser();
-		setChatMode('chat');
-		setChatRoomsTrigger((trigger) => trigger + 1);
-		setCurrChatRoomId(newChatRoomInfo.chatRoomId);
+		setChatMode('none');
 	};
 
 	const handleSendMessage = () => {
@@ -75,7 +62,7 @@ const ChatContent: React.FC<Props> = ({ teamId, inviteUsers, messagesEndRef, ini
 		<Container>
 			{chatMode === 'chat' ? (
 				<MessagesContainer>
-					{messageList.map((message) => (
+					{messages.map((message) => (
 						<Message key={message.messageId} message={message} teamId={teamId} />
 					))}
 					<div ref={messagesEndRef} />

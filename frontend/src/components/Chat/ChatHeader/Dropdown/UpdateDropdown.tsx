@@ -1,9 +1,9 @@
 import React, { useRef, useContext } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { chatRoomsSelector, chatRoomsTrigger, currentChatRoomState } from '@stores/chat';
+import { chatRoomsState, currChatRoomIdState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
-import { socketApi, updateChatRoomName } from '@apis/chat';
+import { socketApi } from '@apis/chat';
 import { ColorCode } from '@utils/constants';
 import { DropdownModeType } from '@src/types/chat';
 
@@ -11,30 +11,28 @@ import { Button } from '@components/common';
 import { ButttonContainer, UpdateDropdownContainer } from './style';
 
 interface Props {
-	teamId: number;
 	handleDropdownMode: (mode: DropdownModeType) => void;
 }
 
-const UpdateDropdown: React.FC<Props> = ({ teamId, handleDropdownMode }) => {
+const UpdateDropdown: React.FC<Props> = ({ handleDropdownMode }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const socketRef = useContext(SocketContext);
-	const currChatRoomId = useRecoilValue(currentChatRoomState);
-	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
-	const setChatRoomsTrigger = useSetRecoilState(chatRoomsTrigger);
+	const currChatRoomId = useRecoilValue(currChatRoomIdState);
+	const chatRooms = useRecoilValue(chatRoomsState);
 
 	const handleChatRoomNameUpdate = () => {
 		if (!inputRef.current) return;
 		if (inputRef.current.value === '') return;
-		const updatedResult = updateChatRoomName(currChatRoomId, inputRef.current.value);
-		if (!updatedResult) return;
-		socketApi.updateChatRoomName(socketRef.current, currChatRoomId);
-		setChatRoomsTrigger((trigger) => trigger + 1);
+		socketApi.updateChatRoomName(socketRef.current, currChatRoomId, inputRef.current.value);
 		handleDropdownMode('none');
 	};
+	const getChatRoomName = (chatRoomId: number) =>
+		chatRooms.find((chatRoom) => chatRoom.chatRoomId === chatRoomId)?.chatRoomName;
+
 	return (
 		<UpdateDropdownContainer>
 			<h3>채팅방 이름 변경</h3>
-			<input type='text' defaultValue={chatRooms[currChatRoomId].chatRoomName} ref={inputRef} />
+			<input type='text' defaultValue={getChatRoomName(currChatRoomId)} ref={inputRef} />
 			<ButttonContainer>
 				<Button
 					text='변경'

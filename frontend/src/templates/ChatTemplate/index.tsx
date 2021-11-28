@@ -44,12 +44,7 @@ const ChatTemplate: React.FC<Props> = ({
 							deleteInviteUser={deleteInviteUser}
 							initInviteUser={initInviteUser}
 						/>
-						<ChatContent
-							teamId={teamId}
-							inviteUsers={inviteUsers}
-							initInviteUser={initInviteUser}
-							messagesEndRef={messagesEndRef}
-						/>
+						<ChatContent teamId={teamId} inviteUsers={inviteUsers} messagesEndRef={messagesEndRef} />
 					</ChatContainer>
 				)}
 			</MainContainer>

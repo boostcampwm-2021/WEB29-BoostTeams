@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 import { timeSince } from '@utils/time';
-import { MessageType } from '@src/types/chat';
 import { teamUsersSelector } from '@stores/team';
-import { chatModeState, chatRoomsSelector, currentChatRoomState, LastMessagesState } from '@stores/chat';
+import { chatModeState, currChatRoomIdState, chatRoomsState } from '@stores/chat';
+import { socketApi } from '@apis/chat';
+import { SocketContext } from '@utils/socketContext';
+import { ChatRoomListType } from '@src/types/chat';
 
 import { BiListPlus } from 'react-icons/bi';
 import { Sidebar, ProfileIcon } from '@components/common';
@@ -15,71 +17,69 @@ interface Props {
 }
 
 const ChatSidebar: React.FC<Props> = ({ teamId }) => {
-	const [currChatRoomId, setCurrChatRoomId] = useRecoilState(currentChatRoomState);
-	const setChatMode = useSetRecoilState(chatModeState);
-	const chatRooms = useRecoilValue(chatRoomsSelector(teamId));
+	const socketRef = useContext(SocketContext);
+	const [sortedChatRooms, setSortedChatRooms] = useState<ChatRoomListType>([]);
+	const [currChatRoomId, setCurrChatRoomId] = useRecoilState(currChatRoomIdState);
+	const chatRooms = useRecoilValue(chatRoomsState);
 	const teamUsers = useRecoilValue(teamUsersSelector(teamId));
-	const lastMessages = useRecoilValue(LastMessagesState);
-	const [sortedMessageList, setSortedMessageList] = useState<MessageType[]>([]);
+	const setChatMode = useSetRecoilState(chatModeState);
 
 	const handleEnterChatRoom = (chatRoomId: number) => {
+		socketApi.enterChatRoom(socketRef.current, chatRoomId);
 		setCurrChatRoomId(chatRoomId);
 		setChatMode('chat');
 	};
+	const handleChatModeNone = () => {
+		setChatMode('none');
+		setCurrChatRoomId(-1);
+	};
+	const handleChatModeCreate = () => {
+		setChatMode('create');
+		setCurrChatRoomId(-1);
+	};
 
 	useEffect(() => {
-		const lastMessageList = Object.values(lastMessages).sort(
-			(a: MessageType, b: MessageType) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+		setSortedChatRooms(
+			[...chatRooms].sort(
+				(a, b) => new Date(b.lastMessage.createdAt).getTime() - new Date(a.lastMessage.createdAt).getTime(),
+			),
 		);
-		setSortedMessageList(lastMessageList);
-	}, [lastMessages]);
+	}, [chatRooms]);
 
 	return (
 		<Sidebar>
 			<SidebarHeader>
-				<button type='button' onClick={() => setChatMode('none')}>
+				<button type='button' onClick={handleChatModeNone}>
 					채팅
 				</button>
-				<NewChatBtn onClick={() => setChatMode('create')}>
+				<NewChatBtn onClick={handleChatModeCreate}>
 					<BiListPlus />
 				</NewChatBtn>
 			</SidebarHeader>
 			<ChatRoomsContainer>
-				{sortedMessageList.map((message) => (
-					<>
-						{chatRooms[message.chatRoomId] && (
-							<ChatRoom
-								key={message.chatRoomId}
-								focus={message.chatRoomId === currChatRoomId}
-								onClick={() => handleEnterChatRoom(message.chatRoomId)}
-							>
-								<ProfileIcon
-									name={
-										chatRooms[message.chatRoomId] && chatRooms[message.chatRoomId].chatRoomName
-											? chatRooms[message.chatRoomId].chatRoomName
-											: ''
-									}
-									color={message.chatRoomId % 6}
-									status='none'
-									width={3.2}
-									isHover={false}
-								/>
-								<ChatRoomInfoContainer>
-									<ChatRoomInfo>
-										<h3>
-											{chatRooms[message.chatRoomId] && chatRooms[message.chatRoomId].chatRoomName
-												? chatRooms[message.chatRoomId].chatRoomName
-												: ''}
-										</h3>
-										<span>{timeSince(new Date(message.createdAt))}</span>
-									</ChatRoomInfo>
-									<span>{`${teamUsers[message.userId] ? teamUsers[message.userId].name : '알 수 없음'}: ${
-										message.content
-									}`}</span>
-								</ChatRoomInfoContainer>
-							</ChatRoom>
-						)}
-					</>
+				{sortedChatRooms.map((chatRoom) => (
+					<ChatRoom
+						key={chatRoom.chatRoomId}
+						focus={chatRoom.chatRoomId === currChatRoomId}
+						onClick={() => handleEnterChatRoom(chatRoom.chatRoomId)}
+					>
+						<ProfileIcon
+							name={chatRoom.chatRoomName}
+							color={chatRoom.chatRoomId % 6}
+							status='none'
+							width={3.2}
+							isHover={false}
+						/>
+						<ChatRoomInfoContainer>
+							<ChatRoomInfo>
+								<h3>{chatRoom.chatRoomName}</h3>
+								<span>{timeSince(new Date(chatRoom.lastMessage.createdAt))}</span>
+							</ChatRoomInfo>
+							<span>{`${
+								teamUsers[chatRoom.lastMessage.userId] ? teamUsers[chatRoom.lastMessage.userId].name : '알 수 없음'
+							}: ${chatRoom.lastMessage.content}`}</span>
+						</ChatRoomInfoContainer>
+					</ChatRoom>
 				))}
 			</ChatRoomsContainer>
 		</Sidebar>
