@@ -1,4 +1,4 @@
-import { ColorCode } from '@src/utils/constants';
+import { ColorCode } from '@utils/constants';
 import styled, { keyframes } from 'styled-components';
 
 const upDownAnimation = keyframes`
