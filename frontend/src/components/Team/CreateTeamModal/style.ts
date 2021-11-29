@@ -26,6 +26,7 @@ export const Input = styled.input`
 export const Textarea = styled.textarea`
 	font-size: 0.9rem;
 	width: calc(100% - 1rem);
+	resize: none;
 	height: 3rem;
 	font-family: 'Noto Sans KR', 'Noto Sans';
 	outline: none;

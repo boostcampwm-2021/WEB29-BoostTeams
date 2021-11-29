@@ -38,6 +38,7 @@ export const Textarea = styled.textarea`
 	font-family: 'Noto Sans KR', 'Noto Sans';
 	outline: none;
 	border: none;
+	resize: none;
 	border-radius: 5px;
 	background-color: ${ColorCode.BACKGROUND1};
 	padding: 0.5rem;
