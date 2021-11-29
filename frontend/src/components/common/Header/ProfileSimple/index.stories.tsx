@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react';
 import ProfileSimple from './index';
 import { Background, Container, ModalContainer } from './style';
 import UserInfo from './UserInfo';
-import { AccountButton, LogoutButton } from './Buttons';
+import { AccountButton, LogoutButton, SignOutButton } from './Buttons';
 
 export default {
 	title: 'common/Profile',
@@ -28,6 +28,7 @@ export const NotInTeam = () => {
 	const status = 'none';
 	const clickHandler = () => undefined;
 	const logoutHandler = () => undefined;
+	const signOutHandler = () => undefined;
 	const handleModalClose = () => undefined;
 	return (
 		<Container>
@@ -35,6 +36,7 @@ export const NotInTeam = () => {
 				<UserInfo user={user} status={status} />
 				<AccountButton onClick={clickHandler} />
 				<LogoutButton onClick={logoutHandler} />
+				<SignOutButton onClick={signOutHandler} />
 			</ModalContainer>
 			<Background onClick={handleModalClose} />
 		</Container>
@@ -45,6 +47,7 @@ export const NotInTeamGithub = () => {
 	const status = 'none';
 	const clickHandler = () => undefined;
 	const logoutHandler = () => undefined;
+	const signOutHandler = () => undefined;
 	const handleModalClose = () => undefined;
 	return (
 		<Container>
@@ -52,6 +55,7 @@ export const NotInTeamGithub = () => {
 				<UserInfo user={githubUser} status={status} />
 				<AccountButton onClick={clickHandler} />
 				<LogoutButton onClick={logoutHandler} />
+				<SignOutButton onClick={signOutHandler} />
 			</ModalContainer>
 			<Background onClick={handleModalClose} />
 		</Container>
@@ -62,6 +66,7 @@ export const InTeam = () => {
 	const status = 'green';
 	const clickHandler = () => undefined;
 	const logoutHandler = () => undefined;
+	const signOutHandler = () => undefined;
 	const handleModalClose = () => undefined;
 	return (
 		<Container>
@@ -69,6 +74,7 @@ export const InTeam = () => {
 				<UserInfo user={user} status={status} />
 				<AccountButton onClick={clickHandler} />
 				<LogoutButton onClick={logoutHandler} />
+				<SignOutButton onClick={signOutHandler} />
 			</ModalContainer>
 			<Background onClick={handleModalClose} />
 		</Container>

@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import UpdateModal, { Props } from './index';
 
 export default {
-	title: 'common/Modal/User',
+	title: 'Modals/User',
 	component: UpdateModal,
 } as Meta;
 

@@ -5,7 +5,7 @@ import CreatePostitModal, { Props } from './index';
 import { MPostit, MSocketApi } from './mock';
 
 export default {
-	title: 'common/Modal/Postit',
+	title: 'Modals/Postit',
 	component: CreatePostitModal,
 } as Meta;
 

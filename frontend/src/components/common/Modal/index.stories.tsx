@@ -8,7 +8,7 @@ modalRoot.setAttribute('id', 'modal');
 document.querySelector('body')!.appendChild(modalRoot);
 
 export default {
-	title: 'common/Modal/Default',
+	title: 'common/Modal',
 	component: Modal,
 } as Meta;
 

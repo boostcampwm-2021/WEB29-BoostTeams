@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import CreateTeamModal from './index';
 
 export default {
-	title: 'common/Modal/Team',
+	title: 'Modals/Team',
 	component: CreateTeamModal,
 } as Meta;
 

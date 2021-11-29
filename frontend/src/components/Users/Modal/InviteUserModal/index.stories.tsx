@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import InviteUserModal, { Props } from './index';
 
 export default {
-	title: 'common/Modal/Team',
+	title: 'Modals/Team',
 	component: InviteUserModal,
 } as Meta;
 
