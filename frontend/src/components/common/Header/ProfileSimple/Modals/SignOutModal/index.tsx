@@ -19,6 +19,8 @@ const SignOutModal: React.FC<Props> = ({ handleModalClose }) => {
 			removeSubmitButton={false}
 			handleModalClose={handleModalClose}
 			handleSubmit={handleSubmit}
+			submitBtnName='확인'
+			closeBtnName='취소'
 		>
 			<Content>회원 탈퇴하시겠습니까?</Content>
 		</Modal>
