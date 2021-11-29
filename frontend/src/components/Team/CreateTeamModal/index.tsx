@@ -40,7 +40,13 @@ const CreateTeamModal: React.FC<Props> = ({ handleModalClose }) => {
 	};
 
 	return (
-		<Modal title='팀 만들기' handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
+		<Modal
+			title='팀 만들기'
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			submitBtnName='생성'
+		>
 			<Container>
 				<Input onChange={inputNameHandler} value={name} placeholder='팀 이름을 입력하세요' />
 				<Textarea onChange={inputDescHandler} value={desc} placeholder='팀에 대한 세부 정보를 입력하세요' />

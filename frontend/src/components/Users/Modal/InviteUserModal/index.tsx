@@ -22,7 +22,13 @@ const InviteUserModal: React.FC<Props> = ({ teamId, handleModalClose }) => {
 	};
 
 	return (
-		<Modal title='팀 초대' handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
+		<Modal
+			title='팀 초대'
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			submitBtnName='초대'
+		>
 			<Input type='text' placeholder='초대할 유저 닉네임 입력' ref={inputRef} />
 		</Modal>
 	);

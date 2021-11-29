@@ -64,7 +64,12 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 	}, []);
 
 	return (
-		<Modal handleModalClose={handleClose} handleSubmit={handleSubmit} removeSubmitButton={false} submitBtnName='생성'>
+		<Modal
+			handleModalClose={handleClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			submitBtnName={modalType === 'create' ? '생성' : '수정'}
+		>
 			<Container>
 				<TitleContainer>
 					<ColorPicker selectedColor={color} setSelectedColor={setColor} />
