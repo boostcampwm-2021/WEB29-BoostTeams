@@ -94,8 +94,8 @@ const Role: RoleType = {
 const RoleArr = ['관리자', '구성원'];
 
 const MODAL_THEME = {
-	PRIMARY: 'primary',
-	SECONDARY: 'secondary',
+	FORM: 'form',
+	NOTIFICATION: 'notification',
 };
 
 export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, Role, RoleArr };

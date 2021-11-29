@@ -12,7 +12,7 @@ export interface Props {
 	closeBtnName: string;
 }
 
-const SecondaryModal: React.FC<Props> = ({
+const NotificationModal: React.FC<Props> = ({
 	children,
 	title = '알림',
 	handleModalClose,
@@ -44,4 +44,4 @@ const SecondaryModal: React.FC<Props> = ({
 		</Container>
 	);
 };
-export default SecondaryModal;
+export default NotificationModal;

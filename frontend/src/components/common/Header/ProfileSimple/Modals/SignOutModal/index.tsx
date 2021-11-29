@@ -14,7 +14,7 @@ const SignOutModal: React.FC<Props> = ({ handleModalClose }) => {
 	};
 	return (
 		<Modal
-			theme={MODAL_THEME.SECONDARY}
+			theme={MODAL_THEME.NOTIFICATION}
 			title='경고'
 			removeSubmitButton={false}
 			handleModalClose={handleModalClose}

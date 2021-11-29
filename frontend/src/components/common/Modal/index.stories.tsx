@@ -1,6 +1,8 @@
 import React from 'react';
-
 import { Meta, Story } from '@storybook/react';
+
+import { MODAL_THEME } from '@utils/constants';
+
 import Modal, { Props } from './index';
 
 const modalRoot = document.createElement('div');
@@ -14,10 +16,10 @@ export default {
 
 const Template: Story<Props> = (args) => <Modal {...args} />;
 
-export const Primary = Template.bind({});
-export const Secondary = Template.bind({});
-Primary.args = {
-	theme: 'primary',
+export const Form = Template.bind({});
+export const Notification = Template.bind({});
+Form.args = {
+	theme: MODAL_THEME.FORM,
 	children: <span>modal children</span>,
 	handleModalClose: () => null,
 	handleSubmit: () => null,
@@ -26,8 +28,8 @@ Primary.args = {
 	closeBtnName: '닫기',
 };
 
-Secondary.args = {
-	theme: 'secondary',
+Notification.args = {
+	theme: MODAL_THEME.NOTIFICATION,
 	children: <span>modal children</span>,
 	handleModalClose: () => null,
 	handleSubmit: () => null,

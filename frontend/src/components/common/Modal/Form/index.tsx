@@ -12,7 +12,7 @@ export interface Props {
 	closeBtnName: string;
 }
 
-const PrimaryModal: React.FC<Props> = ({
+const FormModal: React.FC<Props> = ({
 	children,
 	title,
 	handleModalClose,
@@ -44,4 +44,4 @@ const PrimaryModal: React.FC<Props> = ({
 		</Container>
 	);
 };
-export default PrimaryModal;
+export default FormModal;

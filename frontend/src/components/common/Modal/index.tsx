@@ -2,8 +2,8 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { MODAL_THEME } from '@utils/constants';
 import { Background } from './style';
-import PrimaryModal from './Primary';
-import SecondaryModal from './Secondary';
+import FormModal from './Form';
+import NotificationModal from './Notification';
 
 export interface Props {
 	theme?: string;
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 const Modal: React.FC<Props> = ({
-	theme = MODAL_THEME.PRIMARY,
+	theme = MODAL_THEME.FORM,
 	children,
 	handleModalClose,
 	handleSubmit,
@@ -31,8 +31,8 @@ const Modal: React.FC<Props> = ({
 	return createPortal(
 		<>
 			<Background onClick={handleModalClose} />
-			{theme === MODAL_THEME.PRIMARY && (
-				<PrimaryModal
+			{theme === MODAL_THEME.FORM && (
+				<FormModal
 					title={title}
 					handleModalClose={handleModalClose}
 					handleSubmit={handleSubmit}
@@ -41,10 +41,10 @@ const Modal: React.FC<Props> = ({
 					closeBtnName={closeBtnName}
 				>
 					{children}
-				</PrimaryModal>
+				</FormModal>
 			)}
-			{theme === MODAL_THEME.SECONDARY && (
-				<SecondaryModal
+			{theme === MODAL_THEME.NOTIFICATION && (
+				<NotificationModal
 					title={title}
 					handleModalClose={handleModalClose}
 					handleSubmit={handleSubmit}
@@ -53,7 +53,7 @@ const Modal: React.FC<Props> = ({
 					closeBtnName={closeBtnName}
 				>
 					{children}
-				</SecondaryModal>
+				</NotificationModal>
 			)}
 		</>,
 		MODAL,

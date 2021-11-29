@@ -23,7 +23,7 @@ const DeleteTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 
 	return (
 		<Modal
-			theme={MODAL_THEME.SECONDARY}
+			theme={MODAL_THEME.NOTIFICATION}
 			handleModalClose={handleModalClose}
 			handleSubmit={handleSubmit}
 			removeSubmitButton={false}
