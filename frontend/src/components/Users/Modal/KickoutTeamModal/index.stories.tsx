@@ -13,8 +13,6 @@ const Template: Story<Props> = (args) => <KickoutTeamModal {...args} />;
 export const KickoutTeam = Template.bind({});
 
 KickoutTeam.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	teamId: 0,
 };

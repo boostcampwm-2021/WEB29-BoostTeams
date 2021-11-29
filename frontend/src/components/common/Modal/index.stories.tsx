@@ -19,12 +19,8 @@ export const Secondary = Template.bind({});
 Primary.args = {
 	theme: 'primary',
 	children: <span>modal children</span>,
-	handleModalClose: () => {
-		console.log('저장');
-	},
-	handleSubmit: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
+	handleSubmit: () => null,
 	removeSubmitButton: false,
 	submitBtnName: '저장',
 	closeBtnName: '닫기',
@@ -33,12 +29,8 @@ Primary.args = {
 Secondary.args = {
 	theme: 'secondary',
 	children: <span>modal children</span>,
-	handleModalClose: () => {
-		console.log('저장');
-	},
-	handleSubmit: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
+	handleSubmit: () => null,
 	removeSubmitButton: false,
 	submitBtnName: '저장',
 	closeBtnName: '닫기',

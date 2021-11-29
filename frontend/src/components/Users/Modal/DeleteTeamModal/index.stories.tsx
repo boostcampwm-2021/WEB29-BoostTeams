@@ -13,8 +13,6 @@ const Template: Story<Props> = (args) => <DeleteTeamModal {...args} />;
 export const DeleteTeam = Template.bind({});
 
 DeleteTeam.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	teamId: 0,
 };

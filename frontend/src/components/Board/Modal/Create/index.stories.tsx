@@ -16,18 +16,14 @@ export const UpdatePostit = Template.bind({});
 
 CreatePostit.args = {
 	socketApi: MSocketApi,
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	modalType: 'create',
 	clickedPostit: undefined,
 };
 
 UpdatePostit.args = {
 	socketApi: MSocketApi,
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	modalType: 'update',
 	clickedPostit: MPostit,
 };

@@ -16,28 +16,12 @@ export const MPostit: IPostit = {
 };
 
 export const MSocketApi: ISocketApi = {
-	createNewPostit: () => {
-		console.log('포스트잇 생성');
-	},
-	updateEndPostit: () => {
-		console.log('포스트잇 수정 완료');
-	},
-	updateStartPostit: () => {
-		console.log('.');
-	},
-	dragPostit: () => {
-		console.log('.');
-	},
-	setUpdatedPostitList: () => {
-		console.log('.');
-	},
-	deletePostit: () => {
-		console.log('.');
-	},
-	dragEndPostit: () => {
-		console.log('.');
-	},
-	setUpdatedPostit: () => {
-		console.log('.');
-	},
+	createNewPostit: () => null,
+	updateEndPostit: () => null,
+	updateStartPostit: () => null,
+	dragPostit: () => null,
+	setUpdatedPostitList: () => null,
+	deletePostit: () => null,
+	dragEndPostit: () => null,
+	setUpdatedPostit: () => null,
 };

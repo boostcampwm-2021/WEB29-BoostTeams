@@ -13,8 +13,6 @@ const Template: Story<Props> = (args) => <UpdateTeamModal {...args} />;
 export const UpdateTeam = Template.bind({});
 
 UpdateTeam.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	teamId: 0,
 };

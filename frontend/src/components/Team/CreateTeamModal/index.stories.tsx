@@ -12,12 +12,6 @@ type Props = {
 	handleModalClose: () => void;
 };
 
-const Template: Story<Props> = () => (
-	<CreateTeamModal
-		handleModalClose={() => {
-			console.log('닫기');
-		}}
-	/>
-);
+const Template: Story<Props> = () => <CreateTeamModal handleModalClose={() => null} />;
 
 export const CreateTeam = Template.bind({});

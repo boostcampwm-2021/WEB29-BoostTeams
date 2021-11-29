@@ -13,7 +13,5 @@ const Template: Story<Props> = (args) => <UpdateModal {...args} />;
 export const Update = Template.bind({});
 
 Update.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 };

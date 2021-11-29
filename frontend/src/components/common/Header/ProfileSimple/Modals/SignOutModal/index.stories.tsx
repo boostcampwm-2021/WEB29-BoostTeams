@@ -13,7 +13,5 @@ const Template: Story<Props> = (args) => <SignOutModal {...args} />;
 export const SignOut = Template.bind({});
 
 SignOut.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 };

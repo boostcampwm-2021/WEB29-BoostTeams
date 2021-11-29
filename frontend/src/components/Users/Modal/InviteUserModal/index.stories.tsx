@@ -13,8 +13,6 @@ const Template: Story<Props> = (args) => <InviteUserModal {...args} />;
 export const InviteUser = Template.bind({});
 
 InviteUser.args = {
-	handleModalClose: () => {
-		console.log('닫기');
-	},
+	handleModalClose: () => null,
 	teamId: 0,
 };
