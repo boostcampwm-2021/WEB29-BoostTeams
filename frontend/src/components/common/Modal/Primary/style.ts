@@ -6,6 +6,9 @@ export const Container = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 	width: 30rem;
 	background-color: ${ColorCode.WHITE};
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -27,4 +30,10 @@ export const ButtonContainer = styled.div`
 	button {
 		margin-left: 1rem;
 	}
+`;
+
+export const Title = styled.span`
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: ${ColorCode.FONT1};
 `;

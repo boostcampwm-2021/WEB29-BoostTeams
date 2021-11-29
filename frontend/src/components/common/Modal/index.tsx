@@ -11,7 +11,7 @@ export interface Props {
 	handleModalClose: () => void;
 	handleSubmit: () => void;
 	removeSubmitButton: boolean;
-	title?: string;
+	title: string | undefined;
 	submitBtnName?: string;
 	closeBtnName?: string;
 }
@@ -22,7 +22,7 @@ const Modal: React.FC<Props> = ({
 	handleModalClose,
 	handleSubmit,
 	removeSubmitButton = false,
-	title = '알림',
+	title,
 	submitBtnName = '저장',
 	closeBtnName = '닫기',
 }) => {
@@ -33,6 +33,7 @@ const Modal: React.FC<Props> = ({
 			<Background onClick={handleModalClose} />
 			{theme === MODAL_THEME.PRIMARY && (
 				<PrimaryModal
+					title={title}
 					handleModalClose={handleModalClose}
 					handleSubmit={handleSubmit}
 					removeSubmitButton={removeSubmitButton}

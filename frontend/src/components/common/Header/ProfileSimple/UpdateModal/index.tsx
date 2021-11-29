@@ -9,8 +9,9 @@ import { updateName } from '@apis/user';
 import { nameRegExp } from '@utils/regexs';
 
 import Modal from '@components/common/Modal';
+import { Input } from '@components/common/Modal/style';
 
-import { Container, Input, Title, InputContainer } from './style';
+import { Container, InputContainer } from './style';
 
 export interface Props {
 	handleModalClose: () => void;
@@ -39,9 +40,13 @@ const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 		}
 	};
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
+		<Modal
+			title='사용자 이름 변경'
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+		>
 			<Container>
-				<Title>사용자 이름 변경</Title>
 				<InputContainer>
 					<FaPencilAlt />
 					<Input placeholder='2-20자 사이의 영문자, 숫자' value={name} onChange={handleInput} />

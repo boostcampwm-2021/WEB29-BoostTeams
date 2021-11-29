@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { teamInfoLoadTrigger, teamInfoSelector } from '@stores/team';
-import Modal from '@components/common/Modal';
 import { update } from '@apis/team';
-import { InputContainer, Input, Title, Textarea } from '../style';
+import Modal from '@components/common/Modal';
+import { Input, Textarea } from '@components/common/Modal/style';
+import { InputContainer } from '../style';
 
 export interface Props {
 	handleModalClose: () => void;
@@ -28,13 +29,13 @@ const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 
 	return (
 		<Modal
+			title='팀 수정'
 			handleModalClose={handleModalClose}
 			handleSubmit={handleSubmit}
 			removeSubmitButton={false}
 			submitBtnName='수정'
 		>
 			<InputContainer>
-				<Title>팀 수정</Title>
 				<Input onChange={onTitleInput} value={updateTitle} placeholder='팀 이름을 입력하세요' />
 				<Textarea onChange={onDescInput} value={updateDesc} placeholder='세부정보를 입력하세요' />
 			</InputContainer>

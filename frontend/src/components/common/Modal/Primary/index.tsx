@@ -1,10 +1,10 @@
 import React from 'react';
 import { ColorCode } from '@utils/constants';
-import { Container, ButtonContainer } from './style';
+import { Container, ButtonContainer, Title } from './style';
 import Button from '../../Button';
 
 export interface Props {
-	children: React.ReactNode;
+	title: string | undefined;
 	handleModalClose: () => void;
 	handleSubmit: () => void;
 	removeSubmitButton: boolean;
@@ -14,6 +14,7 @@ export interface Props {
 
 const PrimaryModal: React.FC<Props> = ({
 	children,
+	title,
 	handleModalClose,
 	handleSubmit,
 	removeSubmitButton = false,
@@ -22,6 +23,7 @@ const PrimaryModal: React.FC<Props> = ({
 }) => {
 	return (
 		<Container>
+			{title && <Title>{title}</Title>}
 			{children}
 			<ButtonContainer>
 				{!removeSubmitButton && (

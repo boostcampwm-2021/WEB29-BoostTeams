@@ -4,8 +4,7 @@ import { ColorCode } from '@utils/constants';
 import { Container, ButtonContainer, Title } from './style';
 
 export interface Props {
-	children: React.ReactNode;
-	title: string;
+	title: string | undefined;
 	handleModalClose: () => void;
 	handleSubmit: () => void;
 	removeSubmitButton: boolean;
@@ -15,7 +14,7 @@ export interface Props {
 
 const SecondaryModal: React.FC<Props> = ({
 	children,
-	title,
+	title = '알림',
 	handleModalClose,
 	handleSubmit,
 	removeSubmitButton = false,
