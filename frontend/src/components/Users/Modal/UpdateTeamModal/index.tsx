@@ -3,9 +3,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { teamInfoLoadTrigger, teamInfoSelector } from '@stores/team';
 import Modal from '@components/common/Modal';
 import { update } from '@apis/team';
-import { UpdateModalContent, Input } from '../style';
+import { InputContainer, Input, Title, Textarea } from '../style';
 
-interface Props {
+export interface Props {
 	handleModalClose: () => void;
 	teamId: number;
 }
@@ -24,16 +24,20 @@ const UpdateTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	};
 
 	const onTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => setUpdateTitle(e.currentTarget.value);
-	const onDescInput = (e: React.ChangeEvent<HTMLInputElement>) => setUpdateDesc(e.currentTarget.value);
+	const onDescInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => setUpdateDesc(e.currentTarget.value);
 
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<UpdateModalContent>
-				<span>팀 이름</span>
+		<Modal
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			submitBtnName='수정'
+		>
+			<InputContainer>
+				<Title>팀 수정</Title>
 				<Input onChange={onTitleInput} value={updateTitle} placeholder='팀 이름을 입력하세요' />
-				<span>세부정보</span>
-				<Input onChange={onDescInput} value={updateDesc} placeholder='세부정보를 입력하세요' />
-			</UpdateModalContent>
+				<Textarea onChange={onDescInput} value={updateDesc} placeholder='세부정보를 입력하세요' />
+			</InputContainer>
 		</Modal>
 	);
 };
