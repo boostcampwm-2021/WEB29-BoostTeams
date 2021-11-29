@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
+import { ScheduleType, ScheduleReqType, ScheduleModalType } from '@src/types/calendar';
 import { ModalMode, ModalSchedule } from '@stores/calendar';
-
-import ColorPicker from '@components/common/ColorPicker';
-import DropDown from '@components/common/DropDown';
-import Modal from '@components/common/Modal';
-
-import { createNewSchedule, deleteSchedule, ScheduleReqType, updateSchedule } from '@apis/schedule';
-import { dateToFormatString, isNum } from '@utils/calendar';
+import { createNewSchedule, deleteSchedule, updateSchedule } from '@apis/schedule';
 import { PrimaryPalette } from '@utils/constants';
-import { ColorCircle } from '@components/common/ColorPicker/style';
+import { dateToFormatString, isNum } from '@utils/calendar';
 
+import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
+import { ColorCircle } from '@components/common/ColorPicker/style';
+import { ColorPicker, DropDown, Modal } from '@components/common';
 import TimeInput from './TimeInput';
-import { ScheduleType } from '../dataStructure';
 import { FormContainer, TitleContainer, ButtonContainer } from './style';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -38,7 +33,7 @@ const CalendarModal: React.FC<Props> = ({
 }) => {
 	const repeatOptions: string[] = ['반복안함', '매일반복', '매주반복', '매월반복'];
 
-	const scheduleId = useRecoilValue(ModalSchedule).schedule_id;
+	const { scheduleId } = useRecoilValue(ModalSchedule);
 	const modalSchedule = useRecoilValue(ModalSchedule);
 	const [modalMode, setModalMode] = useRecoilState(ModalMode);
 
@@ -127,33 +122,19 @@ const CalendarModal: React.FC<Props> = ({
 		}
 	};
 
-	const setScheduleState = ({
-		title,
-		color,
-		repeat_option,
-		start_date,
-		end_date,
-		content,
-	}: {
-		title: string;
-		color: number;
-		repeat_option: number;
-		start_date: string;
-		end_date: string;
-		content: string;
-	}) => {
+	const setScheduleState = ({ title, color, repeatOption, startDate, endDate, content }: ScheduleModalType) => {
 		setSelectedColor(color);
-		setSelectedRepeat(repeat_option);
-		setSelectedDate(new Date(start_date));
-		setSelectedStartTime(new Date(start_date));
-		setSelectedEndTime(new Date(end_date));
+		setSelectedRepeat(repeatOption);
+		setSelectedDate(new Date(startDate));
+		setSelectedStartTime(new Date(startDate));
+		setSelectedEndTime(new Date(endDate));
 		setDefaultTitle(title);
 		setDefaultContent(content);
 	};
 
 	useEffect(() => {
-		const { title, color, repeat_option, start_date, end_date, content } = modalSchedule;
-		setScheduleState({ title, color, repeat_option, start_date, end_date, content });
+		const { title, color, repeatOption, startDate, endDate, content } = modalSchedule;
+		setScheduleState({ title, color, repeatOption, startDate, endDate, content });
 	}, [modalMode, modalSchedule]);
 
 	return (

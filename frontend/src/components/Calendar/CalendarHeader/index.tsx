@@ -1,12 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
-import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
+
 import { ModalMode, ModalSchedule } from '@stores/calendar';
 import { ColorCode } from '@utils/constants';
-import NewAppointmentBtn from '@components/common/Button';
+import { DateInfoType, weekContentNumber } from '@src/types/calendar';
 
-import { DateInfoType, weekContentNumber } from '../dataStructure';
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
+import NewAppointmentBtn from '@components/common/Button';
 import { Container, InfoContainer, TodayBtn, ConvertBtn, ConvertBtnContainer, ButtonContainer } from './style';
 
 interface Props {
@@ -55,8 +56,8 @@ const CalendarHeader: React.FC<Props> = ({
 				<div>
 					{!isMonthly && dateInfo.isDoubleMonth ? (
 						<span>
-							{dateInfo.weeklyStartDate.getFullYear()}년 {dateInfo.weeklyStartDate.getMonth() + 1}월 -{' '}
-							{nextDateInfo().year}년 {nextDateInfo().month + 1}월
+							{`${dateInfo.weeklyStartDate.getFullYear()}년 ${dateInfo.weeklyStartDate.getMonth() + 1}월 - 
+							${nextDateInfo().year}년 ${nextDateInfo().month + 1}월`}
 						</span>
 					) : (
 						<span>

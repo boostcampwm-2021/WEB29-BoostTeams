@@ -2,7 +2,7 @@ import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { ModalMode, ModalSchedule } from '@stores/calendar';
-import { ScheduleType } from '@components/Calendar/dataStructure';
+import { ScheduleType } from '@src/types/calendar';
 import { PrimaryPalette, SecondaryPalette } from '@utils/constants';
 import { Container } from './style';
 

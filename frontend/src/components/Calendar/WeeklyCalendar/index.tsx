@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container } from './style';
+import { DateInfoType, ScheduleType } from '@src/types/calendar';
 import WeekHeader from './WeekHeader';
 import WeekContent from './WeekContent';
-import { DateInfoType, ScheduleType } from '../dataStructure';
+import { Container } from './style';
 
 interface Props {
 	dateInfo: DateInfoType;

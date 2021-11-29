@@ -1,6 +1,6 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { DateInfoType, ScheduleType, weekContentNumber } from '@components/Calendar/dataStructure';
+import { DateInfoType, ScheduleType, weekContentNumber } from '@src/types/calendar';
 import Week from './Week';
 import { ContentContainer } from './style';
 
