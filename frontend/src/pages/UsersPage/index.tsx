@@ -20,10 +20,10 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 			socketRef.current.on('online users', (data: { onlineUsers: UserIdType[] }) => {
 				setOnlineUsers(data.onlineUsers);
 			});
-			socketRef.current.emit('enter users room');
+			socketRef.current.emit('enter users page');
 		}
 		return () => {
-			socketRef.current.emit('leave users room');
+			socketRef.current.emit('leave users page');
 			socketRef.current.off('online users');
 		};
 	}, [socketRef.current]);

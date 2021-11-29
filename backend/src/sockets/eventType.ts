@@ -20,8 +20,8 @@ const boardEvents = {
 
 const teamEvents = {
 	ONLINE_USER: 'online users',
-	ENTER_USERS_ROOM: 'enter users room',
-	LEAVE_USERS_ROOM: 'leave users room',
+	ENTER_USERS_PAGE: 'enter users page',
+	LEAVE_USERS_PAGE: 'leave users page',
 	CHANGE_STATUS_TO_ONLINE: 'change status to online',
 	DISCONNECT: 'disconnect'
 };
