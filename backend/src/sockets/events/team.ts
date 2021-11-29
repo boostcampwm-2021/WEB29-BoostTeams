@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
-import { onlineUsersByTeam, onlineUsersInfo } from './store';
-import { teamEvents } from './eventType';
+import { onlineUsersByTeam, onlineUsersInfo } from '../store';
+import { teamEvents } from '../eventType';
 
 interface UserType {
 	userId: number;
