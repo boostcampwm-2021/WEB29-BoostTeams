@@ -16,4 +16,6 @@ router.get('/github/callback', passport.authenticate('github'), UserController.g
 
 router.get('/info', authenticateToken, getUserInfo, UserController.getUser);
 
+router.post('/refresh-token', UserController.refreshToken);
+
 export default router;

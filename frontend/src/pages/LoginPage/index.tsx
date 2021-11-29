@@ -18,14 +18,16 @@ const LoginPage: React.FC = () => {
 	};
 	const localLoginHandler = () => {
 		login({ userEmail: email, userPassword: pw }, () => {
-			localStorage.setItem('JWT', getCookie('JWT'));
+			localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
+			localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
 			history.push('/team');
 			toast.success('😃 로그인 성공');
 		});
 	};
 	useEffect(() => {
-		if (getCookie('JWT')) {
-			localStorage.setItem('JWT', getCookie('JWT'));
+		if (getCookie('ACCESS_TOKEN')) {
+			localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
+			localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
 			history.push('/team');
 			toast.success('😎 Github 로그인 성공');
 		}

@@ -61,6 +61,10 @@ class UserService {
 		return await this.userRepository.update({ user_id }, { github_id, github_name });
 	}
 
+	async setRefreshToken(user_id: number, refreshToken: string) {
+		return await this.userRepository.update({ user_id }, { refresh_token: refreshToken });
+	}
+
 	async getUserByEmail(user_email: string) {
 		const user = await this.userRepository.findOne({
 			where: { user_email }
