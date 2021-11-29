@@ -1,41 +1,59 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { ColorCode } from '@utils/constants';
-import { Background, Container, ButtonContainer } from './style';
-import Button from '../Button';
+import { MODAL_THEME } from '@utils/constants';
+import { Background } from './style';
+import PrimaryModal from './Primary';
+import SecondaryModal from './Secondary';
 
-interface Props {
+export interface Props {
+	theme?: string;
 	children: React.ReactNode;
 	handleModalClose: () => void;
 	handleSubmit: () => void;
 	removeSubmitButton: boolean;
+	title?: string;
+	submitBtnName?: string;
+	closeBtnName?: string;
 }
 
-const Modal: React.FC<Props> = ({ children, handleModalClose, handleSubmit, removeSubmitButton = false }) => {
+const Modal: React.FC<Props> = ({
+	theme = MODAL_THEME.PRIMARY,
+	children,
+	handleModalClose,
+	handleSubmit,
+	removeSubmitButton = false,
+	title = '알림',
+	submitBtnName = '저장',
+	closeBtnName = '닫기',
+}) => {
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const MODAL: Element = document.getElementById('modal')!;
 	return createPortal(
 		<>
 			<Background onClick={handleModalClose} />
-			<Container>
-				{children}
-				<ButtonContainer>
-					{!removeSubmitButton && (
-						<Button
-							text='저장'
-							handler={handleSubmit}
-							backgroundColor={ColorCode.PRIMARY1}
-							fontColor={ColorCode.WHITE}
-						/>
-					)}
-					<Button
-						text='닫기'
-						handler={handleModalClose}
-						backgroundColor={ColorCode.WHITE}
-						fontColor={ColorCode.BLACK}
-					/>
-				</ButtonContainer>
-			</Container>
+			{theme === MODAL_THEME.PRIMARY && (
+				<PrimaryModal
+					handleModalClose={handleModalClose}
+					handleSubmit={handleSubmit}
+					removeSubmitButton={removeSubmitButton}
+					submitBtnName={submitBtnName}
+					closeBtnName={closeBtnName}
+				>
+					{children}
+				</PrimaryModal>
+			)}
+			{theme === MODAL_THEME.SECONDARY && (
+				<SecondaryModal
+					title={title}
+					handleModalClose={handleModalClose}
+					handleSubmit={handleSubmit}
+					removeSubmitButton={removeSubmitButton}
+					submitBtnName={submitBtnName}
+					closeBtnName={closeBtnName}
+				>
+					{children}
+				</SecondaryModal>
+			)}
 		</>,
 		MODAL,
 	);
