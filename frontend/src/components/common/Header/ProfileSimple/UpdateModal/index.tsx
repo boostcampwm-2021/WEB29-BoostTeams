@@ -12,9 +12,9 @@ import Modal from '@components/common/Modal';
 
 import { Container, Input, Title, InputContainer } from './style';
 
-type Props = {
+export interface Props {
 	handleModalClose: () => void;
-};
+}
 
 const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 	const [name, setName] = useState('');
