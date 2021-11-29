@@ -11,7 +11,7 @@ export interface Props {
 	handleModalClose: () => void;
 	handleSubmit: () => void;
 	removeSubmitButton: boolean;
-	title: string | undefined;
+	title?: string | undefined;
 	submitBtnName?: string;
 	closeBtnName?: string;
 }

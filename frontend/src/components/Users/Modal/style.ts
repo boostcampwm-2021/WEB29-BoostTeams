@@ -12,5 +12,4 @@ export const InputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
-	padding: 0 0 2rem 0;
 `;
