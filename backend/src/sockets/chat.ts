@@ -28,7 +28,7 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 	socket.on(chatEvents.ENTER_CHAT_ROOM, async ({ chatRoomId }) => {
 		const { chat_room_users } = await ChatRoomService.getInstance().getChatRoomUsers(chatRoomId);
 		const userList = userListSnakeToCamel(chat_room_users);
-		const messageList = await redisClient.get('message', chatRoomId);
+		const messageList = await redisClient.read('message', chatRoomId);
 		socket.emit(chatEvents.RECEIVE_CHAT_ROOM_INFO, { chatRoomId, userList, messageList });
 	});
 
@@ -75,17 +75,17 @@ const initChat = (socket: Socket, namespace: Namespace) => {
 
 	const saveMessage = async (messageData: MessageReqType, chatRoomId: number) => {
 		const newMessage = await makeMessageObj(messageData);
-		await redisClient.set('message', chatRoomId.toString(), newMessage);
+		await redisClient.create('message', chatRoomId, newMessage);
 		return newMessage;
 	};
 	const getLastMessage = async (chatRoomId: number) => {
-		const messageList: any = await redisClient.get('message', chatRoomId.toString());
+		const messageList: any = await redisClient.read('message', chatRoomId);
 		return messageList[messageList.length - 1];
 	};
 };
 
 const makeMessageObj = async (messageData: MessageReqType) => {
-	const id = await Redis.getNextId('message');
+	const id = Number(await Redis.getIndex());
 	return {
 		messageId: id,
 		content: messageData.content,

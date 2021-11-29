@@ -17,74 +17,92 @@ export default class Redis {
 		}
 		return Redis.instance;
 	}
-
-	get(key: string, field: string) {
+	read(key: string, arrayId: number, dataId = undefined) {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, async (err, searchResult) => {
-				if (err) return reject(err);
-				if (searchResult === null) {
-					Redis.client.hset(key, field, JSON.stringify([]));
-					const previousIndex = await Redis.getNextId(key);
-					if (!previousIndex) Redis.client.hset(key, 'nextId', '0');
-					return resolve([]);
-				} else {
-					return resolve(JSON.parse(searchResult));
-				}
-			});
-		});
-	}
-
-	set(key: string, field: string, value: any) {
-		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, async (err, searchResult) => {
-				if (err) return reject(err);
-				if (searchResult === null) {
-					Redis.client.hset(key, field, JSON.stringify([value]));
-					return resolve(value);
-				}
-
-				const storedDataList = JSON.parse(searchResult);
-				const oldDataIdx = storedDataList.findIndex((data) => Number(data.id) === Number(value.id));
-				// update
-				if (oldDataIdx !== -1) {
-					const updatedData = { ...storedDataList[oldDataIdx], ...value };
-					storedDataList.splice(oldDataIdx, 1, updatedData);
-					Redis.client.hset(key, field, JSON.stringify(storedDataList));
-					return resolve(updatedData);
-				}
-				// create
+			Redis.client.lrange(`${key}-${arrayId}`, 0, -1, (error, array) => {
+				if (error) return reject(error);
 				else {
-					Redis.client.hset(key, field, JSON.stringify([...storedDataList, value]));
-					await Redis.setNextId(key);
-					return resolve(value);
+					const parsedArray = array.map((data) => JSON.parse(data));
+					if (dataId) return resolve(parsedArray.find((data) => Number(data.id) === Number(dataId)));
+					else return resolve(parsedArray);
 				}
 			});
 		});
 	}
 
-	delete(key: string, field: string, targetId: number) {
+	readLast(key: string, arrayId: number) {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (err, searchResult) => {
-				if (err) return reject(err);
-				const storedDataList = JSON.parse(searchResult);
-				const updatedDataList = storedDataList.filter((data) => Number(data.id) !== Number(targetId));
-				Redis.client.hset(key, field, JSON.stringify(updatedDataList));
-				return resolve(updatedDataList);
+			Redis.client.rpop(`${key}-${arrayId}`, (error, data) => {
+				if (error) return reject(error);
+				else {
+					Redis.client.rpush(`${key}-${arrayId}`, data, () => {
+						return resolve(JSON.parse(data));
+					});
+				}
 			});
 		});
 	}
 
-	static getNextId(key: string, field = 'nextId') {
-		return new Promise<number>((resolve) => {
-			Redis.client.hget(key, field, (err, nextId) => resolve(Number(nextId)));
+	create(key: string, arrayId: number, data: any) {
+		return new Promise(async (resolve, reject) => {
+			await Redis.increaseIndex();
+			Redis.client.rpush(`${key}-${arrayId}`, JSON.stringify(data), (error) => {
+				if (error) return reject(error);
+				else return resolve(true);
+			});
 		});
 	}
 
-	static async setNextId(key: string, field = 'nextId') {
-		const presentId = await Redis.getNextId(key);
-		return new Promise((resolve) => {
-			Redis.client.hset(key, field, String(presentId + 1));
-			return resolve(null);
+	update(key: string, arrayId: number, newData: any) {
+		return new Promise(async (resolve, reject) => {
+			const dataArray = await this.read(key, arrayId);
+			if (!dataArray || !Array.isArray(dataArray)) return reject(new Error());
+			const targetData = dataArray.find((data) => Number(data.id) === Number(newData.id));
+			const updatedData = { ...targetData, ...newData };
+			try {
+				await this.create(key, arrayId, updatedData);
+				await this.remove(key, arrayId, newData.id);
+				return resolve(updatedData);
+			} catch (err) {
+				return reject(err);
+			}
+		});
+	}
+
+	remove(key: string, arrayId: number, dataId = undefined) {
+		return new Promise(async (resolve, reject) => {
+			const targetData = await this.read(key, arrayId, dataId);
+			Redis.client.lrem(`${key}-${arrayId}`, 1, JSON.stringify(targetData), async (removeError) => {
+				if (removeError) return reject(removeError);
+				else {
+					const updatedList = await this.read(key, arrayId);
+					if (updatedList) return resolve(updatedList);
+					else return reject(removeError);
+				}
+			});
+		});
+	}
+
+	static getIndex() {
+		return new Promise((resolve, reject) => {
+			Redis.client.get('index', (error, index) => {
+				if (error) return reject(error);
+				else return resolve(index);
+			});
+		});
+	}
+
+	static increaseIndex() {
+		return new Promise((resolve, reject) => {
+			Redis.client.get('index', (error, index) => {
+				if (error) return reject(error);
+				else {
+					Redis.client.set('index', String(Number(index) + 1), (error) => {
+						if (error) return reject(error);
+						else return resolve(true);
+					});
+				}
+			});
 		});
 	}
 }
