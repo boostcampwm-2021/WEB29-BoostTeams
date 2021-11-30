@@ -3,18 +3,18 @@ import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { teamListLoadTrigger } from '@stores/team';
 import { handleDeleteBtn } from '@utils/team';
+import { MODAL_THEME } from '@utils/constants';
 import Modal from '@components/common/Modal';
-import { Content } from '../style';
+import { Container } from '../style';
 
-interface Props {
+export interface Props {
 	handleModalClose: () => void;
 	teamId: number;
 }
 
-const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
+const DeleteTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	const setLoadTrigger = useSetRecoilState(teamListLoadTrigger);
 	const history = useHistory();
-
 	const handleSubmit = () => {
 		handleDeleteBtn(setLoadTrigger, teamId);
 		handleModalClose();
@@ -22,10 +22,18 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 	};
 
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<Content>정말 삭제하시겠습니까?</Content>
+		<Modal
+			theme={MODAL_THEME.NOTIFICATION}
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			title='경고'
+			submitBtnName='확인'
+			closeBtnName='취소'
+		>
+			<Container>정말 삭제하시겠습니까?</Container>
 		</Modal>
 	);
 };
 
-export default ExitTeamModal;
+export default DeleteTeamModal;

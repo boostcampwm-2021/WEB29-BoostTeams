@@ -12,6 +12,7 @@ export const Input = styled.input`
 export const Textarea = styled.textarea`
 	font-size: 1rem;
 	font-family: Noto Sans KR;
+	resize: none;
 	min-height: 12rem;
 	max-height: 12rem;
 	min-width: 100%;

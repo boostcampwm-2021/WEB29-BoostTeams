@@ -3,12 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { teamListLoadTrigger } from '@stores/team';
 import Modal from '@components/common/Modal';
-import { leaveTeam } from '@apis/team';
-import { readTeamUsers } from '@apis/team';
+import { leaveTeam, readTeamUsers } from '@apis/team';
 import { handleDeleteBtn } from '@utils/team';
-import { Content } from '../style';
+import { MODAL_THEME } from '@utils/constants';
+import { Container } from '../style';
 
-interface Props {
+export interface Props {
 	handleModalClose: () => void;
 	teamId: number;
 }
@@ -23,9 +23,18 @@ const ExitTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 		handleModalClose();
 		history.push('/');
 	};
+
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<Content>정말 탈퇴하시겠습니까?</Content>
+		<Modal
+			theme={MODAL_THEME.NOTIFICATION}
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			title='경고'
+			submitBtnName='확인'
+			closeBtnName='취소'
+		>
+			<Container>정말 탈퇴하시겠습니까?</Container>
 		</Modal>
 	);
 };

@@ -1,4 +1,4 @@
-import { ColorCode, Font } from '@src/utils/constants';
+import { ColorCode, Font } from '@utils/constants';
 import styled, { keyframes } from 'styled-components';
 
 const floatAnimation = keyframes`
