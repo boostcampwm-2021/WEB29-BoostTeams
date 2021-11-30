@@ -1,5 +1,5 @@
-import { ColorCode, Font } from '@src/utils/constants';
 import styled from 'styled-components';
+import { ColorCode, Font } from '@utils/constants';
 
 export const InputContainer = styled.div`
 	width: 100%;

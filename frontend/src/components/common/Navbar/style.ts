@@ -7,6 +7,7 @@ export const Container = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	width: ${NAVBAR.WIDTH}px;
+	height: 100%;
 	background-color: ${ColorCode.LINE1};
 	overflow-y: hidden;
 `;

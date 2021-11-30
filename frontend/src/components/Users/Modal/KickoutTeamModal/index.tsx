@@ -1,12 +1,12 @@
 import React from 'react';
 import Modal from '@components/common/Modal';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectedUser, teamUsersTrigger } from '@stores/team';
 import { kickOut } from '@apis/team';
-import { useRecoilValue } from 'recoil';
-import { Content } from '../style';
+import { MODAL_THEME } from '@utils/constants';
+import { Container } from '../style';
 
-interface Props {
+export interface Props {
 	handleModalClose: () => void;
 	teamId: number;
 }
@@ -18,9 +18,18 @@ const KickoutTeamModal: React.FC<Props> = ({ handleModalClose, teamId }) => {
 		handleModalClose();
 		await kickOut(setTeamUsersTrigger, id, teamId);
 	};
+
 	return (
-		<Modal handleModalClose={handleModalClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
-			<Content>정말 강퇴하시겠습니까?</Content>
+		<Modal
+			theme={MODAL_THEME.NOTIFICATION}
+			handleModalClose={handleModalClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			title='경고'
+			submitBtnName='확인'
+			closeBtnName='취소'
+		>
+			<Container>정말 강퇴하시겠습니까?</Container>
 		</Modal>
 	);
 };

@@ -7,33 +7,28 @@ export const Background = styled.div`
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background-color: transparent;
-`;
-
-export const Container = styled.div`
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 30rem;
-	background-color: ${ColorCode.WHITE};
-	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	border-radius: 8px;
 	z-index: 25;
-	padding: 4rem 2rem 2rem 2rem;
-	box-sizing: border-box;
-	input {
-		border: none;
-		&:focus {
-			outline: none;
-		}
-	}
+	background-color: rgba(0, 0, 0, 0.2);
 `;
 
-export const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: right;
-	button {
-		margin-left: 1rem;
-	}
+export const Input = styled.input`
+	line-height: 1.5rem;
+	font-size: 0.9rem;
+	width: calc(100% - 1rem);
+	border-radius: 5px;
+	background-color: ${ColorCode.BACKGROUND1};
+	padding: 0.5rem;
+`;
+
+export const Textarea = styled.textarea`
+	font-size: 0.9rem;
+	width: calc(100% - 1rem);
+	resize: none;
+	height: 3rem;
+	font-family: 'Noto Sans KR', 'Noto Sans';
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	background-color: ${ColorCode.BACKGROUND1};
+	padding: 0.5rem;
 `;

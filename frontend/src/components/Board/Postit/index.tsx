@@ -2,7 +2,7 @@ import React from 'react';
 import useImage from 'use-image';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Image, Text } from 'react-konva';
-import { ColorCode, POSTIT, PrimaryPalette, REM } from '@src/utils/constants';
+import { ColorCode, POSTIT, PrimaryPalette, REM } from '@utils/constants';
 import { IPostit, ISocketApi } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 

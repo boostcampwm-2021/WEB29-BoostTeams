@@ -22,7 +22,7 @@ export const ModalContainer = styled.div`
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 	background-color: ${ColorCode.WHITE};
 	border-radius: 8px;
-	z-index: 25;
+	z-index: 20;
 	padding: 2rem 0rem 0rem 0rem;
 	animation: ${dropAnimation} 0.5s ease-in-out 1;
 `;

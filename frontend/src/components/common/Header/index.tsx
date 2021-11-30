@@ -11,6 +11,7 @@ const Header: React.FC = () => {
 	const user = useRecoilValue(userState);
 	const [showProfileSimple, setShowProfileSimple] = useState(false);
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [showSignOutModal, setShowSignOutModal] = useState(false);
 	const handleModalClose = () => {
 		setShowProfileSimple(false);
 		setShowUpdateModal(false);
@@ -37,7 +38,9 @@ const Header: React.FC = () => {
 					status='none'
 					handleModalClose={handleModalClose}
 					showUpdateModal={showUpdateModal}
+					showSignOutModal={showSignOutModal}
 					setShowUpdateModal={setShowUpdateModal}
+					setShowSignOutModal={setShowSignOutModal}
 				/>
 			)}
 		</Container>
