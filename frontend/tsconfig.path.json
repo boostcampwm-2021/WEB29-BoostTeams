@@ -11,7 +11,9 @@
 			"@styles/*": ["src/styles/*"],
 			"@templates/*": ["src/templates/*"],
 			"@types/*": ["src/types/*"],
-			"@utils/*": ["src/utils/*"]
+			"@utils/*": ["src/utils/*"],
+			"@images/*": ["src/assets/images/*"],
+			"@fonts/*": ["src/assets/fonts/*"]
 		}
 	}
 }

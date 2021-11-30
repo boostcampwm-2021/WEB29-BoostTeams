@@ -20,6 +20,8 @@ module.exports = {
     config.resolve.alias['@styles'] = path.resolve(__dirname, '../src/styles/');
     config.resolve.alias['@templates'] = path.resolve(__dirname, '../src/templates/');
     config.resolve.alias['@utils'] = path.resolve(__dirname, '../src/utils/');
+    config.resolve.alias['@images'] = path.resolve(__dirname, '../src/assets/images/');
+    config.resolve.alias['@fonts'] = path.resolve(__dirname, '../src/assets/fonts/');
     return config;
   }
 }

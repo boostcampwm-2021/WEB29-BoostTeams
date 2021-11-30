@@ -40,6 +40,8 @@ module.exports = {
 					['@styles', '.src/styles'],
 					['@templates', '.src/templates'],
 					['@utils', '.src/utils'],
+					['@images/*', 'src/assets/images/*'],
+					['@fonts/*', 'src/assets/fonts/*'],
 				],
 			},
 		},
