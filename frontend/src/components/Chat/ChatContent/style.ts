@@ -1,4 +1,4 @@
-import { ColorCode } from '@src/utils/constants';
+import { ColorCode } from '@utils/constants';
 import styled from 'styled-components';
 
 export const Container = styled.div`

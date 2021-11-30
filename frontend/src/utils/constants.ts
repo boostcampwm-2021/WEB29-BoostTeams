@@ -60,22 +60,6 @@ const TeamCard = {
 	HEIGHT: '15rem',
 };
 
-const PostIt = {
-	Length: {
-		Width: 250,
-		Height: 250,
-	},
-	Position: {
-		CONTENT: {
-			Y: 15,
-		},
-		FOOTER: {
-			X: 120,
-			Y: 235,
-		},
-	},
-};
-
 const REM = 16; // TODO: 반응형 (style과 별도로 적용)
 
 // const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -109,5 +93,10 @@ const Role: RoleType = {
 
 const RoleArr = ['관리자', '구성원'];
 
-export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, PostIt, Role, RoleArr };
-export { REM, NAVBAR, HEADER, CANVAS, POSTIT };
+const MODAL_THEME = {
+	FORM: 'form',
+	NOTIFICATION: 'notification',
+};
+
+export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, Role, RoleArr };
+export { REM, NAVBAR, HEADER, CANVAS, POSTIT, MODAL_THEME };

@@ -1,11 +1,7 @@
 import React from 'react';
 import { Container } from './style';
 
-interface Props {
-	children: React.ReactNode;
-}
-
-const Sidebar: React.FC<Props> = ({ children }) => {
+const Sidebar: React.FC = ({ children }) => {
 	return <Container>{children}</Container>;
 };
 

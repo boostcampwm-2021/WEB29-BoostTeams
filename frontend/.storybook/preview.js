@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { ToastContainer } from 'react-toastify';
 import GlobalStyle from '../src/styles/global';
@@ -19,7 +20,9 @@ export const decorators = [
     <Suspense fallback={<LoadingPage />}>
       <GlobalStyle />
 			<RecoilRoot>
-				<Story />
+        <MemoryRouter>
+          <Story />
+        </MemoryRouter>
 			</RecoilRoot>
 			<ToastContainer />
 		</Suspense>

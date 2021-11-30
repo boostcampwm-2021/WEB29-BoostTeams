@@ -6,7 +6,7 @@ import ColorPicker from '@components/common/ColorPicker';
 import { IPostit, ISocketApi } from '@src/types/board';
 import { Container, Input, Textarea, TitleContainer } from './style';
 
-interface Props {
+export interface Props {
 	socketApi: ISocketApi;
 	modalType: string;
 	clickedPostit: IPostit | undefined;
@@ -64,7 +64,12 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 	}, []);
 
 	return (
-		<Modal handleModalClose={handleClose} handleSubmit={handleSubmit} removeSubmitButton={false}>
+		<Modal
+			handleModalClose={handleClose}
+			handleSubmit={handleSubmit}
+			removeSubmitButton={false}
+			submitBtnName={modalType === 'create' ? '생성' : '수정'}
+		>
 			<Container>
 				<TitleContainer>
 					<ColorPicker selectedColor={color} setSelectedColor={setColor} />

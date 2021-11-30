@@ -1,5 +1,5 @@
-import { ColorCode } from '@src/utils/constants';
 import styled from 'styled-components';
+import { ColorCode } from '@utils/constants';
 
 export const MainContainer = styled.div`
 	position: absolute;
