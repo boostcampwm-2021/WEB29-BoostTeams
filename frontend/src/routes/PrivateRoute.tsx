@@ -36,7 +36,7 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 			},
 		);
 	useEffect(() => {
-		if (localStorage.getItem('ACCESS_TOKEN')) {
+		if (localStorage.getItem('ACCESS_TOKEN') && localStorage.getItem('ACCESS_TOKEN') !== undefined) {
 			checkUser();
 		} else {
 			resetToken();
