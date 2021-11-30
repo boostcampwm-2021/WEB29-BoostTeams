@@ -9,7 +9,8 @@ import ErrorPage from '@pages/ErrorPage';
 
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-import TeamRoute from './TeamRoute';
+
+const TeamRoute = React.lazy(() => import('./TeamRoute'));
 
 const Router: React.FC = () => {
 	return (
