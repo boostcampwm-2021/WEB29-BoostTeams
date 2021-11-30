@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { toast } from 'react-toastify';
 
 import { socketApi } from '@apis/chat';
 import userState from '@stores/user';
@@ -120,12 +121,16 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 					});
 				},
 			);
+			socketRef.current.on('chat error', (errorMessage: string) => {
+				toast.error(errorMessage);
+			});
 		}
 		return () => {
 			socketRef.current.off('receive chat rooms info');
 			socketRef.current.off('receive chat room info');
 			socketRef.current.off('invited to chat room');
 			socketRef.current.off('updated chat room name');
+			socketRef.current.off('chat error');
 		};
 	}, [socketRef.current, teamId]);
 
