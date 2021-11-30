@@ -20,8 +20,8 @@ const boardEvents = {
 
 const teamEvents = {
 	ONLINE_USER: 'online users',
-	ENTER_USERS_ROOM: 'enter users room',
-	LEAVE_USERS_ROOM: 'leave users room',
+	ENTER_USERS_PAGE: 'enter users page',
+	LEAVE_USERS_PAGE: 'leave users page',
 	CHANGE_STATUS_TO_ONLINE: 'change status to online',
 	DISCONNECT: 'disconnect'
 };
@@ -40,7 +40,19 @@ const chatEvents = {
 	LEFT_CHAT_ROOM: 'left chat room',
 	UPDATE_CHAT_ROOM_NAME: 'update chat room name',
 	UPDATED_CHAT_ROOM_NAME: 'updated chat room name',
-	INVITED_TO_CHAT_ROOM: 'invited to chat room'
+	INVITED_TO_CHAT_ROOM: 'invited to chat room',
+	ERROR: {
+		TYPE: 'chat error',
+		MESSAGES: {
+			LOAD: '채팅방 목록을 불러오는데 실패했습니다!',
+			ENTER: '채팅 목록을 불러오는데 실패했습니다!',
+			CREATE: '채팅방 생성에 실패했습니다!',
+			UPDATE: '채팅방 이름 변경에 실패했습니다!',
+			LEAVE: '채팅방 나가기에 실패했습니다!',
+			INVITE: '초대에 실패했습니다!',
+			SEND: '채팅 전송에 실패했습니다!'
+		}
+	}
 };
 
 export { boardEvents, teamEvents, chatEvents };

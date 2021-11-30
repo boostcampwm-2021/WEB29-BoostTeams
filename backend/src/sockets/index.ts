@@ -1,11 +1,12 @@
 import { Namespace, Socket } from 'socket.io';
-import initTeam from './team';
-import initTeamBoard from './teamBoard';
-import initChat from './chat';
+import initTeam from './events/team';
+import initBoard from './events/board';
+import initChat from './events/chat';
+
 const socketInit = (namespace: Namespace): void => {
 	namespace.on('connect', (socket: Socket) => {
 		initTeam(socket);
-		initTeamBoard(socket);
+		initBoard(socket);
 		initChat(socket, namespace);
 	});
 };
