@@ -25,7 +25,10 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
+    "typeRoots": [
+      "@src/types"
+    ]
   },
   "include": [
     "src",

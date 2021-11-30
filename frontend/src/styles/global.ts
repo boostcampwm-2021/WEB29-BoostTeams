@@ -1,47 +1,60 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import { ColorCode } from '@utils/constants';
+import NotoSansKR_B from '@fonts/NotoSansKR-Bold.woff';
+import NotoSansKR_L from '@fonts/NotoSansKR-Light.woff';
+import NotoSansKR_M from '@fonts/NotoSansKR-Medium.woff';
+import NotoSansKR_R from '@fonts/NotoSansKR-Regular.woff';
+import NotoSans_B from '@fonts/NotoSans-Bold.woff';
+import NotoSans_R from '@fonts/NotoSans-Regular.woff';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
   @font-face {
-    font-family: 'Noto Sans KR';
+    font-family: 'Noto_Sans_KR';
     font-weight: 300;
-    font-style: normal;
-    src: url('/public/fonts/NotoSansKR-Light.otf') format('opentype'),
+    src: local('Noto_Sans_KR'), url(${NotoSansKR_L}) format('woff');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Noto Sans KR';
+    font-family: 'Noto_Sans_KR';
     font-weight: 400;
-    font-style: normal;
-    src: url('/public/fonts/NotoSansKR-Regular.otf') format('opentype'),
+    src: local('Noto_Sans_KR'), url(${NotoSansKR_R}) format('woff');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Noto Sans KR';
+    font-family: 'Noto_Sans_KR';
     font-weight: 500;
-    font-style: normal;
-    src: url('/public/fonts/NotoSansKR-Medium.otf') format('opentype'),
+    src: local('Noto_Sans_KR'), url(${NotoSansKR_M}) format('woff');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Noto Sans KR';
+    font-family: 'Noto_Sans_KR';
     font-weight: 700;
-    font-style: normal;
-    src: url('/public/fonts/NotoSansKR-Bold.otf') format('opentype'),
+    src: local('Noto_Sans_KR'), url(${NotoSansKR_B}) format('woff');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Noto Sans';
+    font-family: 'Noto_Sans';
     font-weight: 400;
-    font-style: normal;
-    src: url('/public/fonts/NotoSans-Regular.otf') format('truetype'),
+    src: local('Noto_Sans'), url(${NotoSans_R}) format('woff');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Noto Sans';
+    font-family: 'Noto_Sans';
     font-weight: 700;
-    font-style: normal;
-    src: url('/public/fonts/NotoSans-Bold.otf') format('truetype'),
+    src: local('Noto_Sans'), url(${NotoSans_B}) format('woff');
+    font-display: swap;
   }
-  html {
-    font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
+  html,
+  body,
+  span,
+  div,
+  a,
+  input,
+  textarea,
+  button {
+    font-family: 'Noto_Sans_KR', 'Noto_Sans', sans-serif;
   }
   a {
     text-decoration: none;
