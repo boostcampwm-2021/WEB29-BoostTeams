@@ -18,14 +18,16 @@ const LoginPage: React.FC = () => {
 	};
 	const localLoginHandler = () => {
 		login({ userEmail: email, userPassword: pw }, () => {
-			localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
-			localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
-			history.push('/team');
-			toast.success('😃 로그인 성공');
+			if (getCookie('ACCESS_TOKEN') && getCookie('ACCESS_TOKEN') !== undefined) {
+				localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
+				localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
+				history.push('/team');
+				toast.success('😃 로그인 성공');
+			}
 		});
 	};
 	useEffect(() => {
-		if (getCookie('ACCESS_TOKEN')) {
+		if (getCookie('ACCESS_TOKEN') && getCookie('ACCESS_TOKEN') !== undefined) {
 			localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
 			localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
 			history.push('/team');

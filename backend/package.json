@@ -3,7 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
+		"start": "node --exec ts-node -r tsconfig-paths/register src/index.ts",
+		"start:dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
 		"lint": "eslint src",
 		"api-docs": "swagger-cli bundle src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
     	"prestart": "yarn run api-docs"
