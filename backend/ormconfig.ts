@@ -11,7 +11,7 @@ const ormconfig: ConnectionOptions = {
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_DATABASENAME,
 	synchronize: true,
-  logging: false,
+  	logging: false,
 	entities: ['src/entities/**/*.ts'],
 };
 

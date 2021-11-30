@@ -2,11 +2,16 @@ const baseUrl = process.env.REACT_APP_SERVER ?? 'http://localhost:4000';
 
 const header: HeadersInit = {
 	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem('JWT')}`,
+	authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
 };
 
 const getHeader = () => {
-	header.authorization = `Bearer ${localStorage.getItem('JWT')}`;
+	header.authorization = `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
+	return header;
+};
+
+const getRefreshHeader = () => {
+	header.authorization = `Bearer ${localStorage.getItem('REFRESH_TOKEN')}`;
 	return header;
 };
 
@@ -55,6 +60,14 @@ const fetchApi = {
 			credentials: 'include',
 			headers: getHeader(),
 			body: JSON.stringify(data),
+		}),
+
+	updateToken: () =>
+		fetch(`${baseUrl}${'/api/auth/refresh-token'}`, {
+			method: 'POST',
+			mode: 'cors',
+			credentials: 'include',
+			headers: getRefreshHeader(),
 		}),
 };
 

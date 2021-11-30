@@ -25,6 +25,9 @@ export class User {
 	@Column()
 	user_color: number;
 
+	@Column({ nullable: true })
+	refresh_token: string;
+
 	@OneToMany(() => TeamUser, (teamUser) => teamUser.user)
 	team_users: TeamUser[];
 

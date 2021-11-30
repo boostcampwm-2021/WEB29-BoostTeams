@@ -4,19 +4,17 @@ import jwt from 'jsonwebtoken';
 export const authenticateToken = (req: any, res: Response, next: NextFunction) => {
 	const requestHeader = req.headers['authorization'];
 	const accessToken = requestHeader && requestHeader.split(' ')[1];
-
 	if (!accessToken || accessToken === 'null' || accessToken === 'undefined') {
 		return res.status(401).send({ msg: 'undefined JWT' });
 	}
-
-	const user_id = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-
-	if (!user_id) {
+	try {
+		const user_id = JSON.parse(JSON.stringify(jwt.verify(accessToken, process.env.JWT_SECRET_KEY))).user_id;
+		req.user_id = Number(user_id);
+	next();
+	} catch (e) {
 		return res.status(401).send({ msg: 'invalid JWT' });
 	}
-
-	req.user_id = Number(user_id);
-	next();
 };
 
-export const createJWT = (user_id: number) => jwt.sign(`${user_id}`, process.env.JWT_SECRET_KEY);
+export const createJWT = (user_id: any) => jwt.sign({user_id}, process.env.JWT_SECRET_KEY, {expiresIn : '15m'});
+export const createRefreshJWT = (user_id: any) => jwt.sign({user_id}, process.env.JWT_REFRESH_KEY, {expiresIn : '1d'});

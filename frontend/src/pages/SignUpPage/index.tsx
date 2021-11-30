@@ -50,7 +50,8 @@ const SignUpPage: React.FC = () => {
 	const signUpHandler = () => {
 		if (checkName(name) && checkEmail(email) && checkPW(pw)) {
 			signUp({ userName: name, userEmail: email, userPassword: pw }, () => {
-				localStorage.setItem('JWT', getCookie('JWT'));
+				localStorage.setItem('ACCESS_TOKEN', getCookie('ACCESS_TOKEN'));
+				localStorage.setItem('REFRESH_TOKEN', getCookie('REFRESH_TOKEN'));
 				toast.success('😎 회원가입 성공');
 				history.push('/team');
 			});
