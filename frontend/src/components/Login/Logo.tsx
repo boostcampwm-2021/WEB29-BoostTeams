@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LogoImg from '@images/logo.png';
 
 const LogoWrapper = styled.div`
 	width: 4rem;
@@ -14,7 +15,7 @@ const Logo: React.FC = () => {
 	return (
 		<LogoWrapper>
 			<Link to='/'>
-				<img src='logo.png' alt='logo' />
+				<img src={LogoImg} alt='logo' />
 			</Link>
 		</LogoWrapper>
 	);
