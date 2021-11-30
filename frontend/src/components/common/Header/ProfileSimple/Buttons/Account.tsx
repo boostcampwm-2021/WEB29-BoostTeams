@@ -1,5 +1,5 @@
 import React from 'react';
-import { GrUserSettings } from 'react-icons/gr';
+import { FaCog } from 'react-icons/fa';
 import { Container } from './style';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 const AccountButton: React.FC<Props> = ({ onClick }) => {
 	return (
 		<Container onClick={onClick}>
-			<GrUserSettings />
+			<FaCog />
 			<span>계정 관리</span>
 		</Container>
 	);

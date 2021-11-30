@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiFillGithub } from 'react-icons/ai';
+import { FaGithub } from 'react-icons/fa';
 import { LinkContainer } from './style';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 const GithubBadge: React.FC<Props> = ({ github_id, github_name }) => {
 	return (
 		<LinkContainer href={`https://github.com/${github_id}`} target='_blank' rel='noopner noreferrer nofollow'>
-			<AiFillGithub />
+			<FaGithub />
 			<span>{github_name}</span>
 		</LinkContainer>
 	);

@@ -1,11 +1,11 @@
 import React from 'react';
-import { RiDeleteBin6Line } from 'react-icons/ri';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import { Container, Text } from './style';
 
 const DeleteArea: React.FC = () => {
 	return (
 		<Container>
-			<RiDeleteBin6Line />
+			<FaRegTrashAlt />
 			<Text />
 		</Container>
 	);

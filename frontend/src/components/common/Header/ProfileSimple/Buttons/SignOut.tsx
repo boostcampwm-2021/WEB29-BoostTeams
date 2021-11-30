@@ -1,5 +1,5 @@
 import React from 'react';
-import { GrLogout } from 'react-icons/gr';
+import { FaUserTimes } from 'react-icons/fa';
 import { Container } from './style';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 const SignOutButton: React.FC<Props> = ({ onClick }) => {
 	return (
 		<Container onClick={onClick}>
-			<GrLogout />
+			<FaUserTimes />
 			<span>탈퇴</span>
 		</Container>
 	);

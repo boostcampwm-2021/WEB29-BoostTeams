@@ -32,9 +32,9 @@ export const NewChatBtn = styled.button`
 	align-items: center;
 	justify-content: center;
 	svg {
-		width: 1.5rem;
-		height: 1.5rem;
-		color: ${ColorCode.FONT1};
+		width: 1.25rem;
+		height: 1.25rem;
+		color: ${ColorCode.LINE3};
 	}
 	:hover {
 		background-color: ${ColorCode.WHITE};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineMail } from 'react-icons/ai';
+import { FaRegEnvelopeOpen } from 'react-icons/fa';
 import { LinkContainer } from './style';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 const EmailBox: React.FC<Props> = ({ email }) => {
 	return (
 		<LinkContainer href={`mailto:${email}`}>
-			<AiOutlineMail />
+			<FaRegEnvelopeOpen />
 			<span>{email}</span>
 		</LinkContainer>
 	);

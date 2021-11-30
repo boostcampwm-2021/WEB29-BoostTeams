@@ -8,7 +8,7 @@ import { socketApi } from '@apis/chat';
 import { SocketContext } from '@utils/socketContext';
 import { ChatRoomListType } from '@src/types/chat';
 
-import { BiListPlus } from 'react-icons/bi';
+import { FaRegPlusSquare } from 'react-icons/fa';
 import { Sidebar, ProfileIcon } from '@components/common';
 import { SidebarHeader, ChatRoomsContainer, ChatRoom, ChatRoomInfoContainer, ChatRoomInfo, NewChatBtn } from './style';
 
@@ -53,7 +53,7 @@ const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 					채팅
 				</button>
 				<NewChatBtn onClick={handleChatModeCreate}>
-					<BiListPlus />
+					<FaRegPlusSquare />
 				</NewChatBtn>
 			</SidebarHeader>
 			<ChatRoomsContainer>

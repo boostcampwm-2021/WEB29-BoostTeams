@@ -1,7 +1,6 @@
 import React from 'react';
 import DropDown from '@src/components/common/DropDown';
-import { FaSearch } from 'react-icons/fa';
-import { IoSettingsSharp } from 'react-icons/io5';
+import { FaSearch, FaCog } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { SearchInput, IconWrapper, InputContainer, SearchUsersContainer, ButtonContainer } from './style';
 
@@ -38,7 +37,7 @@ const SearchUsers: React.FC<Props> = ({ handleInput, openModal, isAdmin }) => {
 				<ButtonContainer>
 					<DropDown
 						options={isAdmin ? ['팀 나가기', '팀 삭제하기', '팀 정보수정'] : ['팀 나가기']}
-						selectedOption={<IoSettingsSharp size='20' />}
+						selectedOption={<FaCog size='20' />}
 						setSelectedOption={onSelect}
 					/>
 				</ButtonContainer>
