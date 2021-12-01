@@ -11,13 +11,12 @@ interface Props {
 }
 
 const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {
-	const [dropDownOpen, setDropDownOpen] = useState<boolean>(false);
+	const [dropDownOpen, setDropDownOpen] = useState(false);
 
-	const handleDropDownOpen = () => {
-		setDropDownOpen(!dropDownOpen);
-	};
-	const handleOptionClick = (e: React.MouseEvent<HTMLElement>) => {
-		setSelectedOption(Number(e.currentTarget.dataset.option));
+	const handleDropDownOpen = () => setDropDownOpen(!dropDownOpen);
+
+	const handleOptionClick = (idx: number) => {
+		setSelectedOption(idx);
 		setDropDownOpen(false);
 	};
 
@@ -30,7 +29,7 @@ const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption 
 			{dropDownOpen && (
 				<OptionsWrapper>
 					{options.map((option, i) => (
-						<div key={option} data-option={i} onClick={handleOptionClick}>
+						<div key={option} onClick={() => handleOptionClick(i)}>
 							{option}
 						</div>
 					))}
