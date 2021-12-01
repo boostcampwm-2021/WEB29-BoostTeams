@@ -1,8 +1,0 @@
-post:
-  summary: 로그인하기
-  tags: [auth]
-  responses:
-    200:
-      description: 성공
-    404:
-      description: error

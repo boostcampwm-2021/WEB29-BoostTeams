@@ -14,13 +14,7 @@ import { Namespace, Server } from 'socket.io';
 import socketInit from './sockets';
 
 import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-
-import userRouter from '@routes/user-router';
-import authRouter from '@routes/auth-router';
-import scheduleRouter from '@routes/schedule-router';
-import teamRouter from '@routes/team-router';
-import path from 'path';
+import router from '@routes/index';
 
 class App {
 	app: express.Application;
@@ -31,7 +25,7 @@ class App {
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT || '4000';
-		this.swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'));
+		this.swaggerSpec = require("./swagger/swagger-output");
 		this.config();
 		this.middleware();
 		this.route();
@@ -59,10 +53,7 @@ class App {
 	}
 
 	private route() {
-		this.app.use('/api/users', userRouter);
-		this.app.use('/api/auth', authRouter);
-		this.app.use('/api/schedules', scheduleRouter);
-		this.app.use('/api/teams', teamRouter);
+		this.app.use('/', router);
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec));
 	}
 

@@ -5,8 +5,8 @@
 	"scripts": {
 		"start": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
 		"lint": "eslint src",
-		"api-docs": "swagger-cli bundle src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
-    	"prestart": "yarn run api-docs"
+		"api-docs": "node src/swagger/swagger.ts",
+		"prestart": "yarn run api-docs"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
@@ -29,8 +29,7 @@
 		"swagger-cli": "^4.0.4",
 		"swagger-ui-express": "^4.1.6",
 		"typeorm": "^0.2.38",
-		"uuid": "^8.3.2",
-		"yamljs": "^0.3.0"
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
@@ -54,6 +53,7 @@
 		"eslint-plugin-import": "^2.25.2",
 		"eslint-plugin-prettier": "^4.0.0",
 		"prettier": "^2.4.1",
+		"swagger-autogen": "^2.13.2",
 		"ts-node": "^10.4.0",
 		"tsconfig-paths": "^3.11.0",
 		"typescript": "^4.4.4"
