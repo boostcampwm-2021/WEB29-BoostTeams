@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import userState from '@stores/user';
 
-import { check } from '@apis/auth';
 import { updateName } from '@apis/user';
 import { nameRegExp } from '@utils/regexs';
+import useCheckLogin from '@hooks/useCheckLogin';
 
 import Modal from '@components/common/Modal';
 import { Input } from '@components/common/Modal/style';
@@ -19,7 +19,8 @@ export interface Props {
 
 const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 	const [name, setName] = useState('');
-	const [user, setUser] = useRecoilState(userState);
+	const user = useRecoilValue(userState);
+	const checkLogin = useCheckLogin();
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
 	};
@@ -32,10 +33,8 @@ const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 			toast.warn('😮 올바르지 않은 이름입니다!');
 		} else {
 			updateName({ newName: name }, () => {
-				check(() => {
-					setUser({ ...user, name });
-					handleModalClose();
-				});
+				checkLogin();
+				handleModalClose();
 			});
 		}
 	};
