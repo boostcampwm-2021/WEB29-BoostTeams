@@ -8,7 +8,7 @@ import userState from '@stores/user';
 import { currChatRoomIdState, messagesState, chatModeState, chatRoomsState, chatRoomUsersState } from '@stores/chat';
 import { SocketContext } from '@utils/socketContext';
 import { UserIdType } from '@src/types/team';
-import { ChatRoomListType, ChatRoomType, MessageListType, MessageType } from '@src/types/chat';
+import { MessageType } from '@src/types/chat';
 
 import ChatTemplate from '@templates/ChatTemplate';
 
@@ -66,7 +66,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 	useEffect(() => {
 		if (socketRef.current) {
 			initInviteUser();
-			socketRef.current.on('receive message', (message: MessageType) => {
+			socketApi.receiveMessage(socketRef.current, (message: MessageType) => {
 				setChatRooms((prev) => {
 					const chatRoom = prev.find((chatRoom) => chatRoom.chatRoomId === message.chatRoomId);
 					if (!chatRoom) return [...prev];
@@ -77,60 +77,47 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 				});
 				if (message.chatRoomId === currChatRoomId) setMessages((messages) => [...messages, message]);
 			});
-			socketRef.current.on(
-				'join chat room',
-				({ chatRoomId, userList }: { chatRoomId: number; userList: UserIdType[] }) => {
-					if (chatRoomId === currChatRoomId) setChatRoomUsers((prev) => [...prev, ...userList]);
-				},
-			);
-			socketRef.current.on('left chat room', ({ chatRoomId, userId }: { chatRoomId: number; userId: number }) => {
+			socketApi.joinChatRoom(socketRef.current, (chatRoomId, userList) => {
+				if (chatRoomId === currChatRoomId) setChatRoomUsers((prev) => [...prev, ...userList]);
+			});
+			socketApi.leftChatRoom(socketRef.current, (chatRoomId, userId) => {
 				if (chatRoomId === currChatRoomId)
 					setChatRoomUsers((prev) => [...prev.filter((user) => user.userId !== userId)]);
 			});
 		}
 		return () => {
-			socketRef.current.off('receive message');
-			socketRef.current.off('join chat room');
-			socketRef.current.off('left chat room');
+			socketApi.offReceiveMessage(socketRef.current);
+			socketApi.offJoinChatRoom(socketRef.current);
+			socketApi.offLeftChatRoom(socketRef.current);
 		};
 	}, [socketRef.current, currChatRoomId]);
 
 	useEffect(() => {
 		if (socketRef.current) {
 			socketApi.enterChatPage(socketRef.current, teamId, myId);
-			socketRef.current.on('receive chat rooms info', ({ chatRooms }: { chatRooms: ChatRoomListType }) =>
-				setChatRooms(chatRooms),
-			);
-			socketRef.current.on(
-				'receive chat room info',
-				({ userList, messageList }: { chatRoomId: number; userList: UserIdType[]; messageList: MessageListType }) => {
-					setMessages(messageList);
-					setChatRoomUsers(userList);
-				},
-			);
-			socketRef.current.on('invited to chat room', (chatRoom: ChatRoomType) =>
-				setChatRooms((prev) => [chatRoom, ...prev]),
-			);
-			socketRef.current.on(
-				'updated chat room name',
-				({ chatRoomId, chatRoomName }: { chatRoomId: number; chatRoomName: string }) => {
-					setChatRooms((prev) => {
-						const chatRoom = prev.find((chatRoom) => chatRoom.chatRoomId === chatRoomId);
-						if (!chatRoom) return [...prev];
-						return [{ ...chatRoom, chatRoomName }, ...prev.filter((chatRoom) => chatRoom.chatRoomId !== chatRoomId)];
-					});
-				},
-			);
-			socketRef.current.on('chat error', (errorMessage: string) => {
+			socketApi.receiveChatRoomsInfo(socketRef.current, (chatRooms) => setChatRooms(chatRooms));
+			socketApi.receiveChatRoomInfo(socketRef.current, (userList, messageList) => {
+				setMessages(messageList);
+				setChatRoomUsers(userList);
+			});
+			socketApi.invitedToChatRoom(socketRef.current, (chatRoom) => setChatRooms((prev) => [chatRoom, ...prev]));
+			socketApi.updatedChatRoomName(socketRef.current, (chatRoomId, chatRoomName) => {
+				setChatRooms((prev) => {
+					const chatRoom = prev.find((chatRoom) => chatRoom.chatRoomId === chatRoomId);
+					if (!chatRoom) return [...prev];
+					return [{ ...chatRoom, chatRoomName }, ...prev.filter((chatRoom) => chatRoom.chatRoomId !== chatRoomId)];
+				});
+			});
+			socketApi.error(socketRef.current, (errorMessage) => {
 				toast.error(errorMessage);
 			});
 		}
 		return () => {
-			socketRef.current.off('receive chat rooms info');
-			socketRef.current.off('receive chat room info');
-			socketRef.current.off('invited to chat room');
-			socketRef.current.off('updated chat room name');
-			socketRef.current.off('chat error');
+			socketApi.offReceiveChatRoomsInfo(socketRef.current);
+			socketApi.offReceiveChatRoomInfo(socketRef.current);
+			socketApi.offInvitedToChatRoom(socketRef.current);
+			socketApi.offUpdatedChatRoomName(socketRef.current);
+			socketApi.offError(socketRef.current);
 		};
 	}, [socketRef.current, teamId]);
 
