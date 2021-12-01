@@ -9,6 +9,7 @@ import BoardTemplate from '@templates/BoardTemplate';
 import { HEADER } from '@utils/constants';
 import { SocketContext } from '@utils/socketContext';
 import { IPostit } from '@src/types/board';
+import { throttle } from '@utils/throttle';
 
 interface MatchParams {
 	teamId: string;
@@ -45,7 +46,13 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			const whoIsDragging = user.id;
 			socket.current.emit('drag postit', { id, x, y, whoIsDragging });
 		},
-		dragEndPostit: (targetId: number) => socket.current.emit('drag end postit', { id: targetId, whoIsDragging: -1 }),
+		dragEndPostit: (e: KonvaEventObject<DragEvent>) => {
+			const id = e.target.id();
+			const x = e.target.x() / window.innerWidth;
+			const y = e.target.y() / window.innerHeight;
+			const whoIsDragging = -1;
+			socket.current.emit('drag end postit', { id, x, y, whoIsDragging });
+		},
 		setUpdatedPostit: (newPostit: IPostit) => {
 			setPostits((previousPostitList: IPostit[]) => {
 				const postitIdx = previousPostitList.findIndex((elem) => Number(newPostit.id) === Number(elem.id));
@@ -58,7 +65,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 	const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
 		const id = Number(e.target.id());
 		const postitList = [...postits];
-		const postitIdx = postitList.findIndex((postit) => postit.id === id);
+		const postitIdx = postitList.findIndex((postit) => Number(postit.id) === id);
 		const postit = { ...postitList.splice(postitIdx, 1)[0], whoIsDragging: user.id };
 		postitList.push(postit);
 		setPostits(postitList);
@@ -66,10 +73,10 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 	};
 
 	const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
+		socketApi.dragEndPostit(e);
 		const id = Number(e.target.id());
-		socketApi.dragEndPostit(id);
 		const postitList = [...postits];
-		const postitIdx = postitList.findIndex((postit) => postit.id === id);
+		const postitIdx = postitList.findIndex((postit) => Number(postit.id) === id);
 		postitList[postitIdx] = {
 			...postitList[postitIdx],
 			x: e.target.x() / window.innerWidth,
@@ -84,7 +91,10 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 		}
 	};
 
-	const handleDrag = (e: KonvaEventObject<DragEvent>) => socketApi.dragPostit(e);
+	const thorttleDrag = throttle(socketApi.dragPostit, 30);
+	const handleDrag = (e: KonvaEventObject<DragEvent>) => {
+		thorttleDrag(e);
+	};
 
 	useEffect(() => {
 		if (socket.current) {

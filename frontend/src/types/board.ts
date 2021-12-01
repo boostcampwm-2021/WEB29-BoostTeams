@@ -22,6 +22,6 @@ export interface ISocketApi {
 	dragPostit: (e: KonvaEventObject<DragEvent>) => void;
 	setUpdatedPostitList: (initPoistList: IPostit[]) => void;
 	deletePostit: (targetId: number) => void;
-	dragEndPostit: (targetId: number) => void;
+	dragEndPostit: (e: KonvaEventObject<DragEvent>) => void;
 	setUpdatedPostit: (newPostit: IPostit) => void;
 }
