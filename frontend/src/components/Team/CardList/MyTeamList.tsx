@@ -1,7 +1,7 @@
 import React from 'react';
 import { TeamCard, CreateCard } from '../Cards';
 import { CardData } from '../type';
-import { Container, Title, CardListContainer } from './style';
+import { MyTeamContainer, Title, CardListContainer } from './style';
 
 interface Props {
 	list: CardData[];
@@ -10,7 +10,7 @@ interface Props {
 
 const MyTeamList: React.FC<Props> = ({ list, handleModalOpen }) => {
 	return (
-		<Container>
+		<MyTeamContainer>
 			<Title>내 팀</Title>
 			<CardListContainer>
 				{list.map((team: CardData) => (
@@ -18,7 +18,7 @@ const MyTeamList: React.FC<Props> = ({ list, handleModalOpen }) => {
 				))}
 				<CreateCard onClick={handleModalOpen} />
 			</CardListContainer>
-		</Container>
+		</MyTeamContainer>
 	);
 };
 
