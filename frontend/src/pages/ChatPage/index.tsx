@@ -119,7 +119,7 @@ const ChatPage: React.FC<Props> = ({ match }) => {
 			socketApi.offUpdatedChatRoomName(socketRef.current);
 			socketApi.offError(socketRef.current);
 		};
-	}, [socketRef.current, teamId]);
+	}, [socketRef.current]);
 
 	return (
 		<ChatTemplate
