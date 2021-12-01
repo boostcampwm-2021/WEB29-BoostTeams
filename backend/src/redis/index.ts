@@ -1,5 +1,5 @@
 import { createClient, RedisClient } from 'redis';
-
+import { findTargetData, isEmpty } from './helper';
 export default class Redis {
 	static instance: Redis;
 	static client: RedisClient;
@@ -31,21 +31,23 @@ export default class Redis {
 	set(key: string, field: string, value: any) {
 		return new Promise(async (resolve, reject) => {
 			const storedDataList = await this.get(key, field);
-			if (!storedDataList || !Array.isArray(storedDataList)) reject(false);
-			else {
-				const storedDataIndex = storedDataList.findIndex((data) => Number(data.id) === Number(value.id));
-				// update
-				if (storedDataIndex !== -1) {
-					const updatedData = { ...storedDataList[storedDataIndex], ...value };
-					storedDataList.splice(storedDataIndex, 1, updatedData);
-					Redis.client.hset(key, field, JSON.stringify(storedDataList));
-					return resolve(updatedData);
-				}
-				// create
-				else {
-					Redis.client.hset(key, field, JSON.stringify([...storedDataList, value]));
+			if (Array.isArray(storedDataList)) {
+				if (isEmpty(storedDataList)) {
+					Redis.client.hset(key, field, JSON.stringify([value]));
 					await Redis.increaseIndex();
 					return resolve(value);
+				} else {
+					const [targetData, targetDataIndex] = findTargetData(storedDataList, value.id);
+					if (targetData === undefined) {
+						Redis.client.hset(key, field, JSON.stringify([...storedDataList, value]));
+						await Redis.increaseIndex();
+						return resolve(value);
+					} else {
+						const updatedData = { ...targetData, ...value };
+						storedDataList.splice(targetDataIndex, 1, updatedData);
+						Redis.client.hset(key, field, JSON.stringify(storedDataList));
+						return resolve(updatedData);
+					}
 				}
 			}
 		});

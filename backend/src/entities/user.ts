@@ -25,9 +25,9 @@ export class User {
 	@Column()
 	user_color: number;
 
-	@OneToMany(() => TeamUser, (teamUser) => teamUser.user)
+	@OneToMany(() => TeamUser, (teamUser) => teamUser.user, { cascade: true })
 	team_users: TeamUser[];
 
-	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.user)
+	@OneToMany(() => ChatRoomUser, (chatRoomUser) => chatRoomUser.user, { cascade: true })
 	chat_room_users: ChatRoomUser[];
 }
