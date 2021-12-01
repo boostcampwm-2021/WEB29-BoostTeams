@@ -66,6 +66,18 @@ const UserController = {
 		} catch (err) {
 			res.sendStatus(404);
 		}
+	},
+
+	async delete(req: any, res: Response) {
+		
+		const userId = req.user_id;
+		if(!userId) res.sendStatus(404);
+		try {
+			await UserService.getInstance().deleteUser(userId);
+			res.sendStatus(204);
+		} catch (err) {
+			res.sendStatus(409);
+		}
 	}
 };
 

@@ -18,3 +18,12 @@ export const updateName = async ({ newName }: { newName: string }, cb?: any) => 
 		toast.error((err as Error).message);
 	}
 };
+
+export const signOut = async () => {
+	try {
+		const res = await fetchApi.delete('/api/users');
+		if (res.status === 409) throw new Error('😣 회원 탈퇴에 실패하였습니다!');
+	} catch (err) {
+		toast.error((err as Error).message);
+	}
+};

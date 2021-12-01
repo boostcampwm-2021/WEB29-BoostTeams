@@ -88,6 +88,15 @@ class UserService {
 			return pre;
 		}, undefined);
 	}
+
+	async deleteUser(userId: number) {
+		await this.userRepository
+			.createQueryBuilder()
+			.delete()
+			.from('user')
+			.andWhere('user_id = :userId', { userId })
+			.execute();
+	}
 }
 
 export default UserService;

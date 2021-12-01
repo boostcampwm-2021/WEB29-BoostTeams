@@ -462,6 +462,15 @@ paths:
           description: 유저 정보 없음
         '409':
           description: 이미 존재하는 닉네임
+    delete:
+      summary: 회원 탈퇴
+      tags:
+        - user
+      responses:
+        '204':
+          description: 성공
+        '409':
+          description: error
   /api/teams:
     get:
       summary: '팀, 초대 목록 [team-user]'
