@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { SocketContext } from '@utils/socketContext';
 import userState from '@stores/user';
 
+import { Layout } from '@src/components/common';
 import ChatPage from '@pages/ChatPage';
 import CalendarPage from '@pages/CalendarPage';
 import UsersPage from '@pages/UsersPage';
@@ -26,12 +27,14 @@ const TeamRoute = ({ computedMatch }: any) => {
 	}, [teamId, userId]);
 
 	return (
-		<SocketContext.Provider value={socketRef}>
-			<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
-			<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
-			<PrivateRoute exact path='/team/:teamId/users' component={UsersPage} teamId={teamId} />
-			<PrivateRoute exact path='/team/:teamId/board' component={BoardPage} teamId={teamId} />
-		</SocketContext.Provider>
+		<Layout>
+			<SocketContext.Provider value={socketRef}>
+				<PrivateRoute exact path='/team/:teamId/chat' component={ChatPage} />
+				<PrivateRoute exact path='/team/:teamId/calendar' component={CalendarPage} />
+				<PrivateRoute exact path='/team/:teamId/users' component={UsersPage} teamId={teamId} />
+				<PrivateRoute exact path='/team/:teamId/board' component={BoardPage} teamId={teamId} />
+			</SocketContext.Provider>
+		</Layout>
 	);
 };
 
