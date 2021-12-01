@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { ColorCode, NAVBAR } from '@utils/constants';
 
+type Props = {
+	isHere: boolean;
+};
+
 export const Container = styled.nav`
 	flex-shrink: 0;
 	display: flex;
@@ -12,19 +16,28 @@ export const Container = styled.nav`
 	overflow-y: hidden;
 `;
 
-export const BellIconWrapper = styled.div`
-	padding: 0.8rem 0;
-	border-bottom: solid 1px ${ColorCode.LINE2};
-	svg {
-		color: ${ColorCode.FONT2};
-		width: 1.5rem;
-		height: auto;
-		padding: 0.6rem;
-		cursor: pointer;
-		&:hover {
+export const IconWrapper = styled('div')<Props>`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	&:hover {
+		background-color: ${ColorCode.LINE2};
+		svg {
 			color: ${ColorCode.HOVER};
 		}
 	}
+	svg {
+		width: 1.5rem;
+		height: auto;
+		cursor: pointer;
+		color: ${(props) => (props.isHere ? ColorCode.HOVER : ColorCode.FONT2)};
+		transition: all 0.2s ease-in-out;
+	}
+	transition: all 0.2s ease-in-out;
 `;
 
 export const TabContainer = styled.div`
@@ -32,16 +45,7 @@ export const TabContainer = styled.div`
 	flex-direction: column;
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	padding: 1rem 0;
-	svg {
-		color: ${ColorCode.FONT2};
-		width: 1.5rem;
-		height: auto;
-		padding: 0.8rem 0.6rem;
-		cursor: pointer;
-		&:hover {
-			color: ${ColorCode.HOVER};
-		}
-	}
+	gap: 0.3rem;
 `;
 
 export const TeamIcon = styled.div`
