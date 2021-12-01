@@ -30,7 +30,7 @@ export default class Redis {
 		});
 	}
 
-	set(key: string, field: string, value: IPostit | MessageType): Promise<IPostit | MessageType> {
+	create(key: string, field: string, value: IPostit | MessageType): Promise<IPostit | MessageType> {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const storedDataList = (await this.get(key, field)) as any;
