@@ -8,7 +8,7 @@ export const Container = styled.header`
 	width: 100%;
 	height: 2.5rem;
 	background-color: ${ColorCode.BACKGROUND1};
-	padding: 0 0.8rem;
+	padding: 0 1rem 0 0;
 	box-sizing: border-box;
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	svg {
@@ -36,13 +36,7 @@ export const ButtonContainer = styled.div`
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
-	& > * {
-		margin-left: 0.5rem;
-	}
-	button {
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-	}
+	gap: 1rem;
 `;
 
 export const TodayBtn = styled.button`
@@ -62,18 +56,25 @@ export const TodayBtn = styled.button`
 `;
 
 export const NewAppointmentBtn = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.3rem;
+	width: 5.5rem;
+	height: 1.8rem;
 	background-color: ${ColorCode.HOVER};
 	color: ${ColorCode.WHITE};
+	font-size: 0.9rem;
 	border-radius: 8px;
-	padding: 0.3rem 0.5rem;
-	border-color: transparent;
+	border: none;
+	cursor: pointer;
 	svg {
 		color: ${ColorCode.WHITE};
-		padding-right: 0.2rem;
 	}
 	&:hover {
 		background-color: ${ColorCode.PRIMARY1};
 	}
+	transition: all 0.2s ease-in-out;
 `;
 
 interface btnProps {
@@ -82,20 +83,29 @@ interface btnProps {
 
 export const ConvertBtnContainer = styled.div`
 	display: flex;
-	width: max-content;
-	border-radius: 8px;
+	justify-content: space-between;
+	align-items: center;
+	width: 3.8rem;
+	height: 1.8rem;
+	border-radius: 4rem;
+	padding: 0 0.3rem;
 	border: 1px solid ${ColorCode.LINE2};
+	background-color: ${ColorCode.HOVER};
+	cursor: pointer;
+	&:hover {
+		background-color: ${ColorCode.PRIMARY1};
+	}
+	transition: all 0.2s ease-in-out;
 `;
 
 export const ConvertBtn = styled.button<btnProps>`
-	background-color: ${(props) => (props.focus ? `${ColorCode.PRIMARY1}` : 'transparent')};
-	color: ${(props) => (props.focus ? `${ColorCode.WHITE}` : `${ColorCode.BLACK}`)};
-	border: 1px solid transparent;
-	border-radius: 8px;
+	background-color: ${(props) => (props.focus ? `${ColorCode.LINE1}` : 'transparent')};
+	color: ${ColorCode.WHITE};
+	font-size: ${(props) => (props.focus ? 0 : '0.9rem')};
+	border-radius: 100%;
+	border: none;
+	padding: 0;
 	cursor: pointer;
-	padding: 0.3rem 0.4rem;
-	:hover {
-		border: 1px solid ${ColorCode.PRIMARY1};
-		opacity: 0.9;
-	}
+	width: ${(props) => (props.focus ? '1.3rem' : '2.3rem')};
+	height: ${(props) => (props.focus ? '1.3rem' : '1.8rem')};
 `;

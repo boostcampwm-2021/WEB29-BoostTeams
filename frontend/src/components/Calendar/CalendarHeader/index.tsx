@@ -3,12 +3,18 @@ import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { ModalMode, ModalSchedule } from '@stores/calendar';
-import { ColorCode } from '@utils/constants';
 import { DateInfoType, weekContentNumber } from '@src/types/calendar';
 
-import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
-import NewAppointmentBtn from '@components/common/Button';
-import { Container, InfoContainer, TodayBtn, ConvertBtn, ConvertBtnContainer, ButtonContainer } from './style';
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt, FaRegCalendarPlus } from 'react-icons/fa';
+import {
+	Container,
+	InfoContainer,
+	TodayBtn,
+	ConvertBtn,
+	ConvertBtnContainer,
+	ButtonContainer,
+	NewAppointmentBtn,
+} from './style';
 
 interface Props {
 	changeToCurrDate: () => void;
@@ -45,6 +51,11 @@ const CalendarHeader: React.FC<Props> = ({
 		return { year: date.year(), month: date.month() };
 	};
 
+	const clickHandler = () => {
+		if (isMonthly) changeToWeekly();
+		else changeToMonthly();
+	};
+
 	return (
 		<Container>
 			<InfoContainer>
@@ -68,20 +79,14 @@ const CalendarHeader: React.FC<Props> = ({
 				<FaChevronRight onClick={changeToNextDate} />
 			</InfoContainer>
 			<ButtonContainer>
-				<ConvertBtnContainer>
-					<ConvertBtn focus={!isMonthly} onClick={changeToWeekly}>
-						주간
-					</ConvertBtn>
-					<ConvertBtn focus={isMonthly} onClick={changeToMonthly}>
-						월간
-					</ConvertBtn>
+				<ConvertBtnContainer onClick={clickHandler}>
+					<ConvertBtn focus={!isMonthly}>월간</ConvertBtn>
+					<ConvertBtn focus={isMonthly}>주간</ConvertBtn>
 				</ConvertBtnContainer>
-				<NewAppointmentBtn
-					text='+ 새 일정'
-					handler={handleCreateModalOpen}
-					backgroundColor={ColorCode.PRIMARY1}
-					fontColor={ColorCode.WHITE}
-				/>
+				<NewAppointmentBtn onClick={handleCreateModalOpen}>
+					<FaRegCalendarPlus />
+					<span>새 일정</span>
+				</NewAppointmentBtn>
 			</ButtonContainer>
 		</Container>
 	);
