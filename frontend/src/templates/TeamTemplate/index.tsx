@@ -1,6 +1,4 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { userTeamList } from '@stores/team';
 
 import { CardData } from '@components/Team/type';
 import { Header } from '@components/common';
@@ -9,22 +7,19 @@ import { Layout } from './style';
 
 type Props = {
 	showCreateTeamModal: boolean;
+	myTeamList: CardData[];
+	inviteList: CardData[];
 	handleModalOpen: () => void;
 	handleModalClose: () => void;
 };
 
-const TeamTemplate: React.FC<Props> = ({ showCreateTeamModal, handleModalOpen, handleModalClose }) => {
-	const teamList = useRecoilValue(userTeamList);
-	const myTeamList: CardData[] = [];
-	const inviteList: CardData[] = [];
-	teamList.reduce((pre: void, team: CardData) => {
-		if (team.state) {
-			myTeamList.push(team);
-		} else {
-			inviteList.push(team);
-		}
-		return pre;
-	}, '');
+const TeamTemplate: React.FC<Props> = ({
+	showCreateTeamModal,
+	myTeamList,
+	inviteList,
+	handleModalOpen,
+	handleModalClose,
+}) => {
 	return (
 		<Layout>
 			<Header />
