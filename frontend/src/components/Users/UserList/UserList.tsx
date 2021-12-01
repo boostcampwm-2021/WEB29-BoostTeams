@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsPlusCircle } from 'react-icons/bs';
+import { FaUserPlus } from 'react-icons/fa';
 import User from './User';
 import { LabelContainer, UserListContainer } from './style';
 
@@ -33,7 +33,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, openM
 			))}
 			<h3>
 				<span>구성원</span>
-				<BsPlusCircle onClick={() => openModal('INVITE')} />
+				<FaUserPlus onClick={() => openModal('INVITE')} />
 			</h3>
 			<LabelContainer>
 				<span>이름</span>

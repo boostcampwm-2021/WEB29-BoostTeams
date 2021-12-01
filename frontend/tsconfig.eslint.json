@@ -3,6 +3,6 @@
   "include": [
     "src",
     ".eslintrc.js",
-    "config-overrides.js"
+    "craco.config.js"
   ]
 }

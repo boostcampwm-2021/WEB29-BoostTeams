@@ -1,5 +1,5 @@
 import React from 'react';
-import { BiMessageAltAdd } from 'react-icons/bi';
+import { FaRegPlusSquare } from 'react-icons/fa';
 import { Wrapper, Container } from './style';
 
 interface Props {
@@ -15,7 +15,7 @@ const CreateButton: React.FC<Props> = ({ setModalType, handleModalOpen }) => {
 
 	return (
 		<Container>
-			<BiMessageAltAdd />
+			<FaRegPlusSquare />
 			<Wrapper onClick={handleClick}>
 				<span>새 포스트잇 생성</span>
 			</Wrapper>
