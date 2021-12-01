@@ -165,16 +165,16 @@ export const patchRole = async (
 };
 
 export const socketApi = {
-	enterChatPage: (socket: Socket) => {
+	enterChatPage: (socket: Socket): void => {
 		socket.emit(teamEvents.ENTER_USERS_PAGE);
 	},
-	leaveChatPage: (socket: Socket) => {
+	leaveChatPage: (socket: Socket): void => {
 		socket.emit(teamEvents.LEAVE_USERS_PAGE);
 	},
-	receiveOnlineUsers: (socket: Socket, handler: (onlineUsers: UserIdType[]) => void) => {
+	receiveOnlineUsers: (socket: Socket, handler: (onlineUsers: UserIdType[]) => void): void => {
 		socket.on(teamEvents.ONLINE_USERS, ({ onlineUsers }) => handler(onlineUsers));
 	},
-	offReceiveOnlineUsers: (socket: Socket) => {
+	offReceiveOnlineUsers: (socket: Socket): void => {
 		socket.off(teamEvents.ONLINE_USERS);
 	},
 };

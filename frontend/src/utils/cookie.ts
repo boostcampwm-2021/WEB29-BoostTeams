@@ -2,10 +2,10 @@ import { Cookies } from 'react-cookie';
 
 const cookies = new Cookies();
 
-export const getCookie: any = (name: string) => {
+export const getCookie = (name: string) => {
 	return cookies.get(name);
 };
 
-export const removeCookie: any = (name: string) => {
+export const removeCookie = (name: string): void => {
 	return cookies.remove(name);
 };
