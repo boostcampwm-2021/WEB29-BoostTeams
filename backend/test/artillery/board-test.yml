@@ -1,0 +1,40 @@
+config:
+  target: 'http://localhost:4000'
+  phases:
+    - duration: 180
+      arrivalRate: 35
+  engines:
+    socketio-v3: {}
+  payload:
+    path: './data.csv'
+    fields:
+      - 'x'
+      - 'y'
+
+scenarios:
+  - name: 'drag end postit'
+    engine: socketio-v3
+    flow:
+      - namespace: '/socket/team-45'
+        emit:
+          channel: 'drag end postit'
+          data:
+            id: '{{$randomNumber(481,520)}}'
+            whoIsDragging: -1
+  - name: 'drag postit'
+    engine: socketio-v3
+    flow:
+      - namespace: '/socket/team-45'
+        emit:
+          channel: 'drag postit'
+          data:
+            id: '{{$randomNumber(481,520)}}'
+            x: '{{ x }}'
+            y: '{{ y }}'
+            whoIsDragging: 21
+# create
+# read 'join board page',
+# update
+# 1. drag 'drag postit' / 'drag end postit'
+# 2. update 'update start postit' / 'update end postit'
+# delete 'delete postit'

@@ -6,7 +6,7 @@
 		"start": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
 		"lint": "eslint src",
 		"api-docs": "swagger-cli bundle src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
-    	"prestart": "yarn run api-docs"
+		"prestart": "yarn run api-docs"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
@@ -47,6 +47,8 @@
 		"@types/yamljs": "^0.2.31",
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
+		"artillery": "^2.0.0-6",
+		"artillery-engine-socketio-v3": "^1.1.2",
 		"dotenv": "^10.0.0",
 		"eslint": "^8.1.0",
 		"eslint-config-airbnb": "^18.2.1",
