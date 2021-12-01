@@ -10,11 +10,11 @@ const router = express.Router();
 
 router.post('/login', passport.authenticate('local'), UserController.login);
 router.post('/signup', UserController.createUser);
-router.delete('/signout', authenticateToken, getUserInfo, UserController.signout);
 
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github'), UserController.githubLogin);
 
 router.get('/info', authenticateToken, getUserInfo, UserController.getUser);
+router.delete('/signout', authenticateToken, getUserInfo, UserController.signout);
 
 export default router;

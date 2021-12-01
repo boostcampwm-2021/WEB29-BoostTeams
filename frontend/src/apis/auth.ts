@@ -71,3 +71,20 @@ export const logout = (cb: any) => {
 	// TODO: fetch, socket
 	cb();
 };
+
+export const signOut = async (cb: any) => {
+	try {
+		const res = await fetchApi.delete('/api/auth/signout');
+		if (res.status === 204) {
+			logout(() => {
+				cb();
+				toast.success('😂 회원 탈퇴 완료');
+			});
+		}
+		if (res.status === 401) {
+			toast.error('😣 탈퇴에 실패했습니다!');
+		}
+	} catch (err) {
+		toast.error('😣 서버와의 연결이 심상치 않습니다!');
+	}
+};
