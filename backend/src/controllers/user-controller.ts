@@ -66,6 +66,15 @@ const UserController = {
 		} catch (err) {
 			res.sendStatus(404);
 		}
+	},
+	async signout(req: Request, res: Response) {
+		try {
+			const user = req.user as User;
+			await UserService.getInstance().deleteUser(user.user_id);
+			res.sendStatus(204);
+		} catch (err) {
+			res.sendStatus(401);
+		}
 	}
 };
 
