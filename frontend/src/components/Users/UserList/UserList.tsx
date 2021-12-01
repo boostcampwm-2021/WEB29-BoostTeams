@@ -33,7 +33,7 @@ const UsersList: React.FC<Props> = ({ users, isAdmin, onlineUsers, teamId, openM
 			))}
 			<h3>
 				<span>구성원</span>
-				<FaUserPlus onClick={() => openModal('INVITE')} />
+				{isAdmin ? <FaUserPlus onClick={() => openModal('INVITE')} /> : null}
 			</h3>
 			<LabelContainer>
 				<span>이름</span>
