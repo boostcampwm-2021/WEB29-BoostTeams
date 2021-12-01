@@ -4,6 +4,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Image, Text } from 'react-konva';
 import { ColorCode, POSTIT, PrimaryPalette, REM } from '@utils/constants';
 import { IPostit, ISocketApi } from '@src/types/board';
+import PencilIcon from '@images/pencil-square.svg';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 
 const PADDING = 1 * REM;
@@ -84,7 +85,7 @@ const Footer = ({ createdBy, createdAt, updatedBy, updatedAt }: { [key: string]:
 };
 
 const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) => {
-	const [pencilIcon] = useImage('/images/pencil-square.svg');
+	const [pencilIcon] = useImage(PencilIcon);
 	return (
 		<Image
 			image={pencilIcon}
