@@ -6,6 +6,7 @@ export const CardListContainer = styled.div`
 	flex-wrap: wrap;
 	gap: 3rem;
 	padding: 1rem;
+	min-height: ${TeamCard.HEIGHT};
 	border-radius: 10px;
 	align-items: flex-start;
 	overflow-y: auto;
@@ -39,7 +40,7 @@ export const InviteContainer = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 	padding: 0 2rem;
-	max-height: calc(${TeamCard.HEIGHT} + 2rem + 2rem); // 2rem: text + margin, 2rem: padding: ;
+	height: calc(${TeamCard.HEIGHT} + 2rem + 2rem); // 2rem: text + margin, 2rem: padding: ;
 `;
 
 export const Title = styled.span`

@@ -59,4 +59,5 @@ export const InviteButtonContainer = styled.div`
 	background-color: rgba(0, 0, 0, 0.3);
 	border-radius: ${TeamCard.BORDER_RADIUS};
 	justify-content: space-between;
+	cursor: default;
 `;
