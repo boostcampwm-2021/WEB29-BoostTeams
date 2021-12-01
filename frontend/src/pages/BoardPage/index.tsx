@@ -6,7 +6,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import userState from '@src/stores/user';
 import { teamUsersSelector } from '@stores/team';
 import BoardTemplate from '@templates/BoardTemplate';
-import { HEADER } from '@utils/constants';
+import { HEADER, NOBODY } from '@utils/constants';
 import { SocketContext } from '@utils/socketContext';
 import { IPostit } from '@src/types/board';
 import { throttle } from '@utils/throttle';
@@ -63,7 +63,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 			...postitList[postitIdx],
 			x: e.target.x() / window.innerWidth,
 			y: e.target.y() / window.innerHeight,
-			whoIsDragging: -1,
+			whoIsDragging: NOBODY,
 		};
 		setPostits(postitList);
 		setShowDelete(false);

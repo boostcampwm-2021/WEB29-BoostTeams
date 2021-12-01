@@ -1,6 +1,7 @@
 import { ICreatePostit, IUpdatePostit } from '@src/types/board';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Socket } from 'socket.io-client';
+import { NOBODY } from '@utils/constants';
 
 const socketApi = {
 	enterBoardPage: (socket: Socket) => socket.emit('join board page'),
@@ -9,7 +10,7 @@ const socketApi = {
 	updateStartPostit: (socket: Socket, targetId: number, userId: number) =>
 		socket.emit('update start postit', { id: targetId, whoIsUpdating: userId }),
 	updateEndPostit: (socket: Socket, newPostit: IUpdatePostit) =>
-		socket.emit('update end postit', { ...newPostit, whoIsUpdating: -1 }),
+		socket.emit('update end postit', { ...newPostit, whoIsUpdating: NOBODY }),
 	deletePostit: (socket: Socket, targetId: number) => socket.emit('delete postit', targetId),
 	dragPostit: (socket: Socket, e: KonvaEventObject<DragEvent>, userId: number) => {
 		const id = e.target.id();
@@ -22,7 +23,7 @@ const socketApi = {
 		const id = e.target.id();
 		const x = e.target.x() / window.innerWidth;
 		const y = e.target.y() / window.innerHeight;
-		const whoIsDragging = -1;
+		const whoIsDragging = NOBODY;
 		socket.emit('drag end postit', { id, x, y, whoIsDragging });
 	},
 };

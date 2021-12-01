@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
-import userState from '@stores/user';
 import { useRecoilValue } from 'recoil';
+import userState from '@stores/user';
 import Modal from '@components/common/Modal';
 import ColorPicker from '@components/common/ColorPicker';
+import socketApi from '@apis/socket';
+import { SocketContext } from '@utils/socketContext';
+import { NOBODY } from '@utils/constants';
 import { IPostit } from '@src/types/board';
-import socketApi from '@src/apis/socket';
-import { SocketContext } from '@src/utils/socketContext';
-
 import { Container, Input, Textarea, TitleContainer } from './style';
 
 export interface Props {
@@ -30,7 +30,7 @@ const CreatePostitModal: React.FC<Props> = ({ modalType, clickedPostit, handleMo
 			updatedPostit.color = color;
 			updatedPostit.content = content;
 			updatedPostit.updatedBy = user.id;
-			updatedPostit.whoIsUpdating = -1;
+			updatedPostit.whoIsUpdating = NOBODY;
 			return updatedPostit;
 		}
 		return {

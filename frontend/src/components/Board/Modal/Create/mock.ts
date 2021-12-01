@@ -1,4 +1,5 @@
 import { IPostit } from '@src/types/board';
+import { NOBODY } from '@utils/constants';
 
 export const MPostit: IPostit = {
 	id: 0,
@@ -11,6 +12,6 @@ export const MPostit: IPostit = {
 	createdAt: Date.toString(),
 	updatedBy: 0,
 	updatedAt: Date.toString(),
-	whoIsDragging: -1,
-	whoIsUpdating: -1,
+	whoIsDragging: NOBODY,
+	whoIsUpdating: NOBODY,
 };

@@ -5,7 +5,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import useImage from 'use-image';
 import socketApi from '@apis/socket';
 import PencilIcon from '@images/pencil-square.svg';
-import { ColorCode, POSTIT, PrimaryPalette, REM } from '@utils/constants';
+import { ColorCode, NOBODY, POSTIT, PrimaryPalette, REM } from '@utils/constants';
 import { IPostit } from '@src/types/board';
 
 const PADDING = 1 * REM;
@@ -113,7 +113,7 @@ const Postit: React.FC<Props> = ({
 	handleModalOpen,
 }) => {
 	const handleUpdateModalOpen = () => {
-		if (postit.whoIsUpdating === -1 && postit.whoIsDragging === -1) {
+		if (postit.whoIsUpdating === NOBODY && postit.whoIsDragging === NOBODY) {
 			setModalType('update');
 			socketApi.updateStartPostit(socket, postit.id, userId);
 			setClickedPostit(postit);
@@ -129,10 +129,10 @@ const Postit: React.FC<Props> = ({
 			onDragMove={onDrag}
 			onDragStart={onDragStart}
 			onDragEnd={onDragEnd}
-			scaleX={postit.whoIsDragging !== -1 ? 1.05 : 1}
-			scaleY={postit.whoIsDragging !== -1 ? 1.05 : 1}
-			draggable={(postit.whoIsDragging === -1 || isMine) && postit.whoIsUpdating === -1}
-			opacity={postit.whoIsUpdating !== -1 ? 0.2 : 1}
+			scaleX={postit.whoIsDragging !== NOBODY ? 1.05 : 1}
+			scaleY={postit.whoIsDragging !== NOBODY ? 1.05 : 1}
+			draggable={(postit.whoIsDragging === NOBODY || isMine) && postit.whoIsUpdating === NOBODY}
+			opacity={postit.whoIsUpdating !== NOBODY ? 0.2 : 1}
 		>
 			<Rect
 				width={POSTIT.WIDTH}
@@ -142,14 +142,14 @@ const Postit: React.FC<Props> = ({
 				strokeWidth={isMine ? 1 : 0}
 				shadowOffsetX={4}
 				shadowOffsetY={4}
-				shadowOpacity={postit.whoIsUpdating !== -1 ? 0 : 0.25}
+				shadowOpacity={postit.whoIsUpdating !== NOBODY ? 0 : 0.25}
 				shadowBlur={4}
 			/>
-			<Title text={postit.title} isUpdating={postit.whoIsUpdating !== -1} />
+			<Title text={postit.title} isUpdating={postit.whoIsUpdating !== NOBODY} />
 			<Content
 				text={postit.content}
-				isUpdating={postit.whoIsUpdating !== -1}
-				userName={postit.whoIsUpdating !== -1 ? getUserNameById(postit.whoIsUpdating) : ''}
+				isUpdating={postit.whoIsUpdating !== NOBODY}
+				userName={postit.whoIsUpdating !== NOBODY ? getUserNameById(postit.whoIsUpdating) : ''}
 			/>
 			<Footer
 				createdBy={getUserNameById(postit.createdBy)}
@@ -157,7 +157,7 @@ const Postit: React.FC<Props> = ({
 				updatedBy={getUserNameById(postit.updatedBy)}
 				updatedAt={postit.updatedAt}
 			/>
-			{postit.whoIsUpdating === -1 && <Menu handleUpdateModalOpen={handleUpdateModalOpen} />}
+			{postit.whoIsUpdating === NOBODY && <Menu handleUpdateModalOpen={handleUpdateModalOpen} />}
 		</Group>
 	);
 };

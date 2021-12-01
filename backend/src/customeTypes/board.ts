@@ -1,4 +1,4 @@
-interface IPostit {
+export interface IPostit {
 	id: number;
 	title?: string;
 	content?: string;
@@ -12,5 +12,3 @@ interface IPostit {
 	whoIsDragging?: number;
 	whoIsUpdating?: number;
 }
-
-export {IPostit};
