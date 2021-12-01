@@ -1,8 +1,8 @@
 import { Modal } from '@components/common';
-import { signOut } from '@src/apis/auth';
+import { signOut } from '@apis/auth';
+import useLogout from '@hooks/useLogout';
 import { MODAL_THEME } from '@utils/constants';
 import React from 'react';
-import { useHistory } from 'react-router';
 import { Content } from './style';
 
 export interface Props {
@@ -10,11 +10,11 @@ export interface Props {
 }
 
 const SignOutModal: React.FC<Props> = ({ handleModalClose }) => {
-	const history = useHistory();
+	const logout = useLogout();
 	const handleSubmit = () => {
 		handleModalClose();
 		signOut(() => {
-			history.push('/');
+			logout();
 		});
 	};
 	return (

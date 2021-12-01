@@ -1,10 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 
 import userState from '@stores/user';
-import { logout } from '@apis/auth';
+import useLogout from '@hooks/useLogout';
 
 import UserInfo from './UserInfo';
 import UpdateModal from './Modals/UpdateModal';
@@ -30,14 +28,11 @@ const ProfileSimple: React.FC<ProfileSimpleProps> = ({
 	setShowSignOutModal,
 	handleModalClose,
 }) => {
-	const history = useHistory();
 	const user = useRecoilValue(userState);
+	const logout = useLogout();
 
 	const logoutHandler = () => {
-		logout(() => {
-			toast.success('😎 로그아웃 성공');
-			history.push('/');
-		});
+		logout();
 	};
 
 	const signOutHandler = () => {
