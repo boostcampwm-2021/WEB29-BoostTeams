@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiFillGithub } from 'react-icons/ai';
+import { FaGithub } from 'react-icons/fa';
 import { githubLogin } from '@apis/auth';
 import { Button } from './style';
 
@@ -9,7 +9,7 @@ const GithubButton: React.FC = () => {
 	};
 	return (
 		<Button onClick={githubLoginHandler}>
-			<AiFillGithub />
+			<FaGithub />
 			<span>Login with Github</span>
 		</Button>
 	);

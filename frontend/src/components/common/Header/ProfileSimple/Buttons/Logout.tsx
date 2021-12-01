@@ -1,5 +1,5 @@
 import React from 'react';
-import { GrLogout } from 'react-icons/gr';
+import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { Container } from './style';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 const LogoutButton: React.FC<Props> = ({ onClick }) => {
 	return (
 		<Container onClick={onClick}>
-			<GrLogout />
+			<FaRegArrowAltCircleLeft />
 			<span>로그아웃</span>
 		</Container>
 	);

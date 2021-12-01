@@ -9,9 +9,10 @@ export const Wrapper = styled.div`
 		color: ${ColorCode.WHITE};
 		font-weight: bold;
 		font-size: 1.5rem;
+		gap: 0.5rem;
 		img {
-			padding-right: 0.5rem;
 			width: 2rem;
+			height: 2rem;
 		}
 		&:visited {
 			color: ${ColorCode.WHITE};

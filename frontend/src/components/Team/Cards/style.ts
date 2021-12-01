@@ -31,9 +31,12 @@ export const ThumbnailWrapper = styled('div')<ThumbnailProps>`
 	height: 9rem;
 	border-radius: 5px;
 	font-size: 3rem;
-	color: ${ColorCode.FONT1};
+	color: ${ColorCode.LINE3};
 	background-color: ${(props) => PrimaryPalette[props.team_id % 6]};
 	margin-bottom: 1rem;
+	svg {
+		font-size: 2rem;
+	}
 `;
 
 export const Name = styled.span`

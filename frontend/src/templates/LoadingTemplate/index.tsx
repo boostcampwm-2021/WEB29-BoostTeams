@@ -1,10 +1,11 @@
 import React from 'react';
+import LoadingImg from '@images/loading.gif';
 import { Layout } from './style';
 
 const LoadingTemplate: React.FC = () => {
 	return (
 		<Layout>
-			<img src='/images/loading.gif' alt='loading' />
+			<img src={LoadingImg} alt='loading' />
 			<span>Loading...</span>
 		</Layout>
 	);
