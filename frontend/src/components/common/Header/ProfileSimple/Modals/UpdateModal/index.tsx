@@ -48,7 +48,7 @@ const UpdateModal: React.FC<Props> = ({ handleModalClose }) => {
 			<Container>
 				<InputContainer>
 					<FaPencilAlt />
-					<Input placeholder='2-20자 사이의 영문자, 숫자' value={name} onChange={handleInput} />
+					<Input placeholder='2-20자 사이의 한글, 영문자, 숫자' value={name} onChange={handleInput} />
 				</InputContainer>
 			</Container>
 		</Modal>
