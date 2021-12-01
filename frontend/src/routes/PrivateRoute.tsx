@@ -22,7 +22,7 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
 				},
 				() => {
 					localStorage.removeItem('JWT');
-					removeCookie('JWT', '');
+					removeCookie('JWT');
 				},
 			);
 		}
