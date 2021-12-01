@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import ChatRoomRepository from '@repositories/chat_room-repository';
 import ChatRoomUserRepository from '@repositories/chat_room-user-repository';
+import { ChatRoomInfoType, UserIdType } from '@customeTypes/chat';
 
 class ChatRoomService {
 	static instance: ChatRoomService;
@@ -114,15 +115,4 @@ class ChatRoomService {
 		if (!deletedUser) throw new Error('채팅방 유저 삭제 오류');
 	}
 }
-
-interface UserIdType {
-	user_id: number;
-}
-
-interface ChatRoomInfoType {
-	team_id: number;
-	chat_room_name: string;
-	user_list: UserIdType[];
-}
-
 export default ChatRoomService;

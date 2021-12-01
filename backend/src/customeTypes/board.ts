@@ -13,4 +13,4 @@ interface IPostit {
 	whoIsUpdating?: number;
 }
 
-export {IPostit};
+export { IPostit };
