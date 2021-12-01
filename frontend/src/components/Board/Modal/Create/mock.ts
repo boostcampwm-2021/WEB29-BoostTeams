@@ -1,4 +1,4 @@
-import { IPostit, ISocketApi } from '@src/types/board';
+import { IPostit } from '@src/types/board';
 
 export const MPostit: IPostit = {
 	id: 0,
@@ -13,15 +13,4 @@ export const MPostit: IPostit = {
 	updatedAt: Date.toString(),
 	whoIsDragging: -1,
 	whoIsUpdating: -1,
-};
-
-export const MSocketApi: ISocketApi = {
-	createNewPostit: () => null,
-	updateEndPostit: () => null,
-	updateStartPostit: () => null,
-	dragPostit: () => null,
-	setUpdatedPostitList: () => null,
-	deletePostit: () => null,
-	dragEndPostit: () => null,
-	setUpdatedPostit: () => null,
 };

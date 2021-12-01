@@ -1,11 +1,12 @@
-import React from 'react';
-import useImage from 'use-image';
-import { KonvaEventObject } from 'konva/lib/Node';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Socket } from 'socket.io-client';
 import { Group, Rect, Image, Text } from 'react-konva';
-import { ColorCode, POSTIT, PrimaryPalette, REM } from '@utils/constants';
-import { IPostit, ISocketApi } from '@src/types/board';
+import { KonvaEventObject } from 'konva/lib/Node';
+import useImage from 'use-image';
+import socketApi from '@apis/socket';
 import PencilIcon from '@images/pencil-square.svg';
-import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
+import { ColorCode, POSTIT, PrimaryPalette, REM } from '@utils/constants';
+import { IPostit } from '@src/types/board';
 
 const PADDING = 1 * REM;
 const FONT_SIZE = {
@@ -15,8 +16,8 @@ const FONT_SIZE = {
 
 type Props = {
 	postit: IPostit;
-	isMine: boolean;
-	socketApi: ISocketApi;
+	socket: Socket;
+	userId: number;
 	getUserNameById: (userId: number) => string;
 	onDrag: (e: KonvaEventObject<DragEvent>) => void;
 	onDragStart: (e: KonvaEventObject<DragEvent>) => void;
@@ -101,8 +102,8 @@ const Menu = ({ handleUpdateModalOpen }: { handleUpdateModalOpen: () => void }) 
 
 const Postit: React.FC<Props> = ({
 	postit,
-	isMine,
-	socketApi,
+	socket,
+	userId,
 	getUserNameById,
 	onDrag,
 	onDragStart,
@@ -114,11 +115,12 @@ const Postit: React.FC<Props> = ({
 	const handleUpdateModalOpen = () => {
 		if (postit.whoIsUpdating === -1 && postit.whoIsDragging === -1) {
 			setModalType('update');
-			socketApi.updateStartPostit(postit.id);
+			socketApi.updateStartPostit(socket, postit.id, userId);
 			setClickedPostit(postit);
 			handleModalOpen();
 		}
 	};
+	const isMine = userId === postit.whoIsDragging;
 	return (
 		<Group
 			id={`${postit.id}`}

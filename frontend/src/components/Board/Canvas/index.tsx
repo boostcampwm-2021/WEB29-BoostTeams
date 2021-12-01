@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Stage, Layer } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { useRecoilValue } from 'recoil';
-import userState from '@src/stores/user';
+import userState from '@stores/user';
 import { CANVAS } from '@utils/constants';
-import { IPostit, ISocketApi } from '@src/types/board';
-import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
+import { SocketContext } from '@utils/socketContext';
+import { IPostit } from '@src/types/board';
 import Postit from '../Postit';
 
 interface Props {
 	postits: IPostit[];
-	socketApi: ISocketApi;
 	getUserNameById: (userId: number) => string;
 	handleDrag: (e: KonvaEventObject<DragEvent>) => void;
 	handleDragStart: (e: KonvaEventObject<DragEvent>) => void;
@@ -22,7 +21,6 @@ interface Props {
 
 const Canvas: React.FC<Props> = ({
 	postits,
-	socketApi,
 	getUserNameById,
 	handleDrag,
 	handleDragStart,
@@ -32,6 +30,7 @@ const Canvas: React.FC<Props> = ({
 	handleModalOpen,
 }) => {
 	const userId = useRecoilValue(userState).id;
+	const socket = useContext(SocketContext).current;
 	return (
 		<Stage width={CANVAS.WIDTH} height={CANVAS.HEIGHT}>
 			<Layer>
@@ -40,8 +39,8 @@ const Canvas: React.FC<Props> = ({
 						<Postit
 							key={postit.id}
 							postit={postit}
-							socketApi={socketApi}
-							isMine={userId === postit.whoIsDragging}
+							socket={socket}
+							userId={userId}
 							onDrag={handleDrag}
 							onDragStart={handleDragStart}
 							onDragEnd={handleDragEnd}

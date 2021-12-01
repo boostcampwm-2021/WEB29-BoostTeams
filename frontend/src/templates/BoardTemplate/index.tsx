@@ -3,7 +3,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import CreatePostitModal from '@src/components/Board/Modal/Create';
 import DeleteArea from '@src/components/Board/Modal/Delete';
 import CreateButton from '@components/Board/CreateButton';
-import { IPostit, ISocketApi } from '@src/types/board';
+import { IPostit } from '@src/types/board';
 import { Dispatch, SetStateAction } from 'hoist-non-react-statics/node_modules/@types/react';
 import { Layout } from './style';
 
@@ -11,7 +11,6 @@ const Canvas = React.lazy(() => import('@components/Board/Canvas'));
 
 interface Props {
 	postits: IPostit[];
-	socketApi: ISocketApi;
 	showModal: boolean;
 	showDelete: boolean;
 	modalType: string;
@@ -28,7 +27,6 @@ interface Props {
 
 const BoardTemplate: React.FC<Props> = ({
 	postits,
-	socketApi,
 	showModal,
 	showDelete,
 	modalType,
@@ -46,7 +44,6 @@ const BoardTemplate: React.FC<Props> = ({
 		<Layout>
 			<Canvas
 				postits={postits}
-				socketApi={socketApi}
 				setModalType={setModalType}
 				setClickedPostit={setClickedPostit}
 				handleModalOpen={handleModalOpen}
@@ -57,12 +54,7 @@ const BoardTemplate: React.FC<Props> = ({
 			/>
 			<CreateButton setModalType={setModalType} handleModalOpen={handleModalOpen} />
 			{showModal && (
-				<CreatePostitModal
-					socketApi={socketApi}
-					modalType={modalType}
-					clickedPostit={clickedPostit}
-					handleModalClose={handleModalClose}
-				/>
+				<CreatePostitModal modalType={modalType} clickedPostit={clickedPostit} handleModalClose={handleModalClose} />
 			)}
 			{showDelete && <DeleteArea />}
 		</Layout>
