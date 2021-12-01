@@ -13,13 +13,13 @@ export const CardListContainer = styled.div`
 		width: 10px;
 	}
 	&::-webkit-scrollbar-thumb {
-		background-color: ${ColorCode.PRIMARY1};
+		background-color: ${ColorCode.LINE3};
 		border-radius: 10px;
 		background-clip: padding-box;
 		border: 2px solid transparent;
 	}
 	&::-webkit-scrollbar-track {
-		background-color: ${ColorCode.PRIMARY2};
+		background-color: ${ColorCode.LINE2};
 		border-radius: 10px;
 		box-shadow: inset 0px 0px 5px ${ColorCode.WHITE};
 	}
