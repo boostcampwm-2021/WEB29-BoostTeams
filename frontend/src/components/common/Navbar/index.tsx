@@ -74,7 +74,11 @@ const Navbar: React.FC = () => {
 			<TeamIconContainer>
 				{myTeamList.map((e) => (
 					<Link key={e.team.team_id} to={`/team/${e.team.team_id}/${path}`} aria-label={e.team.team_name}>
-						<TeamIcon key={e.team.team_id} color={PrimaryPalette[e.team.team_id % 6]}>
+						<TeamIcon
+							key={e.team.team_id}
+							color={PrimaryPalette[e.team.team_id % 6]}
+							isHere={Number(teamId) === e.team.team_id}
+						>
 							{e.team.team_name[0].toUpperCase()}
 						</TeamIcon>
 					</Link>

@@ -48,27 +48,29 @@ export const TabContainer = styled.div`
 	gap: 0.3rem;
 `;
 
-export const TeamIcon = styled.div`
-	width: 2rem;
-	height: 2rem;
+export const TeamIcon = styled('div')<Props>`
+	width: 2.3rem;
+	height: 2.3rem;
 	background-color: ${(props) => props.color || ColorCode.FONT2};
 	border-radius: 20%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: ${ColorCode.WHITE};
+	color: ${ColorCode.GRAY};
+	margin: 0.8rem 0;
+	cursor: pointer;
+	box-sizing: border-box;
+	border: ${(props) => (props.isHere ? `2px solid ${ColorCode.FONT2}` : `1px solid ${ColorCode.LINE2}`)};
+	opacity: ${(props) => (props.isHere ? 1 : 0.6)};
+	&:hover {
+		opacity: 1;
+		border: 2px solid ${ColorCode.WHITE};
+	}
+	transition: opacity 0.2s ease-in-out;
 `;
 
 export const TeamIconContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0.8rem 0;
-	div {
-		margin: 0.8rem 0;
-		cursor: pointer;
-		box-sizing: border-box;
-		&:hover {
-			border: solid 2px ${ColorCode.WHITE};
-		}
-	}
 `;
