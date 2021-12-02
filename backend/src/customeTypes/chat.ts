@@ -20,7 +20,14 @@ export interface ChatRoomLastMessageType {
 	chatRoomName: string;
 	lastMessage: MessageType;
 }
-
+export interface UserIdType {
+	user_id: number;
+}
+export interface ChatRoomInfoType {
+	team_id: number;
+	chat_room_name: string;
+	user_list: UserIdType[];
+}
 export interface EnterChatPageReqType {
 	teamId: number;
 	userId: number;
