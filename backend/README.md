@@ -21,6 +21,5 @@ GITHUB_CLIENT_SECRET=[Github Client Secret]
 GITHUB_CALLBACK_URL=[Github Callback URL]
 
 JWT_SECRET_KEY=[JWT Secret Key]
-AES_KEY=[AES Secret Key]
 SALT_OR_ROUNDS=[Bcrypt Round]
 ```
