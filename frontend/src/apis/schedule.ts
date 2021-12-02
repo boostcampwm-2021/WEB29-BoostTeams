@@ -4,7 +4,7 @@ import fetchApi from '@utils/fetch';
 
 export const getSchedules = async (teamId: number, firstDate: string, lastDate: string): Promise<ScheduleType[]> => {
 	try {
-		const res = await fetchApi.get(`/api/schedules/${teamId}?start_date=${firstDate}&end_date=${lastDate}`);
+		const res = await fetchApi.get(`/api/schedules?team_id=${teamId}&start_date=${firstDate}&end_date=${lastDate}`);
 		if (res.status === 404) throw new Error('😣 일정을 가져올 수 없습니다!');
 		else if (res.status === 403) throw new Error('😣 권한이 없습니다!');
 		const data = await res.json();
@@ -16,9 +16,9 @@ export const getSchedules = async (teamId: number, firstDate: string, lastDate: 
 	}
 };
 
-export const createNewSchedule = async (teamId: number, newSchedule: ScheduleReqType): Promise<ScheduleType[]> => {
+export const createNewSchedule = async (newSchedule: ScheduleReqType): Promise<ScheduleType[]> => {
 	try {
-		const res = await fetchApi.post(`/api/schedules/${teamId}`, { ...newSchedule });
+		const res = await fetchApi.post('/api/schedules', { ...newSchedule });
 		if (res.status === 409) throw new Error('😣 일정 추가에 실패하였습니다!');
 		else if (res.status === 403) throw new Error('😣 권한이 없습니다!');
 		const data = await res.json();

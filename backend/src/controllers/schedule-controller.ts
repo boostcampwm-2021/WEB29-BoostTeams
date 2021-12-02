@@ -2,17 +2,10 @@ import { Request, Response } from 'express';
 import moment from 'moment';
 import ScheduleService from '@services/schedule-service';
 
-const changeFieldToNumber = (teamID, newScheduleData) => {
-	newScheduleData.team_id = Number(teamID);
-	newScheduleData.color = Number(newScheduleData.color);
-	return newScheduleData;
-};
-
 const ScheduleController = {
 	async createSchedule(req: Request, res: Response) {
 		try {
-			const scheduleInfo = changeFieldToNumber(req.params.teamId, req.body);
-			const newSchedule = await ScheduleService.getInstance().createSchedule(scheduleInfo);
+			const newSchedule = await ScheduleService.getInstance().createSchedule(req.body);
 			res.json(newSchedule);
 		} catch (err) {
 			res.sendStatus(409);
@@ -20,11 +13,10 @@ const ScheduleController = {
 	},
 	async getSchedule(req: Request, res: Response) {
 		try {
-			const { start_date, end_date }: { start_date?: string; end_date?: string } = req.query;
-			const team_id = Number(req.params.teamId);
+			const { team_id, start_date, end_date }: { team_id?: string; start_date?: string; end_date?: string } = req.query;
 			const startDate = moment(start_date, 'YYYYMMDD').format('YYYY-MM-DD');
 			const endDate = moment(end_date, 'YYYYMMDD').format('YYYY-MM-DD');
-			const schedules = await ScheduleService.getInstance().getSchedule(team_id, startDate, endDate);
+			const schedules = await ScheduleService.getInstance().getSchedule(Number(team_id), startDate, endDate);
 			res.json(schedules);
 		} catch (err) {
 			res.sendStatus(404);

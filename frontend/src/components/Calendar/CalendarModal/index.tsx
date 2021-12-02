@@ -64,6 +64,7 @@ const CalendarModal: React.FC<Props> = ({
 			repeat_option: selectedRepeat,
 			repeat_count: isNum(selectedRepeatCount) ? selectedRepeatCount : 1,
 			content: contentRef.current?.value,
+			team_id: teamId,
 		};
 	};
 
@@ -90,7 +91,7 @@ const CalendarModal: React.FC<Props> = ({
 		const newScheduleData = getScheduleData();
 		if (validateSchedule(newScheduleData)) {
 			if (checkModalMode('create')) {
-				const newSchedules = await createNewSchedule(teamId, newScheduleData);
+				const newSchedules = await createNewSchedule(newScheduleData);
 				addSchedule(newSchedules);
 			} else {
 				newScheduleData.schedule_id = scheduleId;
