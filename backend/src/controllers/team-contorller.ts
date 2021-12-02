@@ -4,7 +4,6 @@ import TeamService from '@services/team-service';
 import UserService from '@services/user-service';
 
 const TeamController = {
-
 	async create(req: any, res: Response) {
 		try {
 			const userId = req.user_id;
@@ -51,7 +50,7 @@ const TeamController = {
 			const team = await TeamService.getInstance().read(req.params.teamId);
 			res.status(200).send(team[0]);
 		} catch (err) {
-			res.sendStatus(409)
+			res.sendStatus(409);
 		}
 	},
 
@@ -70,10 +69,10 @@ const TeamController = {
 			const teamId = req.params.teamId;
 			const userName = req.body.userName;
 			const userInfo = await UserService.getInstance().getUserByUserName(userName);
-			if(!userInfo) res.sendStatus(404);
+			if (!userInfo) res.sendStatus(404);
 			const userId = userInfo.user_id;
 			const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
-			if(teamUser) res.sendStatus(404);
+			if (teamUser) res.sendStatus(404);
 			await TeamUserService.getInstance().invite(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {

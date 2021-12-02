@@ -1,4 +1,5 @@
 import UserService from '@services/user-service';
+import TeamUserService from '@services/team-user-service';
 import { User } from '@entities/user';
 
 import { Request, Response } from 'express';
@@ -19,6 +20,7 @@ const UserController = {
 			if (nameAlreadyUsed) return res.status(409).json({ conflict: 'name' });
 
 			const newUser = await UserService.getInstance().createUser(userEmail, userPassword, userName);
+			await TeamUserService.getInstance().invite(newUser.user_id, 1); // 놀이터
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
 			return res.json({ signup: true });
