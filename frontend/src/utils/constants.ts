@@ -98,5 +98,7 @@ const MODAL_THEME = {
 	NOTIFICATION: 'notification',
 };
 
+const NOBODY = -1;
+
 export { ColorCode, Font, PrimaryPalette, SecondaryPalette, TeamCard, Role, RoleArr };
-export { REM, NAVBAR, HEADER, CANVAS, POSTIT, MODAL_THEME };
+export { REM, NAVBAR, HEADER, CANVAS, POSTIT, MODAL_THEME, NOBODY };

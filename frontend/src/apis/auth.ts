@@ -1,6 +1,4 @@
-import AES from 'crypto-js/aes';
 import { toast } from 'react-toastify';
-import { removeCookie } from '@utils/cookie';
 import fetchApi from '@utils/fetch';
 
 /**
@@ -8,10 +6,8 @@ import fetchApi from '@utils/fetch';
  * @param err: 로그인 확인 실패시 콜백 함수
  */
 export const login = async ({ userEmail, userPassword }: { userEmail: string; userPassword: string }, cb?: any) => {
-	const key = process.env.REACT_APP_AES_KEY || 'key';
-	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
-		const res = await fetchApi.post('/api/auth/login', { userEmail, encryptedPassword });
+		const res = await fetchApi.post('/api/auth/login', { userEmail, userPassword });
 		const data = await res.json();
 		cb(data);
 	} catch (error) {
@@ -23,33 +19,12 @@ export const githubLogin = () => {
 	window.location.href = `${process.env.REACT_APP_SERVER ?? 'http://localhost:4000'}/api/auth/github`;
 };
 
-/**
- * @param cb: 로그인 확인 성공시 콜백 함수
- * @param err: 로그인 확인 실패시 콜백 함수
- */
-export const check = async (cb?: any, err?: any) => {
-	try {
-		const res = await fetchApi.get('/api/auth/info');
-		const data = await res.json();
-		if (res.status === 200) {
-			cb(data);
-		}
-		if (res.status === 401) {
-			err();
-		}
-	} catch (err) {
-		toast.error('😣 서버와의 연결이 심상치 않습니다!');
-	}
-};
-
 export const signUp = async (
 	{ userName, userEmail, userPassword }: { userName: string; userEmail: string; userPassword: string },
 	cb?: any,
 ) => {
-	const key = process.env.REACT_APP_AES_KEY || 'key';
-	const encryptedPassword = AES.encrypt(userPassword, key).toString();
 	try {
-		const res = await fetchApi.post('/api/auth/signup', { userName, userEmail, encryptedPassword });
+		const res = await fetchApi.post('/api/auth/signup', { userName, userEmail, userPassword });
 		const data = await res.json();
 		if (res.status === 200) {
 			cb();
@@ -65,9 +40,17 @@ export const signUp = async (
 	}
 };
 
-export const logout = (cb: any) => {
-	localStorage.removeItem('JWT');
-	removeCookie('JWT');
-	// TODO: fetch, socket
-	cb();
+export const signOut = async (cb: any) => {
+	try {
+		const res = await fetchApi.delete('/api/auth/signout');
+		if (res.status === 204) {
+			cb();
+			toast.success('😂 회원 탈퇴 완료');
+		}
+		if (res.status === 401) {
+			toast.error('😣 탈퇴에 실패했습니다!');
+		}
+	} catch (err) {
+		toast.error('😣 서버와의 연결이 심상치 않습니다!');
+	}
 };

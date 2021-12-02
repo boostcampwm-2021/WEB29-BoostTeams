@@ -19,7 +19,7 @@ const boardEvents = {
 };
 
 const teamEvents = {
-	ONLINE_USER: 'online users',
+	ONLINE_USERS: 'online users',
 	ENTER_USERS_PAGE: 'enter users page',
 	LEAVE_USERS_PAGE: 'leave users page',
 	CHANGE_STATUS_TO_ONLINE: 'change status to online',

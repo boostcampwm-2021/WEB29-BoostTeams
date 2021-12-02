@@ -1,0 +1,19 @@
+config:
+  target: 'http://localhost:4000'
+  default:
+    authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.MjE.fWbmFf-SrxEnvzfaR16DM2ph3PhM2oxlfL_lPBGT9ys'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+scenarios:
+  - flow:
+      - post:
+          url: '/api/schedules/45'
+          json:
+            'title': '제목1'
+            'start_date': '2021-11-01T03:00:00.000Z'
+            'end_date': '2021-11-01T04:00:00.000Z'
+            'repeat_option': 1
+            'repeat_count': 5
+            'content': '내용1'
+            'color': 2

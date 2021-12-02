@@ -28,7 +28,7 @@ paths:
       responses:
         '200':
           description: 성공
-        '404':
+        '401':
           description: error
   /api/auth/github:
     get:
@@ -58,7 +58,7 @@ paths:
       responses:
         '200':
           description: 성공
-        '404':
+        '409':
           description: error
   /api/auth/info:
     get:
@@ -68,9 +68,9 @@ paths:
       responses:
         '200':
           description: 성공
-        '404':
+        '401':
           description: error
-  '/api/schedule/{team_id}':
+  '/api/schedules/{team_id}':
     get:
       summary: 일정 가져오기
       tags:
@@ -249,13 +249,13 @@ paths:
                     schedule_id: 158
         '409':
           description: error
-  '/api/schedule/{schedule_id}':
+  '/api/schedules/{schedule_id}':
     delete:
       summary: 일정 삭제하기
       tags:
         - schedule
       parameters:
-        $ref: '#/paths/~1api~1schedule~1%7Bschedule_id%7D/put/parameters'
+        $ref: '#/paths/~1api~1schedules~1%7Bschedule_id%7D/put/parameters'
       responses:
         '204':
           description: 성공
@@ -442,7 +442,7 @@ paths:
                           type: integer
         '404':
           description: error
-  /api/user/name:
+  /api/users:
     patch:
       summary: 유저 닉네임 변경하기
       tags:
@@ -462,13 +462,13 @@ paths:
           description: 유저 정보 없음
         '409':
           description: 이미 존재하는 닉네임
-  /api/team:
+  /api/teams:
     get:
       summary: '팀, 초대 목록 [team-user]'
       tags:
         - team
       responses:
-        '200':
+        '201':
           description: 성공
           content:
             application/json:
@@ -492,12 +492,53 @@ paths:
                           type: string
                         team_desc:
                           type: string
+        '409':
+          description: error
+    post:
+      summary: '팀 생성, [team, team-user]'
+      tags:
+        - team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                team_name:
+                  type: string
+                team_desc:
+                  type: string
+      responses:
+        '201':
+          description: 성공
+        '409':
+          description: error
+  '/api/teams/{teamId}':
+    get:
+      summary: 팀 정보 가져오기
+      tags:
+        - team
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1api~1teams~1%7BteamId%7D/put/requestBody/content/application~1json/schema'
         '404':
           description: error
     put:
       summary: '팀 수정 [team]'
       tags:
         - team
+      parameters:
+        $ref: '#/paths/~1api~1teams~1%7BteamId%7D/get/parameters'
       requestBody:
         content:
           application/json:
@@ -519,84 +560,20 @@ paths:
       summary: '팀 삭제, [team]'
       tags:
         - team
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                team_id:
-                  type: integer
-      responses:
-        '204':
-          description: 성공
-        '409':
-          description: error
-  '/api/team/{id}':
-    get:
-      summary: 팀 정보 가져오기
-      tags:
-        - team
-      responses:
-        '200':
-          description: 성공
-          content:
-            application/json:
-              schema:
-                $ref: '#/paths/~1api~1team/put/requestBody/content/application~1json/schema'
-        '404':
-          description: error
-    delete:
-      summary: 유저 강퇴하기
-      tags:
-        - team
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/paths/~1api~1team/delete/requestBody/content/application~1json/schema'
+        $ref: '#/paths/~1api~1teams~1%7BteamId%7D/get/parameters'
       responses:
         '204':
           description: 성공
         '409':
           description: error
-  /api/team/create:
-    post:
-      summary: '팀 생성, [team, team-user]'
-      tags:
-        - team
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                team_name:
-                  type: string
-                team_desc:
-                  type: string
-      responses:
-        '204':
-          description: 성공
-        '409':
-          description: error
-  '/api/team/users/{id}':
+  '/api/teams/{teamId}/users':
     get:
       summary: 팀의 모든 유저 리스트 가져오기
       tags:
         - team
       parameters:
-        - name: teamId
-          in: path
-          required: true
-          schema:
-            type: integer
+        $ref: '#/paths/~1api~1teams~1%7BteamId%7D/get/parameters'
       responses:
         '200':
           description: 성공
@@ -624,7 +601,7 @@ paths:
                           type: integer
         '404':
           description: error
-  /api/team/invite:
+  '/api/teams/{teamId}/invitations':
     post:
       summary: '초대 전송 [team-user]'
       tags:
@@ -644,8 +621,7 @@ paths:
           description: 성공
         '404':
           description: error
-  /api/team/invite/response:
-    post:
+    patch:
       summary: '초대 수락 [team-user]'
       tags:
         - team
@@ -653,7 +629,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1api~1team/delete/requestBody/content/application~1json/schema'
+              type: object
+              properties:
+                team_id:
+                  type: integer
       responses:
         '204':
           description: 성공
@@ -663,11 +642,30 @@ paths:
       summary: '초대 거절 [team-user]'
       tags:
         - team
+      responses:
+        '204':
+          description: 성공
+        '409':
+          description: error
+  '/api/teams/{teamId}/users/{userId}':
+    patch:
+      summary: '권한 변경 [team-user]'
+      tags:
+        - team
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1api~1team/delete/requestBody/content/application~1json/schema'
+              $ref: '#/paths/~1api~1teams~1%7BteamId%7D~1invitations/patch/requestBody/content/application~1json/schema'
+      responses:
+        '204':
+          description: 성공
+        '409':
+          description: error
+    delete:
+      summary: '팀원 강퇴 [team-user]'
+      tags:
+        - team
       responses:
         '204':
           description: 성공

@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "crypto-js": "^4.1.1",
     "konva": "^8.3.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -73,7 +72,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/crypto-js": "^4.0.2",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.33",

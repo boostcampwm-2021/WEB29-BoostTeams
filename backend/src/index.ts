@@ -82,5 +82,6 @@ class App {
 }
 
 const app = new App();
-
 app.listen();
+
+module.exports = app.server;

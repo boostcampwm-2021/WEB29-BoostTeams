@@ -5,7 +5,7 @@ const redisClient = new Redis();
 
 const MessageService = {
 	getLastMessage: async (chatRoomId: number) => {
-		const messageList: any = await redisClient.get(MESSAGE, String(chatRoomId));
+		const messageList: any = await redisClient.read(MESSAGE, String(chatRoomId));
 		return messageList[messageList.length - 1];
 	},
 	getChatRoomsLastMessage: async (chatRoomsData: ChatRoomType[]) => {
@@ -22,12 +22,12 @@ const MessageService = {
 		return chatRoomsLastMessage;
 	},
 	getMessageList: async (chatRoomId: number) => {
-		const messageList = await redisClient.get(MESSAGE, String(chatRoomId));
+		const messageList = await redisClient.read(MESSAGE, String(chatRoomId));
 		return messageList;
 	},
 	saveMessage: async (messageData: MessageReqType, chatRoomId: number) => {
 		const newMessage = await makeMessageObj(messageData);
-		await redisClient.set(MESSAGE, String(chatRoomId), newMessage);
+		await redisClient.create(MESSAGE, String(chatRoomId), newMessage);
 		return newMessage;
 	}
 };

@@ -4,5 +4,5 @@ post:
   responses:
     200:
       description: 성공
-    404:
+    401:
       description: error

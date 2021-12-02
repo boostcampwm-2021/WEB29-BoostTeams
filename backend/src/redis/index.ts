@@ -1,5 +1,9 @@
 import { createClient, RedisClient } from 'redis';
+import { findTargetData } from './helper';
+import { MessageType } from '@src/customeTypes/chat';
+import { IPostit } from '@src/customeTypes/board';
 
+const INDEX = 'index';
 export default class Redis {
 	static instance: Redis;
 	static client: RedisClient;
@@ -17,61 +21,81 @@ export default class Redis {
 		}
 		return Redis.instance;
 	}
+	async read(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
+		try {
+			return await Redis.get(key, field);
+		} catch (error) {
+			return error;
+		}
+	}
 
-	get(key: string, field: string) {
+	async create(key: string, field: string, value: IPostit | MessageType): Promise<boolean> {
+		try {
+			const storedDataList = (await Redis.get(key, field)) as any;
+			storedDataList.push(value);
+			await Redis.set(key, field, storedDataList);
+			await Redis.increaseIndex();
+			return true;
+		} catch (error) {
+			return false;
+		}
+	}
+
+	async update(key: string, field: string, value: IPostit): Promise<IPostit> {
+		try {
+			const storedDataList = await Redis.get(key, field);
+			const { targetData, targetDataIndex } = findTargetData(storedDataList, value.id);
+			const updatedData = { ...targetData, ...value };
+			storedDataList[targetDataIndex] = updatedData;
+			await Redis.set(key, field, storedDataList);
+			return updatedData;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async delete(key: string, field: string, targetId: number): Promise<IPostit[] | MessageType[] | []> {
+		try {
+			const storedDataList = await Redis.get(key, field);
+			const updatedDataList = storedDataList.filter((data: IPostit) => Number(data.id) !== Number(targetId));
+			await Redis.set(key, field, updatedDataList);
+			return updatedDataList;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	static get(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, async (searchError, searchResult) => {
-				if (searchError) return reject(searchError);
+			Redis.client.hget(key, field, (error, searchResult) => {
+				if (error) return reject(error);
 				else if (searchResult === null) return resolve([]);
 				else return resolve(JSON.parse(searchResult));
 			});
 		});
 	}
 
-	set(key: string, field: string, value: any) {
-		return new Promise(async (resolve, reject) => {
-			const storedDataList = await this.get(key, field);
-			if (!storedDataList || !Array.isArray(storedDataList)) reject(false);
-			else {
-				const storedDataIndex = storedDataList.findIndex((data) => Number(data.id) === Number(value.id));
-				// update
-				if (storedDataIndex !== -1) {
-					const updatedData = { ...storedDataList[storedDataIndex], ...value };
-					storedDataList.splice(storedDataIndex, 1, updatedData);
-					Redis.client.hset(key, field, JSON.stringify(storedDataList));
-					return resolve(updatedData);
-				}
-				// create
-				else {
-					Redis.client.hset(key, field, JSON.stringify([...storedDataList, value]));
-					await Redis.increaseIndex();
-					return resolve(value);
-				}
-			}
-		});
-	}
-
-	delete(key: string, field: string, targetId: number) {
+	static set(key: string, field: string, value: IPostit[] | MessageType[]): Promise<Error | boolean> {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (err, searchResult) => {
-				if (err) return reject(err);
-				const storedDataList = JSON.parse(searchResult);
-				const updatedDataList = storedDataList.filter((data) => Number(data.id) !== Number(targetId));
-				Redis.client.hset(key, field, JSON.stringify(updatedDataList));
-				return resolve(updatedDataList);
+			Redis.client.hset(key, field, JSON.stringify(value), (error) => {
+				if (error) return reject(error);
+				else return resolve(true);
 			});
 		});
 	}
 
-	static getIndex() {
-		return new Promise<number>((resolve) => {
-			Redis.client.GET(INDEX, (err, index) => resolve(Number(index)));
+	static getIndex(): Promise<number> {
+		return new Promise((resolve, reject) => {
+			Redis.client.get(INDEX, (error, index) => {
+				if (error) return reject(error);
+				else resolve(Number(index));
+			});
 		});
 	}
 
-	static async increaseIndex() {
-		const lastIndex = await Redis.getIndex();
-		return new Promise((resolve, reject) => {
+	static increaseIndex(): Promise<Error | boolean> {
+		return new Promise(async (resolve, reject) => {
+			const lastIndex = await Redis.getIndex();
 			Redis.client.set(INDEX, String(lastIndex + 1), (error) => {
 				if (error) return reject(error);
 				else resolve(true);
@@ -79,5 +103,3 @@ export default class Redis {
 		});
 	}
 }
-
-const INDEX = 'index';
