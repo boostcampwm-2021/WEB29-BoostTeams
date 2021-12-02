@@ -52,7 +52,7 @@ const ChatSidebar: React.FC<Props> = ({ teamId }) => {
 				<button type='button' onClick={handleChatModeNone}>
 					채팅
 				</button>
-				<NewChatBtn onClick={handleChatModeCreate}>
+				<NewChatBtn onClick={handleChatModeCreate} aria-label='New Chat'>
 					<FaRegPlusSquare />
 				</NewChatBtn>
 			</SidebarHeader>

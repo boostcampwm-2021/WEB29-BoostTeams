@@ -14,6 +14,7 @@ module.exports = {
     config.resolve.alias['@'] = path.resolve(__dirname, '../src/');
     config.resolve.alias['@apis'] = path.resolve(__dirname, '../src/apis/');
     config.resolve.alias['@components'] = path.resolve(__dirname, '../src/components/');
+    config.resolve.alias['@hooks'] = path.resolve(__dirname, '../src/hooks/');
     config.resolve.alias['@pages'] = path.resolve(__dirname, '../src/pages/');
     config.resolve.alias['@routes'] = path.resolve(__dirname, '../src/routes/');
     config.resolve.alias['@stores'] = path.resolve(__dirname, '../src/stores/');

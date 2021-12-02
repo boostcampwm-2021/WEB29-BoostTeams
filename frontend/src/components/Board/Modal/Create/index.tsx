@@ -1,23 +1,26 @@
-import React, { useRef, useState, useEffect } from 'react';
-import userState from '@stores/user';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useRecoilValue } from 'recoil';
+import userState from '@stores/user';
 import Modal from '@components/common/Modal';
 import ColorPicker from '@components/common/ColorPicker';
-import { IPostit, ISocketApi } from '@src/types/board';
+import socketApi from '@apis/socket';
+import { SocketContext } from '@utils/socketContext';
+import { NOBODY } from '@utils/constants';
+import { IPostit } from '@src/types/board';
 import { Container, Input, Textarea, TitleContainer } from './style';
 
 export interface Props {
-	socketApi: ISocketApi;
 	modalType: string;
 	clickedPostit: IPostit | undefined;
 	handleModalClose: () => void;
 }
 
-const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPostit, handleModalClose }) => {
+const CreatePostitModal: React.FC<Props> = ({ modalType, clickedPostit, handleModalClose }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const user = useRecoilValue(userState);
 	const [color, setColor] = useState<number>(0);
+	const socket = useContext(SocketContext).current;
 
 	const makePostitObj = (modalType: string, title: string, content: string) => {
 		if (modalType === 'update' && clickedPostit) {
@@ -27,10 +30,9 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 			updatedPostit.color = color;
 			updatedPostit.content = content;
 			updatedPostit.updatedBy = user.id;
-			updatedPostit.whoIsUpdating = -1;
+			updatedPostit.whoIsUpdating = NOBODY;
 			return updatedPostit;
 		}
-		// if (modalType === 'create')
 		return {
 			title,
 			color,
@@ -46,14 +48,14 @@ const CreatePostitModal: React.FC<Props> = ({ socketApi, modalType, clickedPosti
 			const content = textareaRef.current.value;
 			const postit = makePostitObj(modalType, title, content);
 			// 포스트잇 객체, 요청 유저 정보, 팀 아이디
-			if (modalType === 'create') socketApi.createNewPostit(postit);
-			else if (modalType === 'update') socketApi.updateEndPostit(postit);
+			if (modalType === 'create') socketApi.createNewPostit(socket, postit);
+			else if (modalType === 'update') socketApi.updateEndPostit(socket, postit);
 			handleModalClose();
 		}
 	};
 
 	const handleClose = () => {
-		if (modalType === 'update' && clickedPostit) socketApi.updateEndPostit({ id: clickedPostit.id });
+		if (modalType === 'update' && clickedPostit) socketApi.updateEndPostit(socket, { id: clickedPostit.id });
 		handleModalClose();
 	};
 
