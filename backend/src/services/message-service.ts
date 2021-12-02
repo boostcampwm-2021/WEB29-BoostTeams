@@ -27,7 +27,7 @@ const MessageService = {
 	},
 	saveMessage: async (messageData: MessageReqType, chatRoomId: number) => {
 		const newMessage = await makeMessageObj(messageData);
-		await redisClient.set(MESSAGE, String(chatRoomId), newMessage);
+		await redisClient.create(MESSAGE, String(chatRoomId), newMessage);
 		return newMessage;
 	}
 };

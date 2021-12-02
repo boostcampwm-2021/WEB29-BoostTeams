@@ -11,14 +11,14 @@ const BoardService = {
 	},
 	createPostit: async (postit: IPostit, teamId: string) => {
 		const newPostit = await makePostitObj(postit);
-		await redisClient.set(BOARD, teamId, newPostit);
+		await redisClient.create(BOARD, teamId, newPostit);
 		return newPostit;
 	},
 	deletePostit: async (teamId: string, postitId: number) => {
 		return await redisClient.delete(BOARD, teamId, postitId);
 	},
 	updatePostit: async (teamId: string, newPostit: IPostit) => {
-		const updatedPostit = await redisClient.set(BOARD, teamId, newPostit);
+		const updatedPostit = await redisClient.update(BOARD, teamId, newPostit);
 		return updatedPostit;
 	}
 };
