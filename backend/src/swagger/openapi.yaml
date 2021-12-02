@@ -6,13 +6,11 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:4000/
+  - url: https://www.boostteams.kro.kr
     description: BoostTeams Server
 tags:
   - name: auth
     description: Join / Login / Logout
-  - name: chat
-    description: Chat Page
   - name: schedule
     description: Calendar Page
   - name: team
@@ -31,16 +29,13 @@ paths:
     $ref: './paths/auth/signup.yaml'
   /api/auth/info:
     $ref: './paths/auth/info.yaml'
-  # schdule
-  /api/schedules/{team_id}:
+  /api/auth/signout:
+    $ref: './paths/auth/signout.yaml'
+  # schedule
+  /api/schedules:
     $ref: './paths/schedule/scheduleByTeamId.yaml'
   /api/schedules/{schedule_id}:
     $ref: './paths/schedule/scheduleByScheduleId.yaml'
-  # chat
-  /api/chat/room:
-    $ref: './paths/chat/chat.yaml'
-  /api/chat/room/{chatRoomId}:
-    $ref: './paths/chat/chatRoom.yaml'
   # user
   /api/users:
     $ref: './paths/user/user.yaml'

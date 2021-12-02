@@ -15,13 +15,6 @@ get:
 post:
   summary: 일정 추가하기
   tags: [schedule]
-  parameters:
-    - name: team_id
-      in: path
-      required: true
-      description: 대상 팀 id
-      schema:
-        type: integer
   requestBody:
     content:
       application/json:

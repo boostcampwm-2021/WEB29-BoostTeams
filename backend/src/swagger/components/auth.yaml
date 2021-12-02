@@ -1,0 +1,64 @@
+components:
+  parameters:
+    GetScheduleParam:
+      - name: team_id
+        in: query
+        required: true
+        description: 대상 팀 id
+        schema:
+          type: integer
+      - name: start_date
+        in: query
+        required: true
+        description: 시작 날짜
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        required: true
+        description: 끝 날짜
+        schema:
+          type: string
+    ScheduleId:
+      - name: schedule_id
+        in: path
+        required: true
+        description: shedule id
+        schema:
+          type: integer
+  schemas:
+    login:
+      type: object
+      properties:
+        userEmail:
+          type: string
+        userPassword:
+          type: string
+      example:
+        userEmail: test@test.com
+        userPassword: 1qwrj1233ssd
+    signup:
+      type: object
+      properties:
+        userName:
+          type: string
+        userEmail:
+          type: string
+        userPassword:
+          type: string
+      example:
+        userName: testName
+        userEmail: test@test.com
+        userPassword: 1qwrj1233ssd
+    loginRes:
+      type: object
+      properties:
+        user:
+          type: object
+    signupRes:
+      type: object
+      properties:
+        signup:
+          type: boolean
+      example:
+        signup: true

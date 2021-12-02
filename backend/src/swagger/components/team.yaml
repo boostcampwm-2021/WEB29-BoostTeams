@@ -12,6 +12,17 @@ components:
         required: true
         schema:
           type: integer
+    TeamUser:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: teamId
+        in: path
+        required: true
+        schema:
+          type: integer
   schemas:
     TeamList:
       type: array
