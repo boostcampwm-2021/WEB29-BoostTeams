@@ -4,5 +4,5 @@
 
 ```
 REACT_APP_SERVER=[Server URL]
-REACT_APP_AES_KEY=[AES Secret Key] (BE와 동일해야 함)
+GENERATE_SOURCEMAP=[true: 개발용, false: 배포용]
 ```
