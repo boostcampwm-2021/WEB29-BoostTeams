@@ -4,11 +4,10 @@ import { useRecoilValue } from 'recoil';
 import { chatModeState } from '@stores/chat';
 import { UserIdType } from '@src/types/team';
 
-import { Header, Navbar } from '@components/common';
 import ChatSidebar from '@components/Chat/ChatSidebar';
 import ChatHeader from '@components/Chat/ChatHeader';
 import ChatContent from '@components/Chat/ChatContent';
-import { Layout, MainContainer, ChatContainer } from './style';
+import { Layout, ChatContainer } from './style';
 
 interface Props {
 	teamId: number;
@@ -31,23 +30,19 @@ const ChatTemplate: React.FC<Props> = ({
 
 	return (
 		<Layout>
-			<Header />
-			<MainContainer>
-				<Navbar />
-				<ChatSidebar teamId={teamId} />
-				{chatMode !== 'none' && (
-					<ChatContainer>
-						<ChatHeader
-							teamId={teamId}
-							inviteUsers={inviteUsers}
-							addInviteUser={addInviteUser}
-							deleteInviteUser={deleteInviteUser}
-							initInviteUser={initInviteUser}
-						/>
-						<ChatContent teamId={teamId} inviteUsers={inviteUsers} messagesEndRef={messagesEndRef} />
-					</ChatContainer>
-				)}
-			</MainContainer>
+			<ChatSidebar teamId={teamId} />
+			{chatMode !== 'none' && (
+				<ChatContainer>
+					<ChatHeader
+						teamId={teamId}
+						inviteUsers={inviteUsers}
+						addInviteUser={addInviteUser}
+						deleteInviteUser={deleteInviteUser}
+						initInviteUser={initInviteUser}
+					/>
+					<ChatContent teamId={teamId} inviteUsers={inviteUsers} messagesEndRef={messagesEndRef} />
+				</ChatContainer>
+			)}
 		</Layout>
 	);
 };

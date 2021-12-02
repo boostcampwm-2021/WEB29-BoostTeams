@@ -16,7 +16,7 @@ const SignUpTemplate: React.FC<Props> = ({ signUpHandler, inputNameHandler, inpu
 				<Logo />
 				<InputContainer>
 					<span>이름 : </span>
-					<Input type='name' placeholder='2-20자 사이의 영문자, 숫자' onChange={inputNameHandler} />
+					<Input type='name' placeholder='2-20자 사이의 한글, 영문자, 숫자' onChange={inputNameHandler} />
 				</InputContainer>
 				<InputContainer>
 					<span>이메일 : </span>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Meta, Story } from '@storybook/react';
 import CreatePostitModal, { Props } from './index';
-import { MPostit, MSocketApi } from './mock';
+import { MPostit } from './mock';
 
 export default {
 	title: 'Modals/Postit',
@@ -15,14 +15,12 @@ export const CreatePostit = Template.bind({});
 export const UpdatePostit = Template.bind({});
 
 CreatePostit.args = {
-	socketApi: MSocketApi,
 	handleModalClose: () => null,
 	modalType: 'create',
 	clickedPostit: undefined,
 };
 
 UpdatePostit.args = {
-	socketApi: MSocketApi,
 	handleModalClose: () => null,
 	modalType: 'update',
 	clickedPostit: MPostit,

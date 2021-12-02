@@ -12,7 +12,7 @@ interface Props {
 
 const TeamCard: React.FC<Props> = ({ team_id, team_name }) => {
 	return (
-		<Link to={`/team/${team_id}/calendar`}>
+		<Link to={`/team/${team_id}/board`}>
 			<Container>
 				<Thumbnail team_id={team_id} team_name={team_name} />
 				<Name>{team_name}</Name>

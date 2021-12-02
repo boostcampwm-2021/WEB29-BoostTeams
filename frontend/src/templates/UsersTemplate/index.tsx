@@ -1,5 +1,4 @@
 import React from 'react';
-import { Header, Navbar } from '@components/common';
 import UsersHeader from '@components/Users/UsersHeader';
 import UserList from '@components/Users/UserList';
 import {
@@ -11,7 +10,7 @@ import {
 } from '@components/Users/Modal';
 import { useRecoilState } from 'recoil';
 import { modalState } from '@stores/team';
-import { MainContainer, ContentContainer } from './style';
+import { ContentContainer } from './style';
 
 interface Props {
 	teamId: number;
@@ -23,14 +22,10 @@ const UsersTemplate: React.FC<Props> = ({ teamId, onlineUsers }) => {
 	const closeModal = () => setModal({ isOpen: false, mode: modal.mode });
 	return (
 		<>
-			<Header />
-			<MainContainer>
-				<Navbar />
-				<ContentContainer>
-					<UsersHeader teamId={teamId} />
-					<UserList teamId={teamId} onlineUsers={onlineUsers} />
-				</ContentContainer>
-			</MainContainer>
+			<ContentContainer>
+				<UsersHeader teamId={teamId} />
+				<UserList teamId={teamId} onlineUsers={onlineUsers} />
+			</ContentContainer>
 			{modal.mode === 'EXIT' && modal.isOpen && <ExitTeamModal handleModalClose={closeModal} teamId={teamId} />}
 			{modal.mode === 'UPDATE' && modal.isOpen && <UpdateTeamModal handleModalClose={closeModal} teamId={teamId} />}
 			{modal.mode === 'DELETE' && modal.isOpen && <DeleteTeamModal handleModalClose={closeModal} teamId={teamId} />}
