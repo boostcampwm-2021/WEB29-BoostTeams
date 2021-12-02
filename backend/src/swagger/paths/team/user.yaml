@@ -1,6 +1,8 @@
 get:
   summary: 팀 정보 가져오기
   tags: [team]
+  parameters:
+    $ref: '../../components/team.yaml#/components/parameters/TeamId'
   responses:
     200:
       description: 성공
@@ -10,16 +12,26 @@ get:
             $ref: '../../components/team.yaml#/components/schemas/TeamInfo'
     404:
       description: error
-delete:
-  summary: 유저 강퇴하기
+put:
+  summary: 팀 수정 [team]
   tags: [team]
   parameters:
-    $ref: '../../components/team.yaml#/components/parameters/UserId'
+    $ref: '../../components/team.yaml#/components/parameters/TeamId'
   requestBody:
     content:
       application/json:
         schema:
-          $ref: '../../components/team.yaml#/components/schemas/TeamId'
+          $ref: '../../components/team.yaml#/components/schemas/TeamInfo'
+  responses:
+    200:
+      description: 성공
+    409:
+      description: error
+delete:
+  summary: 팀 삭제, [team]
+  tags: [team]
+  parameters:
+    $ref: '../../components/team.yaml#/components/parameters/TeamId'
   responses:
     204:
       description: 성공

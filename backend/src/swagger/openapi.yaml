@@ -32,9 +32,9 @@ paths:
   /api/auth/info:
     $ref: './paths/auth/info.yaml'
   # schdule
-  /api/schedule/{team_id}:
+  /api/schedules/{team_id}:
     $ref: './paths/schedule/scheduleByTeamId.yaml'
-  /api/schedule/{schedule_id}:
+  /api/schedules/{schedule_id}:
     $ref: './paths/schedule/scheduleByScheduleId.yaml'
   # chat
   /api/chat/room:
@@ -42,18 +42,16 @@ paths:
   /api/chat/room/{chatRoomId}:
     $ref: './paths/chat/chatRoom.yaml'
   # user
-  /api/user/name:
+  /api/users:
     $ref: './paths/user/user.yaml'
   # team
-  /api/team:
+  /api/teams:
     $ref: './paths/team/team.yaml'
-  /api/team/{id}:
+  /api/teams/{teamId}:
     $ref: './paths/team/user.yaml'
-  /api/team/create:
-    $ref: './paths/team/createTeam.yaml'
-  /api/team/users/{id}:
+  /api/teams/{teamId}/users:
     $ref: './paths/team/users.yaml'
-  /api/team/invite:
+  /api/teams/{teamId}/invitations:
     $ref: './paths/team/invite.yaml'
-  /api/team/invite/response:
-    $ref: './paths/team/response.yaml'
+  /api/teams/{teamId}/users/{userId}:
+    $ref: './paths/team/handleUser.yaml'
