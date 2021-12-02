@@ -34,7 +34,7 @@ export default class TeamUserService {
 		return await this.teamUserRepository
 			.createQueryBuilder('team_user')
 			.where('team_user.user = :userId', { userId })
-			.where('team_user.team = :teamId', { teamId })
+			.andWhere('team_user.team = :teamId', { teamId })
 			.getOne();
 	}
 

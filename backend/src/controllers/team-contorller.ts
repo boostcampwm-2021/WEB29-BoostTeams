@@ -72,6 +72,8 @@ const TeamController = {
 			const userInfo = await UserService.getInstance().getUserByUserName(userName);
 			if(!userInfo) res.sendStatus(404);
 			const userId = userInfo.user_id;
+			const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
+			if(teamUser) res.sendStatus(404);
 			await TeamUserService.getInstance().invite(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
