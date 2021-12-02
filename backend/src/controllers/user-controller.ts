@@ -11,14 +11,14 @@ interface IUser extends Request {
 const UserController = {
 	async createUser(req: Request, res: Response) {
 		try {
-			const { userName, userEmail, encryptedPassword } = req.body;
+			const { userName, userEmail, userPassword } = req.body;
 			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(userEmail);
 			const nameAlreadyUsed = await UserService.getInstance().getUserByName(userName);
 
 			if (emailAlreadyUsed) return res.status(409).json({ conflict: 'email' });
 			if (nameAlreadyUsed) return res.status(409).json({ conflict: 'name' });
 
-			const newUser = await UserService.getInstance().createUser(userEmail, encryptedPassword, userName);
+			const newUser = await UserService.getInstance().createUser(userEmail, userPassword, userName);
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
 			return res.json({ signup: true });
