@@ -50,9 +50,8 @@ https://www.boostteams.kro.kr
 
 ## 기술 스택 👨‍💻 👩‍💻
 ![image](https://user-images.githubusercontent.com/47925079/144397243-4754a039-1255-468c-bc41-5392dd1ca4a0.png)
-
 ## 시스템 구성도 ⚙️
-<img src="https://user-images.githubusercontent.com/42960217/143481445-f5f9a568-2526-46c7-8ed4-e3fd0d7c5ae3.png" width="700px">
+![image](https://user-images.githubusercontent.com/47925079/144424027-d6230ee5-35ff-400f-a848-b76dd17b3b06.png)
 
 ## 설계 🎨
 - [Design: Figma](https://www.figma.com/file/ARSNGmB4baVv48Os7TrELl/Teams?node-id=0%3A1)

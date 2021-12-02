@@ -8,7 +8,7 @@ export const Container = styled.header`
 	width: 100%;
 	height: 2.5rem;
 	background-color: ${ColorCode.BACKGROUND1};
-	padding: 0 1rem 0 0;
+	padding: 0 1rem;
 	box-sizing: border-box;
 	border-bottom: solid 1px ${ColorCode.LINE2};
 	svg {

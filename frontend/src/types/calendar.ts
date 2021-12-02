@@ -49,6 +49,7 @@ export interface ScheduleReqType {
 	repeat_count: number;
 	content?: string;
 	color: number;
+	team_id: number;
 }
 
 export interface TimeType {
