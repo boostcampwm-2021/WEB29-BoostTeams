@@ -2,6 +2,8 @@ import { createClient, RedisClient } from 'redis';
 import { findTargetData } from './helper';
 import { MessageType } from '@src/customeTypes/chat';
 import { IPostit } from '@src/customeTypes/board';
+
+const INDEX = 'index';
 export default class Redis {
 	static instance: Redis;
 	static client: RedisClient;
@@ -19,51 +21,65 @@ export default class Redis {
 		}
 		return Redis.instance;
 	}
+	async read(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
+		try {
+			return await Redis.get(key, field);
+		} catch (error) {
+			return error;
+		}
+	}
 
-	get(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
+	async create(key: string, field: string, value: IPostit | MessageType): Promise<boolean> {
+		try {
+			const storedDataList = (await Redis.get(key, field)) as any;
+			storedDataList.push(value);
+			await Redis.set(key, field, storedDataList);
+			await Redis.increaseIndex();
+			return true;
+		} catch (error) {
+			return false;
+		}
+	}
+
+	async update(key: string, field: string, value: IPostit): Promise<IPostit> {
+		try {
+			const storedDataList = await Redis.get(key, field);
+			const { targetData, targetDataIndex } = findTargetData(storedDataList, value.id);
+			const updatedData = { ...targetData, ...value };
+			storedDataList[targetDataIndex] = updatedData;
+			await Redis.set(key, field, storedDataList);
+			return updatedData;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async delete(key: string, field: string, targetId: number): Promise<IPostit[] | MessageType[] | []> {
+		try {
+			const storedDataList = await Redis.get(key, field);
+			const updatedDataList = storedDataList.filter((data: IPostit) => Number(data.id) !== Number(targetId));
+			await Redis.set(key, field, updatedDataList);
+			return updatedDataList;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	static get(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, (searchError, searchResult) => {
-				if (searchError) return reject(searchError);
+			Redis.client.hget(key, field, (error, searchResult) => {
+				if (error) return reject(error);
 				else if (searchResult === null) return resolve([]);
 				else return resolve(JSON.parse(searchResult));
 			});
 		});
 	}
 
-	create(key: string, field: string, value: IPostit | MessageType): Promise<IPostit | MessageType> {
-		return new Promise(async (resolve, reject) => {
-			const storedDataList = (await this.get(key, field)) as any;
-			storedDataList.push(value);
-			Redis.client.hset(key, field, JSON.stringify(storedDataList), (error) => {
+	static set(key: string, field: string, value: IPostit[] | MessageType[]): Promise<Error | boolean> {
+		return new Promise((resolve, reject) => {
+			Redis.client.hset(key, field, JSON.stringify(value), (error) => {
 				if (error) return reject(error);
-				else {
-					Redis.increaseIndex();
-					return resolve(value);
-				}
-			});
-		});
-	}
-
-	update(key: string, field: string, value: IPostit): Promise<IPostit> {
-		return new Promise(async (resolve, reject) => {
-			const storedDataList = await this.get(key, field);
-			const { targetData, targetDataIndex } = findTargetData(storedDataList, value.id);
-			const updatedData = { ...targetData, ...value };
-			storedDataList[targetDataIndex] = updatedData;
-			Redis.client.hset(key, field, JSON.stringify(storedDataList), (error) => {
-				if (error) return reject(error);
-				else return resolve(updatedData);
-			});
-		});
-	}
-
-	delete(key: string, field: string, targetId: number): Promise<IPostit[] | MessageType[] | []> {
-		return new Promise(async (resolve, reject) => {
-			const storedDataList = await this.get(key, field);
-			const updatedDataList = storedDataList.filter((data: IPostit) => Number(data.id) !== Number(targetId));
-			Redis.client.hset(key, field, JSON.stringify(updatedDataList), (error) => {
-				if (error) return reject(error);
-				else return resolve(updatedDataList);
+				else return resolve(true);
 			});
 		});
 	}
@@ -87,5 +103,3 @@ export default class Redis {
 		});
 	}
 }
-
-const INDEX = 'index';

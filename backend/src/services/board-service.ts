@@ -7,7 +7,7 @@ const NOBODY = -1;
 
 const BoardService = {
 	getPostitList: async (teamId: string) => {
-		return await redisClient.get(BOARD, teamId);
+		return await redisClient.read(BOARD, teamId);
 	},
 	createPostit: async (postit: IPostit, teamId: string) => {
 		const newPostit = await makePostitObj(postit);
