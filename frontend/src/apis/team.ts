@@ -1,7 +1,9 @@
-import { TeamUsersResType, TeamUsersType } from '@src/types/team';
+import { Socket } from 'socket.io-client';
+import { toast } from 'react-toastify';
 import { Role } from '@utils/constants';
 import fetchApi from '@utils/fetch';
-import { toast } from 'react-toastify';
+import { teamEvents } from '@src/types/eventType';
+import { TeamUsersResType, TeamUsersType, UserIdType } from '@src/types/team';
 
 interface teamData {
 	team_id?: number;
@@ -160,4 +162,19 @@ export const patchRole = async (
 	} catch (err) {
 		toast.error((err as Error).message);
 	}
+};
+
+export const socketApi = {
+	enterChatPage: (socket: Socket): void => {
+		socket.emit(teamEvents.ENTER_USERS_PAGE);
+	},
+	leaveChatPage: (socket: Socket): void => {
+		socket.emit(teamEvents.LEAVE_USERS_PAGE);
+	},
+	receiveOnlineUsers: (socket: Socket, handler: (onlineUsers: UserIdType[]) => void): void => {
+		socket.on(teamEvents.ONLINE_USERS, ({ onlineUsers }) => handler(onlineUsers));
+	},
+	offReceiveOnlineUsers: (socket: Socket): void => {
+		socket.off(teamEvents.ONLINE_USERS);
+	},
 };

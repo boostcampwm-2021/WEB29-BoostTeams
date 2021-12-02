@@ -41,8 +41,6 @@ const chatHandler = {
 	sendMessage: async (socket: Socket, namespace: Namespace, messageData: MessageReqType) => {
 		try {
 			const newMessage = await MessageService.saveMessage(messageData, messageData.chatRoomId);
-			console.log(newMessage);
-			console.log(namespace);
 			namespace.to(`chat-${messageData.chatRoomId}`).emit(chatEvents.RECEIVE_MESSAGE, newMessage);
 		} catch (err) {
 			socket.emit(chatEvents.ERROR.TYPE, chatEvents.ERROR.MESSAGES.SEND);

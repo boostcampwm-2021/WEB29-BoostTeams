@@ -37,10 +37,10 @@ const setUserStatusToOffline = (teamId: number, userId: number, socketId: string
 	delete onlineUsersInfo[socketId];
 };
 const sendOnlineUsers = (socket: Socket, teamId: number): void => {
-	socket.emit(teamEvents.ONLINE_USER, { onlineUsers: onlineUsersByTeam[teamId] });
+	socket.emit(teamEvents.ONLINE_USERS, { onlineUsers: onlineUsersByTeam[teamId] });
 };
 const sendOnlineUsersToRoom = (socket: Socket, teamId: number): void => {
-	socket.to('users').emit(teamEvents.ONLINE_USER, { onlineUsers: onlineUsersByTeam[teamId] });
+	socket.to('users').emit(teamEvents.ONLINE_USERS, { onlineUsers: onlineUsersByTeam[teamId] });
 };
 
 export default teamHandler;

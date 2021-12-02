@@ -9,13 +9,7 @@ const boardEvents = {
 	DELETE: 'delete postit',
 	ERROR: {
 		TYPE: 'team board error',
-		MESSAGES: {
-			LOAD: '포스트잇을 불러오는데 실패했습니다!',
-			CREATE: '새로운 포스트잇 생성 실패!',
-			UPDATE: '포스트잇을 업데이트 할 수 없습니다!',
-			DELETE: '포스트잇 삭제 실패!'
-		}
-	}
+	},
 };
 
 const teamEvents = {
@@ -23,7 +17,7 @@ const teamEvents = {
 	ENTER_USERS_PAGE: 'enter users page',
 	LEAVE_USERS_PAGE: 'leave users page',
 	CHANGE_STATUS_TO_ONLINE: 'change status to online',
-	DISCONNECT: 'disconnect'
+	DISCONNECT: 'disconnect',
 };
 
 const chatEvents = {
@@ -43,16 +37,7 @@ const chatEvents = {
 	INVITED_TO_CHAT_ROOM: 'invited to chat room',
 	ERROR: {
 		TYPE: 'chat error',
-		MESSAGES: {
-			LOAD: '채팅방 목록을 불러오는데 실패했습니다!',
-			ENTER: '채팅 목록을 불러오는데 실패했습니다!',
-			CREATE: '채팅방 생성에 실패했습니다!',
-			UPDATE: '채팅방 이름 변경에 실패했습니다!',
-			LEAVE: '채팅방 나가기에 실패했습니다!',
-			INVITE: '초대에 실패했습니다!',
-			SEND: '채팅 전송에 실패했습니다!'
-		}
-	}
+	},
 };
 
 export { boardEvents, teamEvents, chatEvents };
