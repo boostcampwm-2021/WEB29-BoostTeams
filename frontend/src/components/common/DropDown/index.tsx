@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import { FaSortDown } from 'react-icons/fa';
-import { Container, OptionsWrapper } from './style';
+import { Background, Container, OptionsWrapper } from './style';
 
 interface Props {
 	options: string[];
@@ -13,7 +13,8 @@ interface Props {
 const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption }) => {
 	const [dropDownOpen, setDropDownOpen] = useState(false);
 
-	const handleDropDownOpen = () => setDropDownOpen(!dropDownOpen);
+	const handleDropDownOpen = () => setDropDownOpen(true);
+	const handleDropDownClose = () => setDropDownOpen(false);
 
 	const handleOptionClick = (idx: number) => {
 		setSelectedOption(idx);
@@ -27,13 +28,16 @@ const DropDown: React.FC<Props> = ({ options, selectedOption, setSelectedOption 
 				<FaSortDown />
 			</div>
 			{dropDownOpen && (
-				<OptionsWrapper>
-					{options.map((option, i) => (
-						<div key={option} onClick={() => handleOptionClick(i)}>
-							{option}
-						</div>
-					))}
-				</OptionsWrapper>
+				<>
+					<OptionsWrapper>
+						{options.map((option, i) => (
+							<div key={option} onClick={() => handleOptionClick(i)}>
+								{option}
+							</div>
+						))}
+					</OptionsWrapper>
+					<Background onClick={handleDropDownClose} />
+				</>
 			)}
 		</Container>
 	);
