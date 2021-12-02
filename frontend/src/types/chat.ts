@@ -1,5 +1,3 @@
-import { UserIdType } from './team';
-
 export interface ChatModeType {
 	chatMode: 'none' | 'create' | 'chat';
 }

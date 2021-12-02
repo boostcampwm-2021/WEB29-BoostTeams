@@ -4,7 +4,7 @@ import fetchApi from '@utils/fetch';
 export const updateName = async ({ newName }: { newName: string }, cb?: any) => {
 	try {
 		const res = await fetchApi.patch('/api/users', { newName });
-		if (res.status === 204) {
+		if (res.status === 201) {
 			cb();
 			toast.success('😎 닉네임 변경 성공');
 		} else if (res.status === 401) {

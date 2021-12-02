@@ -14,8 +14,7 @@ const ColorPicker: React.FC<Props> = ({ selectedColor, setSelectedColor }) => {
 		setDropDownOpen(!dropDownOpen);
 	};
 
-	const handleColorClick = (e: React.MouseEvent<HTMLElement>) =>
-		setSelectedColor(Number(e.currentTarget.dataset.color));
+	const handleColorClick = (idx: number) => setSelectedColor(idx);
 
 	return (
 		<Container onClick={handleDropDownOpen}>
@@ -23,7 +22,7 @@ const ColorPicker: React.FC<Props> = ({ selectedColor, setSelectedColor }) => {
 			{dropDownOpen && (
 				<ColorDropDown>
 					{PrimaryPalette.map((colorCode, i) => (
-						<ColorCircle key={colorCode} color={colorCode} data-color={i} onClick={handleColorClick} />
+						<ColorCircle key={colorCode} color={colorCode} onClick={() => handleColorClick(i)} />
 					))}
 				</ColorDropDown>
 			)}

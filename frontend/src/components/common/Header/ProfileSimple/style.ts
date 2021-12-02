@@ -41,5 +41,5 @@ export const Background = styled.div`
 	display: block;
 	width: 100vw;
 	height: calc(100vh - 3rem);
-	z-index: 0;
+	z-index: 15;
 `;

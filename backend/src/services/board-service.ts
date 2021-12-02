@@ -3,6 +3,8 @@ import { IPostit } from '../customeTypes/board';
 
 const redisClient = new Redis();
 
+const NOBODY = -1;
+
 const BoardService = {
 	getPostitList: async (teamId: string) => {
 		return await redisClient.get(BOARD, teamId);
@@ -34,8 +36,8 @@ const makePostitObj = async (newData: IPostit): Promise<IPostit> => {
 		updatedBy: newData.updatedBy,
 		createdAt: new Date(),
 		createdBy: newData.createdBy,
-		whoIsDragging: -1,
-		whoIsUpdating: -1
+		whoIsDragging: NOBODY,
+		whoIsUpdating: NOBODY
 	};
 };
 

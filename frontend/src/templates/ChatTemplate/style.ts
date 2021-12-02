@@ -3,17 +3,9 @@ import { ColorCode } from '@utils/constants';
 
 export const Layout = styled.div`
 	position: relative;
-	height: 100%;
-`;
-
-export const MainContainer = styled.div`
-	position: absolute;
-	top: 3rem;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	display: flex;
-	background-color: ${ColorCode.BACKGROUND1};
+	width: 100%;
+	height: 100%;
 `;
 
 export const ChatContainer = styled.div`

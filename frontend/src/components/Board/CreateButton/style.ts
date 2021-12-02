@@ -46,7 +46,7 @@ export const Wrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	font-size: 1.5rem;
-	color: ${ColorCode.GRAY};
+	color: ${ColorCode.FONT1};
 	background-color: ${ColorCode.YELLOW};
 	box-shadow: 4px -3px 8px rgba(0, 0, 0, 0.25);
 	span {

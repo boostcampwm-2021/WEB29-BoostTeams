@@ -1,8 +1,9 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { SocketContext } from '@utils/socketContext';
-import UsersTemplate from '@templates/UsersTemplate';
+import { socketApi } from '@apis/team';
 import { UserIdType } from '@src/types/team';
+import UsersTemplate from '@templates/UsersTemplate';
 
 interface MatchParams {
 	teamId: string;
@@ -17,14 +18,14 @@ const UsersPage: React.FC<Props> = ({ match }) => {
 
 	useEffect(() => {
 		if (socketRef.current) {
-			socketRef.current.on('online users', (data: { onlineUsers: UserIdType[] }) => {
-				setOnlineUsers(data.onlineUsers);
+			socketApi.enterChatPage(socketRef.current);
+			socketApi.receiveOnlineUsers(socketRef.current, (onlineUsersData) => {
+				setOnlineUsers(onlineUsersData);
 			});
-			socketRef.current.emit('enter users page');
 		}
 		return () => {
-			socketRef.current.emit('leave users page');
-			socketRef.current.off('online users');
+			socketApi.leaveChatPage(socketRef.current);
+			socketApi.offReceiveOnlineUsers(socketRef.current);
 		};
 	}, [socketRef.current]);
 
