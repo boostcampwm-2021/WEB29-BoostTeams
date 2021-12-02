@@ -22,8 +22,8 @@ export default class Redis {
 
 	get(key: string, field: string): Promise<IPostit[] | MessageType[] | []> {
 		return new Promise((resolve, reject) => {
-			Redis.client.hget(key, field, async (searchError, searchResult) => {
-				if (searchError) return reject([]);
+			Redis.client.hget(key, field, (searchError, searchResult) => {
+				if (searchError) return reject(searchError);
 				else if (searchResult === null) return resolve([]);
 				else return resolve(JSON.parse(searchResult));
 			});
@@ -32,16 +32,15 @@ export default class Redis {
 
 	create(key: string, field: string, value: IPostit | MessageType): Promise<IPostit | MessageType> {
 		return new Promise(async (resolve, reject) => {
-			try {
-				const storedDataList = (await this.get(key, field)) as any;
-				storedDataList.push(value);
-				Redis.client.hset(key, field, JSON.stringify(storedDataList), (error) => {
-					if (error) return reject(error);
-					else return resolve(value);
-				});
-			} catch (err) {
-				resolve(err);
-			}
+			const storedDataList = (await this.get(key, field)) as any;
+			storedDataList.push(value);
+			Redis.client.hset(key, field, JSON.stringify(storedDataList), (error) => {
+				if (error) return reject(error);
+				else {
+					Redis.increaseIndex();
+					return resolve(value);
+				}
+			});
 		});
 	}
 
