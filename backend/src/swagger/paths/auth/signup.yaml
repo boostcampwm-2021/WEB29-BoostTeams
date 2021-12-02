@@ -1,8 +1,17 @@
 post:
   summary: 회원가입하기
   tags: [auth]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/auth.yaml#/components/schemas/signup'
   responses:
     200:
       description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/auth.yaml#/components/schemas/signupRes'
     409:
       description: error

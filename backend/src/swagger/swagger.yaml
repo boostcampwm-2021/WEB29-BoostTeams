@@ -6,13 +6,11 @@ info:
   license:
     name: MIT
 servers:
-  - url: 'http://localhost:4000/'
+  - url: 'https://www.boostteams.kro.kr'
     description: BoostTeams Server
 tags:
   - name: auth
     description: Join / Login / Logout
-  - name: chat
-    description: Chat Page
   - name: schedule
     description: Calendar Page
   - name: team
@@ -25,9 +23,26 @@ paths:
       summary: 로그인하기
       tags:
         - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                userPassword:
+                  type: string
+              example:
+                userEmail: test@test.com
+                userPassword: 1qwrj1233ssd
       responses:
         '200':
           description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1api~1auth~1info/get/responses/200/content/application~1json/schema'
         '401':
           description: error
   /api/auth/github:
@@ -55,9 +70,34 @@ paths:
       summary: 회원가입하기
       tags:
         - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                userEmail:
+                  type: string
+                userPassword:
+                  type: string
+              example:
+                userName: testName
+                userEmail: test@test.com
+                userPassword: 1qwrj1233ssd
       responses:
         '200':
           description: 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signup:
+                    type: boolean
+                example:
+                  signup: true
         '409':
           description: error
   /api/auth/info:
@@ -68,16 +108,33 @@ paths:
       responses:
         '200':
           description: 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
         '401':
           description: error
-  '/api/schedules/{team_id}':
+  /api/auth/signout:
+    get:
+      summary: 회원 탈퇴
+      tags:
+        - auth
+      responses:
+        '204':
+          description: 성공
+        '401':
+          description: error
+  /api/schedules:
     get:
       summary: 일정 가져오기
       tags:
         - schedule
       parameters:
         - name: team_id
-          in: path
+          in: query
           required: true
           description: 대상 팀 id
           schema:
@@ -156,19 +213,14 @@ paths:
       summary: 일정 추가하기
       tags:
         - schedule
-      parameters:
-        - name: team_id
-          in: path
-          required: true
-          description: 대상 팀 id
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
+                team_id:
+                  type: integer
                 title:
                   type: string
                 start_date:
@@ -184,6 +236,7 @@ paths:
                 color:
                   type: integer
               example:
+                team_id: 1
                 title: 매일 5번 반복
                 start_date: 2021-11-01T03:00:00.000Z
                 end_date: 2021-11-01T04:00:00.000Z
@@ -266,7 +319,7 @@ paths:
       tags:
         - schedule
       parameters:
-        - name: schdule_id
+        - name: schedule_id
           in: path
           required: true
           description: shedule id
@@ -334,113 +387,6 @@ paths:
                   content: 화요일 회의 - 수정
                   color: 4
         '409':
-          description: error
-  /api/chat/room:
-    get:
-      summary: 채팅방 목록 가져오기
-      tags:
-        - chat
-      parameters:
-        - name: teamId
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: userId
-          in: query
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  chat_rooms:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        chat_room_id:
-                          type: integer
-                        chat_room_name:
-                          type: string
-        '404':
-          description: error
-    post:
-      summary: 채팅방 생성하기
-      tags:
-        - chat
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                team_id:
-                  type: integer
-                chat_room_name:
-                  type: string
-                user_id_list:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      user_id:
-                        type: integer
-      responses:
-        '200':
-          description: 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  chat_room_id:
-                    type: integer
-                  chat_room_name:
-                    type: string
-                  user_list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        user_id:
-                          type: integer
-        '409':
-          description: error
-  '/api/chat/room/{chatRoomId}':
-    get:
-      summary: 채팅방 정보 가져오기
-      tags:
-        - chat
-      parameters:
-        - name: chatRoomId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  chat_room_id:
-                    type: integer
-                  user_list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        user_id:
-                          type: integer
-        '404':
           description: error
   /api/users:
     patch:
