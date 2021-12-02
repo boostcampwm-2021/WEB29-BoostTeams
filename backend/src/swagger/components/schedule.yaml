@@ -2,7 +2,7 @@ components:
   parameters:
     GetScheduleParam:
       - name: team_id
-        in: path
+        in: query
         required: true
         description: 대상 팀 id
         schema:
@@ -20,7 +20,7 @@ components:
         schema:
           type: string
     ScheduleId:
-      - name: schdule_id
+      - name: schedule_id
         in: path
         required: true
         description: shedule id
@@ -132,6 +132,8 @@ components:
     CreateScheduleBody:
       type: object
       properties:
+        team_id:
+          type: integer
         title:
           type: string
         start_date:
@@ -147,6 +149,7 @@ components:
         color:
           type: integer
       example:
+        team_id: 1
         title: 매일 5번 반복
         start_date: 2021-11-01T03:00:00.000Z
         end_date: 2021-11-01T04:00:00.000Z

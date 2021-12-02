@@ -1,0 +1,8 @@
+get:
+  summary: 회원 탈퇴
+  tags: [auth]
+  responses:
+    204:
+      description: 성공
+    401:
+      description: error

@@ -4,5 +4,9 @@ get:
   responses:
     200:
       description: 성공
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/auth.yaml#/components/schemas/loginRes'
     401:
       description: error
