@@ -1,6 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { DateInfoType, ScheduleType, weekContentNumber } from '@src/types/calendar';
+import { DateInfoType, ScheduleType } from '@src/types/calendar';
+import { WeekContentNumber } from '@utils/constants';
 import Week from './Week';
 import { ContentContainer } from './style';
 
@@ -24,7 +25,7 @@ const MonthContent: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen })
 			week.push(0);
 		});
 		// 1일부터 첫주 마지막까지
-		[...Array(weekContentNumber.WEEK_NUMBER - firstDay)].forEach(() => {
+		[...Array(WeekContentNumber.WEEK_NUMBER - firstDay)].forEach(() => {
 			week.push(curDay);
 			curDay += 1;
 		});
@@ -35,7 +36,7 @@ const MonthContent: React.FC<Props> = ({ dateInfo, schedules, handleModalOpen })
 			const week: number[] = [];
 			let day = curDay;
 			// 무조건 1주를 채우도록
-			[...Array(weekContentNumber.WEEK_NUMBER)].forEach(() => {
+			[...Array(WeekContentNumber.WEEK_NUMBER)].forEach(() => {
 				if (day <= lastDay) {
 					week.push(day);
 					day += 1;

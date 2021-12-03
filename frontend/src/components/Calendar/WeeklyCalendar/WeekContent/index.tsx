@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { DateInfoType, weekContentNumber, ScheduleType, TimeType } from '@src/types/calendar';
+import { DateInfoType, ScheduleType, TimeType } from '@src/types/calendar';
+import { WeekContentNumber } from '@utils/constants';
 import { isTodayDate, isSameDate } from '@utils/calendar';
 import ScheduleItem from '../ScheduleItem';
 import { Container, TimeContainer, DaysContainer, DayContainer, TimeBlock, CurrTimeLine } from './style';
@@ -25,7 +26,7 @@ const {
 	TIME_LIST,
 	WEEK_NUMBER,
 	DAY_TIME_NUMBER,
-} = weekContentNumber;
+} = WeekContentNumber;
 
 const TimeListGenerator: React.FC<TimeListProps> = ({ timeList, renderItem }) => {
 	return <TimeContainer>{timeList.map((item: { hour: number; text: string }) => renderItem(item))}</TimeContainer>;
