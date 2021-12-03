@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import { DateInfoType, DayCode, weekContentNumber } from '@src/types/calendar';
+import { WeekContentNumber, DayCode } from '@utils/constants';
+import { DateInfoType } from '@src/types/calendar';
 import { Container, DayContainer } from './style';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const WeekHeader: React.FC<Props> = ({ dateInfo }) => {
-	const dayInfo = [...Array(weekContentNumber.WEEK_NUMBER)].map((v, i) => {
+	const dayInfo = [...Array(WeekContentNumber.WEEK_NUMBER)].map((v, i) => {
 		const tDate = new Date(dateInfo.weeklyStartDate);
 		tDate.setDate(tDate.getDate() + i);
 		return { day: i, date: tDate.getDate() };
