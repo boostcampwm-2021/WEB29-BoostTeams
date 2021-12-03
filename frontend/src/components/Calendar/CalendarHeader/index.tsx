@@ -3,7 +3,8 @@ import moment from 'moment';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { ModalMode, ModalSchedule } from '@stores/calendar';
-import { DateInfoType, weekContentNumber } from '@src/types/calendar';
+import { DateInfoType } from '@src/types/calendar';
+import { WeekContentNumber } from '@utils/constants';
 
 import { FaChevronLeft, FaChevronRight, FaCalendarAlt, FaRegCalendarPlus } from 'react-icons/fa';
 import {
@@ -47,7 +48,7 @@ const CalendarHeader: React.FC<Props> = ({
 	};
 
 	const nextDateInfo = () => {
-		const date = moment(dateInfo.weeklyStartDate).add(weekContentNumber.WEEK_NUMBER, 'days');
+		const date = moment(dateInfo.weeklyStartDate).add(WeekContentNumber.WEEK_NUMBER, 'days');
 		return { year: date.year(), month: date.month() };
 	};
 
