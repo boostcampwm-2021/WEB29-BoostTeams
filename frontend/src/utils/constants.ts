@@ -60,7 +60,7 @@ const TeamCard = {
 	HEIGHT: '15rem',
 };
 
-const REM = 16; // TODO: 반응형 (style과 별도로 적용)
+const REM = window.innerWidth * 0.0035 + 8.74; // 0.35vw + 8.74px
 
 // const converRemToPx = (rem: number) => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 
