@@ -4,6 +4,9 @@ import { ColorCode } from '@utils/constants';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  html {
+    font-size: calc(0.35vw + 8.74px);
+  }
   html,
   body,
   span,
