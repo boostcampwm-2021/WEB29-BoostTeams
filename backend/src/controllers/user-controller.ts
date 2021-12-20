@@ -1,9 +1,9 @@
-import UserService from '@services/user-service';
-import TeamUserService from '@services/team-user-service';
 import { User } from '@entities/user';
-
 import { Request, Response } from 'express';
 import { createJWT } from '@middlewares/token';
+import { getCustomRepository } from 'typeorm';
+import UserRepository from '@src/repositories/user-repository';
+import TeamUserRepository from '@src/repositories/team-user-repository';
 
 interface IUser extends Request {
 	user_id: number;
@@ -12,15 +12,17 @@ interface IUser extends Request {
 const UserController = {
 	async createUser(req: Request, res: Response) {
 		try {
+			const userRepository = getCustomRepository(UserRepository);
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const { userName, userEmail, userPassword } = req.body;
-			const emailAlreadyUsed = await UserService.getInstance().getUserByEmail(userEmail);
-			const nameAlreadyUsed = await UserService.getInstance().getUserByName(userName);
+			const emailAlreadyUsed = await userRepository.getUserByEmail(userEmail);
+			const nameAlreadyUsed = await userRepository.getUserByName(userName);
 
 			if (emailAlreadyUsed) return res.status(409).json({ conflict: 'email' });
 			if (nameAlreadyUsed) return res.status(409).json({ conflict: 'name' });
 
-			const newUser = await UserService.getInstance().createUser(userEmail, userPassword, userName);
-			await TeamUserService.getInstance().invite(newUser.user_id, 1); // 놀이터
+			const newUser = await userRepository.createUser(userEmail, userPassword, userName);
+			await teamUserRepository.invite(newUser.user_id, 1); // 놀이터
 			const JWT = createJWT(newUser.user_id);
 			res.cookie('JWT', JWT);
 			return res.json({ signup: true });
@@ -38,9 +40,10 @@ const UserController = {
 	},
 	async updateUser(req: IUser, res: Response) {
 		try {
-			const existUser = await UserService.getInstance().getUserByName(req.body.newName);
+			const userRepository = getCustomRepository(UserRepository);
+			const existUser = await userRepository.getUserByName(req.body.newName);
 			if (existUser) return res.sendStatus(409);
-			const newUser = await UserService.getInstance().updateUserToName(req.user_id, req.body.newName);
+			const newUser = await userRepository.updateUserToName(req.user_id, req.body.newName);
 			if (!newUser) return res.sendStatus(409);
 			res.status(201).send(newUser);
 		} catch (err) {
@@ -71,8 +74,9 @@ const UserController = {
 	},
 	async signout(req: Request, res: Response) {
 		try {
+			const userRepository = getCustomRepository(UserRepository);
 			const user = req.user as User;
-			await UserService.getInstance().deleteUser(user.user_id);
+			await userRepository.deleteUser(user.user_id);
 			res.sendStatus(204);
 		} catch (err) {
 			res.sendStatus(401);

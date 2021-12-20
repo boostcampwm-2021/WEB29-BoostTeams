@@ -1,14 +1,17 @@
 import { Response } from 'express';
-import TeamUserService from '@services/team-user-service';
-import TeamService from '@services/team-service';
-import UserService from '@services/user-service';
+import { getCustomRepository } from 'typeorm';
+
+import TeamUserRepository from '@src/repositories/team-user-repository';
+import TeamRepository from '@repositories/team-repository';
+import UserRepository from '@src/repositories/user-repository';
 
 const TeamController = {
 	async create(req: any, res: Response) {
 		try {
+			const teamRepository = getCustomRepository(TeamRepository);
 			const userId = req.user_id;
-			const teamId = await TeamService.getInstance().create(req.body);
-			await TeamUserService.getInstance().create(userId, teamId);
+			const teamId = await teamRepository.create(req.body);
+			await this.teamUserRepository.create(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
@@ -17,8 +20,10 @@ const TeamController = {
 
 	async read(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const userId = req.user_id;
-			const teams = await TeamUserService.getInstance().read(userId);
+			console.log(userId);
+			const teams = await teamUserRepository.read(userId);
 			res.status(200).send(teams);
 		} catch (err) {
 			res.status(409).send(err);
@@ -27,8 +32,9 @@ const TeamController = {
 
 	async update(req: any, res: Response) {
 		try {
+			const teamRepository = getCustomRepository(TeamRepository);
 			const teamId = req.params.teamId;
-			await TeamService.getInstance().update(teamId, req.body);
+			await teamRepository.update(teamId, req.body);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
@@ -37,8 +43,9 @@ const TeamController = {
 
 	async delete(req: any, res: Response) {
 		try {
+			const teamRepository = getCustomRepository(TeamRepository);
 			const teamId = req.params.teamId;
-			await TeamService.getInstance().delete(teamId);
+			await teamRepository.delete(teamId);
 			res.sendStatus(204);
 		} catch (err) {
 			res.sendStatus(409);
@@ -47,7 +54,8 @@ const TeamController = {
 
 	async readTeamInfo(req: any, res: Response) {
 		try {
-			const team = await TeamService.getInstance().read(req.params.teamId);
+			const teamRepository = getCustomRepository(TeamRepository);
+			const team = await teamRepository.read(req.params.teamId);
 			res.status(200).send(team[0]);
 		} catch (err) {
 			res.sendStatus(409);
@@ -56,8 +64,9 @@ const TeamController = {
 
 	async readTeamUsers(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const teamId = req.params.teamId;
-			const teams = await TeamUserService.getInstance().readAllUsers(teamId);
+			const teams = await teamUserRepository.readAllUsers(teamId);
 			res.status(200).send(teams);
 		} catch (err) {
 			res.status(409).send(err);
@@ -66,14 +75,16 @@ const TeamController = {
 
 	async invite(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
+			const userRepository = getCustomRepository(UserRepository);
 			const teamId = req.params.teamId;
 			const userName = req.body.userName;
-			const userInfo = await UserService.getInstance().getUserByUserName(userName);
+			const userInfo = await userRepository.getUserByUserName(userName);
 			if (!userInfo) res.sendStatus(404);
 			const userId = userInfo.user_id;
-			const teamUser = await TeamUserService.getInstance().checkTeamUser(teamId, userId);
+			const teamUser = await teamUserRepository.checkTeamUser(teamId, userId);
 			if (teamUser) res.sendStatus(404);
-			await TeamUserService.getInstance().invite(userId, teamId);
+			await teamUserRepository.invite(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
@@ -82,9 +93,10 @@ const TeamController = {
 
 	async acceptInvitation(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const userId = req.user_id;
 			const teamId = req.params.teamId;
-			await TeamUserService.getInstance().update(userId, teamId);
+			await teamUserRepository.update(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
@@ -93,9 +105,10 @@ const TeamController = {
 
 	async declineInvitation(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const userId = req.user_id;
 			const teamId = req.params.teamId;
-			await TeamUserService.getInstance().delete(userId, teamId);
+			await teamUserRepository.delete(userId, teamId);
 			res.sendStatus(204);
 		} catch (err) {
 			res.sendStatus(409);
@@ -104,9 +117,10 @@ const TeamController = {
 
 	async kickOut(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const userId = req.params.userId;
 			const teamId = req.params.teamId;
-			await TeamUserService.getInstance().delete(userId, teamId);
+			await teamUserRepository.delete(userId, teamId);
 			res.sendStatus(204);
 		} catch (err) {
 			res.sendStatus(409);
@@ -115,10 +129,11 @@ const TeamController = {
 
 	async changeRole(req: any, res: Response) {
 		try {
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const teamId = req.params.teamId;
 			const userId = req.params.userId;
 			const role = req.body.role;
-			await TeamUserService.getInstance().changeRole(userId, teamId, role);
+			await teamUserRepository.changeRole(userId, teamId, role);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
