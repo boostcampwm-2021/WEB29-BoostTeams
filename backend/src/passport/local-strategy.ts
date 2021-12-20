@@ -2,7 +2,8 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import bcrypt from 'bcrypt';
 
-import UserService from '@services/user-service';
+import { getCustomRepository } from 'typeorm';
+import UserRepository from '@src/repositories/user-repository';
 
 const LocalStrategy = passportLocal.Strategy;
 const LOCAL_CONFIG = {
@@ -11,7 +12,9 @@ const LOCAL_CONFIG = {
 };
 
 const localLoginCallback = async (user_email: string, userPassword: string, callback) => {
-	const user = await UserService.getInstance().getUserByEmail(user_email);
+	const userRepository = getCustomRepository(UserRepository);
+
+	const user = await userRepository.getUserByEmail(user_email);
 	if (!user) return callback(null, user);
 
 	const isValidPassword = bcrypt.compareSync(userPassword, user.user_password);
