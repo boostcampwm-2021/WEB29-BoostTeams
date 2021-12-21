@@ -1,4 +1,4 @@
-import { EntityRepository, AbstractRepository } from 'typeorm';
+import { EntityRepository, AbstractRepository, Transaction, TransactionRepository, Repository } from 'typeorm';
 import { TeamUser } from '@entities/team-user';
 
 @EntityRepository(TeamUser)
@@ -57,9 +57,9 @@ export default class TeamUserRepository extends AbstractRepository<TeamUser> {
 			.andWhere('team_user.state=true')
 			.getMany();
 	}
-
-	async update(userId: number, teamId: number) {
-		await this.repository
+	@Transaction({ isolation: 'SERIALIZABLE' })
+	async update(userId: number, teamId: number, @TransactionRepository() teamUserRepository?: Repository<TeamUser>) {
+		await teamUserRepository
 			.createQueryBuilder('team_user')
 			.update()
 			.set({ state: true })
@@ -78,8 +78,14 @@ export default class TeamUserRepository extends AbstractRepository<TeamUser> {
 			.execute();
 	}
 
-	async changeRole(userId: number, teamId: number, role: number) {
-		return await this.repository
+	@Transaction({ isolation: 'SERIALIZABLE' })
+	async changeRole(
+		userId: number,
+		teamId: number,
+		role: number,
+		@TransactionRepository() teamUserRepository?: Repository<TeamUser>
+	) {
+		return await teamUserRepository
 			.createQueryBuilder('team_user')
 			.update()
 			.set({ role })

@@ -54,7 +54,7 @@ export default class UserRepository extends AbstractRepository<User> {
 			.createQueryBuilder('user')
 			.update('user')
 			.set(newName)
-			.where('user_id=:user_id', { user_id })
+			.where('user.user_id=:user_id', { user_id })
 			.execute();
 	}
 
