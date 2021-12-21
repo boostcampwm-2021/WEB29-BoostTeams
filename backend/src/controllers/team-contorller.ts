@@ -9,9 +9,10 @@ const TeamController = {
 	async create(req: any, res: Response) {
 		try {
 			const teamRepository = getCustomRepository(TeamRepository);
+			const teamUserRepository = getCustomRepository(TeamUserRepository);
 			const userId = req.user_id;
 			const teamId = await teamRepository.create(req.body);
-			await this.teamUserRepository.create(userId, teamId);
+			await teamUserRepository.create(userId, teamId);
 			res.sendStatus(201);
 		} catch (err) {
 			res.sendStatus(409);
