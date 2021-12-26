@@ -30,7 +30,7 @@ const BoardPage: React.FC<Props> = ({ match }) => {
 	const teamId = Number(match.params.teamId);
 	const teamUserList = useRecoilValue(teamUsersSelector(teamId));
 	const getUserNameById = (userId: number) =>
-		Object.values(teamUserList).find((user) => Number(user.userId) === Number(userId))?.name ?? '';
+		Object.values(teamUserList).find((user) => Number(user.userId) === Number(userId))?.name ?? '알 수 없음';
 
 	const socket = useContext(SocketContext).current;
 
