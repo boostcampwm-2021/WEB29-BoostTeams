@@ -13,14 +13,12 @@ export default class TeamRepository extends AbstractRepository<Team> {
 		return insertResult.raw.insertId;
 	}
 
-	async read(team_id: number) {
-		console.log(team_id);
+	async read(teamId: number) {
 		const result = await this.repository
 			.createQueryBuilder('team')
 			.select()
-			.where(`team_id = :team_id`, { team_id })
-			.execute();
-		console.log(result);
+			.where(`team_id=:id`, { id: teamId })
+			.getOne();
 		return result;
 	}
 

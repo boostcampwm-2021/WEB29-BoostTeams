@@ -56,7 +56,7 @@ const TeamController = {
 		try {
 			const teamRepository = getCustomRepository(TeamRepository);
 			const team = await teamRepository.read(req.params.teamId);
-			res.status(200).send(team[0]);
+			res.status(200).send(team);
 		} catch (err) {
 			res.sendStatus(409);
 		}
