@@ -7,4 +7,8 @@ export const ContentContainer = styled.div`
 	background-color: ${ColorCode.BACKGROUND2};
 	overflow-y: scroll;
 	min-width: 40rem;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
