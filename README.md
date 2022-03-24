@@ -12,7 +12,9 @@
 
 ## 배포 주소 💻
 
-https://www.boostteams.kro.kr
+~~https://www.boostteams.kro.kr~~ (배포 중단)
+
+[[발표 자료]](https://docs.google.com/presentation/d/1pRLXgZ8rBbzKQ41nFFUeTLs3Vz4CJRL6/edit?usp=sharing&ouid=110496734981747481356&rtpof=true&sd=true)
 
 ## Team. SCC 👷‍♂️👷‍♀️
 |[<img src="https://github.com/mminjg.png" width="100px">](https://github.com/mminjg)|[<img src="https://github.com/leemir.png" width="100px">](https://github.com/leemir)|[<img src="https://github.com/wonju-dev.png" width="100px">](https://github.com/wonju-dev)|[<img src="https://github.com/waterdrag0n.png" width="100px">](https://github.com/waterdrag0n)|
